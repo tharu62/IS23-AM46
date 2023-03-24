@@ -9,6 +9,7 @@ public class MASTER {
     ROUND round= new ROUND();
     List<PLAYER> player= new ArrayList<PLAYER>(0);
     boolean goal_reached;
+    int i;
 
 
     public int CheckCommonGoal(BOOKSHELF bookshelf){
@@ -20,18 +21,23 @@ public class MASTER {
     }
 
     public void ChooseFirstPlayerSeat(){
-
+        round.setLast(player.size());                           /** SUCCEDE SOLO UNA VOLTA PRIMA DI INIZIARE IL PRIMO ROUND **/
+        String username;
+        username= FirstPlayerSeat.choose(this.player);
+        i= FirstPlayerSeat.n;
     }
 
     public String ChooseNextPlayer(){
-        String username= new String();
-        //
-        return username;
+        if(i==player.size()){
+            i=0;
+        }else{i++;}
+        return player.get(i).username;
     }
 
     public boolean checkIfLastTurn(BOOKSHELF bookshelf){
-        return true;
+        round.update(bookshelf);
+        if(round.last && (player.get(i+1).username.equals(FirstPlayerSeat.username))){return true;}
+        return false;
     }
-
 
 }
