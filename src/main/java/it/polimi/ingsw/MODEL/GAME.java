@@ -5,8 +5,6 @@ public class GAME {
     SPACE space= new SPACE();
     int playerNumber=0;
     String playerToPlay;
-    int n;
-    int m;
 
     public void addPlayer(String username){
         space.player.get(this.playerNumber).username=username;
@@ -39,7 +37,7 @@ public class GAME {
         }
     }
 
-    public boolean playerDrawItem(){
+    public boolean playerDrawItem(int n, int m){
         return space.draw(this.playerToPlay, n, m);     /** SE RITORNA TRUE PeSCATA ESEGUITA CORRETTAMENTE **/
     }
 
