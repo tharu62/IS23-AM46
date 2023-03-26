@@ -48,11 +48,16 @@ public class GAME {
     }
 
     public void PlayerWantsToCheckScore(){
+        int temp;
         if(space.player.get(1).goalReached){
             System.out.println("HAI GIA' OTTENUTO GLI OBIETTIVI COMUNI! NON PUOI PRENDERE ALTRI MODEL.TOKEN!");
         }
         else{
-        space.player.get(1).score+= master.CheckCommonGoal(space.player.get(1).bookshelf);
+            temp=master.CheckCommonGoal(space.player.get(1).bookshelf);
+            if(temp>0){
+                space.player.get(1).score+= temp;
+                space.player.get(1).goalReached=true;
+            }
         }
         if(space.player.get(1).bookshelf.IsFull){
             master.round.last=true;
