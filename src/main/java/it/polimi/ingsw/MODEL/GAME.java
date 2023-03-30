@@ -1,6 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-public class GAME extends SPACE {
+public class GAME {
     MASTER master= new MASTER();
     SPACE space= new SPACE();
     int playerNumber=0;

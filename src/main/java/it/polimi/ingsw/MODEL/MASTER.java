@@ -3,7 +3,7 @@ package it.polimi.ingsw.MODEL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MASTER extends ROUND {
+public class MASTER {
     DRAW FirstDraw= new DRAW();
     FIRST_PLAYER_SEAT FirstPlayerSeat= new FIRST_PLAYER_SEAT();
     ROUND round= new ROUND();

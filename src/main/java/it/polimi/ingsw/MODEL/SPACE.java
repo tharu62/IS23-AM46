@@ -3,7 +3,7 @@ package it.polimi.ingsw.MODEL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SPACE extends BOARD {
+public class SPACE {
     BOARD board= new BOARD();
     List<PLAYER> player= new ArrayList<PLAYER>(1);
     int i=0;

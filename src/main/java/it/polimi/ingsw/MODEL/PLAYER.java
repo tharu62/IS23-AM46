@@ -1,6 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-public class PLAYER extends BOOKSHELF {
+public class PLAYER {
     String username= new String();
     BOOKSHELF bookshelf= new BOOKSHELF();
     PERSONAL_GOAL_CARD personal= new PERSONAL_GOAL_CARD();
