@@ -1,6 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-public class ROUND {
+public class ROUND extends TURN {
     TURN turn= new TURN();
     boolean last=false;
     int count=0;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-public class BOARD {
+public class BOARD extends BAG {
     item[][] Grid= new item[9][9];
     BAG bag= new BAG();
 
