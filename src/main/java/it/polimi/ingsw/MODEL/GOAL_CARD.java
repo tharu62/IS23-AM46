@@ -22,6 +22,9 @@ class COMMON_GOAL_CARD extends GOAL_CARD {
         return this.cardLogic.CheckCardLogic(bookshelf);
     }
 }
+
+/** LORE SE CAPISCI COME SISTEMARLO CANCELLA PURE LE DUE NUOVE CLASSI CHE HO CREATO **/
+/**
 class PERSONAL_GOAL_CARD extends GOAL_CARD{
     CARD_LOGIC cardLogic;
     int token_value;
@@ -38,3 +41,4 @@ class PERSONAL_GOAL_CARD extends GOAL_CARD{
         return 4;
     }
 }
+ **/

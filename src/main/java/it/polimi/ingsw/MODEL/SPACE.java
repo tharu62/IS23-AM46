@@ -42,7 +42,7 @@ public class SPACE {
         int tempScore=0;
         int winner=0;
         for(int i=0;i< player.size();i++){
-            player.get(i).score+= player.get(i).personal.cardLogic.CheckCardLogic(player.get(i).bookshelf);
+            player.get(i).score+= player.get(i).personal.cardLogic.checkCardLogic(player.get(i).bookshelf);
             player.get(i).score+= player.get(i).bookshelf.checkAdjacentItem(item.BOOKS);
             player.get(i).score+= player.get(i).bookshelf.checkAdjacentItem(item.CATS);
             player.get(i).score+= player.get(i).bookshelf.checkAdjacentItem(item.FRAMES);

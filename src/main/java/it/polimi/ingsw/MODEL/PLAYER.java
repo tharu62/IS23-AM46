@@ -13,10 +13,4 @@ public class PLAYER {
         personal.SetCardLogic(generator.SetCardLogic());
     }
 
-    /** STO MODIFICNADO **/
-    public void checkPersonalGoal(){
-        if(personal.check(bookshelf)){
-
-        }
-    }
 }
