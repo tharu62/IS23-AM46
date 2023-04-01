@@ -52,4 +52,8 @@ public class BOOKSHELF {
         Grid[i][j]=item.EMPTY;
         return score;
     }
+
+    public item[][] getGrid() {
+        return Grid;
+    }
 }
