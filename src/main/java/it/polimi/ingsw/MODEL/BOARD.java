@@ -18,27 +18,36 @@ public class BOARD {
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY}
                         };
 
-        if(playerNumber>2) {
-            Grid[1][4] = item.OBJECT;
-            Grid[3][3] = item.OBJECT;
-            Grid[3][7] = item.OBJECT;
-            Grid[4][9] = item.OBJECT;
-            Grid[6][1] = item.OBJECT;
-            Grid[7][3] = item.OBJECT;
-            Grid[7][7] = item.OBJECT;
-            Grid[9][6] = item.OBJECT;
+        if(playerNumber>=3){
+            Grid[0][3]=item.OBJECT;
+            Grid[2][2]=item.OBJECT;
+            Grid[2][6]=item.OBJECT;
+            Grid[3][8]=item.OBJECT;
+            Grid[5][0]=item.OBJECT;
+            Grid[6][2]=item.OBJECT;
+            Grid[6][6]=item.OBJECT;
+            Grid[8][5]=item.OBJECT;
+            if(playerNumber==4){           /** NELLE REGOLE ORIGINALI NON E' SPECIFICATO **/
+                Grid[1][5]=item.OBJECT;
+                Grid[2][6]=item.OBJECT;
+                Grid[4][2]=item.OBJECT;
+                Grid[5][1]=item.OBJECT;
+                Grid[5][9]=item.OBJECT;
+                Grid[6][8]=item.OBJECT;
+                Grid[8][4]=item.OBJECT;
+                Grid[9][5]=item.OBJECT;
+            }
         }
 
-        if(playerNumber>3){
-            Grid[1][5]=item.OBJECT;
-            Grid[2][6]=item.OBJECT;
-            Grid[4][2]=item.OBJECT;
-            Grid[5][1]=item.OBJECT;
-            Grid[5][9]=item.OBJECT;
-            Grid[6][8]=item.OBJECT;
-            Grid[8][4]=item.OBJECT;
-            Grid[9][5]=item.OBJECT;
+
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                if(Grid[i][j]==item.OBJECT){
+                    Grid[i][j]=bag.draw();
+                }
+            }
         }
+
     }
 
 
