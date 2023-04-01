@@ -8,14 +8,15 @@ public class PLAYER {
     int score=0;
     boolean goalReached=false;
 
+    /** STO MODIFICNADO **/
     public void drawPersonalGoalCard(){
-
-    }
-    public void drawItems(){
-
+        personal.SetCardLogic(generator.SetCardLogic());
     }
 
+    /** STO MODIFICNADO **/
     public void checkPersonalGoal(){
+        if(personal.check(bookshelf)){
 
+        }
     }
 }

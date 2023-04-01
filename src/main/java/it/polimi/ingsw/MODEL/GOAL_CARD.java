@@ -28,9 +28,7 @@ class PERSONAL_GOAL_CARD extends GOAL_CARD{
     public void SetCardLogic(CARD_LOGIC logic){
         this.cardLogic= logic;
     }
-    public void SetToken(TOKEN token){
-
-    }
+    public void SetToken(TOKEN token){}
     public boolean check(BOOKSHELF bookshelf){
 
         return this.cardLogic.CheckCardLogic(bookshelf);
