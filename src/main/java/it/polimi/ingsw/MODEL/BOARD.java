@@ -6,7 +6,7 @@ public class BOARD {
 
     public void setGrid(int playerNumber){
         bag.setItemList();
-        /** LOGICHE DI POSIZIONAMENTO DEGLI ITEM SULLA GRID**/
+        /** LOGICHE DI POSIZIONAMENTO DEGLI ITEM SULLA GRID **/
         item[][] Grid= { {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.OBJECT,item.OBJECT,item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.OBJECT,item.OBJECT,item.OBJECT,item.EMPTY, item.EMPTY, item.EMPTY},
@@ -28,14 +28,14 @@ public class BOARD {
             Grid[6][6]=item.OBJECT;
             Grid[8][5]=item.OBJECT;
             if(playerNumber==4){           /** NELLE REGOLE ORIGINALI NON E' SPECIFICATO **/
+                Grid[0][4]=item.OBJECT;
                 Grid[1][5]=item.OBJECT;
-                Grid[2][6]=item.OBJECT;
-                Grid[4][2]=item.OBJECT;
-                Grid[5][1]=item.OBJECT;
-                Grid[5][9]=item.OBJECT;
-                Grid[6][8]=item.OBJECT;
+                Grid[3][1]=item.OBJECT;
+                Grid[4][0]=item.OBJECT;
+                Grid[4][7]=item.OBJECT;
+                Grid[5][7]=item.OBJECT;
+                Grid[7][3]=item.OBJECT;
                 Grid[8][4]=item.OBJECT;
-                Grid[9][5]=item.OBJECT;
             }
         }
 
@@ -66,6 +66,7 @@ public class BOARD {
             return true;
         }
         /** logiche di controllo item adiacenti **/
+
         return false;
     }
 }
