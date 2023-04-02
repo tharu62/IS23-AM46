@@ -77,16 +77,16 @@ public class BOARD {
             }
 
             if(tileCounter>=2){                                       /** control if there is an item already picked in the edges of the item picked now **/
-                if((tilePos[tileCounter-1]==(n-1) && tilePos[tileCounter]==(m-1)) || (tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m-1))){
+                if((tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m-1)) || (tilePos[tileCounter-4]==(n-1) && tilePos[tileCounter-3]==(m-1))){
                     return true;
                 }
-                if((tilePos[tileCounter-1]==(n+1) && tilePos[tileCounter]==(m+1)) || (tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter+1]==(m-1))){
+                if((tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter-1]==(m+1)) || (tilePos[tileCounter-4]==(n+1) && tilePos[tileCounter-3]==(m+1))){
                     return true;
                 }
-                if((tilePos[tileCounter-1]==(n-1) && tilePos[tileCounter]==(m+1)) || (tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m+1))){
+                if((tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m+1)) || (tilePos[tileCounter-4]==(n-1) && tilePos[tileCounter-3]==(m+1))){
                     return true;
                 }
-                if((tilePos[tileCounter-1]==(n+1) && tilePos[tileCounter]==(m-1)) || (tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter-1]==(m-1))){
+                if((tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter-1]==(m-1)) || (tilePos[tileCounter-4]==(n+1) && tilePos[tileCounter-3]==(m-1))){
                     return true;
                 }
             }
