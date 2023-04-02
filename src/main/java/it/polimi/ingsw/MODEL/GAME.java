@@ -57,8 +57,11 @@ public class GAME {
      * @param m it's the column from witch to pick the item
      * @return
      */
-    public boolean playerDrawItem(int n, int m){
-        return space.draw(this.playerToPlay, n, m);
+    public boolean playerDrawItem(String username, int n, int m){
+        if (this.playerToPlay.equals(username)){
+            return space.draw(this.playerToPlay, n, m);
+        }
+        return false;
     }
 
 
@@ -72,10 +75,12 @@ public class GAME {
      * @param b it's the order of the second item to put in the bookshelf
      * @param c it's the order of the third item to put in the bookshelf
      */
-    public void playerPutItems(int m,int a,int b, int c){
-        space.placeItem(m,a,b,c);
-        if(space.player.get(search(this.playerToPlay)).bookshelf.IsFull){
-            master.round.last=true;
+    public void playerPutItems(String username, int m,int a,int b, int c){
+        if (this.playerToPlay.equals(username)) {
+            space.placeItem(m, a, b, c);
+            if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
+                master.round.last = true;
+            }
         }
     }
 
@@ -87,20 +92,21 @@ public class GAME {
      * The method both checks and updates the score based on the common goals available.
      * We implemented two common goals from the beginning, instead of one for the first game and two from the second.
      */
-    public void PlayerWantsToCheckScore(){
-        int temp;
-        if(space.player.get(search(this.playerToPlay)).goalReached){
-            System.out.println("HAI GIA' OTTENUTO GLI OBIETTIVI COMUNI! NON PUOI PRENDERE ALTRI MODEL.TOKEN!");
-        }
-        else{
-            temp=master.CheckCommonGoal(space.player.get(1).bookshelf);
-            if(temp>0){
-                space.player.get(search(this.playerToPlay)).score+= temp;
-                space.player.get(search(this.playerToPlay)).goalReached=true;
+    public void PlayerWantsToCheckScore(String username){
+        if (this.playerToPlay.equals(username)) {
+            int temp;
+            if (space.player.get(search(this.playerToPlay)).goalReached) {
+                System.out.println("HAI GIA' OTTENUTO GLI OBIETTIVI COMUNI! NON PUOI PRENDERE ALTRI MODEL.TOKEN!");
+            } else {
+                temp = master.CheckCommonGoal(space.player.get(1).bookshelf);
+                if (temp > 0) {
+                    space.player.get(search(this.playerToPlay)).score += temp;
+                    space.player.get(search(this.playerToPlay)).goalReached = true;
+                }
             }
-        }
-        if(space.player.get(search(this.playerToPlay)).bookshelf.IsFull){
-            master.round.last=true;
+            if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
+                master.round.last = true;
+            }
         }
     }
 
