@@ -3,6 +3,8 @@ package it.polimi.ingsw.MODEL;
 public class BOARD {
     item[][] Grid= new item[9][9];
     BAG bag= new BAG();
+    int[] tilePos= new int[6];
+    int tileCounter=0;
 
     public void setGrid(int playerNumber){
         bag.setItemList();
@@ -66,38 +68,35 @@ public class BOARD {
             return true;
         }
         /** logics to control adjacent item tiles **/
-        int i = 0;
-        int[] temp = new int[6];
-        if (Grid[n][m - 1] == item.EMPTY || Grid[n][m + 1] == item.EMPTY || Grid[n - 1][m] == item.EMPTY || Grid[n][m + 1] == item.EMPTY) {
-
-            if (Grid[n - 1][m - 1] == item.EMPTY || Grid[n + 1][m + 1] == item.EMPTY || Grid[n - 1][m + 1] == item.EMPTY || Grid[n + 1][m - 1] == item.EMPTY) {
-                temp[i] = n;
-                temp[i + 1] = m;
-                i += 2;
-                return true;
+        if(Grid[n][m-1]==item.EMPTY || Grid[n][m+1]==item.EMPTY || Grid[n-1][m]==item.EMPTY || Grid[n+1][m]==item.EMPTY){
+            if(Grid[n-1][m-1]==item.EMPTY || Grid[n+1][m+1]==item.EMPTY || Grid[n-1][m+1]==item.EMPTY || Grid[n+1][m-1]==item.EMPTY){
+                tilePos[tileCounter]=n;
+                tilePos[tileCounter+1]=m;
+                tileCounter+=2;
+                return false;
             }
 
-            if (i >= 2) {                     /** control if there is an item already picked in the edges of the item picked now **/
-                if ((temp[i - 1] == (n - 1) && temp[i] == (m - 1)) || (temp[i - 2] == (n - 1) && temp[i - 1] == (m - 1))) {
-                    return false;
+            if(tileCounter>=2){                                       /** control if there is an item already picked in the edges of the item picked now **/
+                if((tilePos[tileCounter-1]==(n-1) && tilePos[tileCounter]==(m-1)) || (tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m-1))){
+                    return true;
                 }
-                if ((temp[i - 1] == (n + 1) && temp[i] == (m + 1)) || (temp[i - 2] == (n + 1) && temp[i + 1] == (m - 1))) {
-                    return false;
+                if((tilePos[tileCounter-1]==(n+1) && tilePos[tileCounter]==(m+1)) || (tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter+1]==(m-1))){
+                    return true;
                 }
-                if ((temp[i - 1] == (n - 1) && temp[i] == (m + 1)) || (temp[i - 2] == (n - 1) && temp[i - 1] == (m + 1))) {
-                    return false;
+                if((tilePos[tileCounter-1]==(n-1) && tilePos[tileCounter]==(m+1)) || (tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m+1))){
+                    return true;
                 }
-                if ((temp[i - 1] == (n + 1) && temp[i] == (m - 1)) || (temp[i - 2] == (n + 1) && temp[i - 1] == (m - 1))) {
-                    return false;
+                if((tilePos[tileCounter-1]==(n+1) && tilePos[tileCounter]==(m-1)) || (tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter-1]==(m-1))){
+                    return true;
                 }
             }
 
-            temp[i] = n;
-            temp[i + 1] = m;
-            i += 2;
-            return true;
+            tilePos[tileCounter]=n;
+            tilePos[tileCounter+1]=m;
+            tileCounter+=2;
+            return false;
         }
-        return false;
+        return true;
 
     }
 }
