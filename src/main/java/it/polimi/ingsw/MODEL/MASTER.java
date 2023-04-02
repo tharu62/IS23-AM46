@@ -8,7 +8,6 @@ public class MASTER {
     FIRST_PLAYER_SEAT FirstPlayerSeat= new FIRST_PLAYER_SEAT();
     ROUND round= new ROUND();
     List<PLAYER> player= new ArrayList<PLAYER>(0);
-    boolean goal_reached;
     int i;
 
 
@@ -28,7 +27,7 @@ public class MASTER {
     }
 
     public String ChooseNextPlayer(){
-        if(i==player.size()){
+        if(i==player.size()-1){
             i=0;
         }else{i++;}
         return player.get(i).username;

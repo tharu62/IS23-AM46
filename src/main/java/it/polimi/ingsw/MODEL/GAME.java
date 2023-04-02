@@ -28,20 +28,23 @@ public class GAME {
 
     public void ChooseFirstPlayerSeat(){
         master.ChooseFirstPlayerSeat();
+        this.playerToPlay= master.player.get(search(master.FirstPlayerSeat.username)).username;
     }
 
 
     /** The player starts his turn, if it's not the last, then round and turn are updated
      * and the player's bookshelves is checked.
      */
-    public void masterStartTurn() {
-        this.playerToPlay = master.ChooseNextPlayer();
-        if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
-            /** the score of each player is calculated checking personal goals and adjacent item_tiles on the bookshelves
-             *  then the scores are compared and the winner's name is saved in space.
-             *  The score from the common goals cannot be checked here. below there is the reason.
-             */
-            space.calculateScore();
+    public void masterStartTurn(String username) {
+        if(this.playerToPlay.equals(username)) {
+            this.playerToPlay= master.ChooseNextPlayer();
+            if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
+                /** the score of each player is calculated checking personal goals and adjacent item_tiles on the bookshelves
+                 *  then the scores are compared and the winner's name is saved in space.
+                 *  The score from the common goals cannot be checked here. below there is the reason.
+                 */
+                space.calculateScore();
+            }
         }
     }
 
