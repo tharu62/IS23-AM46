@@ -51,11 +51,10 @@ public class GAME {
 
     /** The player has to ask the MODEL if he can pick an item_tile. One item_tile at a time.
      * Once he is satisfied with the pick, the picked items are stored in his bookshelf class until he wants to put them in the bookshelf grid.
-     * Only if the method returns true the pick is valid.
      *
      * @param n it's the row from witch to pick the item
      * @param m it's the column from witch to pick the item
-     * @return
+     * @return  true only if the pick is valid
      */
     public boolean playerDrawItem(String username, int n, int m){
         if (this.playerToPlay.equals(username)){
@@ -114,7 +113,7 @@ public class GAME {
 
     private int search(String username){
         for(int i=0; i<playerNumber; i++){
-            if(space.player.get(i).username==username){return i;}
+            if(space.player.get(i).username.equals(username)){return i;}
         }
         return -1;
     }
