@@ -1,6 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-abstract class GOAL_CARD {
+abstract class COMMON_GOALS {
     CARD_LOGIC cardLogic;
     TOKEN token;
     int token_value;
@@ -8,7 +8,7 @@ abstract class GOAL_CARD {
     abstract void SetToken(TOKEN token);
     abstract boolean check(BOOKSHELF bookshelf);
 }
-class COMMON_GOAL_CARD extends GOAL_CARD {
+class COMMON_GOAL_CARD extends COMMON_GOALS {
     CARD_LOGIC cardLogic;
     TOKEN token;
     int token_value=8;
