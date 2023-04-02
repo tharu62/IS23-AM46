@@ -62,7 +62,7 @@ public class GAME {
     /** The player chooses the order to put the items in the bookshelf by giving each item_tile a number that goes from 0 to 2.
      * for example:
      * if a=2 then the first item picked is the last to be put in the bookshelf in the m column.
-     * If you fill the bookshelf you update the game to it's last round, NOT the last turn.
+     * If you fill the bookshelf you update the game to it's last round, NOT necessarily the last turn.
      *
      * @param m it's the column to put the items
      * @param a it's the order of the first item to put in the bookshelf

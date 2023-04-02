@@ -36,7 +36,7 @@ public class MASTER {
 
     public boolean checkIfLastTurn(BOOKSHELF bookshelf){
         round.update(bookshelf);
-        if(round.last && (player.get(i+1).username.equals(FirstPlayerSeat.username))){return true;}
+        if(round.last && (player.get(i).username.equals(FirstPlayerSeat.username))){return true;}
         return false;
     }
 
