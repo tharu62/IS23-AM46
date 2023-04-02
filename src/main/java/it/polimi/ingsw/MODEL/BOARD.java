@@ -6,7 +6,7 @@ public class BOARD {
 
     public void setGrid(int playerNumber){
         bag.setItemList();
-        /** LOGICHE DI POSIZIONAMENTO DEGLI ITEM SULLA GRID **/
+        /** logic to position items on grid on first turn **/
         item[][] Grid= { {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.OBJECT,item.OBJECT,item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.OBJECT,item.OBJECT,item.OBJECT,item.EMPTY, item.EMPTY, item.EMPTY},
@@ -27,7 +27,7 @@ public class BOARD {
             Grid[6][2]=item.OBJECT;
             Grid[6][6]=item.OBJECT;
             Grid[8][5]=item.OBJECT;
-            if(playerNumber==4){           /** NELLE REGOLE ORIGINALI NON E' SPECIFICATO **/
+            if(playerNumber==4){
                 Grid[0][4]=item.OBJECT;
                 Grid[1][5]=item.OBJECT;
                 Grid[3][1]=item.OBJECT;
@@ -61,12 +61,43 @@ public class BOARD {
         return temp;
     }
 
-    private boolean cannotTakeItem(int n, int m){
-        if(Grid[n][m]==item.EMPTY){
+    private boolean cannotTakeItem(int n, int m) {
+        if (Grid[n][m] == item.EMPTY) {
             return true;
         }
-        /** logiche di controllo item adiacenti **/
+        /** logics to control adjacent item tiles **/
+        int i = 0;
+        int[] temp = new int[6];
+        if (Grid[n][m - 1] == item.EMPTY || Grid[n][m + 1] == item.EMPTY || Grid[n - 1][m] == item.EMPTY || Grid[n][m + 1] == item.EMPTY) {
 
+            if (Grid[n - 1][m - 1] == item.EMPTY || Grid[n + 1][m + 1] == item.EMPTY || Grid[n - 1][m + 1] == item.EMPTY || Grid[n + 1][m - 1] == item.EMPTY) {
+                temp[i] = n;
+                temp[i + 1] = m;
+                i += 2;
+                return true;
+            }
+
+            if (i >= 2) {                     /** control if there is an item already picked in the edges of the item picked now **/
+                if ((temp[i - 1] == (n - 1) && temp[i] == (m - 1)) || (temp[i - 2] == (n - 1) && temp[i - 1] == (m - 1))) {
+                    return false;
+                }
+                if ((temp[i - 1] == (n + 1) && temp[i] == (m + 1)) || (temp[i - 2] == (n + 1) && temp[i + 1] == (m - 1))) {
+                    return false;
+                }
+                if ((temp[i - 1] == (n - 1) && temp[i] == (m + 1)) || (temp[i - 2] == (n - 1) && temp[i - 1] == (m + 1))) {
+                    return false;
+                }
+                if ((temp[i - 1] == (n + 1) && temp[i] == (m - 1)) || (temp[i - 2] == (n + 1) && temp[i - 1] == (m - 1))) {
+                    return false;
+                }
+            }
+
+            temp[i] = n;
+            temp[i + 1] = m;
+            i += 2;
+            return true;
+        }
         return false;
+
     }
 }
