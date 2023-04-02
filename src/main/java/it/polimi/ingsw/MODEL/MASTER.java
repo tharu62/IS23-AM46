@@ -21,8 +21,7 @@ public class MASTER {
 
     public void ChooseFirstPlayerSeat(){
         round.setLast(player.size());                           /** SUCCEDE SOLO UNA VOLTA PRIMA DI INIZIARE IL PRIMO ROUND **/
-        String username;
-        username= FirstPlayerSeat.choose(this.player);
+        FirstPlayerSeat.choose(this.player);
         i= FirstPlayerSeat.n;
     }
 
