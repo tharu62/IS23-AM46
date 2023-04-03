@@ -13,13 +13,20 @@ public class SPACE {
         board.setGrid(playerNumber);
     }
 
-    public boolean draw(String playerName, int n, int m){
+    /**
+     *
+     * @param playerIndex Index of the player in List<player>.
+     * @param n Row of the board to draw the item_tile.
+     * @param m Column of the board to draw the item_tile.
+     * @return True only if the draw is valid.
+     */
+    public boolean draw(int playerIndex, int n, int m){
         if(i>2){
             return false;
         }
         item temp=board.drawItem(n,m);
         if(temp!=item.EMPTY){
-            player.get(1).bookshelf.itemToPut[i] = temp;
+            player.get(playerIndex).bookshelf.itemToPut[i] = temp;
             i++;
             return true;
         }
@@ -36,9 +43,6 @@ public class SPACE {
 
     /** STO MODIFICANDO **/
     public String calculateScore(){
-        /** CALCOLO PER OGNI MODEL.PLAYER LO SCORE COME SOMMA TRA (ITEM ADIACENTI SU MODEL.BOOKSHELF E IL CHECK SU MODEL.PERSONAL_GOAL_CARD),
-         * COMPARA GLI SCORE E RESTITUISCE IL VINCITORE.
-         */
         int tempScore=0;
         int winner=0;
         for(int i=0;i< player.size();i++){

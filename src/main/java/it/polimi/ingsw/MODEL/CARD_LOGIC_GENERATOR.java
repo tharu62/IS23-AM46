@@ -5,58 +5,56 @@ import java.util.Random;
 public class CARD_LOGIC_GENERATOR {
     CARD_LOGIC temp;
     Random rand = new Random();
-    int upperbound = 25;
+    int upperbound = 12;
     int i = rand.nextInt(upperbound);
     public CARD_LOGIC SetCardLogic() {
-        if (i==1) {
+        if (i==0) {
             this.temp = new CARD_LOGIC_1();
             return temp;
         }
-        if (i==2) {
+        if (i==1) {
             this.temp = new CARD_LOGIC_2();
             return temp;
         }
-        if (i==3) {
+        if (i==2) {
             this.temp = new CARD_LOGIC_3();
             return temp;
         }
-        if (i==4) {
+        if (i==3) {
             this.temp = new CARD_LOGIC_4();
             return temp;
         }
-        if (i==5) {
+        if (i==4) {
             this.temp = new CARD_LOGIC_5();
             return temp;
         }
-        if (i==6) {
+        if (i==5) {
             this.temp = new CARD_LOGIC_6();
             return temp;
         }
-        if (i==7) {
+        if (i==6) {
             this.temp = new CARD_LOGIC_7();
             return temp;
         }
-        if (i==8) {
+        if (i==7) {
             this.temp = new CARD_LOGIC_8();
             return temp;
         }
-        if (i==9) {
+        if (i==8) {
             this.temp = new CARD_LOGIC_9();
             return temp;
         }
-        /**
-        if (i==10) {
+        if (i==9) {
             this.temp = new CARD_LOGIC_10();
             return temp;
-        }if (i==11) {
+        }if (i==10) {
             this.temp = new CARD_LOGIC_11();
             return temp;
-        }if (i==12) {
+        }if (i==11) {
             this.temp = new CARD_LOGIC_12();
             return temp;
         }
-         **/
 
-        return new CARD_LOGIC_1();
+        return new CARD_LOGIC_12();
     }
 }

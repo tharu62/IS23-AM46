@@ -7,7 +7,7 @@ public interface P_CARD_LOGIC {
      * @param bookshelf: player's bookshelf
      * @return the points made by the player
      */
-    public int checkCardLogic(BOOKSHELF bookshelf);
+    int checkCardLogic(BOOKSHELF bookshelf);
 }
 
 class P_CARD_LOGIC_1 implements P_CARD_LOGIC{

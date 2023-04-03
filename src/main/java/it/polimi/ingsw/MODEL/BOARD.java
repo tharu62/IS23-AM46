@@ -75,8 +75,8 @@ public class BOARD {
                 tileCounter+=2;
                 return false;
             }
-
-            if(tileCounter>=2){                                       /** control if there is an item already picked in the edges of the item picked now **/
+            /** control if there is an item already picked in the edges of the item picked now **/
+            if(tileCounter>=2){
                 if((tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m-1)) || (tilePos[tileCounter-4]==(n-1) && tilePos[tileCounter-3]==(m-1))){
                     return true;
                 }

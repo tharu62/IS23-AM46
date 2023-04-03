@@ -12,9 +12,17 @@ public class CHAT {
 
     public List<String> returnLastMessage(String username){
         int i=chat.size();
-        while(chat.get(i).header[1]!=username){
+        while(!chat.get(i-1).header[1].equals(username)){
             i--;
         }
-        return chat.get(i).text;
+        if(chat.get(i).header[1].equals(username)){
+            return chat.get(i).text;
+        }
+        else{
+            String Exception="no text from this player";
+            List<String> temp= new ArrayList<String>();
+            temp.add(Exception);
+            return temp;
+        }
     }
 }

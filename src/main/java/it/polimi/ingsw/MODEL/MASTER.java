@@ -20,7 +20,7 @@ public class MASTER {
     }
 
     public void ChooseFirstPlayerSeat(){
-        round.setLast(player.size());                           /** SUCCEDE SOLO UNA VOLTA PRIMA DI INIZIARE IL PRIMO ROUND **/
+        round.setLast(player.size());
         FirstPlayerSeat.choose(this.player);
         i= FirstPlayerSeat.n;
     }
@@ -34,8 +34,7 @@ public class MASTER {
 
     public boolean checkIfLastTurn(BOOKSHELF bookshelf){
         round.update(bookshelf);
-        if(round.last && (player.get(i).username.equals(FirstPlayerSeat.username))){return true;}
-        return false;
+        return round.last && (player.get(i).username.equals(FirstPlayerSeat.username));
     }
 
 }

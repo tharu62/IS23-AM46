@@ -23,22 +23,3 @@ class COMMON_GOAL_CARD extends COMMON_GOALS {
     }
 }
 
-/** LORE SE CAPISCI COME SISTEMARLO CANCELLA PURE LE DUE NUOVE CLASSI CHE HO CREATO **/
-/**
-class PERSONAL_GOAL_CARD extends GOAL_CARD{
-    CARD_LOGIC cardLogic;
-    int token_value;
-    public void SetCardLogic(CARD_LOGIC logic){
-        this.cardLogic= logic;
-    }
-    public void SetToken(TOKEN token){}
-    public boolean check(BOOKSHELF bookshelf){
-
-        return this.cardLogic.CheckCardLogic(bookshelf);
-    }
-
-    public int UpdateValue(BOOKSHELF bookshelf){
-        return 4;
-    }
-}
- **/

@@ -8,7 +8,6 @@ public class P_CARD_LOGIC_GENERATOR {
     int upperbound = 12;
     int i = rand.nextInt(upperbound);
     public P_CARD_LOGIC SetCardLogic() {
-        /**
         if (i==1) {
             this.temp = new P_CARD_LOGIC_1();
             return temp;
@@ -57,8 +56,7 @@ public class P_CARD_LOGIC_GENERATOR {
             this.temp = new P_CARD_LOGIC_12();
             return temp;
         }
-         **/
 
-        return new P_CARD_LOGIC_1();
+        return new P_CARD_LOGIC_12();
     }
 }

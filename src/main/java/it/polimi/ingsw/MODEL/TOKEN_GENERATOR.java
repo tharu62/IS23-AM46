@@ -9,9 +9,6 @@ public class TOKEN_GENERATOR {
         if(player_number==3){
             return new THREE_PLAYERS_LOGIC();
         }
-        if(player_number==4){
-            return new FOUR_PLAYERS_LOGIC();
-        }
         return new FOUR_PLAYERS_LOGIC();
     }
 }

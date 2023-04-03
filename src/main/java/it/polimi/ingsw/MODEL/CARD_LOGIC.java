@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface CARD_LOGIC {
-    public boolean CheckCardLogic(BOOKSHELF bookshelf);
+    boolean CheckCardLogic(BOOKSHELF bookshelf);
 }
 
 class CARD_LOGIC_1 implements CARD_LOGIC{

@@ -19,7 +19,7 @@ public class BAG {
             int upperbound = 7;
             int i = rand.nextInt(upperbound);
             int l=0;
-            label:
+
             while(l==0){
             switch (i){
                 case(1):{
@@ -29,7 +29,7 @@ public class BAG {
                     }
                     else{
                         i++;
-                        continue label;
+                        continue;
                     }
 
                 }
@@ -40,7 +40,7 @@ public class BAG {
                     }
                     else {
                         i++;
-                        continue label;
+                        continue;
                     }
                 }
                 case(3):{
@@ -50,7 +50,7 @@ public class BAG {
                     }
                     else {
                         i++;
-                        continue label;
+                        continue;
                         }
                 }
                 case(4):{
@@ -60,7 +60,7 @@ public class BAG {
                     }
                     else {
                         i++;
-                        continue label;
+                        continue;
                     }
                 }
                 case(5):{
@@ -70,7 +70,7 @@ public class BAG {
                     }
                     else{
                         i++;
-                        continue label;
+                        continue;
                     }
                 }
                 case(6):{
@@ -80,7 +80,6 @@ public class BAG {
                     }
                     else{
                         i=1;
-                        continue label;
                     }
                 }
             }
@@ -89,7 +88,7 @@ public class BAG {
     }
 
     public item draw(){
-        return itemList.get(itemList.size());
+        return itemList.get(itemList.size()-1);
     }
 
 }

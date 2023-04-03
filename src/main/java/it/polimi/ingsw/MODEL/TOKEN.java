@@ -1,7 +1,7 @@
 package it.polimi.ingsw.MODEL;
 
 public interface TOKEN {
-    public int UpdateValue(int token_value);
+    int UpdateValue(int token_value);
 }
 
 
