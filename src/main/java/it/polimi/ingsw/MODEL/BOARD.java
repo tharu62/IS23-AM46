@@ -54,22 +54,36 @@ public class BOARD {
 
 
     public item drawItem(int n, int m){
+        if(this.IsToBeRestored()){
+            restore();
+        }
         item temp;
         if(cannotTakeItem(n,m)){
             return item.EMPTY;
         }
         temp=Grid[n][m];
-        Grid[n][m]=item.EMPTY;
+        Grid[n][m]=item.OBJECT;
         return temp;
     }
 
+    private void restore(){
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                if(Grid[i][j].equals(item.OBJECT)){
+                    Grid[i][j]= bag.draw();
+                }
+
+            }
+        }
+    }
+
     private boolean cannotTakeItem(int n, int m) {
-        if (Grid[n][m] == item.EMPTY) {
+        if (Grid[n][m]==item.EMPTY || Grid[n][m]==item.OBJECT){
             return true;
         }
         /** logics to control adjacent item tiles **/
-        if(Grid[n][m-1]==item.EMPTY || Grid[n][m+1]==item.EMPTY || Grid[n-1][m]==item.EMPTY || Grid[n+1][m]==item.EMPTY){
-            if(Grid[n-1][m-1]==item.EMPTY || Grid[n+1][m+1]==item.EMPTY || Grid[n-1][m+1]==item.EMPTY || Grid[n+1][m-1]==item.EMPTY){
+        if(Grid[n][m-1]==item.EMPTY || Grid[n][m-1]==item.OBJECT || Grid[n][m+1]==item.EMPTY || Grid[n][m+1]==item.OBJECT || Grid[n-1][m]==item.EMPTY || Grid[n-1][m]==item.OBJECT || Grid[n+1][m]==item.EMPTY || Grid[n+1][m]==item.OBJECT){
+            if(Grid[n-1][m-1]==item.EMPTY || Grid[n-1][m-1]==item.OBJECT || Grid[n+1][m+1]==item.EMPTY || Grid[n+1][m+1]==item.OBJECT || Grid[n-1][m+1]==item.EMPTY || Grid[n-1][m+1]==item.OBJECT || Grid[n+1][m-1]==item.EMPTY || Grid[n+1][m-1]==item.OBJECT){
                 tilePos[tileCounter]=n;
                 tilePos[tileCounter+1]=m;
                 tileCounter+=2;
@@ -98,5 +112,16 @@ public class BOARD {
         }
         return true;
 
+    }
+
+    private boolean IsToBeRestored(){
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                if(!cannotTakeItem(i,j)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
