@@ -4,11 +4,20 @@ public class BOOKSHELF {
     item[][] Grid= new item[6][5];
     boolean IsFull=false;
     item[] itemToPut= new item[3];
+    int itemsInGrid=0;
 
     public void putItems(int m,int a, int b, int c){
-        Grid[a][m]=itemToPut[0];
-        Grid[b][m]=itemToPut[1];
-        Grid[c][m]=itemToPut[2];
+        for(int i=0; i<3;i++){
+            for(int j=0; j<6; j++){
+                if (j==a || j==b || j== c){
+                    Grid[firstFreeRow(m)][m]=itemToPut[i];
+                    this.itemsInGrid++;
+                }
+            }
+        }
+        if(itemsInGrid==30){
+            this.IsFull=true;
+        }
     }
 
     public  int checkAdjacentItem(item comp){
@@ -54,5 +63,13 @@ public class BOOKSHELF {
 
     public item[][] getGrid() {
         return Grid;
+    }
+
+    private int firstFreeRow(int x) {
+        int i=5;
+        while (!this.Grid[i][x].equals(item.EMPTY)) {
+            i++;
+        }
+        return i;
     }
 }
