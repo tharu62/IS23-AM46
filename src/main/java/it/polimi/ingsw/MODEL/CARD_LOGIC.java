@@ -67,9 +67,10 @@ class CARD_LOGIC_3 implements CARD_LOGIC{
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
         item[][] grid = bookshelf.getGrid();
-        return grid[0][0].equals(grid[4][0]) &&
-                grid[0][0].equals(grid[0][5]) &&
-                grid[0][0].equals(grid[4][5]);
+        if (grid[0][0].equals(item.EMPTY)) return false;
+        return grid[0][0].equals(grid[0][4]) &&
+               grid[0][0].equals(grid[5][0]) &&
+               grid[0][0].equals(grid[5][4]);
 
     }
 }
@@ -117,7 +118,6 @@ class CARD_LOGIC_5 implements CARD_LOGIC{
             }
         }
         return cont == 2;
-
     }
 }
 
@@ -179,9 +179,10 @@ class CARD_LOGIC_8 implements CARD_LOGIC {
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
         Set<item> set = new HashSet<item>();
-        int cont = 0, cont_item = 0;
+        int cont = 0, cont_item;
         item tile;
         for (int i = 0; i < 6; i++) {
+            cont_item = 0;
             for (int j = 0; j < 5; j++) {
                 tile = bookshelf.getGrid()[i][j];
                 if (!tile.equals(item.EMPTY)) {
@@ -206,26 +207,40 @@ class CARD_LOGIC_9 implements CARD_LOGIC {
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
         int cont = 0;
         item[][] table = bookshelf.getGrid();
-        item tile, tileLeft, tileRight, tileUp, tileDown;
+        item tile, tileRight, tileDown;
         for (int i = 0; i < 5; i++){
             for (int j = 0; j < 4; j++){
                 tile = table[i][j];
-                if(j == 0) tileLeft = item.EMPTY;
-                else tileLeft = table [i][j - 1];
                 tileRight = table [i][j + 1];
-                if (i == 0) tileUp = item.EMPTY;
-                else tileUp = table [i - 1][j];
                 tileDown = table [i + 1][j];
                 if (!tile.equals(item.EMPTY)) {
-                    if (tile.equals(tileRight) && tile.equals(tileDown) && tile.equals(table[i + 1][j + 1]))
-                        if (!tile.equals(tileUp) && !tile.equals(tileLeft) &&
-                            !tile.equals(table[i - 1][j + 1]) && !tile.equals(table[i][j + 2]) &&
-                            !tile.equals(table[i + 1][j - 1]) && !tile.equals(table[i + 2][j]) &&
-                            !tile.equals(table[i + 2][j + 1]) && !tile.equals(table[i + 1][j + 2])) cont++;
+                    if (tile == tileRight && tile == tileDown && tile == table[i + 1][j + 1]) {
+                        if (checkBorders(table, i, j)) cont++;
+                    }
                 }
             }
         }
         return cont == 2;
+    }
+
+    /**
+     * This method checks if a 2x2 square made by items of the same type is surrounded by items of different types
+     * @param grid: bookshelf's grid
+     * @param row: the row where the tile is located
+     * @param column: the column where the tile is located
+     * @return true if the square is isolated
+     */
+    private boolean checkBorders(item[][] grid, int row, int column) {
+        item tile = grid[row][column];
+        if (column > 0)
+            if (tile.equals(grid[row][column - 1]) || tile.equals(grid[row + 1][column - 1])) return false;
+        if (column < 3)
+            if (tile.equals(grid[row][column + 2]) || tile.equals(grid[row + 1][column + 2])) return false;
+        if (row > 0)
+            if (tile.equals(grid[row - 1][column]) || tile.equals(grid[row - 1][column + 1])) return false;
+        if (row < 4)
+            return !tile.equals(grid[row + 2][column]) && !tile.equals(grid[row + 2][column + 1]);
+        return true;
     }
 }
 
@@ -271,7 +286,7 @@ class CARD_LOGIC_11 implements CARD_LOGIC {
             for (int j = 0; j < 5; j++) {
                 item tile = grid[i][j];
                 if (!tile.equals(item.EMPTY) && !itemToCheck.contains(tile)) {
-                    if ((tile.equals(grid[i][j + 1]) || tile.equals(grid[i + 1][j])) && j < 4 && i < 5) {
+                    if ((tile.equals(grid[i][j + 1]) || tile.equals(grid[i + 1][j])) && j < 4 && i < 5 && j > 0) {
                         cont++;
                         if (tile.equals(grid[i][j + 1])) itemToCheck.add(grid[i][j + 1]);
                         if (tile.equals(grid[i + 1][j])) itemToCheck.add(grid[i + 1][j]);
