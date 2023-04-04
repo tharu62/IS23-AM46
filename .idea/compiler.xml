@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="AM46" />
-        <module name="IS23-AM46" />
       </profile>
     </annotationProcessing>
   </component>
