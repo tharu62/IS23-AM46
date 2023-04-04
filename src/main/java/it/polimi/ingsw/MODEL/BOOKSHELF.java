@@ -7,14 +7,24 @@ public class BOOKSHELF {
     int itemsInGrid=0;
 
     public void putItems(int m,int a, int b, int c){
-        for(int i=0; i<3;i++){
-            for(int j=0; j<6; j++){
-                if (j==a || j==b || j== c){
-                    Grid[firstFreeRow(m)][m]=itemToPut[i];
-                    this.itemsInGrid++;
-                }
+        for(int j=0; j<3; j++){
+            if (j==a){
+                Grid[firstFreeRow(m)][m]=itemToPut[0];
+                itemToPut[0]=null;
+                this.itemsInGrid++;
+            }
+            if(j==b){
+                Grid[firstFreeRow(m)][m]=itemToPut[1];
+                itemToPut[1]=null;
+                this.itemsInGrid++;
+            }
+            if (j == c){
+                Grid[firstFreeRow(m)][m]=itemToPut[2];
+                itemToPut[2]=null;
+                this.itemsInGrid++;
             }
         }
+
         if(itemsInGrid==30){
             this.IsFull=true;
         }
