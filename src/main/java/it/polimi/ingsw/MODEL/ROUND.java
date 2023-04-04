@@ -14,7 +14,7 @@ public class ROUND {
         if(bookshelf.IsFull){
             this.last=true;
         }
-        if(turn.count==roundTrip){
+        if(turn.count==(roundTrip-1)){
             count++;
             turn.update();
         }
