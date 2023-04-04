@@ -105,7 +105,7 @@ class CARD_LOGIC_5 implements CARD_LOGIC{
      * @param bookshelf: player's bookshelf
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
-        Set<item> set = new HashSet<item>();
+        Set<item> set = new HashSet<>();
         int cont = 0;
         item[][] grid = bookshelf.getGrid();
         for (int i = 0; i < 5; i++) {
@@ -129,7 +129,7 @@ class CARD_LOGIC_6 implements CARD_LOGIC{
      * @param bookshelf: player's bookshelf
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
-        Set<item> set = new HashSet<item>();
+        Set<item> set = new HashSet<>();
         int cont = 0;
         item[][] grid = bookshelf.getGrid();
         for (int i = 0; i < 5; i++) {
@@ -154,7 +154,7 @@ class CARD_LOGIC_7 implements CARD_LOGIC{
      * @param bookshelf: player's bookshelf
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
-        Set<item> set = new HashSet<item>();
+        Set<item> set = new HashSet<>();
         int cont = 0;
         item tile;
         for (int i = 0; i < 6; i++) {
@@ -178,7 +178,7 @@ class CARD_LOGIC_8 implements CARD_LOGIC {
      * @param bookshelf: player's bookshelf
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
-        Set<item> set = new HashSet<item>();
+        Set<item> set = new HashSet<>();
         int cont = 0, cont_item;
         item tile;
         for (int i = 0; i < 6; i++) {
@@ -279,41 +279,67 @@ class CARD_LOGIC_11 implements CARD_LOGIC {
      * @param bookshelf: player's bookshelf
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
-        int cont = 0;
+        int cont = 0, a;
         item[][] grid = bookshelf.getGrid();
-        List<item> itemToCheck = new ArrayList<item>();
+        item tile;
+        Set<Integer> itemToCheck = new HashSet<>();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                item tile = grid[i][j];
-                if (!tile.equals(item.EMPTY) && !itemToCheck.contains(tile)) {
-                    if ((tile.equals(grid[i][j + 1]) || tile.equals(grid[i + 1][j])) && j < 4 && i < 5 && j > 0) {
-                        cont++;
-                        if (tile.equals(grid[i][j + 1])) itemToCheck.add(grid[i][j + 1]);
-                        if (tile.equals(grid[i + 1][j])) itemToCheck.add(grid[i + 1][j]);
-                        if (tile.equals(grid[i][j - 1])) itemToCheck.add(grid[i][j - 1]);
+                tile = grid[i][j];
+                if (!tile.equals(item.EMPTY)) {
+                    a = calculateUniqueValue(i, j);
+                    if (!itemToCheck.contains(a)) {
+                        Set<Integer> curr_item = new HashSet<>();
+                        curr_item.add(a);
+                        Set<Integer> itemSameType = checkGroupsSameType(grid, i, j, curr_item);
+                        if (itemSameType.size() > 1) cont++;
+                        itemToCheck.addAll(itemSameType);
+                    } else {
+                        itemToCheck.remove(a);
                     }
-                    if (j == 4 && i < 5)
-                        if (tile.equals(grid[i + 1][j])) {
-                            cont++;
-                            itemToCheck.add(grid[i + 1][j]);
-                        }
-                    if (i == 5 && j < 4)
-                        if (tile.equals(grid[i][j + 1])){
-                            cont++;
-                            itemToCheck.add(grid[i][j + 1]);
-                        }
-                } else if (itemToCheck.contains(tile)) {
-                    if (tile.equals(grid[i][j + 1])) itemToCheck.add(grid[i][j + 1]);
-                    if (tile.equals(grid[i + 1][j])) itemToCheck.add(grid[i + 1][j]);
-                    itemToCheck.remove(tile);
                 }
             }
         }
         return cont == 6;
     }
+
+    /**
+     * This method calculates a number that is unique for each row-column pair
+     * @param row: tile's row in the bookshelf
+     * @param column: tile's column in the bookshelf
+     * @return a number that is a linear combination of row and column
+     */
+    int calculateUniqueValue(int row, int column) {
+        return 10 * row + column;
+    }
+
+    /**
+     * This method return the tiles that belong to the same group
+     * @param table: bookshelf's grid
+     * @param row: tile's row in the bookshelf
+     * @param column: tile's column in the bookshelf
+     * @param listToCheck: list of item of the same in type in the same group
+     * @return a Set of the unique value of the tiles that belong to the same group
+     */
+    Set<Integer> checkGroupsSameType(item[][] table, int row, int column, Set<Integer> listToCheck) {
+        item tile = table[row][column];
+        if (column < 4 && tile.equals(table[row][column + 1]) && !listToCheck.contains(calculateUniqueValue(row, column + 1))) {
+            listToCheck.add(calculateUniqueValue(row, column + 1));
+            listToCheck.addAll(checkGroupsSameType(table, row, column + 1, listToCheck));
+        }
+        if (row < 5 && tile.equals(table[row + 1][column]) && !listToCheck.contains(calculateUniqueValue(row + 1, column))) {
+            listToCheck.add(calculateUniqueValue(row + 1, column));
+            listToCheck.addAll(checkGroupsSameType(table, row + 1, column, listToCheck));
+        }
+        if (column > 0 && tile.equals(table[row][column - 1]) && !listToCheck.contains(calculateUniqueValue(row, column - 1))) {
+            listToCheck.add(calculateUniqueValue(row, column - 1));
+            listToCheck.addAll(checkGroupsSameType(table, row, column - 1, listToCheck));
+        }
+        return listToCheck;
+    }
 }
 
-class CARD_LOGIC_12 implements CARD_LOGIC {
+class CARD_LOGIC_12 extends CARD_LOGIC_11  implements CARD_LOGIC{
     /**
      * This method return true if inside the player's bookshelf there are
      * four groups each containing at least 4 tiles of the same type.
@@ -321,50 +347,27 @@ class CARD_LOGIC_12 implements CARD_LOGIC {
      * @param bookshelf: player's bookshelf
      */
     public boolean CheckCardLogic(BOOKSHELF bookshelf) {
-        int cont = 0, cont_item = 0;
+        int cont = 0, a;
         item[][] grid = bookshelf.getGrid();
         item tile;
-        List<item> itemToCheck = new ArrayList<item>();
+        Set<Integer> itemToCheck = new HashSet<>();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 tile = grid[i][j];
-                if (!tile.equals(item.EMPTY) && !itemToCheck.contains(tile)) {
-                    cont_item = countNeighboursType(grid, i, j, null) + 1;
-                    if (j < 4 && tile.equals(grid[i][j + 1])) itemToCheck.add(grid[i][j + 1]);
-                    if (i < 5 && tile.equals(grid[i + 1][j])) itemToCheck.add(grid[i + 1][j]);
-                    if (j > 0 && tile.equals(grid[i][j - 1])) itemToCheck.add(grid[i][j - 1]);
-                } else if (itemToCheck.contains(tile)) {
-                    if (j < 4 && tile.equals(grid[i][j + 1])) itemToCheck.add(grid[i][j + 1]);
-                    if (i < 5 && tile.equals(grid[i + 1][j])) itemToCheck.add(grid[i + 1][j]);
-                    itemToCheck.remove(tile);
+                if (!tile.equals(item.EMPTY)) {
+                    a = calculateUniqueValue(i, j);
+                    if (!itemToCheck.contains(a)) {
+                        Set<Integer> curr_item = new HashSet<>();
+                        curr_item.add(a);
+                        Set<Integer> itemSameType = checkGroupsSameType(grid, i, j, curr_item);
+                        if (itemSameType.size() > 3) cont++;
+                        itemToCheck.addAll(itemSameType);
+                    } else {
+                        itemToCheck.remove(a);
+                    }
                 }
-                if (cont_item > 3) cont++;
             }
         }
         return cont == 4;
-    }
-
-    /**
-     * This method count how many tiles of the same type are nearby
-     * @param table: it's the bookshelf
-     * @param row: the row where the tile is located
-     * @param column: the column where the tile is located
-     * @param list: a list containing the tiles that have already been checked
-     * @return the number of tiles of the same type that are nearby
-     */
-    private int countNeighboursType(item[][] table, int row, int column, List<item> list) {
-        item tile = table[row][column];
-        int cont = 0;
-        list.add(tile);
-        if (column < 4 && tile.equals(table[row][column + 1]) && !list.contains(table[row][column + 1])) {
-            cont = 1 + countNeighboursType(table, row, column + 1, list);
-        }
-        if (row < 5 && tile.equals(table[row + 1][column]) && !list.contains(table[row + 1][column])) {
-            cont = 1 + countNeighboursType(table, row + 1, column, list);
-        }
-        if (column > 0 && tile.equals(table[row][column - 1]) && !list.contains(table[row][column - 1])) {
-            cont = 1 + countNeighboursType(table, row, column - 1, list);
-        }
-        return cont;
     }
 }
