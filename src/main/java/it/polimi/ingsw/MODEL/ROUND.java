@@ -6,7 +6,7 @@ public class ROUND {
     int count=0;
     int roundTrip=0;
 
-    public void setLast(int roundTrip){
+    public void set(int roundTrip){
         this.roundTrip=roundTrip;
     }
 
@@ -17,6 +17,9 @@ public class ROUND {
         if(turn.count==roundTrip){
             count++;
             turn.update();
+        }
+        else{
+            turn.count++;
         }
     }
 

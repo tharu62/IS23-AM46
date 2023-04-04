@@ -20,7 +20,7 @@ public class MASTER {
     }
 
     public void ChooseFirstPlayerSeat(){
-        round.setLast(player.size());
+        round.set(player.size());
         FirstPlayerSeat.choose(this.player);
         i= FirstPlayerSeat.n;
     }

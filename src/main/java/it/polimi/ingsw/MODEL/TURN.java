@@ -4,6 +4,6 @@ public class TURN {
     int count=0;
 
     public void update(){
-        count++;
+        this.count=0;
     }
 }
