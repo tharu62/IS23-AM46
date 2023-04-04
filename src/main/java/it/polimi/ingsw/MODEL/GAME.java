@@ -77,6 +77,9 @@ public class GAME {
         if (this.playerToPlay.equals(username)) {
             space.placeItem(m, a, b, c);
             if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
+                if(master.round.last==false){
+                    space.player.get(search(this.playerToPlay)).score+=1;
+                }
                 master.round.last = true;
             }
         }
