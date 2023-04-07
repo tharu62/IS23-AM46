@@ -10,18 +10,19 @@ public class CHAT {
         chat.add(message);
     }
 
-    public List<String> returnLastMessage(String username){
+    public MESSAGE returnLastMessage(String username){
         int i=chat.size();
         while(!chat.get(i-1).header[1].equals(username)){
             i--;
         }
         if(chat.get(i).header[1].equals(username)){
-            return chat.get(i).text;
+            return chat.get(i);
         }
         else{
-            String Exception="no text from this player";
-            List<String> temp= new ArrayList<String>();
-            temp.add(Exception);
+            MESSAGE temp= new MESSAGE();
+            temp.header[1]="no username in list";
+            temp.header[2]="no data";
+            temp.text="no text from this player";
             return temp;
         }
     }
