@@ -9,5 +9,8 @@
         <module name="AM46" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AM46" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
