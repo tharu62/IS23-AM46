@@ -1,9 +1,5 @@
 package it.polimi.ingsw.CONTROLLER.game.client;
 
-import it.polimi.ingsw.MODEL.game;
-import it.polimi.ingsw.MODEL.player;
-
-
 /**
  * Sends actions generated from the view to the match controller
  */
