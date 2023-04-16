@@ -1,13 +1,17 @@
 package it.polimi.ingsw.MODEL;
 
+
 public class GAME {
     MASTER master= new MASTER();
     SPACE space= new SPACE();
     int playerNumber=0;
     String playerToPlay;
+    P_CARD_LOGIC_GENERATOR generator = new P_CARD_LOGIC_GENERATOR();
 
     public void addPlayer(String username){
-        space.player.get(this.playerNumber).username=username;
+        PLAYER player = new PLAYER();
+        player.username = username;
+        space.player.add(this.playerNumber, player);
         master.player=space.player;
         this.playerNumber++;
     }
@@ -22,7 +26,7 @@ public class GAME {
 
     public void DrawPersonalGoalCards(){
         for(int i=0; i<this.playerNumber; i++){
-            space.player.get(i).drawPersonalGoalCard();
+            space.player.get(i).drawPersonalGoalCard(generator.SetCardLogic());
         }
     }
 
@@ -75,7 +79,8 @@ public class GAME {
      */
     public void playerPutItems(String username, int m,int a,int b, int c){
         if (this.playerToPlay.equals(username)) {
-            space.placeItem(m, a, b, c);
+            int i = search(username);
+            space.placeItem(i, m, a, b, c);
             if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
                 if(master.round.last==false){
                     space.player.get(search(this.playerToPlay)).score+=1;
@@ -95,17 +100,18 @@ public class GAME {
      */
     public void PlayerWantsToCheckScore(String username){
         if (this.playerToPlay.equals(username)) {
+            int i = search(playerToPlay);
             int temp;
-            if (space.player.get(search(this.playerToPlay)).goalReached) {
+            if (space.player.get(i).goalReached) {
                 System.out.println("HAI GIA' OTTENUTO GLI OBIETTIVI COMUNI! NON PUOI PRENDERE ALTRI MODEL.TOKEN!");
             } else {
-                temp = master.CheckCommonGoal(space.player.get(1).bookshelf);
+                temp = master.CheckCommonGoal(space.player.get(i).bookshelf);
                 if (temp > 0) {
-                    space.player.get(search(this.playerToPlay)).score += temp;
-                    space.player.get(search(this.playerToPlay)).goalReached = true;
+                    space.player.get(i).score += temp;
+                    space.player.get(i).goalReached = true;
                 }
             }
-            if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
+            if (space.player.get(i).bookshelf.IsFull) {
                 master.round.last = true;
             }
         }
