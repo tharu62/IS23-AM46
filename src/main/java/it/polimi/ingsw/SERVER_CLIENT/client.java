@@ -33,7 +33,7 @@ public class client {
             while (true) {
 
                 /** Waits for command from the user.
-                 * For example:
+                 * For example::
                  * userInputObj= controller.NextMove();
                  */
                 userInputStr =  g.toJson(userInputObj);
