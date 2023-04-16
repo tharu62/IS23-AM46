@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SPACE {
     BOARD board= new BOARD();
-    List<PLAYER> player= new ArrayList<PLAYER>(1);
+    List<PLAYER> player= new ArrayList<>(1);
     int i=0;
     String winner;
 
@@ -36,8 +36,8 @@ public class SPACE {
     }
 
     /** STO MODIFICANDO **/
-    public void placeItem(int m,int a, int b, int c){
-        player.get(1).bookshelf.putItems(m,a,b,c);
+    public void placeItem(int i, int m,int a, int b, int c){
+        player.get(i).bookshelf.putItems(m,a,b,c);
     }
 
 

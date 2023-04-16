@@ -1,7 +1,7 @@
 package it.polimi.ingsw.MODEL;
 
 public class DRAW extends TOKEN_GENERATOR {
-    COMMON_GOALS card= new COMMON_GOAL_CARD();
+    COMMON_GOAL_CARD card= new COMMON_GOAL_CARD();
     CARD_LOGIC_GENERATOR cardGenerator= new CARD_LOGIC_GENERATOR();
     TOKEN_GENERATOR tokenGenerator= new TOKEN_GENERATOR();
 

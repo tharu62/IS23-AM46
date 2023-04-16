@@ -8,6 +8,7 @@ public class CARD_LOGIC_GENERATOR {
     int upperbound = 12;
     int i = rand.nextInt(upperbound);
     public CARD_LOGIC SetCardLogic() {
+        //i = 2; //used for testing
         if (i==0) {
             this.temp = new CARD_LOGIC_1();
             return temp;

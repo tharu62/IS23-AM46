@@ -34,7 +34,7 @@ public class BOARD {
                 Grid[1][5]=item.OBJECT;
                 Grid[3][1]=item.OBJECT;
                 Grid[4][0]=item.OBJECT;
-                Grid[4][7]=item.OBJECT;
+                Grid[4][8]=item.OBJECT;
                 Grid[5][7]=item.OBJECT;
                 Grid[7][3]=item.OBJECT;
                 Grid[8][4]=item.OBJECT;
@@ -49,7 +49,7 @@ public class BOARD {
                 }
             }
         }
-
+        this.Grid = Grid;
     }
 
 
@@ -81,47 +81,76 @@ public class BOARD {
         if (Grid[n][m]==item.EMPTY || Grid[n][m]==item.OBJECT){
             return true;
         }
-        /** logics to control adjacent item tiles **/
-        if(Grid[n][m-1]==item.EMPTY || Grid[n][m-1]==item.OBJECT || Grid[n][m+1]==item.EMPTY || Grid[n][m+1]==item.OBJECT || Grid[n-1][m]==item.EMPTY || Grid[n-1][m]==item.OBJECT || Grid[n+1][m]==item.EMPTY || Grid[n+1][m]==item.OBJECT){
-            if(Grid[n-1][m-1]==item.EMPTY || Grid[n-1][m-1]==item.OBJECT || Grid[n+1][m+1]==item.EMPTY || Grid[n+1][m+1]==item.OBJECT || Grid[n-1][m+1]==item.EMPTY || Grid[n-1][m+1]==item.OBJECT || Grid[n+1][m-1]==item.EMPTY || Grid[n+1][m-1]==item.OBJECT){
-                tilePos[tileCounter]=n;
-                tilePos[tileCounter+1]=m;
-                tileCounter+=2;
-                return false;
-            }
-            /** control if there is an item already picked in the edges of the item picked now **/
-            if(tileCounter>=2){
-                if((tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m-1)) || (tilePos[tileCounter-4]==(n-1) && tilePos[tileCounter-3]==(m-1))){
-                    return true;
-                }
-                if((tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter-1]==(m+1)) || (tilePos[tileCounter-4]==(n+1) && tilePos[tileCounter-3]==(m+1))){
-                    return true;
-                }
-                if((tilePos[tileCounter-2]==(n-1) && tilePos[tileCounter-1]==(m+1)) || (tilePos[tileCounter-4]==(n-1) && tilePos[tileCounter-3]==(m+1))){
-                    return true;
-                }
-                if((tilePos[tileCounter-2]==(n+1) && tilePos[tileCounter-1]==(m-1)) || (tilePos[tileCounter-4]==(n+1) && tilePos[tileCounter-3]==(m-1))){
-                    return true;
-                }
-            }
-
-            tilePos[tileCounter]=n;
-            tilePos[tileCounter+1]=m;
-            tileCounter+=2;
+        if (tileCounter == 0 && count_neighbours(n, m) == 4) return true;
+        if ((tileCounter == 2 || tileCounter == 4) && count_neighbours(n, m) == 3) return true;
+        if (tileCounter == 0) {
+            tilePos[tileCounter] = n;
+            tilePos[tileCounter + 1] = m;
+            tileCounter += 2;
             return false;
         }
+        if (tileCounter == 2) {
+            if (tilePos[tileCounter - 2] == n) {
+                if (m > 0 && tilePos[tileCounter - 1] == m - 1 || m < 8 && tilePos[tileCounter - 1] == m + 1) {
+                    tilePos[tileCounter] = n;
+                    tilePos[tileCounter + 1] = m;
+                    tileCounter += 2;
+                    return false;
+                }
+            }
+            if (tilePos[tileCounter - 1] == m) {
+                if (n > 0 && tilePos[tileCounter - 2] == n - 1 || n < 8 && tilePos[tileCounter - 2] == n + 1) {
+                    tilePos[tileCounter] = n;
+                    tilePos[tileCounter + 1] = m;
+                    tileCounter += 2;
+                    return false;
+                }
+            }
+        } else {
+            if (tilePos[tileCounter - 2] == n) {
+                if ((m > 0 && tilePos[tileCounter - 1] == m - 1 || m < 8 && tilePos[tileCounter - 1] == m + 1) || (m > 1 && tilePos[tileCounter - 1] == m - 2 || m < 7 && tilePos[tileCounter - 1] == m + 2)) {
+                    tilePos[tileCounter] = n;
+                    tilePos[tileCounter + 1] = m;
+                    tileCounter = 0;
+                    return false;
+                }
+            }
+            if (tilePos[tileCounter - 1] == m) {
+                if ((n > 0 && tilePos[tileCounter - 2] == n - 1 || n < 8 && tilePos[tileCounter - 2] == n + 1) || (n > 1 && tilePos[tileCounter - 2] == n - 2 || n < 7 && tilePos[tileCounter - 2] == n + 2)) {
+                    tilePos[tileCounter] = n;
+                    tilePos[tileCounter + 1] = m;
+                    tileCounter = 0;
+                    return false;
+                }
+            }
+        }
         return true;
+    }
 
+    /**
+     * This method counts the number of tiles near a specific tile
+     * @param row: the row where the tile is located
+     * @param column: the column where the tile is located
+     * @return the number of neighbours
+     */
+
+    private int count_neighbours(int row, int column) {
+        int cont = 0;
+        if (row > 0 && Grid[row - 1][column] != item.EMPTY && Grid[row - 1][column] != item.OBJECT) cont++;
+        if (row < 8 && Grid[row + 1][column] != item.EMPTY && Grid[row + 1][column] != item.OBJECT) cont++;
+        if (column > 0 && Grid[row][column - 1] != item.EMPTY && Grid[row][column - 1] != item.OBJECT) cont++;
+        if (column < 8 && Grid[row][column + 1] != item.EMPTY && Grid[row][column + 1] != item.OBJECT) cont++;
+        return cont;
     }
 
     private boolean IsToBeRestored(){
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
-                if(!cannotTakeItem(i,j)){
-                    return true;
+                if(Grid[i][j] != item.EMPTY &&  Grid[i][j] != item.OBJECT && count_neighbours(i,j) > 0){
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 }

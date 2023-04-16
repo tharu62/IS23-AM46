@@ -1,8 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public interface CARD_LOGIC {
@@ -334,6 +332,10 @@ class CARD_LOGIC_11 implements CARD_LOGIC {
         if (column > 0 && tile.equals(table[row][column - 1]) && !listToCheck.contains(calculateUniqueValue(row, column - 1))) {
             listToCheck.add(calculateUniqueValue(row, column - 1));
             listToCheck.addAll(checkGroupsSameType(table, row, column - 1, listToCheck));
+        }
+        if (row > 0 && tile.equals(table[row - 1][column]) && !listToCheck.contains(calculateUniqueValue(row - 1, column))) {
+            listToCheck.add(calculateUniqueValue(row - 1, column));
+            listToCheck.addAll(checkGroupsSameType(table, row - 1, column, listToCheck));
         }
         return listToCheck;
     }
