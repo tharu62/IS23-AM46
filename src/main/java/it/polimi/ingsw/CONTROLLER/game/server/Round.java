@@ -35,6 +35,13 @@ public class Round {
     public int getRoundNumber() {
         return roundNumber;
     }
+
+    /**
+     * @return the nickname of the active player.
+     */
+    public String getActivePlayer() {
+        return Player;
+    }
 }
 
 
