@@ -2,8 +2,8 @@ package it.polimi.ingsw.MODEL;
 
 public class PLAYER {
     String username;
-    BOOKSHELF bookshelf= new BOOKSHELF();
-    PERSONAL_GOAL_CARD personal= new PERSONAL_GOAL_CARD();
+    public BOOKSHELF bookshelf= new BOOKSHELF();
+    public PERSONAL_GOAL_CARD personal= new PERSONAL_GOAL_CARD();
     int score=0;
     boolean goalReached=false;
 
@@ -13,4 +13,7 @@ public class PLAYER {
     }
 
 
+    public String getUsername() {
+        return username;
+    }
 }

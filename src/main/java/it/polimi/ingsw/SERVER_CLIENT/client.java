@@ -6,8 +6,8 @@ import it.polimi.ingsw.CONTROLLER.game.client.ActionSender;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 
@@ -33,7 +33,7 @@ public class client {
             while (true) {
 
                 /** Waits for command from the user.
-                 * For example::
+                 * For example:
                  * userInputObj= controller.NextMove();
                  */
                 userInputStr =  g.toJson(userInputObj);

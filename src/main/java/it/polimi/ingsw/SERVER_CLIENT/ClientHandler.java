@@ -1,18 +1,19 @@
 package it.polimi.ingsw.SERVER_CLIENT;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER.game.client.ActionSender;
+import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import com.google.gson.Gson;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
     private ActionSender controller;
     Gson g;
-    public ClientHandler(Socket socket, ActionSender controller) {
+    public ClientHandler(Socket socket, CONTROLLER controller) {
         this.socket = socket;
     }
     public void run() {

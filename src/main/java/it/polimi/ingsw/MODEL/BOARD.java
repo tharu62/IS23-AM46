@@ -1,7 +1,7 @@
 package it.polimi.ingsw.MODEL;
 
 public class BOARD {
-    item[][] Grid= new item[9][9];
+    public item[][] Grid= new item[9][9];
     BAG bag= new BAG();
     int[] tilePos= new int[6];
     int tileCounter=0;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MASTER {
-    DRAW FirstDraw= new DRAW();
+    public DRAW FirstDraw= new DRAW();
     FIRST_PLAYER_SEAT FirstPlayerSeat= new FIRST_PLAYER_SEAT();
     ROUND round= new ROUND();
     List<PLAYER> player= new ArrayList<PLAYER>(0);

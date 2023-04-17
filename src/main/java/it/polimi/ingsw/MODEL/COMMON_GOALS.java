@@ -1,6 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
-abstract class COMMON_GOALS {
+public abstract class COMMON_GOALS {
     CARD_LOGIC cardLogic;
     TOKEN token;
     int token_value;

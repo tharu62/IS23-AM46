@@ -2,18 +2,22 @@ package it.polimi.ingsw.MODEL;
 
 
 public class GAME {
-    MASTER master= new MASTER();
-    SPACE space= new SPACE();
-    int playerNumber=0;
-    String playerToPlay;
+    public MASTER master= new MASTER();
+    public SPACE space= new SPACE();
+    public int playerNumber=0;
+    public String playerToPlay;
     P_CARD_LOGIC_GENERATOR generator = new P_CARD_LOGIC_GENERATOR();
 
-    public void addPlayer(String username){
+    public boolean addPlayer(String username){
         PLAYER player = new PLAYER();
         player.username = username;
         space.player.add(this.playerNumber, player);
         master.player=space.player;
         this.playerNumber++;
+        if(playerNumber==3){
+            return true;
+        }
+        else{return false;}
     }
 
     public void setBoard(){

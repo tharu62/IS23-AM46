@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SPACE {
-    BOARD board= new BOARD();
-    List<PLAYER> player= new ArrayList<>(1);
+    public BOARD board= new BOARD();
+    public List<PLAYER> player= new ArrayList<>(1);
     int i=0;
     String winner;
 

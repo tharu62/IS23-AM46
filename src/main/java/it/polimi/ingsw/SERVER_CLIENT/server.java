@@ -1,6 +1,7 @@
 package it.polimi.ingsw.SERVER_CLIENT;
 
-import it.polimi.ingsw.CONTROLLER.game.client.ActionSender;
+import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,10 +9,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class server {
-    ActionSender controller;
+    CONTROLLER controller;
     final int port;
 
-    public server(ActionSender Controller, int port){
+    public server(CONTROLLER Controller, int port){
         this.controller= Controller;
         this.port= port;
     }
