@@ -5,12 +5,15 @@ import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class server {
     CONTROLLER controller;
     final int port;
+    public List<ClientHandler> clients= new ArrayList<>();
 
     public server(CONTROLLER Controller, int port){
         this.controller= Controller;
@@ -30,8 +33,11 @@ public class server {
 
         while (true) {
             try {
+
                 Socket socket = serverSocket.accept();
-                executor.submit(new ClientHandler(socket, controller));     /** A new instance to handle the new Client is made **/
+                clients.add(new ClientHandler(socket, controller, clients));
+                executor.submit(clients.get(clients.size()-1));   /** si può fare? o devo istanziare il ClientHandler dentro l'executor?**/
+
             } catch(IOException e) {
                 break;
             }

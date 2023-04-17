@@ -3,7 +3,6 @@ package it.polimi.ingsw.CONTROLLER.game.client;
 /**
  * Sends actions generated from the view to the match controller
  */
-
 public class ActionSender {
 
     private String username;
@@ -22,7 +21,7 @@ public class ActionSender {
      * @return null if it's successful, an error otherwise
      */
     public String login(String host, int requestPort, int objectPort, String username, boolean newUser, boolean useRMI) {
-        String result = network.login(host, requestPort, objectPort, false, username, newUser, useRMI, controller);
+        String result = network.Login(host, requestPort, objectPort, false, username, newUser, useRMI, controller);
         if (result == null) {
             this.username = username;
             controller.setLocalPlayer(username);
@@ -107,3 +106,4 @@ public class ActionSender {
         network.leaveMatchMakingQueue();
     }
 
+}

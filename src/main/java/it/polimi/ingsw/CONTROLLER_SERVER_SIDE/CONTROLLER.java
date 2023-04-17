@@ -1,6 +1,7 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.SERVER_CLIENT.LOGIN;
 
 public class CONTROLLER {
     public boolean last=false;
@@ -43,20 +44,32 @@ public class CONTROLLER {
         this.game=game;
     }
 
-    public void setUsername(String username){
+    synchronized public LOGIN setUsername(LOGIN login){
         if(LobbyIsNotFull) {
             if (last) {
-                game.addPlayer(username);
+                game.addPlayer(login.username);
                 game.setBoard();
                 game.DrawPersonalGoalCards();
                 game.DrawCommonGoalCards();
                 LobbyIsNotFull = false;
+                login.accepted= true;
+                login.LobbyIsFull= true;
+                return login;
             } else {
-                if(newUsername(username)){
-                    last = game.addPlayer(username);
+                if(newUsername(login.username)){
+                    last = game.addPlayer(login.username);
+                    login.accepted= true;
+                    login.LobbyIsFull= true;
+                    return login;
                 }
+                login.accepted= false;
+                login.LobbyIsFull= false;
+                return login;
             }
         }
+        login.accepted= false;
+        login.LobbyIsFull= true;
+        return login;
     }
 
     public void setTurn(String username){
