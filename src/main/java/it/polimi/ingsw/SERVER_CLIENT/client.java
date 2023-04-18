@@ -1,7 +1,7 @@
 package it.polimi.ingsw.SERVER_CLIENT;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.CONTROLLER.game.client.ActionSender;
+import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import java.net.UnknownHostException;
 public class client {
     public String hostName = "127.0.0.1";
     public int portNumber = 1234;
-    public ActionSender controller;
-    public client(ActionSender controller){
+    public CONTROLLER controller;
+    public client(CONTROLLER controller){
         this.controller= controller;
     }
     public void start() {

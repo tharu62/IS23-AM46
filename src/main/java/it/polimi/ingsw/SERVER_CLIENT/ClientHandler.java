@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable {
                 String StrCommand = in.nextLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
 
-                switch (ObjCommand.cmd){
+                switch (ObjCommand.cmd){  /** fai una classe o metodo  a parte **/
 
                     case("LOGIN"):
                         reply.cmd="LOGIN";
