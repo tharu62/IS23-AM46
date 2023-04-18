@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class GAMETest extends TestCase {
 
     @Test
-    void testAddPlayer() {
+    public void testAddPlayer() {
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
@@ -20,13 +20,13 @@ public class GAMETest extends TestCase {
     }
 
     @Test
-    void testSetBoard() {
+    public void testSetBoard() {
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
         game.setBoard();
         assertEquals(game.space.board.Grid[0][0], item.EMPTY);
-        assertFalse(game.space.board.Grid[1][3].equals(item.EMPTY));
+        assertNotEquals(game.space.board.Grid[1][3], item.EMPTY);
         assertEquals(game.space.board.Grid[0][3], item.EMPTY);
         assertEquals(game.space.board.Grid[0][4], item.EMPTY);
     }
@@ -34,12 +34,12 @@ public class GAMETest extends TestCase {
 
 
     @Test
-    void testDrawCommonGoalCards() {
+    public void testDrawCommonGoalCards() {
 
     }
 
     @Test
-    void testDrawPersonalGoalCards() {
+    public void testDrawPersonalGoalCards() {
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
@@ -54,7 +54,7 @@ public class GAMETest extends TestCase {
     }
 
     @Test
-    void testChooseFirstPlayerSeat() {
+    public void testChooseFirstPlayerSeat() {
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");
@@ -63,7 +63,7 @@ public class GAMETest extends TestCase {
         assertTrue(game.playerToPlay.equals("Antonio") || game.playerToPlay.equals("Bruno") || game.playerToPlay.equals("Chiara"));
     }
 
-    void testMasterStartTurn() {
+    public void testMasterStartTurn() {
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
@@ -73,7 +73,7 @@ public class GAMETest extends TestCase {
     }
 
     @Test
-    void testPlayerDrawItem() {
+    public void testPlayerDrawItem() {
         GAME game= new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
@@ -86,7 +86,7 @@ public class GAMETest extends TestCase {
     }
 
     @Test
-    void testPlayerPutItems() {
+    public void testPlayerPutItems() {
         GAME game= new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
@@ -100,7 +100,7 @@ public class GAMETest extends TestCase {
     }
 
     @Test
-    void testPlayerWantsToCheckScore() {
+    public void testPlayerWantsToCheckScore() {
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");
