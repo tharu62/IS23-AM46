@@ -22,6 +22,7 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.controller = controller;
         this.clients = clients;
+        clients.add(this);  /** da vedere se è valido per i thread **/
     }
     public void run() {
         try {
@@ -44,6 +45,8 @@ public class ClientHandler implements Runnable {
                         }
                     case ("GAMEPLAY"):
 
+                    case ("CHAT"):
+
                 }
 
                 if(!reply.login.accepted && reply.login.LobbyIsFull){
@@ -62,7 +65,7 @@ public class ClientHandler implements Runnable {
 
 
 
-    private void broadcast(Command message){
+    synchronized private void broadcast(Command message){
         String temp= g.toJson(message);
         for(int i=0; i<clients.size(); i++){
             clients.get(i).out.println(temp);

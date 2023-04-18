@@ -35,8 +35,7 @@ public class server {
             try {
 
                 Socket socket = serverSocket.accept();
-                clients.add(new ClientHandler(socket, controller, clients));
-                executor.submit(clients.get(clients.size()-1));   /** si può fare? o devo istanziare il ClientHandler dentro l'executor?**/
+                executor.submit(new ClientHandler(socket, controller, clients));
 
             } catch(IOException e) {
                 break;
