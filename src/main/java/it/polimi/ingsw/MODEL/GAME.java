@@ -4,6 +4,7 @@ package it.polimi.ingsw.MODEL;
 public class GAME {
     public MASTER master= new MASTER();
     public SPACE space= new SPACE();
+    public CHAT chat;
     public int playerNumber=0;
     public String playerToPlay;
     P_CARD_LOGIC_GENERATOR generator = new P_CARD_LOGIC_GENERATOR();

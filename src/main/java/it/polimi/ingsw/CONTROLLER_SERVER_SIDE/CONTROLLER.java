@@ -1,13 +1,13 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.*;
-import it.polimi.ingsw.SERVER_CLIENT.LOGIN;
+import it.polimi.ingsw.SERVER_CLIENT.COMANDS.*;
 
 public class CONTROLLER {
     public boolean last=false;
-    public boolean LobbyIsNotFull=true;
-    GAME game;
-
+    public GAME game;
+    public boolean accepted;
+    public boolean LobbyIsFull=false;
 
     /******************************************************* GETTERS **************************************************/
 
@@ -34,6 +34,10 @@ public class CONTROLLER {
         return game.master.FirstDraw.card;
     }
 
+    public void getChat(String username){
+
+    }
+
     public void get(String username){
 
     }
@@ -44,32 +48,27 @@ public class CONTROLLER {
         this.game=game;
     }
 
-    synchronized public LOGIN setUsername(LOGIN login){
-        if(LobbyIsNotFull) {
+    synchronized public void setUsername(LOGIN login){
+        if(!LobbyIsFull) {
             if (last) {
                 game.addPlayer(login.username);
                 game.setBoard();
                 game.DrawPersonalGoalCards();
                 game.DrawCommonGoalCards();
-                LobbyIsNotFull = false;
-                login.accepted= true;
-                login.LobbyIsFull= true;
-                return login;
+                accepted= true;
+                LobbyIsFull= true;
             } else {
                 if(newUsername(login.username)){
                     last = game.addPlayer(login.username);
-                    login.accepted= true;
-                    login.LobbyIsFull= true;
-                    return login;
+                    accepted= true;
+                    LobbyIsFull= true;
                 }
-                login.accepted= false;
-                login.LobbyIsFull= false;
-                return login;
+                accepted= false;
+                LobbyIsFull= false;
             }
         }
-        login.accepted= false;
-        login.LobbyIsFull= true;
-        return login;
+        accepted= false;
+        LobbyIsFull= true;
     }
 
     public void setTurn(String username){
@@ -84,9 +83,14 @@ public class CONTROLLER {
         game.playerPutItems( username, m, a, b, c);       /** return boolean **/
     }
 
+    public void setChat(String username, MESSAGE message){
+        game.chat.addMessage(message);
+    }
+
     public void set(String username){
 
     }
+
 
 
 

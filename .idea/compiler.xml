@@ -7,10 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="IS23-AM46" />
+        <module name="AM46" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="AM46" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

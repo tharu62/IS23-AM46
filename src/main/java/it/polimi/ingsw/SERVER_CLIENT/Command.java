@@ -1,9 +1,11 @@
 package it.polimi.ingsw.SERVER_CLIENT;
+import it.polimi.ingsw.SERVER_CLIENT.COMANDS.*;
 
 public class Command {
     public String cmd;
-
-    public LOGIN login;
-    public GAMEPLAY gameplay;
-
+    public String username;
+    LOGIN login;
+    BROADCAST broadcast;
+    GAMEPLAY gameplay;
+    CHAT chat;
 }

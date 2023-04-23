@@ -1,7 +1,7 @@
 package it.polimi.ingsw.SERVER_CLIENT;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,16 +37,17 @@ public class client {
                  * userInputObj= controller.NextMove();
                  */
                 userInputStr =  g.toJson(userInputObj);
-                out.println(userInputStr);            /** send input to server**/
+
+                /** send input to server**/
+                out.println(userInputStr);
 
 
-
-                String StrCommand = in.readLine();    /** wait for reply from server**/
+                /** wait for reply from server**/
+                String StrCommand = in.readLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
-                /** Send the reply object to controller.
-                 *  For example:
-                 *  controller.checkReply(objCommand)
-                 */
+
+
+                CommandSwitcher(ObjCommand);
 
             }
 
@@ -59,6 +60,39 @@ public class client {
             System.exit(1);
         }
 
+    }
+
+    /** Logic to check all possible messages from the server, it does not give an instant reply,
+     *  instead the reply is give by the user by user input.
+     *
+     * @param ObjCommand is the object that contains all the message types and data.
+     */
+    private void CommandSwitcher(Command ObjCommand){
+        switch (ObjCommand.cmd){
+            case("LOGIN"):
+                /**
+                 * controller.setLogin(ObjCommand.login);
+                 */
+
+            case("BROADCAST"):
+                switch (ObjCommand.broadcast.cmd){
+                    case("FIRST_TURN"):
+                        /**
+                         * controller.setBoard(ObjCommand.broadcast.grid);
+                         * controller.setCommonGoals(Object.broadcast.cardLogic, Object.broadcast.token, Object.broadcast.token_value);
+                         */
+                    case("BOARD"):
+                        /**
+                         * controller.setBoard(ObjCommand.broadcast.grid);
+                         */
+                    case("FIRST_PLAYER_SEAT"):
+                        /**
+                         * controller.setFPS(ObjCommand.broadcast.fps);
+                         */
+                }
+
+            case(""):
+        }
     }
 }
 

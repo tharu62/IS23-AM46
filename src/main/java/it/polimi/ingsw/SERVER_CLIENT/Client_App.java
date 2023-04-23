@@ -1,6 +1,6 @@
 package it.polimi.ingsw.SERVER_CLIENT;
 
-import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 
 public class Client_App {
     public static void main( String[] args){

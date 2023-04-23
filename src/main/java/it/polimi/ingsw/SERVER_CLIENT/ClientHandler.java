@@ -2,6 +2,7 @@ package it.polimi.ingsw.SERVER_CLIENT;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.SERVER_CLIENT.COMANDS.LOGIN;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,32 +23,21 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.controller = controller;
         this.clients = clients;
-        clients.add(this);  /** da vedere se è valido per i thread **/
+        clients.add(this);
     }
     public void run() {
+
         try {
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
+
 
             while (true) {
                 String StrCommand = in.nextLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
 
-                switch (ObjCommand.cmd){  /** fai una classe o metodo  a parte **/
-
-                    case("LOGIN"):
-                        reply.cmd="LOGIN";
-                        reply.login= controller.setUsername(ObjCommand.login);
-                        StrCommand = g.toJson(reply);
-                        out.println(StrCommand);
-                        if(!reply.login.accepted && reply.login.LobbyIsFull){
-                            break;
-                        }
-                    case ("GAMEPLAY"):
-
-                    case ("CHAT"):
-
-                }
+                /** this method contains the logic to check and reply for all type of messages sent form the client **/
+                CommandSwitcher(ObjCommand);
 
                 if(!reply.login.accepted && reply.login.LobbyIsFull){
                     break;
@@ -63,13 +53,42 @@ public class ClientHandler implements Runnable {
         }
     }
 
-
-
     synchronized private void broadcast(Command message){
         String temp= g.toJson(message);
         for(int i=0; i<clients.size(); i++){
-            clients.get(i).out.println(temp);
+            if(clients.get(i)!=this) {
+                clients.get(i).out.println(temp);
+            }
         }
+    }
+
+    synchronized private void CommandSwitcher(Command ObjCommand){
+        switch (ObjCommand.cmd){
+
+            case("LOGIN"):
+                LOGIN temp= new LOGIN();
+                reply.cmd="LOGIN";
+                controller.setUsername(ObjCommand.login);
+                reply.login.accepted=controller.accepted;
+                reply.login.LobbyIsFull= controller.LobbyIsFull;
+                reply.login.username= ObjCommand.username;
+                String StrCommand = g.toJson(reply);
+                out.println(StrCommand);
+                if(!reply.login.accepted && reply.login.LobbyIsFull){
+                    break;
+                }
+
+            case ("GAMEPLAY"):
+
+
+            case ("CHAT"):
+                reply.cmd="CHAT";
+                controller.setChat(ObjCommand.chat.username, ObjCommand.chat.message);
+                reply.chat.username = ObjCommand.chat.username;
+                reply.chat.message = ObjCommand.chat.message;
+                broadcast(reply);
+        }
+
     }
 
 }
