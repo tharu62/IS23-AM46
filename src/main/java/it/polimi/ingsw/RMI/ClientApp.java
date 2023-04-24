@@ -1,5 +1,7 @@
 package it.polimi.ingsw.RMI;
 
+import it.polimi.ingsw.MODEL.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,18 +10,19 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class ChatClientApp extends UnicastRemoteObject implements ChatClient{
+public class ClientApp extends UnicastRemoteObject implements GameClient{
 
-    private ChatServer cs;
+    private GameServer cs;
 
-    protected ChatClientApp() throws RemoteException {
+
+    protected ClientApp() throws RemoteException {
     }
 
     public static void main(String[] args )
     {
-        System.out.println( "Hello from ChatClientApp!" );
+        System.out.println( "Hello from ClientApp!" );
         try {
-            new ChatClientApp().startClient();
+            new ClientApp().startClient();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,8 +34,11 @@ public class ChatClientApp extends UnicastRemoteObject implements ChatClient{
         registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, Settings.PORT);
 
         // Looking up the registry for the remote object
-        this.cs = (ChatServer) registry.lookup("ChatService");
+        this.cs = (GameServer) registry.lookup("GameService");
         this.cs.login(this);
+        System.out.println( "Client is logged to Server!" );
+        item[][] grid= cs.sendBoard();
+        System.out.println ("server received: " + grid[0][0]);
         inputLoop();
     }
 
@@ -40,7 +46,7 @@ public class ChatClientApp extends UnicastRemoteObject implements ChatClient{
         BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
         String message;
         while ( (message = br.readLine ()) != null) {
-            cs.send(message);
+            cs.sendMessage(message);
         }
     }
 
@@ -50,4 +56,6 @@ public class ChatClientApp extends UnicastRemoteObject implements ChatClient{
     public void receive(String message) throws RemoteException {
         System.out.println(message);
     }
+
+
 }
