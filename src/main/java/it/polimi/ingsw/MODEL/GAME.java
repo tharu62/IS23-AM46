@@ -6,6 +6,7 @@ public class GAME {
     public SPACE space= new SPACE();
     public CHAT chat;
     public int playerNumber=0;
+    public int LobbySize=2;
     public String playerToPlay;
     P_CARD_LOGIC_GENERATOR generator = new P_CARD_LOGIC_GENERATOR();
 
@@ -15,10 +16,12 @@ public class GAME {
         space.player.add(this.playerNumber, player);
         master.player=space.player;
         this.playerNumber++;
-        if(playerNumber==3){
+        if(playerNumber==(LobbySize-1)){
             return true;
         }
-        else{return false;}
+        else{
+            return false;
+        }
     }
 
     public void setBoard(){
@@ -92,6 +95,7 @@ public class GAME {
                 }
                 master.round.last = true;
             }
+
         }
     }
 

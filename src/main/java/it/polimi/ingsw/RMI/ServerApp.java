@@ -1,6 +1,7 @@
 package it.polimi.ingsw.RMI;
 
-import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -11,9 +12,10 @@ import java.util.List;
 
 public class ServerApp extends UnicastRemoteObject implements GameServer{
 
-    private final List<GameClient> chatClients;
+    CONTROLLER controller;
+    private final List<GameClient> Clients;
     public ServerApp() throws RemoteException {
-        this.chatClients = new ArrayList<>();
+        this.Clients = new ArrayList<>();
     }
     public static void main(String[] args )
     {
@@ -38,26 +40,78 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
             e.printStackTrace();
         }
         System.out.println("Server ready");
+
+        /**
+         * broadcast of board, common goals, and first_player.
+         */
+        do {
+            if(controller.LobbyIsFull){
+                for (GameClient gc : Clients) {
+                    gc.receiveBoard(controller.getBoard());
+                }
+                for (GameClient gc : Clients) {
+                    gc.receiveCommonGoals(controller.getCommonGoalCard());
+                }
+                for (GameClient gc : Clients) {
+                    gc.receivePersonalGoals();
+                }
+
+                for (GameClient gc : Clients) {
+                    gc.receivePlayerToPlay(controller.game.playerToPlay);
+                }
+                break;
+            }
+        }while(!controller.LobbyIsFull);
+
+
+
     }
 
     @Override
-    public void login(GameClient cc) throws RemoteException {
+    public void connect(GameClient gc) throws RemoteException {
         System.out.println ("A new Client has appeared");
-        this.chatClients.add(cc);
+        if(controller.LobbyIsFull){
+            gc.receive("Lobby_is_full");
+        }else {
+            this.Clients.add(gc);
+            if(controller.game.playerNumber==0){
+                gc.receive("FIRST_TO_CONNECT");
+            }
+            if(controller.game.playerNumber>=1){
+                gc.receive("CONNECTED");
+            }
+        }
+    }
+
+    @Override
+    public boolean login(String username) throws RemoteException {
+        return controller.setLogin(username);
+    }
+
+    @Override
+    public boolean loginFirst(String username, int LobbySize) throws RemoteException {
+        return controller.setFirstLogin(username, LobbySize);
+    }
+
+    @Override
+    public PERSONAL_GOAL_CARD sendPersonalGoal(String username) throws RemoteException {
+        return controller.getPersonalGoalCards(username);
+    }
+
+    @Override
+    public void startTurn(String username) throws RemoteException {
+
     }
 
     @Override
     public void sendMessage(String message) throws RemoteException {
         System.out.println ("server received: " + message);
-        for (GameClient cc : chatClients) {
+        for (GameClient cc : Clients) {
             cc.receive(message);
         }
     }
 
-    @Override
-    public item[][] sendBoard() {
-        item[][] grid = new item[1][1];
-        grid[0][0]=item.EMPTY;
-        return grid;
-    }
+
+
+
 }

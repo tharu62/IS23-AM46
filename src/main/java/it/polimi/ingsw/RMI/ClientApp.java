@@ -1,6 +1,8 @@
 package it.polimi.ingsw.RMI;
 
-import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
+import it.polimi.ingsw.MODEL.item;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,11 +11,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 public class ClientApp extends UnicastRemoteObject implements GameClient{
 
-    private GameServer cs;
-
+    private GameServer gs;
+    CONTROLLER controller;
+    public String message;
+    public boolean LoginOK;
 
     protected ClientApp() throws RemoteException {
     }
@@ -34,19 +39,19 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
         registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, Settings.PORT);
 
         // Looking up the registry for the remote object
-        this.cs = (GameServer) registry.lookup("GameService");
-        this.cs.login(this);
+        this.gs = (GameServer) registry.lookup("GameService");
+        this.gs.connect(this);
         System.out.println( "Client is logged to Server!" );
-        item[][] grid= cs.sendBoard();
-        System.out.println ("server received: " + grid[0][0]);
+
+
+
         inputLoop();
     }
 
     void inputLoop() throws IOException {
         BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
-        String message;
-        while ( (message = br.readLine ()) != null) {
-            cs.sendMessage(message);
+        while ( (this.message = br.readLine ()) != null) {
+
         }
     }
 
@@ -54,7 +59,54 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receive(String message) throws RemoteException {
+        if(message=="Lobby_is_full"){
+
+            controller.LobbyIsFull=true;
+            /**
+             * update view by the controller and tells the player there is no match available.
+             */
+        }
+        if(message=="FIRST_TO_CONNECT"){
+            LoginOK=gs.loginFirst(controller.username, controller.getLobbySize());
+            while(!LoginOK){
+                LoginOK=gs.loginFirst(controller.username, controller.getLobbySize());
+            }
+            /**
+             * update view by the controller and ask the player to choose the player number and the username.
+             */
+        }
+        if(message=="CONNECTED"){
+            gs.login(controller.getUsername());
+            while(!LoginOK){
+                LoginOK=gs.login(controller.getUsername());
+            }
+            /**
+             * update view by the controller and ask the player to choose the username.
+             */
+        }
         System.out.println(message);
+    }
+
+    @Override
+    public void receiveBoard(item[][] grid) throws RemoteException {
+        controller.grid=grid;
+    }
+
+    @Override
+    public void receiveCommonGoals(List<COMMON_GOAL_CARD> list) throws RemoteException {
+        controller.setCommonGoals(list);
+    }
+
+    @Override
+    public void receivePersonalGoals() throws RemoteException {
+        controller.setPersonalGoal(gs.sendPersonalGoal(controller.username));
+    }
+
+    @Override
+    public void receivePlayerToPlay(String username) throws RemoteException {
+        if(controller.username.equals(username)){
+            gs.startTurn(controller.username);
+        }
     }
 
 

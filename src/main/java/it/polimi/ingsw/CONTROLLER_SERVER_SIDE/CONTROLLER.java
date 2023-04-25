@@ -1,13 +1,16 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.*;
-import it.polimi.ingsw.SERVER_CLIENT.COMANDS.*;
+import it.polimi.ingsw.SERVER_CLIENT.COMANDS.LOGIN;
+
+import java.util.List;
 
 public class CONTROLLER {
     public boolean last=false;
     public GAME game;
     public boolean accepted;
     public boolean LobbyIsFull=false;
+    int turn;
 
     /******************************************************* GETTERS **************************************************/
 
@@ -25,12 +28,12 @@ public class CONTROLLER {
         return game.space.board.Grid;
     }
 
-    public PERSONAL_GOALS getPersonalGoalCards(String username){
+    public PERSONAL_GOAL_CARD getPersonalGoalCards(String username){
         PLAYER player= (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         return player.personal;
     }
 
-    public COMMON_GOALS getCommonGoalCard(String username){
+    public List<COMMON_GOAL_CARD> getCommonGoalCard(){
         return game.master.FirstDraw.card;
     }
 
@@ -44,8 +47,37 @@ public class CONTROLLER {
 
     /****************************************************** SETTERS ***************************************************/
 
-    public void setGame(GAME game){
+    synchronized public void setGame(GAME game){
         this.game=game;
+    }
+
+    synchronized public boolean setFirstLogin(String username, int LobbySize){
+        if(LobbySize<=4 && LobbySize>=2) {
+            game.addPlayer(username);
+            game.LobbySize=LobbySize;
+            return true;
+        }
+        return false;
+    }
+
+    synchronized public boolean setLogin(String username){
+        if(!LobbyIsFull) {
+            if (last) {
+                game.addPlayer(username);
+                game.setBoard();
+                game.DrawPersonalGoalCards();
+                game.DrawCommonGoalCards();
+                LobbyIsFull= true;
+                return true;
+            } else {
+                if(newUsername(username)){
+                    last = game.addPlayer(username);
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
     }
 
     synchronized public void setUsername(LOGIN login){
@@ -71,8 +103,12 @@ public class CONTROLLER {
         LobbyIsFull= true;
     }
 
-    public void setTurn(String username){
-        game.masterStartTurn(username);
+    public boolean setTurn(String username){
+        if(username.equals(game.playerToPlay)){
+            game.masterStartTurn(username);
+            return true;
+        }
+        return false;
     }
 
     public boolean setDraw(String username, int n, int m){
