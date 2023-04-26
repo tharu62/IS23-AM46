@@ -1,7 +1,9 @@
 package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
+import it.polimi.ingsw.SERVER_CLIENT.*;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -14,14 +16,19 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
 
     CONTROLLER controller;
     private final List<GameClient> Clients;
-    public ServerApp() throws RemoteException {
+    public ServerApp(CONTROLLER controller) throws RemoteException {
         this.Clients = new ArrayList<>();
+        this.controller=controller;
     }
     public static void main(String[] args )
     {
+        GAME game = new GAME();
+        CONTROLLER controller = new CONTROLLER();
+        controller.setGame(game);
         System.out.println( "Hello from ServerApp!" );
+        server serverTCP = new server(controller, Settings.PORT);  /** SERVER TCP **/
         try {
-            new ServerApp().startServer();
+            new ServerApp(controller).startServer();               /** SERVER RMI **/
         } catch (Exception e) {
             e.printStackTrace();
         }
