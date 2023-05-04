@@ -3,7 +3,9 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
-import it.polimi.ingsw.SERVER_CLIENT.*;
+import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.TCP.ClientHandler;
+import it.polimi.ingsw.TCP.ServerTCP;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,9 +17,11 @@ import java.util.List;
 public class ServerApp extends UnicastRemoteObject implements GameServer{
 
     CONTROLLER controller;
-    private final List<GameClient> Clients;
+    private final List<GameClient> clientsRMI;
+    public List<ClientHandler> clientsTCP;
+
     public ServerApp(CONTROLLER controller) throws RemoteException {
-        this.Clients = new ArrayList<>();
+        this.clientsRMI = new ArrayList<>();
         this.controller=controller;
     }
     public static void main(String[] args )
@@ -51,37 +55,48 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
         /**
          * broadcast of board, common goals, and first_player.
          */
-        do {
+        while(true){
             if(controller.LobbyIsFull){
-                for (GameClient gc : Clients) {
+                for (GameClient gc : clientsRMI) {
                     gc.receiveBoard(controller.getBoard());
                 }
-                for (GameClient gc : Clients) {
+                for (GameClient gc : clientsRMI) {
                     gc.receiveCommonGoals(controller.getCommonGoalCard());
                 }
-                for (GameClient gc : Clients) {
+                for (GameClient gc : clientsRMI) {
                     gc.receivePlayerToPlay(controller.game.playerToPlay);
                 }
                 break;
             }
-        }while(!controller.LobbyIsFull);
+        }
 
 
+        // TODO
+        /** TUTTI I POSSIBILI INPUT DA SERVER **/
+        int i=0;
+
+        clientsRMI.get(i).receiveMessage( new String() );                   //BROADCAST
+        clientsRMI.get(i).receiveLOG( new String() );                       //BROADCAST
+        //clientsRMI.get(i).receivePlayers(new List<String>);               //BROADCAST
+        clientsRMI.get(i).receiveBoard( new item[0][0]);                    //BROADCAST
+        //clientsRMI.get(i).receiveCommonGoals(new List<COMMON_GOAL_CARD>); //BROADCAST
+        clientsRMI.get(i).receivePlayerToPlay( new String());               //BROADCAST
 
     }
+
 
     @Override
     public void connect(GameClient gc) throws RemoteException {
         System.out.println ("A new Client has appeared");
         if(controller.LobbyIsFull){
-            gc.receive("Lobby_is_full");
+            gc.receiveLOG("LOBBY_IS_FULL");
         }else {
-            this.Clients.add(gc);
+            this.clientsRMI.add(gc);
             if(controller.game.playerNumber==0){
-                gc.receive("FIRST_TO_CONNECT");
+                gc.receiveLOG("FIRST_TO_CONNECT");
             }
             if(controller.game.playerNumber>=1){
-                gc.receive("CONNECTED");
+                gc.receiveLOG("CONNECTED");
             }
         }
     }
@@ -103,39 +118,34 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
 
     @Override
     public boolean askMyTurn(String username) throws RemoteException {
-        /** return (controller.game.PlayerToPlay == username ); **/
-        return true;
+        return (controller.setTurn(username));
     }
 
     @Override
     public boolean askDraw(String username, int a, int b) throws RemoteException {
-        /** return controller.draw( username , a , b ); **/
-        return false;
+        return controller.setDraw( username , a , b );
     }
 
     @Override
     public boolean askPutItem(String username, int a, int b, int c, int col) throws RemoteException {
-        /** return controller.putItem( username, a , b , c , col ); **/
-        return false;
+        return controller.setBookshelf( username, col , a , b , c );
     }
 
     @Override
     public int askCheckScore(String username) throws RemoteException {
-        /** return contorller.checkScore( username ); **/
-        return 0;
+        return controller.setScore(username);
     }
 
     @Override
     public boolean endTurn(String username) throws RemoteException {
-        /** return controller.endTurn( username ); **/
-        return false;
+        return controller.setEndTurn(username);
     }
 
     @Override
     public void sendMessage(String message) throws RemoteException {
         System.out.println ("server received: " + message);
-        for (GameClient cc : Clients) {
-            cc.receive(message);
+        for (GameClient cc : clientsRMI) {
+            cc.receiveMessage(message);
         }
     }
 

@@ -24,9 +24,9 @@ public class SPACE {
         if(i>2){
             return false;
         }
-        item temp=board.drawItem(n,m);
+        item temp = board.drawItem(n,m);
         if(temp!=item.EMPTY){
-            player.get(playerIndex).bookshelf.itemToPut[i] = temp;
+            player.get(playerIndex).bookshelf.itemToPut.add(temp);
             i++;
             return true;
         }
@@ -35,9 +35,9 @@ public class SPACE {
         }
     }
 
-    /** STO MODIFICANDO **/
-    public void placeItem(int i, int m,int a, int b, int c){
-        player.get(i).bookshelf.putItems(m,a,b,c);
+
+    public boolean placeItem(int i, int m,int a, int b, int c){
+        return player.get(i).bookshelf.putItems(m,a,b,c);
     }
 
 

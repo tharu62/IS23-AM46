@@ -1,5 +1,5 @@
-package it.polimi.ingsw.SERVER_CLIENT;
-import it.polimi.ingsw.SERVER_CLIENT.COMANDS.*;
+package it.polimi.ingsw.TCP;
+import it.polimi.ingsw.TCP.COMANDS.*;
 
 public class Command {
     public String cmd;

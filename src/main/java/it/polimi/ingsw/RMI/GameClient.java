@@ -6,7 +6,8 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface GameClient extends Remote {
-    void receive(String message) throws RemoteException;
+    void receiveMessage( String message) throws RemoteException;
+    void receiveLOG(String message) throws RemoteException;
     void receivePlayers( List< String > players ) throws RemoteException;
     void receiveBoard(item[][] grid) throws RemoteException;
     void receiveCommonGoals(List<COMMON_GOAL_CARD> list) throws RemoteException;

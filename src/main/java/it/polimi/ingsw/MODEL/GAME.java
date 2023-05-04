@@ -50,13 +50,15 @@ public class GAME {
      * then the scores are compared and the winner's name is saved in space.
      * The score from the common goals cannot be checked here. below there is the reason.
      */
-    public void masterStartTurn(String username) {
+    public boolean masterStartTurn(String username) {
         if(this.playerToPlay.equals(username)) {
-            this.playerToPlay= master.ChooseNextPlayer();
             if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
                 space.calculateScore();
+                return false;
             }
+            return true;
         }
+        return false;
     }
 
 
@@ -85,7 +87,7 @@ public class GAME {
      * @param b it's the order of the second item to put in the bookshelf
      * @param c it's the order of the third item to put in the bookshelf
      */
-    public void playerPutItems(String username, int m,int a,int b, int c){
+    public boolean playerPutItems(String username, int m,int a,int b, int c){
         if (this.playerToPlay.equals(username)) {
             int i = search(username);
             space.placeItem(i, m, a, b, c);
@@ -95,8 +97,9 @@ public class GAME {
                 }
                 master.round.last = true;
             }
-
+            return true;
         }
+         return false;
     }
 
 
@@ -126,6 +129,13 @@ public class GAME {
         }
     }
 
+    public boolean masterEndTurn( String username ) {
+        if (playerToPlay.equals(username)) {
+            this.playerToPlay = master.ChooseNextPlayer();
+            return true;
+        }
+        return false;
+    }
 
 
     private int search(String username){

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BOOKSHELF {
     item[][] Grid = {{item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
@@ -8,31 +11,32 @@ public class BOOKSHELF {
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY}};
     boolean IsFull=false;
-    item[] itemToPut= new item[3];
+    List<item> itemToPut= new ArrayList<item>();
     int itemsInGrid=0;
 
-    public void putItems(int m,int a, int b, int c){
+    public boolean putItems(int m,int a, int b, int c){
+        if(firstFreeRow(m) < (itemToPut.size() - 1)){
+            return false;
+        }
         for(int j=0; j<3; j++){
             if (j==a){
-                Grid[firstFreeRow(m)][m]=itemToPut[0];
-                itemToPut[0]=null;
+                Grid[firstFreeRow(m)][m]=itemToPut.get(0);
                 this.itemsInGrid++;
             }
             if(j==b){
-                Grid[firstFreeRow(m)][m]=itemToPut[1];
-                itemToPut[1]=null;
+                Grid[firstFreeRow(m)][m]=itemToPut.get(1);
                 this.itemsInGrid++;
             }
             if (j==c){
-                Grid[firstFreeRow(m)][m]=itemToPut[2];
-                itemToPut[2]=null;
+                Grid[firstFreeRow(m)][m]=itemToPut.get(2);
                 this.itemsInGrid++;
             }
         }
-
+        itemToPut.clear();
         if(itemsInGrid==30){
             this.IsFull=true;
         }
+        return true;
     }
 
     public  int checkAdjacentItem(item comp){

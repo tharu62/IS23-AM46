@@ -1,4 +1,4 @@
-package it.polimi.ingsw.SERVER_CLIENT;
+package it.polimi.ingsw.TCP;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 

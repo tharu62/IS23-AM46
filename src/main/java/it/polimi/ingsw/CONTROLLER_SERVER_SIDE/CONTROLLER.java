@@ -1,7 +1,6 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.*;
-import it.polimi.ingsw.SERVER_CLIENT.COMANDS.LOGIN;
 
 import java.util.List;
 
@@ -10,6 +9,8 @@ public class CONTROLLER {
     public GAME game;
     public boolean accepted;
     public boolean LobbyIsFull=false;
+
+    public boolean GameIsOver=false;
     int turn;
 
     /******************************************************* GETTERS **************************************************/
@@ -23,7 +24,6 @@ public class CONTROLLER {
             return player.bookshelf.getGrid();
         }
     }
-
     public item[][] getBoard(){
         return game.space.board.Grid;
     }
@@ -38,10 +38,6 @@ public class CONTROLLER {
     }
 
     public void getChat(String username){
-
-    }
-
-    public void get(String username){
 
     }
 
@@ -67,7 +63,7 @@ public class CONTROLLER {
                 game.setBoard();
                 game.DrawPersonalGoalCards();
                 game.DrawCommonGoalCards();
-                LobbyIsFull= true;
+                LobbyIsFull = true;
                 return true;
             } else {
                 if(newUsername(username)){
@@ -80,55 +76,40 @@ public class CONTROLLER {
         return false;
     }
 
-    synchronized public void setUsername(LOGIN login){
-        if(!LobbyIsFull) {
-            if (last) {
-                game.addPlayer(login.username);
-                game.setBoard();
-                game.DrawPersonalGoalCards();
-                game.DrawCommonGoalCards();
-                accepted= true;
-                LobbyIsFull= true;
-            } else {
-                if(newUsername(login.username)){
-                    last = game.addPlayer(login.username);
-                    accepted= true;
-                    LobbyIsFull= true;
-                }
-                accepted= false;
-                LobbyIsFull= false;
-            }
-        }
-        accepted= false;
-        LobbyIsFull= true;
-    }
 
-    public boolean setTurn(String username){
+    synchronized public boolean setTurn(String username){
         if(username.equals(game.playerToPlay)){
-            game.masterStartTurn(username);
-            return true;
+            if(game.masterStartTurn(username)){
+                return true;
+            }else{
+                GameIsOver = true;
+                return false;
+            }
+
         }
         return false;
     }
 
-    public boolean setDraw(String username, int n, int m){
+    synchronized public boolean setDraw(String username, int n, int m){
         return game.playerDrawItem(username, n, m);
     }
 
-    public void setBookshelf(String username, int m, int a, int b, int c){
-        game.playerPutItems( username, m, a, b, c);       /** return boolean **/
+    synchronized public boolean setBookshelf(String username, int m, int a, int b, int c){
+        return game.playerPutItems( username, m, a, b, c);
     }
 
-    public void setChat(String username, MESSAGE message){
+    synchronized public int setScore( String username ){
+        game.PlayerWantsToCheckScore(username);
+        PLAYER player= (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
+        return player.score;
+    }
+
+    synchronized public boolean setEndTurn( String username ){
+        return game.masterEndTurn(username);
+    }
+    synchronized public void setChat(String username, MESSAGE message){
         game.chat.addMessage(message);
     }
-
-    public void set(String username){
-
-    }
-
-
-
 
     /******************************************************************************************************************/
 

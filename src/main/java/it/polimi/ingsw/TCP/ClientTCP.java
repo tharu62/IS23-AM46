@@ -1,4 +1,4 @@
-package it.polimi.ingsw.SERVER_CLIENT;
+package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
@@ -11,11 +11,17 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-public class client {
+public class ClientTCP {
     public String hostName = "127.0.0.1";
     public int portNumber = 1234;
     public CONTROLLER controller;
-    public client(CONTROLLER controller){
+    public Gson g= new Gson();
+    public Command userInputObj= new Command();
+    public String userInputStr;
+    public Command reply = new Command();
+    public String reply_string;
+    public boolean active= false;
+    public ClientTCP(CONTROLLER controller){
         this.controller= controller;
     }
     public void start() {
@@ -27,9 +33,8 @@ public class client {
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
             ) {
 
-            Gson g= new Gson();
-            Command userInputObj= new Command();
-            String userInputStr;
+
+
             while (true) {
 
                 /** Waits for command from the user.
@@ -45,9 +50,15 @@ public class client {
                 /** wait for reply from server**/
                 String StrCommand = in.readLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
-
-
                 CommandSwitcher(ObjCommand);
+                if(active){
+                    out.println(reply_string);
+                    active = false;
+                }
+
+                if(controller.LobbyIsFull){
+                    break;
+                }
 
             }
 
@@ -69,10 +80,31 @@ public class client {
      */
     private void CommandSwitcher(Command ObjCommand){
         switch (ObjCommand.cmd){
-            case("LOGIN"):
-                /**
-                 * controller.setLogin(ObjCommand.login);
-                 */
+            case("FIRST_TO_CONNECT"):
+                //TODO
+                /** ask player for username and LobbySize by VIEW **/
+                reply = new Command();
+                reply.cmd = "FIRST_TO_CONNECT_REPLY";
+                reply.login.username = controller.username;
+                reply.login.Lobbysize = controller.LobbySize;
+                reply_string = g.toJson(reply);
+                active = true;
+
+
+            case("CONNECTED"):
+                //TODO
+                /** ask player for username by VIEW **/
+                reply = new Command();
+                reply.cmd = "CONNECTED_REPLY";
+                reply.login.username = controller.username;
+                reply_string = g.toJson(reply);
+                active = true;
+
+
+            case("LOBBY_IS_FULL"):
+                //TODO
+                /** notify VIEW **/
+
 
             case("BROADCAST"):
                 switch (ObjCommand.broadcast.cmd){

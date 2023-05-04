@@ -1,20 +1,19 @@
-package it.polimi.ingsw.SERVER_CLIENT;
+package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.SERVER_CLIENT.COMANDS.LOGIN;
+import it.polimi.ingsw.TCP.COMANDS.LOGIN;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
-    private CONTROLLER controller= new CONTROLLER();
-    private List<ClientHandler> clients= new ArrayList<>();
+    private CONTROLLER controller;
+    private List<ClientHandler> clients;
     public PrintWriter out;
     Command reply;
     Gson g;
@@ -68,12 +67,16 @@ public class ClientHandler implements Runnable {
             case("LOGIN"):
                 LOGIN temp= new LOGIN();
                 reply.cmd="LOGIN";
-                controller.setUsername(ObjCommand.login);
-                reply.login.accepted=controller.accepted;
-                reply.login.LobbyIsFull= controller.LobbyIsFull;
-                reply.login.username= ObjCommand.username;
-                String StrCommand = g.toJson(reply);
-                out.println(StrCommand);
+                if(ObjCommand.cmd == "FIRST_TO_CONNECT"){
+                    controller.setFirstLogin(ObjCommand.login.username, ObjCommand.login.Lobbysize);
+                }
+                if(ObjCommand.cmd == "CONNECTED"){
+                    controller.setLogin(ObjCommand.login.username);
+                }
+                if(ObjCommand.cmd == "LOBBY_IS_FULL"){
+                    //todo
+                }
+
                 if(!reply.login.accepted && reply.login.LobbyIsFull){
                     break;
                 }

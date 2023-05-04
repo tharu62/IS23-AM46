@@ -43,6 +43,18 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
         this.gs.connect(this);
         System.out.println( "Client is logged to Server!" );
 
+        // TODO
+        /** INPUT POSSIBILI DA VIEW **/
+        gs.connect( this );
+        gs.login(controller.username);
+        gs.loginFirst(controller.username, controller.LobbySize);
+        gs.sendPersonalGoal(controller.username);
+        gs.askMyTurn(controller.username);
+        gs.askDraw(controller.username, 1, 2);
+        gs.askPutItem(controller.username, 1, 2, 3, 4);
+        gs.askCheckScore(controller.username);
+        gs.endTurn(controller.username);
+        gs.sendMessage( new String() );
 
 
         inputLoop();
@@ -50,26 +62,31 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
 
     void inputLoop() throws IOException {
         BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
-        while ( (this.message = br.readLine ()) != null) {
-
+        while( (this.message = br.readLine()) != null) {
+            //
+            break;
         }
     }
 
 
+    @Override
+    public void receiveMessage(String message) throws RemoteException {
+
+    }
 
     @Override
-    public void receive(String message) throws RemoteException {
-        if(message=="Lobby_is_full"){
+    public void receiveLOG(String message) throws RemoteException {
+        if(message=="LOBBY_IS_FULL"){
 
-            controller.LobbyIsFull=true;
+            controller.LobbyIsFull = true;
             /**
              * update view by the controller and tells the player there is no match available.
              */
         }
         if(message=="FIRST_TO_CONNECT"){
-            LoginOK=gs.loginFirst(controller.username, controller.getLobbySize());
+            LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
             while(!LoginOK){
-                LoginOK=gs.loginFirst(controller.username, controller.getLobbySize());
+                LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
             }
             /**
              * update view by the controller and ask the player to choose the player number and the username.
@@ -112,6 +129,5 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
             controller.myTurn = true;
         }
     }
-
 
 }
