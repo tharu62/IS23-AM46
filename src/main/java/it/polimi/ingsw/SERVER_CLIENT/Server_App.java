@@ -8,7 +8,7 @@ public class Server_App {
         GAME game= new GAME();
         CONTROLLER controller= new CONTROLLER();    /** Server-side Controller **/
         controller.setGame(game);
-        server server = new server(controller,1234);
-        server.start();
+        ServerTCP serverTCP = new ServerTCP(controller,1234);
+        serverTCP.start();
     }
 }

@@ -87,25 +87,29 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
         System.out.println(message);
     }
 
+
+    @Override
+    public void receivePlayers(List<String> players) throws RemoteException {
+        /** controller.players = players; **/
+    }
+
+
     @Override
     public void receiveBoard(item[][] grid) throws RemoteException {
         controller.grid=grid;
     }
+
 
     @Override
     public void receiveCommonGoals(List<COMMON_GOAL_CARD> list) throws RemoteException {
         controller.setCommonGoals(list);
     }
 
-    @Override
-    public void receivePersonalGoals() throws RemoteException {
-        controller.setPersonalGoal(gs.sendPersonalGoal(controller.username));
-    }
 
     @Override
     public void receivePlayerToPlay(String username) throws RemoteException {
         if(controller.username.equals(username)){
-            gs.startTurn(controller.username);
+            controller.myTurn = true;
         }
     }
 

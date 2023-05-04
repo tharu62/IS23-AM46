@@ -26,15 +26,15 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
         CONTROLLER controller = new CONTROLLER();
         controller.setGame(game);
         System.out.println( "Hello from ServerApp!" );
-        server serverTCP = new server(controller, Settings.PORT);  /** SERVER TCP **/
+        ServerTCP serverTCP = new ServerTCP(controller, Settings.PORT);  /** SERVER TCP **/
         try {
-            new ServerApp(controller).startServer();               /** SERVER RMI **/
+            new ServerApp(controller).startServerRMI();               /** SERVER RMI **/
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void startServer() throws RemoteException {
+    private void startServerRMI() throws RemoteException {
 
         /**  Bind the remote object's stub in the registry
         /** DO NOT CALL Registry registry = LocateRegistry.getRegistry();
@@ -59,10 +59,6 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
                 for (GameClient gc : Clients) {
                     gc.receiveCommonGoals(controller.getCommonGoalCard());
                 }
-                for (GameClient gc : Clients) {
-                    gc.receivePersonalGoals();
-                }
-
                 for (GameClient gc : Clients) {
                     gc.receivePlayerToPlay(controller.game.playerToPlay);
                 }
@@ -106,8 +102,33 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
     }
 
     @Override
-    public void startTurn(String username) throws RemoteException {
+    public boolean askMyTurn(String username) throws RemoteException {
+        /** return (controller.game.PlayerToPlay == username ); **/
+        return true;
+    }
 
+    @Override
+    public boolean askDraw(String username, int a, int b) throws RemoteException {
+        /** return controller.draw( username , a , b ); **/
+        return false;
+    }
+
+    @Override
+    public boolean askPutItem(String username, int a, int b, int c, int col) throws RemoteException {
+        /** return controller.putItem( username, a , b , c , col ); **/
+        return false;
+    }
+
+    @Override
+    public int askCheckScore(String username) throws RemoteException {
+        /** return contorller.checkScore( username ); **/
+        return 0;
+    }
+
+    @Override
+    public boolean endTurn(String username) throws RemoteException {
+        /** return controller.endTurn( username ); **/
+        return false;
     }
 
     @Override
@@ -117,8 +138,5 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
             cc.receive(message);
         }
     }
-
-
-
 
 }

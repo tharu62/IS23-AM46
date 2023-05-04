@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface GameClient extends Remote {
     void receive(String message) throws RemoteException;
+    void receivePlayers( List< String > players ) throws RemoteException;
     void receiveBoard(item[][] grid) throws RemoteException;
     void receiveCommonGoals(List<COMMON_GOAL_CARD> list) throws RemoteException;
-    void receivePersonalGoals() throws RemoteException;
     void receivePlayerToPlay(String username) throws RemoteException;
+
 
 }

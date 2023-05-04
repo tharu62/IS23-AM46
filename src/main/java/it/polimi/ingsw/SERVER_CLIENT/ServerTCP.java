@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class server {
+public class ServerTCP {
     CONTROLLER controller;
     final int port;
     public List<ClientHandler> clients= new ArrayList<>();
 
-    public server(CONTROLLER Controller, int port){
+    public ServerTCP(CONTROLLER Controller, int port){
         this.controller= Controller;
         this.port= port;
     }
