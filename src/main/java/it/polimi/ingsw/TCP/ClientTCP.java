@@ -47,7 +47,7 @@ public class ClientTCP {
                 out.println(userInputStr);
 
 
-                /** wait for reply from server**/
+                // wait for reply from server
                 String StrCommand = in.readLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
                 CommandSwitcher(ObjCommand);
@@ -80,50 +80,83 @@ public class ClientTCP {
      */
     private void CommandSwitcher(Command ObjCommand){
         switch (ObjCommand.cmd){
-            case("FIRST_TO_CONNECT"):
+            case ("FIRST_TO_CONNECT"):
                 //TODO
-                /** ask player for username and LobbySize by VIEW **/
+                // ask player for username and LobbySize by VIEW
                 reply = new Command();
                 reply.cmd = "FIRST_TO_CONNECT_REPLY";
-                reply.login.username = controller.username;
-                reply.login.Lobbysize = controller.LobbySize;
+                reply.username = controller.username;
+                reply.login.LobbySize = controller.LobbySize;
                 reply_string = g.toJson(reply);
                 active = true;
 
-
-            case("CONNECTED"):
+            case ("CONNECTED"):
                 //TODO
-                /** ask player for username by VIEW **/
+                // ask player for username by VIEW
                 reply = new Command();
                 reply.cmd = "CONNECTED_REPLY";
-                reply.login.username = controller.username;
+                reply.username = controller.username;
                 reply_string = g.toJson(reply);
                 active = true;
 
-
-            case("LOBBY_IS_FULL"):
+            case ("LOBBY_IS_FULL"):
                 //TODO
-                /** notify VIEW **/
+                // notify VIEW
 
+            case ("BOARD"):
+                controller.setBoard(ObjCommand.broadcast.grid);
+                //TODO
+                // notify VIEW
 
-            case("BROADCAST"):
-                switch (ObjCommand.broadcast.cmd){
-                    case("FIRST_TURN"):
-                        /**
-                         * controller.setBoard(ObjCommand.broadcast.grid);
-                         * controller.setCommonGoals(Object.broadcast.cardLogic, Object.broadcast.token, Object.broadcast.token_value);
-                         */
-                    case("BOARD"):
-                        /**
-                         * controller.setBoard(ObjCommand.broadcast.grid);
-                         */
-                    case("FIRST_PLAYER_SEAT"):
-                        /**
-                         * controller.setFPS(ObjCommand.broadcast.fps);
-                         */
-                }
+            case ("COMMON_GOALS"):
+                controller.setCommonGoals(ObjCommand.broadcast.cards);
+                //TODO
+                // notify VIEW
 
-            case(""):
+            case ("PLAYER_TO_PLAY"):
+                controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
+                //TODO
+                // notify VIEW
+
+            case ("PERSONAL_GOAL_CARD_REPLY"):
+                controller.setPersonalGoal(ObjCommand.gameplay.card);
+                //TODO
+                // notify VIEW
+
+            case ("IT_IS_YOUR_TURN"):
+                controller.myTurn= true;
+                //TODO
+                // notify VIEW
+
+            case ("IT_IS_NOT_YOUR_TURN"):
+                controller.myTurn= false;
+                //TODO
+                // notify VIEW
+
+            case ("DRAW_VALID"):
+                //TODO
+                // notify VIEW
+
+            case ("DRAW_NOT_VALID"):
+                //TODO
+                // notify VIEW
+
+            case ("PUT_VALID"):
+                //TODO
+                // notify VIEW
+
+            case ("PUT_NOT_VALID"):
+                //TODO
+                // notify VIEW
+
+            case ("RETURN_SCORE"):
+                //TODO
+                // notify VIEW
+
+            case ("CHAT"):
+                //TODO
+                // notify VIEW
+
         }
     }
 }

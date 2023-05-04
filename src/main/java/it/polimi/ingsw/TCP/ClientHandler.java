@@ -2,7 +2,6 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.TCP.COMANDS.LOGIN;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,9 +14,11 @@ public class ClientHandler implements Runnable {
     private CONTROLLER controller;
     private List<ClientHandler> clients;
     public PrintWriter out;
-    Command reply;
-    Gson g;
-
+    public Command reply;
+    public String reply_string;
+    public Gson g;
+    public boolean active= false;
+    public boolean disconnect= false;
     public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients) {
         this.socket = socket;
         this.controller = controller;
@@ -35,15 +36,21 @@ public class ClientHandler implements Runnable {
                 String StrCommand = in.nextLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
 
-                /** this method contains the logic to check and reply for all type of messages sent form the client **/
+                //TODO
                 CommandSwitcher(ObjCommand);
 
-                if(!reply.login.accepted && reply.login.LobbyIsFull){
-                    break;
+                if(active){
+                    out.println(reply_string);
+                    active= false;
+                    reply = null;
+                    reply_string = null;
+                }
+                if(disconnect){
+                   break;
                 }
             }
 
-            /** Socket is closed **/
+            // Socket is closed
             in.close();
             out.close();
             socket.close();
@@ -64,32 +71,86 @@ public class ClientHandler implements Runnable {
     synchronized private void CommandSwitcher(Command ObjCommand){
         switch (ObjCommand.cmd){
 
-            case("LOGIN"):
-                LOGIN temp= new LOGIN();
-                reply.cmd="LOGIN";
-                if(ObjCommand.cmd == "FIRST_TO_CONNECT"){
-                    controller.setFirstLogin(ObjCommand.login.username, ObjCommand.login.Lobbysize);
+            case ("CONNECTED_REPLY"):
+                reply = new Command();
+                if(controller.setLogin(ObjCommand.username)){
+                    reply.cmd = "REPLY_ACCEPTED";
+                }else{
+                    reply.cmd = "REPLY_NOT_ACCEPTED";
                 }
-                if(ObjCommand.cmd == "CONNECTED"){
-                    controller.setLogin(ObjCommand.login.username);
-                }
-                if(ObjCommand.cmd == "LOBBY_IS_FULL"){
-                    //todo
-                }
+                reply_string = g.toJson(reply);
+                active= true;
 
-                if(!reply.login.accepted && reply.login.LobbyIsFull){
-                    break;
+            case ("FIRST_TO_CONNECT_REPLY"):
+                reply = new Command();
+                if(controller.setFirstLogin(ObjCommand.username, ObjCommand.login.LobbySize)){
+                    reply.cmd = "REPLY_ACCEPTED";
+                }else{
+                    reply.cmd = "REPLY_NOT_ACCEPTED";
                 }
+                reply_string = g.toJson(reply);
+                active= true;
 
-            case ("GAMEPLAY"):
+            case ("SEND_PERSONAL_GOAL_CARD"):
+                reply = new Command();
+                reply.cmd = "PERSONAL_GOAL_CARD_REPLY";
+                reply.gameplay.card = controller.getPersonalGoalCards(ObjCommand.username);
+                reply_string = g.toJson(reply);
+                active= true;
 
+            case ("ASK_MY_TURN"):
+                reply = new Command();
+                if(controller.setTurn(ObjCommand.username)){
+                    reply.cmd = "IT_IS_YOUR_TURN";
+                }else{
+                    reply.cmd = "IT_IS_NOT_YOUR_TURN";
+                }
+                reply_string = g.toJson(reply);
+                active= true;
+
+            case ("ASK_DRAW"):
+                reply = new Command();
+                if(controller.setDraw(ObjCommand.username, ObjCommand.gameplay.pos.get(0), ObjCommand.gameplay.pos.get(1))){
+                    reply.cmd = "DRAW_VALID";
+                }else{
+                    reply.cmd = "DRAW_NOT_VALID";
+                }
+                reply_string = g.toJson(reply);
+                active= true;
+
+            case("ASK_PUT_ITEM"):
+                reply = new Command();
+                if(controller.setBookshelf(ObjCommand.username, ObjCommand.gameplay.pos.get(0), ObjCommand.gameplay.pos.get(1), ObjCommand.gameplay.pos.get(2), ObjCommand.gameplay.pos.get(3) )){
+                    reply.cmd = "PUT_VALID";
+                }else{
+                    reply.cmd = "PUT_NOT_VALID";
+                }
+                reply_string = g.toJson(reply);
+                active= true;
+
+            case ("CHECK_SCORE"):
+                reply = new Command();
+                reply.cmd = "RETURN_SCORE";
+                reply.gameplay.pos.add(controller.setScore(ObjCommand.username));
+                reply_string = g.toJson(reply);
+                active= true;
+
+            case ("END_TURN"):
+                reply = new Command();
+                if(controller.setEndTurn(ObjCommand.username)){
+                    reply.cmd = "PLAYER_TO_PLAY";
+                    reply.broadcast.ptp = controller.game.playerToPlay;
+                    reply_string = g.toJson(reply);
+                    active= true;
+                    broadcast(reply);
+                }
 
             case ("CHAT"):
+                reply = new Command();
                 reply.cmd="CHAT";
                 controller.setChat(ObjCommand.chat.username, ObjCommand.chat.message);
-                reply.chat.username = ObjCommand.chat.username;
-                reply.chat.message = ObjCommand.chat.message;
-                broadcast(reply);
+                broadcast(ObjCommand);
+
         }
 
     }

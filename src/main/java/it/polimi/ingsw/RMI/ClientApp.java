@@ -1,5 +1,4 @@
 package it.polimi.ingsw.RMI;
-
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
@@ -43,8 +42,8 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
         this.gs.connect(this);
         System.out.println( "Client is logged to Server!" );
 
-        // TODO
-        /** INPUT POSSIBILI DA VIEW **/
+        //TODO
+        // INPUT POSSIBILI DA VIEW
         gs.connect( this );
         gs.login(controller.username);
         gs.loginFirst(controller.username, controller.LobbySize);

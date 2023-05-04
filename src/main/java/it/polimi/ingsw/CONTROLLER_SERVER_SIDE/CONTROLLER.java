@@ -17,8 +17,8 @@ public class CONTROLLER {
 
     public item[][] getBookshelf(String username){
         PLAYER player = (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
-        if(player==null){
-            /** yet to understand CONTROLLER behavior if non-legal command is given **/
+        if(player == null){
+            // yet to understand CONTROLLER behavior if non-legal command is given
             return new item[0][];
         }else {
             return player.bookshelf.getGrid();

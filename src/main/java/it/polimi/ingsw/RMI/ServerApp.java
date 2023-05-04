@@ -52,9 +52,7 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
         }
         System.out.println("Server ready");
 
-        /**
-         * broadcast of board, common goals, and first_player.
-         */
+        // broadcast of board, common goals, and first_player.
         while(true){
             if(controller.LobbyIsFull){
                 for (GameClient gc : clientsRMI) {
@@ -71,8 +69,8 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
         }
 
 
-        // TODO
-        /** TUTTI I POSSIBILI INPUT DA SERVER **/
+        //TODO
+        // TUTTI I POSSIBILI INPUT DA SERVER
         int i=0;
 
         clientsRMI.get(i).receiveMessage( new String() );                   //BROADCAST

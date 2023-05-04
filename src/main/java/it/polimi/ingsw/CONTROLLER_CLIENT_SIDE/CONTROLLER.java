@@ -7,42 +7,38 @@ public class CONTROLLER {
     public String username;
     public boolean LobbyIsFull=false;
     public int LobbySize;
+
     public item[][] grid;
     public boolean myTurn;
+    public String playerToPlay;
 
 
-    /**
-     * ask player to choose a new username.
-     * @return username
-     */
     public String getUsername(){
+        //TODO
         return new String();
     }
 
 
-    /**
-     * ask player to choose a playerNumber for the match.
-     * @return playerNumber
-     */
     public int getLobbySize(){
-
+        //TODO
         return 0;
     }
 
+    public void setPlayerToPlay( String ptp){
+        //TODO
+    }
+    public void setBoard( item[][] grid ){
+        this.grid = grid;
+        //TODO
+    }
+
     public void setCommonGoals(List<COMMON_GOAL_CARD> list){
-        /**
-         * set the view with the token_values and cards.
-          */
+        //TODO
     }
 
     public void setPersonalGoal(PERSONAL_GOAL_CARD card){
-        /**
-         * set the card on view.
-         */
+        //TODO
     }
-
-
-
 
 
 
