@@ -46,8 +46,8 @@ public class GAME {
 
     /** The player starts his turn, if it's not the last, then round and turn are updated
      * and the player's bookshelves is checked.
-     * The score of each player is calculated checking personal goals and adjacent item_tiles on the bookshelves
-     * then the scores are compared and the winner's name is saved in space.
+     * If it's the last turn the score of each player is calculated checking personal goals and adjacent item_tiles
+     * on the bookshelves, then the scores are compared and the winner's name is saved in space.
      * The score from the common goals cannot be checked here. below there is the reason.
      */
     public boolean masterStartTurn(String username) {
@@ -129,6 +129,12 @@ public class GAME {
         }
     }
 
+    /**The player can end his turn in any moment if he has started his turn, also it is not required to make a move nor
+     * to ckeck the score.
+     * When the player ends his turn the new Player To Play is chosen.
+     * @param username
+     * @return true if the correct player has ended the turn.
+     */
     public boolean masterEndTurn( String username ) {
         if (playerToPlay.equals(username)) {
             this.playerToPlay = master.ChooseNextPlayer();

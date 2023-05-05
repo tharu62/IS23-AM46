@@ -1,6 +1,7 @@
 package it.polimi.ingsw.TCP;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.RMI.GameClient;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -20,7 +21,7 @@ public class ServerTCP {
         this.port= port;
     }
 
-    public void start(){
+    public void start( List<GameClient> clientsRMI ){
         ExecutorService executor = Executors.newCachedThreadPool();  /** selects the usable threads **/
         ServerSocket serverSocket;
         try {
@@ -35,12 +36,11 @@ public class ServerTCP {
             try {
 
                 Socket socket = serverSocket.accept();
-                executor.submit(new ClientHandler(socket, controller, clients));
+                executor.submit(new ClientHandler(socket, controller, clients, clientsRMI));
 
             } catch(IOException e) {
                 break;
             }
-            String userInput;
 
         }
         executor.shutdown();

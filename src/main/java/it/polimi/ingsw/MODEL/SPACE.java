@@ -35,13 +35,11 @@ public class SPACE {
         }
     }
 
-
     public boolean placeItem(int i, int m,int a, int b, int c){
         return player.get(i).bookshelf.putItems(m,a,b,c);
     }
 
 
-    /** STO MODIFICANDO **/
     public String calculateScore(){
         int tempScore=0;
         int winner=0;

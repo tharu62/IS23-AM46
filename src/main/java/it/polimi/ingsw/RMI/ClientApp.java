@@ -75,14 +75,14 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receiveLOG(String message) throws RemoteException {
-        if(message=="LOBBY_IS_FULL"){
+        if(message.equals("LOBBY_IS_FULL")){
 
             controller.LobbyIsFull = true;
             /**
              * update view by the controller and tells the player there is no match available.
              */
         }
-        if(message=="FIRST_TO_CONNECT"){
+        if(message.equals("FIRST_TO_CONNECT")){
             LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
             while(!LoginOK){
                 LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
@@ -91,7 +91,7 @@ public class ClientApp extends UnicastRemoteObject implements GameClient{
              * update view by the controller and ask the player to choose the player number and the username.
              */
         }
-        if(message=="CONNECTED"){
+        if(message.equals("CONNECTED")){
             gs.login(controller.getUsername());
             while(!LoginOK){
                 LoginOK=gs.login(controller.getUsername());

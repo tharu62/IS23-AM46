@@ -5,7 +5,7 @@ public class Command {
     public String cmd;
     String username;
     LOGIN login;
-    BROADCAST broadcast;
+    public BROADCAST broadcast;
     GAMEPLAY gameplay;
     CHAT chat;
 }

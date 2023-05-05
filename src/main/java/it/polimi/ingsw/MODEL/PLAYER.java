@@ -7,7 +7,6 @@ public class PLAYER {
     public int score=0;
    public boolean goalReached=false;
 
-    /** STO MODIFICANDO **/
     public void drawPersonalGoalCard(P_CARD_LOGIC cardLogic){
         personal.SetCardLogic(cardLogic);
     }

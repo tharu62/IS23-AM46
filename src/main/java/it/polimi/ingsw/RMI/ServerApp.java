@@ -5,6 +5,7 @@ import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.TCP.ClientHandler;
+import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.TCP.ServerTCP;
 
 import java.rmi.RemoteException;
@@ -19,6 +20,7 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
     CONTROLLER controller;
     private final List<GameClient> clientsRMI;
     public List<ClientHandler> clientsTCP;
+    public Command temp;
 
     public ServerApp(CONTROLLER controller) throws RemoteException {
         this.clientsRMI = new ArrayList<>();
@@ -30,16 +32,17 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
         CONTROLLER controller = new CONTROLLER();
         controller.setGame(game);
         System.out.println( "Hello from ServerApp!" );
-        ServerTCP serverTCP = new ServerTCP(controller, Settings.PORT);  /** SERVER TCP **/
         try {
-            new ServerApp(controller).startServerRMI();               /** SERVER RMI **/
+            new ServerApp(controller).startServers();                 // SERVER RMI //
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void startServerRMI() throws RemoteException {
+    private void startServers() throws RemoteException {
 
+        ServerTCP serverTCP = new ServerTCP(controller, Settings.PORT); // SERVER TCP //
+        serverTCP.start( clientsRMI );
         /**  Bind the remote object's stub in the registry
         /** DO NOT CALL Registry registry = LocateRegistry.getRegistry();
          **/
@@ -55,15 +58,31 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
         // broadcast of board, common goals, and first_player.
         while(true){
             if(controller.LobbyIsFull){
+
                 for (GameClient gc : clientsRMI) {
                     gc.receiveBoard(controller.getBoard());
                 }
+                temp = new Command();
+                temp.cmd = "BOARD";
+                temp.broadcast.grid = controller.getBoard();
+                clientsTCP.get(0).broadcast(temp);
+
                 for (GameClient gc : clientsRMI) {
                     gc.receiveCommonGoals(controller.getCommonGoalCard());
                 }
+                temp = new Command();
+                temp.cmd = "COMMON_GOALS";
+                temp.broadcast.cards = controller.getCommonGoalCard();
+                clientsTCP.get(0).broadcast(temp);
+
                 for (GameClient gc : clientsRMI) {
                     gc.receivePlayerToPlay(controller.game.playerToPlay);
                 }
+                temp = new Command();
+                temp.cmd = "PLAYER_TO_PLAY";
+                temp.broadcast.ptp = controller.game.playerToPlay;
+                clientsTCP.get(0).broadcast(temp);
+
                 break;
             }
         }

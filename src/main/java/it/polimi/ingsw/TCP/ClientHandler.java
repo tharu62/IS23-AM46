@@ -2,6 +2,7 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.RMI.GameClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,16 +14,19 @@ public class ClientHandler implements Runnable {
     private Socket socket;
     private CONTROLLER controller;
     private List<ClientHandler> clients;
+    private  List<GameClient> clientsRMI;
+
     public PrintWriter out;
     public Command reply;
     public String reply_string;
     public Gson g;
     public boolean active= false;
     public boolean disconnect= false;
-    public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients) {
+    public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients, List<GameClient> clientsRMI ) {
         this.socket = socket;
         this.controller = controller;
         this.clients = clients;
+        this.clientsRMI = clientsRMI;
         clients.add(this);
     }
     public void run() {
@@ -38,6 +42,11 @@ public class ClientHandler implements Runnable {
 
                 //TODO
                 CommandSwitcher(ObjCommand);
+                //broadcast ai clientRMI
+                for (GameClient gc : clientsRMI) {
+                    gc.receiveBoard(controller.getBoard());
+                }
+                //
 
                 if(active){
                     out.println(reply_string);
@@ -59,12 +68,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    synchronized private void broadcast(Command message){
+    synchronized public void broadcast(Command message){
         String temp= g.toJson(message);
         for(int i=0; i<clients.size(); i++){
-            if(clients.get(i)!=this) {
-                clients.get(i).out.println(temp);
-            }
+            clients.get(i).out.println(message);
         }
     }
 
@@ -140,8 +147,6 @@ public class ClientHandler implements Runnable {
                 if(controller.setEndTurn(ObjCommand.username)){
                     reply.cmd = "PLAYER_TO_PLAY";
                     reply.broadcast.ptp = controller.game.playerToPlay;
-                    reply_string = g.toJson(reply);
-                    active= true;
                     broadcast(reply);
                 }
 
