@@ -11,8 +11,8 @@ public class MASTER {
     int i;
 
 
-    public int CheckCommonGoal(BOOKSHELF bookshelf){
-        return FirstDraw.check(bookshelf);
+    public int CheckCommonGoal(BOOKSHELF bookshelf, boolean goal1reached, boolean goal2reached){
+        return FirstDraw.check(bookshelf, goal1reached, goal2reached);
     }
 
     public void setFirstDraw(int playerNumber){

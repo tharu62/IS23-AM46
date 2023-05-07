@@ -99,7 +99,7 @@ public class GAME {
             }
             return true;
         }
-         return false;
+        return false;
     }
 
 
@@ -114,15 +114,23 @@ public class GAME {
         if (this.playerToPlay.equals(username)) {
             int i = search(playerToPlay);
             int temp;
-            if (space.player.get(i).goalReached) {
+            if (space.player.get(i).goalReached[0] && space.player.get(i).goalReached[1]) {
                 System.out.println("HAI GIA' OTTENUTO GLI OBIETTIVI COMUNI! NON PUOI PRENDERE ALTRI MODEL.TOKEN!");
-            } else {
-                temp = master.CheckCommonGoal(space.player.get(i).bookshelf);
+            }
+            if (!space.player.get(i).goalReached[0]) {
+                temp = master.CheckCommonGoal(space.player.get(i).bookshelf, false, true);
                 if (temp > 0) {
                     space.player.get(i).score += temp;
-                    space.player.get(i).goalReached = true;
+                    space.player.get(i).goalReached[0] = true;
                 }
-            }
+            } else System.out.println("HAI GIA' OTTENUTO IL PRIMO OBIETTIVO COMUNE!");
+            if(!space.player.get(i).goalReached[1]) {
+                temp = master.CheckCommonGoal(space.player.get(i).bookshelf, true, false);
+                if (temp > 0) {
+                    space.player.get(i).score += temp;
+                    space.player.get(i).goalReached[1] = true;
+                }
+            } else System.out.println("HAI GIA' OTTENUTO IL SECONDO OBIETTIVO COMUNE!");
             if (space.player.get(i).bookshelf.IsFull) {
                 master.round.last = true;
             }

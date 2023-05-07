@@ -5,7 +5,7 @@ public class PLAYER {
     public BOOKSHELF bookshelf= new BOOKSHELF();
     public PERSONAL_GOAL_CARD personal= new PERSONAL_GOAL_CARD();
     public int score=0;
-   public boolean goalReached=false;
+    public boolean[] goalReached = {false, false};
 
     public void drawPersonalGoalCard(P_CARD_LOGIC cardLogic){
         personal.SetCardLogic(cardLogic);

@@ -10,26 +10,27 @@ public class DRAW extends TOKEN_GENERATOR {
 
     public void setFirstDraw(int playerNumber){
         tokenGenerator.player_number=playerNumber;
-        card.get(1).SetCardLogic(cardGenerator.SetCardLogic());
-        card.get(1).SetToken(tokenGenerator.setTokenLogic());
+        COMMON_GOAL_CARD card1 = new COMMON_GOAL_CARD(), card2 = new COMMON_GOAL_CARD();
+        card1.SetCardLogic(cardGenerator.SetCardLogic());
+        card.add(card1);
+        card.get(0).SetToken(tokenGenerator.setTokenLogic());
 
-        card.get(2).SetCardLogic(cardGenerator.SetCardLogic());
-        card.get(2).SetToken(tokenGenerator.setTokenLogic());
+        card2.SetCardLogic(cardGenerator.SetCardLogic());
+        card.add(card2);
+        card.get(1).SetToken(tokenGenerator.setTokenLogic());
     }
 
-    public int check(BOOKSHELF bookshelf){
-        int temp;
-        if(card.get(1).check(bookshelf)){
-            temp=card.get(1).token_value;
-            card.get(1).token.UpdateValue(card.get(1).token_value);
-            return temp;
+    public int check(BOOKSHELF bookshelf, boolean goal1reached, boolean goal2reached){
+        int temp = 0;
+        if(!goal1reached && card.get(0).check(bookshelf)){
+            temp += card.get(0).token_value;
+            card.get(0).token_value = card.get(0).token_value + card.get(0).token.UpdateValue(card.get(0).token_value);
         }
-        if(card.get(2).check(bookshelf)){
-            temp=card.get(2).token_value;
-            card.get(2).token.UpdateValue(card.get(2).token_value);
-            return temp;
+        if(!goal2reached && card.get(1).check(bookshelf)){
+            temp += card.get(1).token_value;
+            card.get(1).token_value = card.get(1).token_value + card.get(1).token.UpdateValue(card.get(1).token_value);
         }
-        return 0;
+        return temp;
     }
 
 }
