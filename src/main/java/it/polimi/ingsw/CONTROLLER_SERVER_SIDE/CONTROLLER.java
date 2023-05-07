@@ -8,6 +8,7 @@ public class CONTROLLER {
     public boolean last=false;
     public GAME game;
     public boolean accepted;
+    public boolean TurnStarted = false;
     public boolean LobbyIsFull=false;
 
     public boolean GameIsOver=false;
@@ -79,10 +80,10 @@ public class CONTROLLER {
 
     synchronized public boolean setTurn(String username){
         if(username.equals(game.playerToPlay)){
-            if(game.masterStartTurn(username)){
+            if(game.masterStartTurn(username) && !TurnStarted){
+                TurnStarted = true;
                 return true;
             }else{
-                GameIsOver = true;
                 return false;
             }
 
@@ -105,7 +106,11 @@ public class CONTROLLER {
     }
 
     synchronized public boolean setEndTurn( String username ){
-        return game.masterEndTurn(username);
+        if(game.masterEndTurn(username)){
+            TurnStarted = false;
+            return true;
+        }
+        return false;
     }
     synchronized public void setChat(String username, MESSAGE message){
         game.chat.addMessage(message);
