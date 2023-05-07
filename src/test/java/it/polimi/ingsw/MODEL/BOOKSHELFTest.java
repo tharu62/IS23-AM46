@@ -9,9 +9,9 @@ class BOOKSHELFTest {
     @Test
     void testPutItems() {
         BOOKSHELF bookshelf = new BOOKSHELF();
-        bookshelf.itemToPut[0] = item.CATS;
-        bookshelf.itemToPut[1] = item.TROPHIES;
-        bookshelf.itemToPut[2] = item.PLANTS;
+        bookshelf.itemToPut.add(item.CATS);
+        bookshelf.itemToPut.add(item.TROPHIES);
+        bookshelf.itemToPut.add(item.PLANTS);
         bookshelf.putItems(2, 1, 2, 0);
         assertTrue(bookshelf.Grid[5][2].equals(item.PLANTS));
         assertTrue(bookshelf.Grid[4][2].equals(item.CATS));

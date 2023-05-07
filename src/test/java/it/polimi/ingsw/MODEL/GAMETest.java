@@ -35,7 +35,10 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testDrawCommonGoalCards() {
-
+        GAME game = new GAME();
+        game.playerNumber = 3;
+        game.DrawCommonGoalCards();
+        assertNotEquals(game.master.FirstDraw.card.get(0), game.master.FirstDraw.card.get(1));
     }
 
     @Test
@@ -109,11 +112,29 @@ public class GAMETest extends TestCase {
         game.PlayerWantsToCheckScore("Antonio");
         assertEquals(0, game.space.player.get(0).score);
 
-        game.space.player.get(0).bookshelf.Grid[0][0] = item.FRAMES;
-        game.space.player.get(0).bookshelf.Grid[5][4] = item.FRAMES;
-        game.space.player.get(0).bookshelf.Grid[5][0] = item.FRAMES;
-        game.space.player.get(0).bookshelf.Grid[0][4] = item.FRAMES;
+        int cont = 0;
+        for (int i = 5; i >= 0; i--) {
+            for (int j = 0; j < 5; j++) {
+                if (cont < 8) {
+                    game.space.player.get(0).bookshelf.Grid[i][j] = item.FRAMES;
+                    cont++;
+                } else break;
+            }
+        }
         game.PlayerWantsToCheckScore("Antonio");
         assertEquals(8, game.space.player.get(0).score);
+
+        game.playerToPlay = "Bruno";
+        cont = 0;
+        for (int i = 5; i >= 0; i--) {
+            for (int j = 0; j < 5; j++) {
+                if (cont < 8) {
+                    game.space.player.get(1).bookshelf.Grid[i][j] = item.GAMES;
+                    cont++;
+                } else break;
+            }
+        }
+        game.PlayerWantsToCheckScore("Bruno");
+        assertEquals(4, game.space.player.get(1).score);
     }
 }
