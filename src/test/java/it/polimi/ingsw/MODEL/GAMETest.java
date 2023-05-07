@@ -98,8 +98,9 @@ public class GAMETest extends TestCase {
         game.playerDrawItem("Giovanni", 1, 3);
         game.playerDrawItem("Giovanni", 1, 4);
         assertEquals(game.space.player.get(0).bookshelf.Grid[5][1], item.EMPTY);
-        game.playerPutItems("Giovanni", 1, 0, 1, -1);
+        assertTrue(game.playerPutItems("Giovanni", 1, 0, 1, -1));
         assertNotEquals(game.space.player.get(0).bookshelf.Grid[5][1], item.EMPTY);
+        assertNotEquals(game.space.player.get(0).bookshelf.Grid[4][1], item.EMPTY);
     }
 
     @Test

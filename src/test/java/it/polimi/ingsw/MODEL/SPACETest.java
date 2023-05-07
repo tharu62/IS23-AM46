@@ -37,4 +37,24 @@ class SPACETest {
         assertEquals(3, space.player.get(1).score);
         assertEquals(3, space.player.get(2).score);
     }
+
+    @Test
+    void testplaceItem() {
+        GAME game= new GAME();
+        game.addPlayer("Giovanni");
+        game.addPlayer("Antonio");
+        game.setBoard();
+        game.space.player.get(0).bookshelf.itemToPut.add(item.FRAMES);
+        game.space.player.get(0).bookshelf.itemToPut.add(item.FRAMES);
+        game.space.player.get(0).bookshelf.itemToPut.add(item.TROPHIES);
+        assertTrue(game.space.placeItem(0, 1, 0, 1, 2));
+
+        game.space.player.get(0).bookshelf.itemToPut.add(item.PLANTS);
+        game.space.player.get(0).bookshelf.itemToPut.add(item.CATS);
+        assertTrue(game.space.placeItem(0, 1, 1, 2, -1));
+
+        game.space.player.get(0).bookshelf.itemToPut.add(item.CATS);
+        game.space.player.get(0).bookshelf.itemToPut.add(item.GAMES);
+        assertFalse(game.space.placeItem(0, 1, 2, 1, -1));
+    }
 }
