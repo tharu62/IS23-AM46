@@ -2,6 +2,7 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.NETWORK.Settings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,21 +13,22 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class ClientApp extends UnicastRemoteObject implements GameClient{
+
+public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     private GameServer gs;
     CONTROLLER controller;
     public String message;
     public boolean LoginOK;
 
-    protected ClientApp() throws RemoteException {
+    protected ClientRMI() throws RemoteException {
     }
 
     public static void main(String[] args )
     {
         System.out.println( "Hello from ClientApp!" );
         try {
-            new ClientApp().startClient();
+            new ClientRMI().startClient();
         } catch (Exception e) {
             e.printStackTrace();
         }

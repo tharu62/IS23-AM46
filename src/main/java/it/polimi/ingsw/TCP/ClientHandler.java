@@ -42,6 +42,7 @@ public class ClientHandler implements Runnable {
 
                 //TODO
                 CommandSwitcher(ObjCommand);
+
                 //broadcast ai clientRMI
                 for (GameClient gc : clientsRMI) {
                     gc.receiveBoard(controller.getBoard());

@@ -22,7 +22,7 @@ public class ServerTCP {
     }
 
     public void start( List<GameClient> clientsRMI ){
-        ExecutorService executor = Executors.newCachedThreadPool();  /** selects the usable threads **/
+        ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
@@ -34,17 +34,13 @@ public class ServerTCP {
 
         while (true) {
             try {
-
                 Socket socket = serverSocket.accept();
                 executor.submit(new ClientHandler(socket, controller, clients, clientsRMI));
-
             } catch(IOException e) {
                 break;
             }
-
         }
         executor.shutdown();
     }
-
 
 }

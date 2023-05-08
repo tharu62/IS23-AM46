@@ -1,12 +1,10 @@
 package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.TCP.ClientHandler;
 import it.polimi.ingsw.TCP.Command;
-import it.polimi.ingsw.TCP.ServerTCP;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,38 +13,23 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerApp extends UnicastRemoteObject implements GameServer{
+public class ServerRMI extends UnicastRemoteObject implements GameServer{
 
     CONTROLLER controller;
-    private final List<GameClient> clientsRMI;
+    public List<GameClient> clientsRMI;
     public List<ClientHandler> clientsTCP;
-    public Command temp;
 
-    public ServerApp(CONTROLLER controller) throws RemoteException {
+    int PORT;
+
+    public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
         this.clientsRMI = new ArrayList<>();
+        this.clientsTCP = new ArrayList<>();
         this.controller=controller;
+        this.PORT = port;
     }
-    public static void main(String[] args )
-    {
-        GAME game = new GAME();
-        CONTROLLER controller = new CONTROLLER();
-        controller.setGame(game);
-        System.out.println( "Hello from ServerApp!" );
-        try {
-            new ServerApp(controller).startServers();                 // SERVER RMI //
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public void startServerRMI( List<ClientHandler> clientsTCP) throws RemoteException {
 
-    private void startServers() throws RemoteException {
-
-        ServerTCP serverTCP = new ServerTCP(controller, Settings.PORT); // SERVER TCP //
-        serverTCP.start( clientsRMI );
-        /**  Bind the remote object's stub in the registry
-        /** DO NOT CALL Registry registry = LocateRegistry.getRegistry();
-         **/
-        Registry registry = LocateRegistry.createRegistry(Settings.PORT);
+        Registry registry = LocateRegistry.createRegistry(PORT);
         try {
             registry.bind("GameService", this);
         }
@@ -57,7 +40,8 @@ public class ServerApp extends UnicastRemoteObject implements GameServer{
 
         // broadcast of board, common goals, and first_player.
         while(true){
-            if(controller.LobbyIsFull){
+            if(controller.game.master.round.turn.count == 0){
+                Command temp;
 
                 for (GameClient gc : clientsRMI) {
                     gc.receiveBoard(controller.getBoard());
