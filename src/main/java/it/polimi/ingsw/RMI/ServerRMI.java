@@ -39,12 +39,12 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
         System.out.println("Server ready");
 
         //main loop RMI
-        while(true){
+        do {
 
             /** PHASE 1
              * After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
              */
-            if(controller.game.master.round.turn.count == 0 && controller.LobbyIsFull && !controller.GameHasStarted) {
+            if (controller.game.master.round.turn.count == 0 && controller.LobbyIsFull && !controller.GameHasStarted) {
                 Command temp;
 
                 for (GameClient gc : clientsRMI) {
@@ -74,7 +74,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
              * when the PlayerToPlay has started his turn a timer is started, if the player doesn't make a move before the timer goes
              * out, the server ends the turn and sends the new PlayerToPlay.
              */
-            if(controller.TurnHasStarted){
+            if (controller.TurnHasStarted) {
                 Timer timer = new Timer();
                 //TODO timerTask...
             }
@@ -83,7 +83,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
              * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
              * and finds the winner.
              */
-            if(controller.game.master.round.last && controller.game.master.round.turn.count == (controller.game.playerNumber-1)){
+            if (controller.game.master.round.last && controller.game.master.round.turn.count == (controller.game.playerNumber - 1)) {
                 controller.GameIsOver = true;
                 //temp = new Command();
                 //temp.cmd = "WINNER";
@@ -92,14 +92,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
 
             }
 
-            if(controller.GameIsOver){
-                break;
-            }
-        }
+        } while (!controller.GameIsOver);
 
 
-        //TODO
-        // TUTTI I POSSIBILI INPUT DA SERVER
+        // TUTTI I POSSIBILI INPUT DA SERVER:
         int i=0;
 
         clientsRMI.get(i).receiveMessage( new String() );                   //BROADCAST

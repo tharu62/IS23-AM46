@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,10 +33,61 @@ public class ServerTCP {
         }
         System.out.println("Server ready");
 
-        while (true) {
+        // main loop TCP
+        while (!controller.GameIsOver) {
             try {
                 Socket socket = serverSocket.accept();
                 executor.submit(new ClientHandler(socket, controller, clients, clientsRMI));
+
+                /** PHASE 1
+                 *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
+                 */
+                 if (controller.game.master.round.turn.count == 0 && controller.LobbyIsFull && !controller.GameHasStarted) {
+                     Command temp;
+                     for (GameClient gc : clientsRMI) {
+                         gc.receiveBoard(controller.getBoard());
+                         gc.receiveCommonGoals(controller.getCommonGoalCard());
+                         gc.receivePlayerToPlay(controller.game.playerToPlay);
+                     }
+
+                     temp = new Command();
+                     temp.cmd = "BOARD";
+                     temp.broadcast.grid = controller.getBoard();
+                     clients.get(0).broadcast(temp);
+
+                     temp = new Command();
+                     temp.cmd = "COMMON_GOALS";
+                     temp.broadcast.cards = controller.getCommonGoalCard();
+                     clients.get(0).broadcast(temp);
+
+                     temp = new Command();
+                     temp.cmd = "PLAYER_TO_PLAY";
+                     temp.broadcast.ptp = controller.game.playerToPlay;
+                     clients.get(0).broadcast(temp);
+
+                     controller.GameHasStarted = true;
+                 }
+
+                 /**
+                  * PHASE 2
+                  */
+                 if (controller.TurnHasStarted) {
+                     Timer timer = new Timer();
+                     //TODO timerTask...
+                 }
+
+                 /** PHASE 3
+                  * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
+                  * and finds the winner.
+                  */
+                 if (controller.game.master.round.last && controller.game.master.round.turn.count == (controller.game.playerNumber - 1)) {
+                     controller.GameIsOver = true;
+                     //temp = new Command();
+                     //temp.cmd = "WINNER";
+                     //temp.broadcast.ptp = controller.game.space.winner
+                     //clientsTCP.get(0).broadcast(temp);
+                 }
+
             } catch(IOException e) {
                 break;
             }
