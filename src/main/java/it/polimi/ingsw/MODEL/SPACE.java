@@ -7,7 +7,7 @@ public class SPACE {
     public BOARD board= new BOARD();
     public List<PLAYER> player= new ArrayList<>(1);
     int i=0;
-    String winner;
+    public String winner;
 
     public void setBoard(int playerNumber){
         board.setGrid(playerNumber);

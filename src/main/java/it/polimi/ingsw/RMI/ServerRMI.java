@@ -12,13 +12,13 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class ServerRMI extends UnicastRemoteObject implements GameServer{
 
     CONTROLLER controller;
     public List<GameClient> clientsRMI;
     public List<ClientHandler> clientsTCP;
-
     int PORT;
 
     public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
@@ -38,35 +38,61 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
         }
         System.out.println("Server ready");
 
-        // broadcast of board, common goals, and first_player.
+        //main loop RMI
         while(true){
-            if(controller.game.master.round.turn.count == 0){
+
+            /** PHASE 1
+             * After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
+             */
+            if(controller.game.master.round.turn.count == 0 && controller.LobbyIsFull && !controller.GameHasStarted) {
                 Command temp;
 
                 for (GameClient gc : clientsRMI) {
                     gc.receiveBoard(controller.getBoard());
+                    gc.receiveCommonGoals(controller.getCommonGoalCard());
+                    gc.receivePlayerToPlay(controller.game.playerToPlay);
                 }
                 temp = new Command();
                 temp.cmd = "BOARD";
                 temp.broadcast.grid = controller.getBoard();
                 clientsTCP.get(0).broadcast(temp);
 
-                for (GameClient gc : clientsRMI) {
-                    gc.receiveCommonGoals(controller.getCommonGoalCard());
-                }
                 temp = new Command();
                 temp.cmd = "COMMON_GOALS";
                 temp.broadcast.cards = controller.getCommonGoalCard();
                 clientsTCP.get(0).broadcast(temp);
 
-                for (GameClient gc : clientsRMI) {
-                    gc.receivePlayerToPlay(controller.game.playerToPlay);
-                }
                 temp = new Command();
                 temp.cmd = "PLAYER_TO_PLAY";
                 temp.broadcast.ptp = controller.game.playerToPlay;
                 clientsTCP.get(0).broadcast(temp);
 
+                controller.GameHasStarted = true;
+            }
+
+            /** PHASE 2
+             * when the PlayerToPlay has started his turn a timer is started, if the player doesn't make a move before the timer goes
+             * out, the server ends the turn and sends the new PlayerToPlay.
+             */
+            if(controller.TurnHasStarted){
+                Timer timer = new Timer();
+                //TODO timerTask...
+            }
+
+            /** PHASE 3
+             * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
+             * and finds the winner.
+             */
+            if(controller.game.master.round.last && controller.game.master.round.turn.count == (controller.game.playerNumber-1)){
+                controller.GameIsOver = true;
+                //temp = new Command();
+                //temp.cmd = "WINNER";
+                //temp.broadcast.ptp = controller.game.space.winner
+                //clientsTCP.get(0).broadcast(temp);
+
+            }
+
+            if(controller.GameIsOver){
                 break;
             }
         }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -89,6 +89,7 @@ public class ClientTCP {
                 reply.login.LobbySize = controller.LobbySize;
                 reply_string = g.toJson(reply);
                 active = true;
+                controller.firstToConnect = true;
 
             case ("CONNECTED"):
                 //TODO
@@ -98,6 +99,32 @@ public class ClientTCP {
                 reply.username = controller.username;
                 reply_string = g.toJson(reply);
                 active = true;
+
+            case ("REPLY_ACCEPTED"):
+                //TODO
+                // notify VIEW
+                controller.LoginAccepted = true;
+
+            case ("REPLY_NOT_ACCEPTED"):
+                if(controller.firstToConnect){
+                    //TODO
+                    // ask player for username and LobbySize by VIEW
+                    reply = new Command();
+                    reply.cmd = "FIRST_TO_CONNECT_REPLY";
+                    reply.username = controller.username;
+                    reply.login.LobbySize = controller.LobbySize;
+                    reply_string = g.toJson(reply);
+                    active = true;
+                    controller.firstToConnect = true;
+                }else{
+                    //TODO
+                    // ask player for username by VIEW
+                    reply = new Command();
+                    reply.cmd = "CONNECTED_REPLY";
+                    reply.username = controller.username;
+                    reply_string = g.toJson(reply);
+                    active = true;
+                }
 
             case ("LOBBY_IS_FULL"):
                 //TODO

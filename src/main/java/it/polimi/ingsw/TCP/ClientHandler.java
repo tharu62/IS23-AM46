@@ -9,9 +9,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class ClientHandler implements Runnable {
-    private Socket socket;
+    private final Socket socket;
     private CONTROLLER controller;
     private List<ClientHandler> clients;
     private  List<GameClient> clientsRMI;
@@ -22,6 +23,7 @@ public class ClientHandler implements Runnable {
     public Gson g;
     public boolean active= false;
     public boolean disconnect= false;
+
     public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients, List<GameClient> clientsRMI ) {
         this.socket = socket;
         this.controller = controller;
@@ -30,25 +32,15 @@ public class ClientHandler implements Runnable {
         clients.add(this);
     }
     public void run() {
-
         try {
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
 
-
+            //main loop TCP
             while (true) {
                 String StrCommand = in.nextLine();
                 Command ObjCommand = g.fromJson(StrCommand,Command.class);
-
-                //TODO
                 CommandSwitcher(ObjCommand);
-
-                //broadcast ai clientRMI
-                for (GameClient gc : clientsRMI) {
-                    gc.receiveBoard(controller.getBoard());
-                }
-                //
-
                 if(active){
                     out.println(reply_string);
                     active= false;
@@ -58,8 +50,62 @@ public class ClientHandler implements Runnable {
                 if(disconnect){
                    break;
                 }
-            }
 
+                /** PHASE 1
+                 *  After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
+                 */
+                if(controller.game.master.round.turn.count == 0 && controller.LobbyIsFull && !controller.GameHasStarted){
+                    Command temp;
+                    for (GameClient gc : clientsRMI) {
+                        gc.receiveBoard(controller.getBoard());
+                        gc.receiveCommonGoals(controller.getCommonGoalCard());
+                        gc.receivePlayerToPlay(controller.game.playerToPlay);
+                    }
+
+                    temp = new Command();
+                    temp.cmd = "BOARD";
+                    temp.broadcast.grid = controller.getBoard();
+                    broadcast(temp);
+
+                    temp = new Command();
+                    temp.cmd = "COMMON_GOALS";
+                    temp.broadcast.cards = controller.getCommonGoalCard();
+                    broadcast(temp);
+
+                    temp = new Command();
+                    temp.cmd = "PLAYER_TO_PLAY";
+                    temp.broadcast.ptp = controller.game.playerToPlay;
+                    broadcast(temp);
+
+                    controller.GameHasStarted = true;
+                }
+
+                /**
+                 * PHASE 2
+                 */
+                if(controller.TurnHasStarted){
+                    Timer timer = new Timer();
+                    //TODO timerTask...
+                }
+
+                /** PHASE 3
+                 * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
+                 * and finds the winner.
+                 */
+                if(controller.game.master.round.last && controller.game.master.round.turn.count == (controller.game.playerNumber-1)){
+                    controller.GameIsOver = true;
+                    //temp = new Command();
+                    //temp.cmd = "WINNER";
+                    //temp.broadcast.ptp = controller.game.space.winner
+                    //clientsTCP.get(0).broadcast(temp);
+
+                }
+
+                if(controller.GameIsOver){
+                    break;
+                }
+
+            }
             // Socket is closed
             in.close();
             out.close();
@@ -71,8 +117,8 @@ public class ClientHandler implements Runnable {
 
     synchronized public void broadcast(Command message){
         String temp= g.toJson(message);
-        for(int i=0; i<clients.size(); i++){
-            clients.get(i).out.println(message);
+        for (ClientHandler client : clients) {
+            client.out.println(message);
         }
     }
 
@@ -158,10 +204,6 @@ public class ClientHandler implements Runnable {
                 broadcast(ObjCommand);
 
         }
-
-
-
     }
-
 }
 

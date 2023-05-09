@@ -5,11 +5,13 @@ import java.util.List;
 
 public class CONTROLLER {
     public String username;
-    public boolean LobbyIsFull=false;
+    public boolean firstToConnect = false;
+    public boolean LoginAccepted = false;
+    public boolean LobbyIsFull = false;
     public int LobbySize;
 
     public item[][] grid;
-    public boolean myTurn;
+    public boolean myTurn = false;
     public String playerToPlay;
 
 

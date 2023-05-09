@@ -7,16 +7,14 @@ import java.util.List;
 public class CONTROLLER {
     public boolean last=false;
     public GAME game;
-    public boolean accepted;
-    public boolean TurnStarted = false;
-    public boolean LobbyIsFull=false;
-
-    public boolean GameIsOver=false;
-    int turn;
+    public boolean GameHasStarted = false;
+    public boolean TurnHasStarted = false;
+    public boolean LobbyIsFull = false;
+    public boolean GameIsOver = false;
 
     /******************************************************* GETTERS **************************************************/
 
-    public item[][] getBookshelf(String username){
+    synchronized public item[][] getBookshelf(String username){
         PLAYER player = (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         if(player == null){
             // yet to understand CONTROLLER behavior if non-legal command is given
@@ -25,16 +23,16 @@ public class CONTROLLER {
             return player.bookshelf.getGrid();
         }
     }
-    public item[][] getBoard(){
+    synchronized public item[][] getBoard(){
         return game.space.board.Grid;
     }
 
-    public PERSONAL_GOAL_CARD getPersonalGoalCards(String username){
+    synchronized public PERSONAL_GOAL_CARD getPersonalGoalCards(String username){
         PLAYER player= (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         return player.personal;
     }
 
-    public List<COMMON_GOAL_CARD> getCommonGoalCard(){
+    synchronized public List<COMMON_GOAL_CARD> getCommonGoalCard(){
         return game.master.FirstDraw.card;
     }
 
@@ -80,8 +78,8 @@ public class CONTROLLER {
 
     synchronized public boolean setTurn(String username){
         if(username.equals(game.playerToPlay)){
-            if(game.masterStartTurn(username) && !TurnStarted){
-                TurnStarted = true;
+            if(game.masterStartTurn(username) && !TurnHasStarted){
+                TurnHasStarted = true;
                 return true;
             }else{
                 return false;
@@ -107,7 +105,7 @@ public class CONTROLLER {
 
     synchronized public boolean setEndTurn( String username ){
         if(game.masterEndTurn(username)){
-            TurnStarted = false;
+            TurnHasStarted = false;
             return true;
         }
         return false;
@@ -118,7 +116,7 @@ public class CONTROLLER {
 
     /******************************************************************************************************************/
 
-    private boolean newUsername(String username){
+    synchronized private boolean newUsername(String username){
         return true; /** yet to code **/
     }
 }
