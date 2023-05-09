@@ -52,7 +52,7 @@ public class ClientHandler implements Runnable {
                 }
 
                 /** PHASE 1
-                 *  After the login phase the Server sends the Board, the Common_goal_cards and player_to_play..
+                 *  After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
                  */
                 if(controller.game.master.round.turn.count == 0 && controller.LobbyIsFull && !controller.GameHasStarted){
                     Command temp;
