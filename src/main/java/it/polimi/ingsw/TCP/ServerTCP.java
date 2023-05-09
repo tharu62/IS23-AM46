@@ -73,7 +73,15 @@ public class ServerTCP {
                   */
                  if (controller.TurnHasStarted) {
                      Timer timer = new Timer();
-                     //TODO timerTask...
+                     //TODO
+                     // TimerTask task = new TimerTask() { };
+                     // long delay = 0;
+                     // long period = 1000L;
+                     // timer.schedule(task, delay, period);
+                     // if(draw){
+                     // task.cancel();
+                     // task = new TimerTask();
+                     // }...
                  }
 
                  /** PHASE 3
@@ -82,10 +90,11 @@ public class ServerTCP {
                   */
                  if (controller.game.master.round.last && controller.game.master.round.turn.count == (controller.game.playerNumber - 1)) {
                      controller.GameIsOver = true;
-                     //temp = new Command();
-                     //temp.cmd = "WINNER";
-                     //temp.broadcast.ptp = controller.game.space.winner
-                     //clientsTCP.get(0).broadcast(temp);
+                     //TODO
+                     // temp = new Command();
+                     // temp.cmd = "WINNER";
+                     // temp.broadcast.ptp = controller.game.space.winner
+                     // clientsTCP.get(0).broadcast(temp);
                  }
 
             } catch(IOException e) {
