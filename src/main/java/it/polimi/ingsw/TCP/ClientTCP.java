@@ -80,37 +80,37 @@ public class ClientTCP {
      */
     private void CommandSwitcher(Command ObjCommand){
         switch (ObjCommand.cmd){
-            case ("FIRST_TO_CONNECT"):
+            case FIRST_TO_CONNECT:
                 //TODO
                 // ask player for username and LobbySize by VIEW
                 reply = new Command();
-                reply.cmd = "FIRST_TO_CONNECT_REPLY";
+                reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
                 reply.username = controller.username;
                 reply.login.LobbySize = controller.LobbySize;
                 reply_string = g.toJson(reply);
                 active = true;
                 controller.firstToConnect = true;
 
-            case ("CONNECTED"):
+            case CONNECTED:
                 //TODO
                 // ask player for username by VIEW
                 reply = new Command();
-                reply.cmd = "CONNECTED_REPLY";
+                reply.cmd = CMD.CONNECTED_REPLY;
                 reply.username = controller.username;
                 reply_string = g.toJson(reply);
                 active = true;
 
-            case ("REPLY_ACCEPTED"):
+            case REPLY_ACCEPTED:
                 //TODO
                 // notify VIEW
                 controller.LoginAccepted = true;
 
-            case ("REPLY_NOT_ACCEPTED"):
+            case REPLY_NOT_ACCEPTED:
                 if(controller.firstToConnect){
                     //TODO
                     // ask player for username and LobbySize by VIEW
                     reply = new Command();
-                    reply.cmd = "FIRST_TO_CONNECT_REPLY";
+                    reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
                     reply.username = controller.username;
                     reply.login.LobbySize = controller.LobbySize;
                     reply_string = g.toJson(reply);
@@ -120,67 +120,67 @@ public class ClientTCP {
                     //TODO
                     // ask player for username by VIEW
                     reply = new Command();
-                    reply.cmd = "CONNECTED_REPLY";
+                    reply.cmd = CMD.CONNECTED_REPLY;
                     reply.username = controller.username;
                     reply_string = g.toJson(reply);
                     active = true;
                 }
 
-            case ("LOBBY_IS_FULL"):
+            case LOBBY_IS_FULL:
                 //TODO
                 // notify VIEW
 
-            case ("BOARD"):
+            case BOARD:
                 controller.setBoard(ObjCommand.broadcast.grid);
                 //TODO
                 // notify VIEW
 
-            case ("COMMON_GOALS"):
+            case COMMON_GOALS:
                 controller.setCommonGoals(ObjCommand.broadcast.cards);
                 //TODO
                 // notify VIEW
 
-            case ("PLAYER_TO_PLAY"):
+            case PLAYER_TO_PLAY:
                 controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
                 //TODO
                 // notify VIEW
 
-            case ("PERSONAL_GOAL_CARD_REPLY"):
+            case PERSONAL_GOAL_CARD_REPLY:
                 controller.setPersonalGoal(ObjCommand.gameplay.card);
                 //TODO
                 // notify VIEW
 
-            case ("IT_IS_YOUR_TURN"):
+            case IT_IS_YOUR_TURN:
                 controller.myTurn= true;
                 //TODO
                 // notify VIEW
 
-            case ("IT_IS_NOT_YOUR_TURN"):
+            case IT_IS_NOT_YOUR_TURN:
                 controller.myTurn= false;
                 //TODO
                 // notify VIEW
 
-            case ("DRAW_VALID"):
+            case DRAW_VALID:
                 //TODO
                 // notify VIEW
 
-            case ("DRAW_NOT_VALID"):
+            case DRAW_NOT_VALID:
                 //TODO
                 // notify VIEW
 
-            case ("PUT_VALID"):
+            case PUT_VALID:
                 //TODO
                 // notify VIEW
 
-            case ("PUT_NOT_VALID"):
+            case PUT_NOT_VALID:
                 //TODO
                 // notify VIEW
 
-            case ("RETURN_SCORE"):
+            case RETURN_SCORE:
                 //TODO
                 // notify VIEW
 
-            case ("CHAT"):
+            case CHAT:
                 //TODO
                 // notify VIEW
 

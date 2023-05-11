@@ -3,6 +3,7 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.ClientHandler;
 import it.polimi.ingsw.TCP.Command;
 
@@ -53,17 +54,17 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
                     gc.receivePlayerToPlay(controller.game.playerToPlay);
                 }
                 temp = new Command();
-                temp.cmd = "BOARD";
+                temp.cmd = CMD.BOARD;
                 temp.broadcast.grid = controller.getBoard();
                 clientsTCP.get(0).broadcast(temp);
 
                 temp = new Command();
-                temp.cmd = "COMMON_GOALS";
+                temp.cmd = CMD.COMMON_GOALS;
                 temp.broadcast.cards = controller.getCommonGoalCard();
                 clientsTCP.get(0).broadcast(temp);
 
                 temp = new Command();
-                temp.cmd = "PLAYER_TO_PLAY";
+                temp.cmd = CMD.PLAYER_TO_PLAY;
                 temp.broadcast.ptp = controller.game.playerToPlay;
                 clientsTCP.get(0).broadcast(temp);
 

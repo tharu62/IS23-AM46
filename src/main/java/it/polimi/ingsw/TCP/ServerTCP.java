@@ -51,17 +51,17 @@ public class ServerTCP {
                      }
 
                      temp = new Command();
-                     temp.cmd = "BOARD";
+                     temp.cmd = CMD.BOARD;
                      temp.broadcast.grid = controller.getBoard();
                      clients.get(0).broadcast(temp);
 
                      temp = new Command();
-                     temp.cmd = "COMMON_GOALS";
+                     temp.cmd = CMD.COMMON_GOALS;
                      temp.broadcast.cards = controller.getCommonGoalCard();
                      clients.get(0).broadcast(temp);
 
                      temp = new Command();
-                     temp.cmd = "PLAYER_TO_PLAY";
+                     temp.cmd = CMD.PLAYER_TO_PLAY;
                      temp.broadcast.ptp = controller.game.playerToPlay;
                      clients.get(0).broadcast(temp);
 

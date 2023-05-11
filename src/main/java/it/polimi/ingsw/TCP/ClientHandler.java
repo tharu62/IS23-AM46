@@ -72,81 +72,81 @@ public class ClientHandler implements Runnable {
     synchronized private void CommandSwitcher(Command ObjCommand){
         switch (ObjCommand.cmd){
 
-            case ("CONNECTED_REPLY"):
+            case CONNECTED_REPLY:
                 reply = new Command();
                 if(controller.setLogin(ObjCommand.username)){
-                    reply.cmd = "REPLY_ACCEPTED";
+                    reply.cmd = CMD.REPLY_ACCEPTED;
                 }else{
-                    reply.cmd = "REPLY_NOT_ACCEPTED";
+                    reply.cmd = CMD.REPLY_NOT_ACCEPTED;
                 }
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case ("FIRST_TO_CONNECT_REPLY"):
+            case FIRST_TO_CONNECT_REPLY:
                 reply = new Command();
                 if(controller.setFirstLogin(ObjCommand.username, ObjCommand.login.LobbySize)){
-                    reply.cmd = "REPLY_ACCEPTED";
+                    reply.cmd = CMD.REPLY_ACCEPTED;
                 }else{
-                    reply.cmd = "REPLY_NOT_ACCEPTED";
+                    reply.cmd = CMD.REPLY_NOT_ACCEPTED;
                 }
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case ("SEND_PERSONAL_GOAL_CARD"):
+            case SEND_PERSONAL_GOAL_CARD:
                 reply = new Command();
-                reply.cmd = "PERSONAL_GOAL_CARD_REPLY";
+                reply.cmd = CMD.PERSONAL_GOAL_CARD_REPLY;
                 reply.gameplay.card = controller.getPersonalGoalCards(ObjCommand.username);
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case ("ASK_MY_TURN"):
+            case ASK_MY_TURN:
                 reply = new Command();
                 if(controller.setTurn(ObjCommand.username)){
-                    reply.cmd = "IT_IS_YOUR_TURN";
+                    reply.cmd = CMD.IT_IS_YOUR_TURN;
                 }else{
-                    reply.cmd = "IT_IS_NOT_YOUR_TURN";
+                    reply.cmd = CMD.IT_IS_NOT_YOUR_TURN;
                 }
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case ("ASK_DRAW"):
+            case ASK_DRAW:
                 reply = new Command();
                 if(controller.setDraw(ObjCommand.username, ObjCommand.gameplay.pos.get(0), ObjCommand.gameplay.pos.get(1))){
-                    reply.cmd = "DRAW_VALID";
+                    reply.cmd = CMD.DRAW_VALID;
                 }else{
-                    reply.cmd = "DRAW_NOT_VALID";
+                    reply.cmd = CMD.DRAW_NOT_VALID;
                 }
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case("ASK_PUT_ITEM"):
+            case ASK_PUT_ITEM:
                 reply = new Command();
                 if(controller.setBookshelf(ObjCommand.username, ObjCommand.gameplay.pos.get(0), ObjCommand.gameplay.pos.get(1), ObjCommand.gameplay.pos.get(2), ObjCommand.gameplay.pos.get(3) )){
-                    reply.cmd = "PUT_VALID";
+                    reply.cmd = CMD.PUT_VALID;
                 }else{
-                    reply.cmd = "PUT_NOT_VALID";
+                    reply.cmd = CMD.PUT_NOT_VALID;
                 }
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case ("CHECK_SCORE"):
+            case CHECK_SCORE:
                 reply = new Command();
-                reply.cmd = "RETURN_SCORE";
+                reply.cmd = CMD.RETURN_SCORE;
                 reply.gameplay.pos.add(controller.setScore(ObjCommand.username));
                 reply_string = g.toJson(reply);
                 active= true;
 
-            case ("END_TURN"):
+            case END_TURN:
                 reply = new Command();
                 if(controller.setEndTurn(ObjCommand.username)){
-                    reply.cmd = "PLAYER_TO_PLAY";
+                    reply.cmd = CMD.PLAYER_TO_PLAY;
                     reply.broadcast.ptp = controller.game.playerToPlay;
                     broadcast(reply);
                 }
 
-            case ("CHAT"):
+            case CHAT:
                 reply = new Command();
-                reply.cmd="CHAT";
+                reply.cmd= CMD.CHAT;
                 controller.setChat(ObjCommand.chat.username, ObjCommand.chat.message);
                 broadcast(ObjCommand);
 
