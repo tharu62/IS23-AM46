@@ -16,12 +16,7 @@ public class GAME {
         space.player.add(this.playerNumber, player);
         master.player=space.player;
         this.playerNumber++;
-        if(playerNumber==(LobbySize-1)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return playerNumber == (LobbySize - 1);
     }
 
     public void setBoard(){
@@ -43,7 +38,6 @@ public class GAME {
         this.playerToPlay= master.player.get(search(master.FirstPlayerSeat.username)).username;
     }
 
-
     /** The player starts his turn, if it's not the last, then round and turn are updated
      * and the player's bookshelves is checked.
      * If it's the last turn the score of each player is calculated checking personal goals and adjacent item_tiles
@@ -61,7 +55,6 @@ public class GAME {
         return false;
     }
 
-
     /** The player has to ask the MODEL if he can pick an item_tile. One item_tile at a time.
      * Once he is satisfied with the pick, the picked items are stored in his bookshelf class until he wants to put them in the bookshelf grid.
      *
@@ -75,7 +68,6 @@ public class GAME {
         }
         return false;
     }
-
 
     /** The player chooses the order to put the items in the bookshelf by giving each item_tile a number that goes from 0 to 2.
      * for example:
@@ -92,7 +84,7 @@ public class GAME {
             int i = search(username);
             space.placeItem(i, m, a, b, c);
             if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
-                if(master.round.last==false){
+                if(!master.round.last){
                     space.player.get(search(this.playerToPlay)).score+=1;
                 }
                 master.round.last = true;
@@ -101,7 +93,6 @@ public class GAME {
         }
         return false;
     }
-
 
     /** The player has the option of checking his score if he believes that he reached a common goal.
      * It is not mandatory each turn, only optional AND it's not checked by the system at the end of the game.
@@ -140,15 +131,27 @@ public class GAME {
     /**The player can end his turn in any moment if he has started his turn, also it is not required to make a move nor
      * to ckeck the score.
      * When the player ends his turn the new Player To Play is chosen.
-     * @param username
+     * @param username it's the playerToPlay
      * @return true if the correct player has ended the turn.
      */
     public boolean masterEndTurn( String username ) {
         if (playerToPlay.equals(username)) {
             this.playerToPlay = master.ChooseNextPlayer();
+            space.player.get(search(username)).bookshelf.itemToPut.clear();
             return true;
         }
         return false;
+    }
+
+    /** This method allow the server to force the end of the playerToPlay's turn by resetting his draw ( if he didn't
+     * put the drawn items in his bookshelf ).
+     *
+     * @param username it's the playerToPlay
+     */
+    public void forcedEndTurn( String username ){
+        this.playerToPlay = master.ChooseNextPlayer();
+        space.resetDraw( search(username));
+        space.player.get(search(username)).bookshelf.itemToPut.clear();
     }
 
 

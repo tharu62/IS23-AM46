@@ -6,8 +6,9 @@ import java.util.List;
 public class SPACE {
     public BOARD board= new BOARD();
     public List<PLAYER> player= new ArrayList<>(1);
-    int i=0;
     public String winner;
+    int i = 0;
+
 
     public void setBoard(int playerNumber){
         board.setGrid(playerNumber);
@@ -58,5 +59,19 @@ public class SPACE {
         }
         this.winner=player.get(winner).username;
         return this.winner;
+    }
+
+    /** This method resets the board on the state it was before the player made his first draw.
+     *
+     * @param playerIndex it's the player that made the last draw.
+     */
+    public void resetDraw( int playerIndex ){
+        int row = 0;
+        int col = 1;
+        for(int j=0; j < player.get(playerIndex).bookshelf.itemToPut.size(); j++){
+            board.Grid[board.itemPos[row]][board.itemPos[col]] = player.get(playerIndex).bookshelf.itemToPut.get(j);
+            row +=2;
+            col +=2;
+        }
     }
 }

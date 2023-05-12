@@ -1,14 +1,13 @@
 package it.polimi.ingsw.MODEL;
 
 public class BOARD {
-    public item[][] Grid= new item[9][9];
-    BAG bag= new BAG();
-    int[] tilePos= new int[6];
-    int tileCounter=0;
+    public item[][] Grid = new item[9][9];
+    BAG bag = new BAG();
+    public int[] itemPos = new int[6];
+    int itemCounter = 0;
 
     public void setGrid(int playerNumber){
         bag.setItemList();
-        /** logic to position items on grid on first turn **/
         item[][] Grid= { {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.OBJECT,item.OBJECT,item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                          {item.EMPTY, item.EMPTY, item.EMPTY, item.OBJECT,item.OBJECT,item.OBJECT,item.EMPTY, item.EMPTY, item.EMPTY},
@@ -54,16 +53,17 @@ public class BOARD {
 
 
     public item drawItem(int n, int m){
-        if(this.IsToBeRestored()){
-            restore();
-        }
         item temp;
         if(cannotTakeItem(n,m)){
             return item.EMPTY;
         }
-        temp=Grid[n][m];
-        Grid[n][m]=item.OBJECT;
+        if(this.IsToBeRestored()){
+            restore();
+        }
+        temp = Grid[n][m];
+        Grid[n][m] = item.OBJECT;
         return temp;
+
     }
 
     private void restore(){
@@ -81,45 +81,45 @@ public class BOARD {
         if (Grid[n][m]==item.EMPTY || Grid[n][m]==item.OBJECT){
             return true;
         }
-        if (tileCounter == 0 && count_neighbours(n, m) == 4) return true;
-        if ((tileCounter == 2 || tileCounter == 4) && count_neighbours(n, m) == 3) return true;
-        if (tileCounter == 0) {
-            tilePos[tileCounter] = n;
-            tilePos[tileCounter + 1] = m;
-            tileCounter += 2;
+        if (itemCounter == 0 && count_neighbours(n, m) == 4) return true;
+        if ((itemCounter == 2 || itemCounter == 4) && count_neighbours(n, m) == 3) return true;
+        if (itemCounter == 0) {
+            itemPos[itemCounter] = n;
+            itemPos[itemCounter + 1] = m;
+            itemCounter += 2;
             return false;
         }
-        if (tileCounter == 2) {
-            if (tilePos[tileCounter - 2] == n) {
-                if (m > 0 && tilePos[tileCounter - 1] == m - 1 || m < 8 && tilePos[tileCounter - 1] == m + 1) {
-                    tilePos[tileCounter] = n;
-                    tilePos[tileCounter + 1] = m;
-                    tileCounter += 2;
+        if (itemCounter == 2) {
+            if (itemPos[itemCounter - 2] == n) {
+                if (m > 0 && itemPos[itemCounter - 1] == m - 1 || m < 8 && itemPos[itemCounter - 1] == m + 1) {
+                    itemPos[itemCounter] = n;
+                    itemPos[itemCounter + 1] = m;
+                    itemCounter += 2;
                     return false;
                 }
             }
-            if (tilePos[tileCounter - 1] == m) {
-                if (n > 0 && tilePos[tileCounter - 2] == n - 1 || n < 8 && tilePos[tileCounter - 2] == n + 1) {
-                    tilePos[tileCounter] = n;
-                    tilePos[tileCounter + 1] = m;
-                    tileCounter += 2;
+            if (itemPos[itemCounter - 1] == m) {
+                if (n > 0 && itemPos[itemCounter - 2] == n - 1 || n < 8 && itemPos[itemCounter - 2] == n + 1) {
+                    itemPos[itemCounter] = n;
+                    itemPos[itemCounter + 1] = m;
+                    itemCounter += 2;
                     return false;
                 }
             }
         } else {
-            if (tilePos[tileCounter - 2] == n) {
-                if ((m > 0 && tilePos[tileCounter - 1] == m - 1 || m < 8 && tilePos[tileCounter - 1] == m + 1) || (m > 1 && tilePos[tileCounter - 1] == m - 2 || m < 7 && tilePos[tileCounter - 1] == m + 2)) {
-                    tilePos[tileCounter] = n;
-                    tilePos[tileCounter + 1] = m;
-                    tileCounter = 0;
+            if (itemPos[itemCounter - 2] == n) {
+                if ((m > 0 && itemPos[itemCounter - 1] == m - 1 || m < 8 && itemPos[itemCounter - 1] == m + 1) || (m > 1 && itemPos[itemCounter - 1] == m - 2 || m < 7 && itemPos[itemCounter - 1] == m + 2)) {
+                    itemPos[itemCounter] = n;
+                    itemPos[itemCounter + 1] = m;
+                    itemCounter = 0;
                     return false;
                 }
             }
-            if (tilePos[tileCounter - 1] == m) {
-                if ((n > 0 && tilePos[tileCounter - 2] == n - 1 || n < 8 && tilePos[tileCounter - 2] == n + 1) || (n > 1 && tilePos[tileCounter - 2] == n - 2 || n < 7 && tilePos[tileCounter - 2] == n + 2)) {
-                    tilePos[tileCounter] = n;
-                    tilePos[tileCounter + 1] = m;
-                    tileCounter = 0;
+            if (itemPos[itemCounter - 1] == m) {
+                if ((n > 0 && itemPos[itemCounter - 2] == n - 1 || n < 8 && itemPos[itemCounter - 2] == n + 1) || (n > 1 && itemPos[itemCounter - 2] == n - 2 || n < 7 && itemPos[itemCounter - 2] == n + 2)) {
+                    itemPos[itemCounter] = n;
+                    itemPos[itemCounter + 1] = m;
+                    itemCounter = 0;
                     return false;
                 }
             }
@@ -133,7 +133,6 @@ public class BOARD {
      * @param column: the column where the tile is located
      * @return the number of neighbours
      */
-
     private int count_neighbours(int row, int column) {
         int cont = 0;
         if (row > 0 && Grid[row - 1][column] != item.EMPTY && Grid[row - 1][column] != item.OBJECT) cont++;
@@ -153,4 +152,5 @@ public class BOARD {
         }
         return true;
     }
+
 }

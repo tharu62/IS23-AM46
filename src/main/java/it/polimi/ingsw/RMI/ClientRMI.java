@@ -55,7 +55,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         gs.askPutItem(controller.username, 1, 2, 3, 4);
         gs.askCheckScore(controller.username);
         gs.endTurn(controller.username);
-        gs.sendMessage( new String() );
+        gs.sendMessage("");
 
 
         inputLoop();
@@ -64,7 +64,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     void inputLoop() throws IOException {
         BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
         while( (this.message = br.readLine()) != null) {
-            //
+            //TODO
             break;
         }
     }

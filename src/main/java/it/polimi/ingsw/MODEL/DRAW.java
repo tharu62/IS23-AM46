@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DRAW extends TOKEN_GENERATOR {
-    public List<COMMON_GOAL_CARD> card= new ArrayList<COMMON_GOAL_CARD>();
+    public List<COMMON_GOAL_CARD> card= new ArrayList<>();
     CARD_LOGIC_GENERATOR cardGenerator= new CARD_LOGIC_GENERATOR();
     TOKEN_GENERATOR tokenGenerator= new TOKEN_GENERATOR();
 

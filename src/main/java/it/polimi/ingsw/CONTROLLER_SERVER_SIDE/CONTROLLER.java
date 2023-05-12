@@ -117,7 +117,8 @@ public class CONTROLLER {
     /******************************************************************************************************************/
 
     synchronized private boolean newUsername(String username){
-        return true; /** yet to code **/
+        //TODO
+        return true;
     }
 }
 

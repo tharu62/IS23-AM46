@@ -16,7 +16,7 @@ public class BAG {
     public void setItemList(){
         Random rand = new Random();
         int upperbound = 7, i;
-        for(int j=0; j<132;j++) {
+        for(int j=0; j<132; j++) {
             do {
                i = rand.nextInt(upperbound);
             } while (i == 0);

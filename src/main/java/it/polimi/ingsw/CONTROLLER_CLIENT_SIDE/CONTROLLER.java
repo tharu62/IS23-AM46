@@ -17,7 +17,7 @@ public class CONTROLLER {
 
     public String getUsername(){
         //TODO
-        return new String();
+        return "";
     }
 
 

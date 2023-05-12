@@ -11,7 +11,7 @@ public class BOOKSHELF {
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY}};
     boolean IsFull=false;
-    List<item> itemToPut= new ArrayList<item>();
+    public List<item> itemToPut= new ArrayList<item>();
     int itemsInGrid=0;
 
     public boolean putItems(int m,int a, int b, int c){

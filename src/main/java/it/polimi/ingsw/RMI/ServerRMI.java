@@ -99,12 +99,12 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
         // TUTTI I POSSIBILI INPUT DA SERVER:
         int i=0;
 
-        clientsRMI.get(i).receiveMessage( new String() );                   //BROADCAST
-        clientsRMI.get(i).receiveLOG( new String() );                       //BROADCAST
+        clientsRMI.get(i).receiveMessage("");                   //BROADCAST
+        clientsRMI.get(i).receiveLOG("");                       //BROADCAST
         //clientsRMI.get(i).receivePlayers(new List<String>);               //BROADCAST
         clientsRMI.get(i).receiveBoard( new item[0][0]);                    //BROADCAST
         //clientsRMI.get(i).receiveCommonGoals(new List<COMMON_GOAL_CARD>); //BROADCAST
-        clientsRMI.get(i).receivePlayerToPlay( new String());               //BROADCAST
+        clientsRMI.get(i).receivePlayerToPlay("");               //BROADCAST
 
     }
 
