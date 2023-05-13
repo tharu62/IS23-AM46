@@ -12,16 +12,16 @@ public class CHAT {
 
     public MESSAGE returnLastMessage(String username){
         int i=chat.size();
-        while(!chat.get(i-1).header[1].equals(username)){
+        while(i > 0 && !chat.get(i-1).header[0].equals(username)){
             i--;
         }
-        if(chat.get(i).header[1].equals(username)){
-            return chat.get(i);
+        if(i > 0 && chat.get(i - 1).header[0].equals(username)){
+            return chat.get(i - 1);
         }
         else{
             MESSAGE temp= new MESSAGE();
-            temp.header[1]="no username in list";
-            temp.header[2]="no data";
+            temp.header[0]="no username in list";
+            temp.header[1]="no data";
             temp.text="no text from this player";
             return temp;
         }
