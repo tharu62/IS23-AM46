@@ -8,4 +8,6 @@ module it.polimi.ingsw {
 
     opens it.polimi.ingsw to javafx.fxml;
     exports it.polimi.ingsw ;
+    exports it.polimi.ingsw.GUI;
+    opens it.polimi.ingsw.GUI to javafx.fxml;
 }

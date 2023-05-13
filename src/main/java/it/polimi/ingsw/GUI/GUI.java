@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.GUI;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,14 +10,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class GUI extends Application {
-    //List<Sprite> sprites = new ArrayList<>();
+    List<Sprite> sprites = new ArrayList<>();
     Group root = new Group();
     Timer timer;
-   //private Coord coord = new Coord();
+   private Coord coord = new Coord();
 
     @Override
     public void start(Stage primaryStage) {
@@ -65,6 +67,8 @@ public class GUI extends Application {
         timer.schedule(task, delay, period);
         return timer;
     }
+
+
     public static void main(String[] args) {
 
         Application.launch(args);
