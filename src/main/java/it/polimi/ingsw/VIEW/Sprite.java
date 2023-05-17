@@ -1,4 +1,4 @@
-package it.polimi.ingsw.GUI;
+package it.polimi.ingsw.VIEW;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.GUI;
+package it.polimi.ingsw.VIEW;
 
 public interface Movable {
     public void MoveUp();

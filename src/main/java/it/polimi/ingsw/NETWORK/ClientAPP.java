@@ -2,7 +2,6 @@ package it.polimi.ingsw.NETWORK;
 
 import it.polimi.ingsw.CLI.CLI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.GUI.GUI;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
@@ -16,18 +15,18 @@ public class ClientAPP {
         ClientTCP clientTCP  = null;
         ClientRMI clientRMI = null;
         CLI cli = null;
-        GUI gui = null;
+        //VIEW gui = null;
         do {
-            System.out.print("Select what you want to start (CLI or GUI): ");
+            System.out.print("Select what you want to start (CLI or VIEW): ");
             Scanner in = new Scanner(System.in);
             input = in.next();
             input = input.toUpperCase();
             if (input.equals("CLI")) {
                 cli = new CLI();
-                if(cli.startCLI().equals("RMI")) clientRMI = new ClientRMI();
-                else clientTCP = new ClientTCP(controller);
-            } else if (input.equals("GUI")) {
-                gui = new GUI();
+                //if(cli.startCLI().equals("RMI")) clientRMI = new ClientRMI();
+                //else clientTCP = new ClientTCP(controller);
+            } else if (input.equals("VIEW")) {
+                //gui = new VIEW();
             }
         } while (!input.equals("CLI") && !input.equals("RMI"));
 
@@ -35,9 +34,9 @@ public class ClientAPP {
             controller.username = cli.askUsername();
 
         }
-        if (gui != null) {
+        //if (gui != null) {
 
-        }
+        //}
 
     }
 }
