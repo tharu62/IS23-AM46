@@ -14,6 +14,7 @@ public class CONTROLLER {
     public boolean myTurn = false;
     public String playerToPlay;
 
+    public boolean update = false;
 
     public String getUsername(){
         //TODO
