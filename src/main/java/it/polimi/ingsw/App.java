@@ -12,6 +12,10 @@ public class App
     {
         CLI c = new CLI();
         c.input_loop();
+        if(c.selectedGUI){
+            GUI g = new GUI();
+            //TODO
+        }
 
     }
 }
