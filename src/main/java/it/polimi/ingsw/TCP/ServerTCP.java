@@ -22,23 +22,23 @@ public class ServerTCP {
         this.port= port;
     }
 
-    public void start( List<GameClient> clientsRMI ){
+    public Runnable start(List<GameClient> clientsRMI ){
         ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket serverSocket;
+        ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             System.err.println(e.getMessage());
-            return;
         }
-        System.out.println("Server ready");
+        System.out.println("ServerTCP ready");
 
         // main loop TCP
         while (!controller.GameIsOver) {
             try {
+                System.out.println("check 1");
                 Socket socket = serverSocket.accept();
                 executor.submit(new ClientHandler(socket, controller, clients, clientsRMI));
-
+                System.out.println("check 1.1");
                 /** PHASE 1
                  *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
                  */
@@ -102,6 +102,8 @@ public class ServerTCP {
             }
         }
         executor.shutdown();
+
+        return null;
     }
 
 }

@@ -10,21 +10,25 @@ import it.polimi.ingsw.TCP.ServerTCP;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServerAPP {
 
-    public static void main(String[] args ) throws RemoteException {
+    public void run() throws RemoteException, InterruptedException {
         List<GameClient> clientsRMI = new ArrayList<>();
         List<ClientHandler> clientsTCP = new ArrayList<>();
         GAME game = new GAME();
         CONTROLLER controller = new CONTROLLER();
         controller.setGame(game);
 
-        ServerTCP serverTCP = new ServerTCP(controller, Settings.PORT); // SERVER TCP //
-        serverTCP.start( clientsRMI );
+        ExecutorService executor = Executors.newCachedThreadPool();
 
-        ServerRMI serverRMI = new ServerRMI(controller, Settings.PORT); // SERVER RMI //
-        serverRMI.startServerRMI( clientsTCP );
+        ServerTCP serverTCP= new ServerTCP(controller, Settings.PORT); // SERVER TCP //
+        executor.submit( serverTCP.start( clientsRMI ));
+
+        ServerRMI serverRMI= new ServerRMI(controller, Settings.PORT); // SERVER RMI //
+        executor.submit( serverRMI.startServerRMI( clientsTCP ));
 
     }
 

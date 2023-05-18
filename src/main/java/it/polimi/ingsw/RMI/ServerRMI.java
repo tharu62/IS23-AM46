@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-public class ServerRMI extends UnicastRemoteObject implements GameServer{
+public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
     public List<GameClient> clientsRMI;
@@ -28,7 +28,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
         this.controller=controller;
         this.PORT = port;
     }
-    public void startServerRMI( List<ClientHandler> clientsTCP) throws RemoteException {
+    public Runnable startServerRMI(List<ClientHandler> clientsTCP) throws RemoteException {
 
         Registry registry = LocateRegistry.createRegistry(PORT);
         try {
@@ -37,7 +37,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Server ready");
+        System.out.println("ServerRMI ready");
 
         //main loop RMI
         do {
@@ -97,15 +97,16 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer{
 
 
         // TUTTI I POSSIBILI INPUT DA SERVER:
-        int i=0;
+        //int i=0;
 
-        clientsRMI.get(i).receiveMessage("");                   //BROADCAST
-        clientsRMI.get(i).receiveLOG("");                       //BROADCAST
+        //clientsRMI.get(i).receiveMessage("");                             //BROADCAST
+        //clientsRMI.get(i).receiveLOG("");                                 //BROADCAST
         //clientsRMI.get(i).receivePlayers(new List<String>);               //BROADCAST
-        clientsRMI.get(i).receiveBoard( new item[0][0]);                    //BROADCAST
+        //clientsRMI.get(i).receiveBoard( new item[0][0]);                  //BROADCAST
         //clientsRMI.get(i).receiveCommonGoals(new List<COMMON_GOAL_CARD>); //BROADCAST
-        clientsRMI.get(i).receivePlayerToPlay("");               //BROADCAST
+        //clientsRMI.get(i).receivePlayerToPlay("");                        //BROADCAST
 
+        return null;
     }
 
 

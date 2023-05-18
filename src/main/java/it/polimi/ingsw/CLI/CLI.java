@@ -1,7 +1,8 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.TCP.ClientTCP;
+import it.polimi.ingsw.NETWORK.ServerAPP;
+
+import java.rmi.RemoteException;
 import java.util.Scanner;
 public class CLI implements CLI_Interface{
     boolean active = true;
@@ -44,7 +45,7 @@ public class CLI implements CLI_Interface{
     }
 
 
-    public void input_loop() {
+    public Runnable input_loop() throws RemoteException, InterruptedException {
         Scanner scanner = null;
         String playerInput;
 
@@ -91,7 +92,6 @@ public class CLI implements CLI_Interface{
                     System.out.println(" ( 0 ) if you want to quit");
                     System.out.println(" ( 1 ) if you want to use the CONNECTION_RMI");
                     System.out.println(" ( 2 ) if you want to use the CONNECTION_TCP");
-                    scanner = new Scanner(System.in);
                     playerInput = scanner.nextLine();
                     scanner.reset();
 
@@ -121,12 +121,25 @@ public class CLI implements CLI_Interface{
                 }
             }
             if(selectedSERVER){
+                ServerAPP s = new ServerAPP();
+                s.run();
                 while(active){
-
+                    System.out.println("************************************************************************************");
+                    System.out.println("Select:");
+                    System.out.println(" ( 0 ) if you want to quit");
+                    playerInput = scanner.nextLine();
+                    scanner.reset();
+                    if (playerInput.equals("0")) {
+                        active = false;
+                        s = null;
+                    }
                 }
+                System.out.println("Server has shutdown");
+
             }
         }
 
+        return null;
     }
 
     @Override

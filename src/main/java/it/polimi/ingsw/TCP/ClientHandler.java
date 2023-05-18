@@ -36,6 +36,7 @@ public class ClientHandler implements Runnable {
             out = new PrintWriter(socket.getOutputStream());
 
             do {
+                System.out.println("check 2");
                 String StrCommand = in.nextLine();
                 Command ObjCommand = g.fromJson(StrCommand, Command.class);
 
