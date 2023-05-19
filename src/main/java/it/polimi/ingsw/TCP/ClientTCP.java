@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 public class ClientTCP {
     public String hostName = "127.0.0.1";
-    public int portNumber = 1234;
+    public int portNumber = 1;
     public CONTROLLER controller;
     public Gson g= new Gson();
     public Command userInputObj= new Command();
@@ -24,6 +24,12 @@ public class ClientTCP {
     public ClientTCP(CONTROLLER controller){
         this.controller= controller;
     }
+    public static void main(String[] args){
+        ClientTCP c= new ClientTCP( new CONTROLLER());
+        c.start();
+    }
+
+
     public void start() {
 
         try (
@@ -41,10 +47,10 @@ public class ClientTCP {
                  * For example:
                  * userInputObj= controller.NextMove();
                  */
-                userInputStr =  g.toJson(userInputObj);
+                //userInputStr =  g.toJson(userInputObj);
 
                 /** send input to server**/
-                out.println(userInputStr);
+                //out.println(userInputStr);
 
 
                 // wait for reply from server

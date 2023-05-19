@@ -1,18 +1,25 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.RMI.GameClient;
+import it.polimi.ingsw.TCP.CMD;
+import it.polimi.ingsw.TCP.ClientHandler;
+import it.polimi.ingsw.TCP.Command;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
-public class CONTROLLER {
-    public boolean last=false;
+public class CONTROLLER extends Thread{
     public GAME game;
     public boolean GameHasStarted = false;
     public boolean TurnHasStarted = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
+    public boolean last = false;
+    public List<ClientHandler> clientsTCP;
+    public  List<GameClient> clientsRMI;
 
-    /******************************************************* GETTERS **************************************************/
+    /************************************************ GETTER **********************************************************/
 
     synchronized public item[][] getBookshelf(String username){
         PLAYER player = (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
@@ -36,11 +43,7 @@ public class CONTROLLER {
         return game.master.FirstDraw.card;
     }
 
-    public void getChat(String username){
-
-    }
-
-    /****************************************************** SETTERS ***************************************************/
+    /*********************************************** SETTERS **********************************************************/
 
     synchronized public void setGame(GAME game){
         this.game=game;
@@ -74,7 +77,6 @@ public class CONTROLLER {
         }
         return false;
     }
-
 
     synchronized public boolean setTurn(String username){
         if(username.equals(game.playerToPlay)){
@@ -110,6 +112,7 @@ public class CONTROLLER {
         }
         return false;
     }
+
     synchronized public void setChat(String username, MESSAGE message){
         game.chat.addMessage(message);
     }
@@ -120,6 +123,77 @@ public class CONTROLLER {
         //TODO
         return true;
     }
+
+    /******************************************************************************************************************/
+
+    @Override
+    public void run() {
+        System.out.println(" Controller ready ");
+        while (true) {
+
+            /** PHASE 1
+             *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
+             */
+            if (game.master.round.turn.count == 0 && LobbyIsFull && !GameHasStarted) {
+                Command temp;
+                for (GameClient gc : clientsRMI) {
+                    try {
+                        gc.receiveBoard(getBoard());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        gc.receiveCommonGoals(getCommonGoalCard());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        gc.receivePlayerToPlay(game.playerToPlay);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                temp = new Command();
+                temp.cmd = CMD.BOARD;
+                temp.broadcast.grid = getBoard();
+                clientsTCP.get(0).broadcast(temp);
+
+                temp = new Command();
+                temp.cmd = CMD.COMMON_GOALS;
+                temp.broadcast.cards = getCommonGoalCard();
+                clientsTCP.get(0).broadcast(temp);
+
+                temp = new Command();
+                temp.cmd = CMD.PLAYER_TO_PLAY;
+                temp.broadcast.ptp = game.playerToPlay;
+                clientsTCP.get(0).broadcast(temp);
+
+                GameHasStarted = true;
+            }
+
+            /**
+             * PHASE 2
+             */
+            if (TurnHasStarted) {
+
+            }
+
+            /** PHASE 3
+             * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
+             * and finds the winner.
+             */
+            if (game.master.round.last && game.master.round.turn.count == (game.playerNumber - 1)) {
+                GameIsOver = true;
+                //TODO
+                // temp = new Command();
+                // temp.cmd = "WINNER";
+                // temp.broadcast.ptp = controller.game.space.winner
+                // clientsTCP.get(0).broadcast(temp);
+            }
+        }
+    }
+
 }
 
 

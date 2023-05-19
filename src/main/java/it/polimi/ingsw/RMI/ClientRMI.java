@@ -37,7 +37,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     private void startClient() throws Exception {
         // Getting the registry
         Registry registry;
-        registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, Settings.PORT);
+        registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, Settings.PORT_RMI);
 
         // Looking up the registry for the remote object
         this.gs = (GameServer) registry.lookup("GameService");

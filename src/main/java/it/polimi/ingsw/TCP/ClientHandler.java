@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-public class ClientHandler implements Runnable {
+public class ClientHandler extends Thread {
     private final Socket socket;
     private CONTROLLER controller;
     private List<ClientHandler> clients;
@@ -30,16 +30,18 @@ public class ClientHandler implements Runnable {
         this.clientsRMI = clientsRMI;
         clients.add(this);
     }
+
+    @Override
     public void run() {
         try {
+            System.out.println(" A NEW CLIENT_TCP HAS CONNECTED! ");
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
 
             do {
-                System.out.println("check 2");
+
                 String StrCommand = in.nextLine();
                 Command ObjCommand = g.fromJson(StrCommand, Command.class);
-
                 CommandSwitcher(ObjCommand);
 
                 if (active) {
@@ -47,9 +49,6 @@ public class ClientHandler implements Runnable {
                     active = false;
                     reply = null;
                     reply_string = null;
-                }
-                if (disconnect) {
-                    //TODO resilience to disconnection.
                 }
 
             } while (!controller.GameIsOver);
