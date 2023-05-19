@@ -7,8 +7,13 @@ module it.polimi.ingsw {
 
     opens it.polimi.ingsw to javafx.fxml;
     exports it.polimi.ingsw;
-    opens it.polimi.ingsw.RMI to javafx.base, javafx.fxml;
+    opens it.polimi.ingsw.RMI to javafx.base, javafx.fxml, com.google.gson;
     exports it.polimi.ingsw.RMI;
     exports it.polimi.ingsw.VIEW.GUI;
     opens it.polimi.ingsw.VIEW.GUI to javafx.fxml;
+    opens it.polimi.ingsw.TCP to com.google.gson;
+    exports it.polimi.ingsw.TCP.COMANDS;
+    exports it.polimi.ingsw.MODEL;
+    opens it.polimi.ingsw.MODEL to com.google.gson;
+
 }

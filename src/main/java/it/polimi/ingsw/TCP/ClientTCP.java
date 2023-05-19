@@ -10,10 +10,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-
 public class ClientTCP extends Thread {
     public String hostName = "127.0.0.1";
-    public int portNumber = 1;
+    public int PORT;
     public CONTROLLER controller;
     public Gson g= new Gson();
     public Command userInputObj= new Command();
@@ -21,15 +20,17 @@ public class ClientTCP extends Thread {
     public Command reply = new Command();
     public String reply_string;
     public boolean active= false;
+    public boolean serverDisconnected = true;
 
-    public ClientTCP(CONTROLLER controller){
+    public ClientTCP(CONTROLLER controller, int port){
         this.controller = controller;
+        this.PORT = port;
     }
 
     @Override
     public void run() {
         try (
-                Socket echoSocket = new Socket(hostName, portNumber);
+                Socket echoSocket = new Socket(hostName, PORT);
                 PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
@@ -55,14 +56,13 @@ public class ClientTCP extends Thread {
             System.err.println("Don't know about host " + hostName);
             System.exit(1);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " + hostName);
-            System.exit(1); //TODO without System.exit(), it need to try searching fot the server in a scheduled time.
+            controller.notifyCLI("Couldn't get I/O for the connection to " + hostName);
+            System.exit(1);
         }
     }
 
     /** Logic to check all possible messages from the server, it does not give an instant reply,
      *  instead the reply is give by the user by user input.
-     *
      * @param ObjCommand is the object that contains all the message types and data.
      */
     private void CommandSwitcher(Command ObjCommand){

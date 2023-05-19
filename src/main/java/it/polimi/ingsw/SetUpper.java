@@ -2,11 +2,12 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.NETWORK.ServerHandler;
+import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
-import java.rmi.RemoteException;
 import java.util.Scanner;
+
 public class SetUpper {
     boolean active = true;
     boolean selectedCLI = false;
@@ -40,7 +41,7 @@ public class SetUpper {
                 selectedGUI = true;
             }
 
-        } while (playerInput != null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
+        } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
 
         do {
             System.out.println("************************************************************************************");
@@ -80,11 +81,11 @@ public class SetUpper {
                         selectedTCP = true;
                     }
 
-                } while (playerInput != null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
+                } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
             }
 
 
-        } while (playerInput != null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
+        } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
 
         if (selectedCLI) {
             if (selectedSERVER) {
@@ -94,9 +95,10 @@ public class SetUpper {
             if (selectedCLIENT) {
                 if (selectedTCP){
                     CONTROLLER controller = new CONTROLLER();
-                    ClientTCP client = new ClientTCP(controller);
+                    ClientTCP client = new ClientTCP(controller, Settings.PORT_TCP);
                     controller.cli.start();
                     client.start();
+
                 }
                 if(selectedRMI){
                     CONTROLLER controller = new CONTROLLER();

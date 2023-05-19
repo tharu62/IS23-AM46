@@ -19,9 +19,9 @@ public class ClientHandler extends Thread {
     public PrintWriter out;
     public Command reply;
     public String reply_string;
-    public Gson g;
-    public boolean active= false;
-    public boolean disconnect= false;
+    public Gson g = new Gson();
+    public boolean active = false;
+    public boolean disconnect = false;
 
     public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients, List<GameClient> clientsRMI ) {
         this.socket = socket;
@@ -37,6 +37,14 @@ public class ClientHandler extends Thread {
             System.out.println(" A NEW CLIENT_TCP HAS CONNECTED! ");
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
+
+            if(controller.connected_players == 0){
+                controller.connected_players += 1;
+                reply = new Command();
+                reply.cmd = CMD.FIRST_TO_CONNECT;
+                reply_string = g.toJson(reply);
+                out.println(reply_string);
+            }
 
             do {
 

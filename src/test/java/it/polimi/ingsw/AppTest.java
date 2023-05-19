@@ -1,8 +1,9 @@
 package it.polimi.ingsw;
 
-import junit.framework.Test;
+
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for simple App.
@@ -23,7 +24,7 @@ public class AppTest
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
+    public static TestSuite suite()
     {
         return new TestSuite( AppTest.class );
     }

@@ -35,14 +35,13 @@ public class SocketAccepter extends Thread{
         System.out.println(" SocketAccepter ready ");
         while(!controller.LobbyIsFull) {
 
-            Socket socket = null;
+            Socket socket;
             try {
                 socket = serverSocket.accept();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             new ClientHandler(socket, controller, clientsTCP, clientsRMI).start();
-
         }
         executor.shutdown();
     }

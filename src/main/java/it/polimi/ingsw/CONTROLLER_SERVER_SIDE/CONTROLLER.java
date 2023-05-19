@@ -16,6 +16,7 @@ public class CONTROLLER extends Thread{
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
     public boolean last = false;
+    public int connected_players = 0 ;
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
 
