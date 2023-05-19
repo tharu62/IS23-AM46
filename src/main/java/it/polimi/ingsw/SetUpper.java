@@ -1,7 +1,9 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.CLI.CLI_Interface;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.NETWORK.ServerHandler;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class SetUpper {
     public boolean selectedRMI = false;
     public boolean selectedTCP = false;
 
-    public void run() throws RemoteException, InterruptedException {
+    public void run() throws Exception {
         Scanner scanner = null;
         String playerInput;
 
@@ -22,7 +24,7 @@ public class SetUpper {
             System.out.println("************************************************************************************");
             System.out.println("Select:");
             System.out.println(" ( 0 ) if you want to quit");
-            System.out.println(" ( 1 ) if you want to use the SetUpper");
+            System.out.println(" ( 1 ) if you want to use the CLI");
             System.out.println(" ( 2 ) if you want to use the GUI");
             scanner = new Scanner(System.in);
             playerInput = scanner.nextLine();
@@ -38,14 +40,15 @@ public class SetUpper {
                 selectedGUI = true;
             }
 
-        }while(playerInput!=null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
+        } while (playerInput != null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
 
         do {
             System.out.println("************************************************************************************");
             System.out.println("Select:");
             System.out.println(" ( 0 ) if you want to quit");
-            System.out.println(" ( 1 ) if you want to use the CLIENT");
-            System.out.println(" ( 2 ) if you want to use the SERVER");
+            System.out.println(" ( 1 ) if you want to use the SERVER");
+            System.out.println(" ( 2 ) if you want to use the CLIENT");
+
             scanner = new Scanner(System.in);
             playerInput = scanner.nextLine();
             scanner.reset();
@@ -53,7 +56,10 @@ public class SetUpper {
             if (playerInput.equals("0")) {
                 active = false;
             }
-            if ((playerInput.equals("1"))) {
+            if (playerInput.equals("1")) {
+                selectedSERVER = true;
+            }
+            if ((playerInput.equals("2"))) {
                 do {
                     selectedCLIENT = true;
                     System.out.println("************************************************************************************");
@@ -74,17 +80,40 @@ public class SetUpper {
                         selectedTCP = true;
                     }
 
-                }while(playerInput!=null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
-            }
-            if (playerInput.equals("2")) {
-                selectedSERVER = true;
+                } while (playerInput != null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
             }
 
-        }while(playerInput!=null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
 
-        if(selectedSERVER) {
-            ServerHandler server = new ServerHandler();
-            server.run();
+        } while (playerInput != null && !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2"));
+
+        if (selectedCLI) {
+            if (selectedSERVER) {
+                ServerHandler server = new ServerHandler();
+                server.run();
+            }
+            if (selectedCLIENT) {
+                if (selectedTCP){
+                    CONTROLLER controller = new CONTROLLER();
+                    ClientTCP client = new ClientTCP(controller);
+                    controller.cli.start();
+                    client.start();
+                }
+                if(selectedRMI){
+                    CONTROLLER controller = new CONTROLLER();
+                    ClientRMI client = new ClientRMI(controller);
+                    controller.cli.start();
+                    client.start();  //TODO multi-thread???
+                }
+            }
+        }
+
+        if(selectedGUI){
+            if(selectedTCP){
+                //TODO
+            }
+            if(selectedRMI){
+                //TODO
+            }
         }
     }
 }

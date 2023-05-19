@@ -21,20 +21,11 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public String message;
     public boolean LoginOK;
 
-    protected ClientRMI() throws RemoteException {
+    public ClientRMI(CONTROLLER controller) throws RemoteException {
+        this.controller = controller;
     }
 
-    public static void main(String[] args )
-    {
-        System.out.println( "Hello from ClientApp!" );
-        try {
-            new ClientRMI().startClient();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void startClient() throws Exception {
+    public void start() throws Exception {
         // Getting the registry
         Registry registry;
         registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, Settings.PORT_RMI);
@@ -57,7 +48,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         gs.endTurn(controller.username);
         gs.sendMessage("");
 
-
         inputLoop();
     }
 
@@ -78,29 +68,23 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     @Override
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
-
             controller.LobbyIsFull = true;
-            /**
-             * update view by the controller and tells the player there is no match available.
-             */
+            controller.notifyCLI("LOBBY_IS_FULL");
+
         }
         if(message.equals("FIRST_TO_CONNECT")){
             LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
             while(!LoginOK){
                 LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
             }
-            /**
-             * update view by the controller and ask the player to choose the player number and the username.
-             */
+            controller.notifyCLI("FIRST_TO_CONNECT");
         }
         if(message.equals("CONNECTED")){
             gs.login(controller.getUsername());
             while(!LoginOK){
                 LoginOK=gs.login(controller.getUsername());
             }
-            /**
-             * update view by the controller and ask the player to choose the username.
-             */
+            controller.notifyCLI("CONNECTED");
         }
         System.out.println(message);
     }
@@ -128,6 +112,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public void receivePlayerToPlay(String username) throws RemoteException {
         if(controller.username.equals(username)){
             controller.myTurn = true;
+            controller.notifyCLI(" IT'S YOUR TURN! ");
         }
     }
 

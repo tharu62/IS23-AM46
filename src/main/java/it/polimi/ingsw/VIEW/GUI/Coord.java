@@ -1,4 +1,4 @@
-package it.polimi.ingsw.VIEW;
+package it.polimi.ingsw.VIEW.GUI;
 
 public class Coord {
     double x, y;

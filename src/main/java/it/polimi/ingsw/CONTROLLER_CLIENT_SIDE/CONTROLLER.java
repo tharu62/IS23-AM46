@@ -1,9 +1,10 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
+import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
 
 import java.util.List;
 
-public class CONTROLLER {
+public class CONTROLLER{
     public String username;
     public boolean firstToConnect = false;
     public boolean LoginAccepted = false;
@@ -13,23 +14,24 @@ public class CONTROLLER {
     public item[][] grid;
     public boolean myTurn = false;
     public String playerToPlay;
-
     public boolean update = false;
+    public CLI cli = new CLI();
 
+    public void notifyCLI(String message){
+        cli.notify(message);
+    }
     public String getUsername(){
-        //TODO
-        return "";
+        return cli.getUsername();
     }
 
-
     public int getLobbySize(){
-        //TODO
-        return 0;
+        return cli.getLobbySize();
     }
 
     public void setPlayerToPlay( String ptp){
         //TODO
     }
+
     public void setBoard( item[][] grid ){
         this.grid = grid;
         //TODO
@@ -42,7 +44,5 @@ public class CONTROLLER {
     public void setPersonalGoal(PERSONAL_GOAL_CARD card){
         //TODO
     }
-
-
-
+    
 }

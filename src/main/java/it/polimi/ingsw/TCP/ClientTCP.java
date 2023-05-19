@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-public class ClientTCP {
+public class ClientTCP extends Thread {
     public String hostName = "127.0.0.1";
     public int portNumber = 1;
     public CONTROLLER controller;
@@ -21,17 +21,13 @@ public class ClientTCP {
     public Command reply = new Command();
     public String reply_string;
     public boolean active= false;
+
     public ClientTCP(CONTROLLER controller){
-        this.controller= controller;
-    }
-    public static void main(String[] args){
-        ClientTCP c= new ClientTCP( new CONTROLLER());
-        c.start();
+        this.controller = controller;
     }
 
-
-    public void start() {
-
+    @Override
+    public void run() {
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);
                 PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
@@ -39,19 +35,9 @@ public class ClientTCP {
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
             ) {
 
-
-
             while (true) {
-
-                /** Waits for command from the user.
-                 * For example:
-                 * userInputObj= controller.NextMove();
-                 */
                 //userInputStr =  g.toJson(userInputObj);
-
-                /** send input to server**/
                 //out.println(userInputStr);
-
 
                 // wait for reply from server
                 String StrCommand = in.readLine();
@@ -61,22 +47,17 @@ public class ClientTCP {
                     out.println(reply_string);
                     active = false;
                 }
-
                 if(controller.LobbyIsFull){
                     break;
                 }
-
             }
-
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
             System.exit(1);
-
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + hostName);
-            System.exit(1);
+            System.exit(1); //TODO without System.exit(), it need to try searching fot the server in a scheduled time.
         }
-
     }
 
     /** Logic to check all possible messages from the server, it does not give an instant reply,
@@ -87,108 +68,90 @@ public class ClientTCP {
     private void CommandSwitcher(Command ObjCommand){
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
-                //TODO
-                // ask player for username and LobbySize by VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
-                reply.username = controller.username;
-                reply.login.LobbySize = controller.LobbySize;
+                reply.username = controller.getUsername();
+                reply.login.LobbySize = controller.getLobbySize();
                 reply_string = g.toJson(reply);
                 active = true;
                 controller.firstToConnect = true;
 
             case CONNECTED:
-                //TODO
-                // ask player for username by VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED_REPLY;
-                reply.username = controller.username;
+                reply.username = controller.getUsername();
                 reply_string = g.toJson(reply);
                 active = true;
 
             case REPLY_ACCEPTED:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
                 controller.LoginAccepted = true;
 
             case REPLY_NOT_ACCEPTED:
                 if(controller.firstToConnect){
-                    //TODO
-                    // ask player for username and LobbySize by VIEW
+                    controller.notifyCLI(ObjCommand.cmd.toString());
                     reply = new Command();
                     reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
-                    reply.username = controller.username;
-                    reply.login.LobbySize = controller.LobbySize;
+                    reply.username = controller.getUsername();
+                    reply.login.LobbySize = controller.getLobbySize();
                     reply_string = g.toJson(reply);
                     active = true;
                     controller.firstToConnect = true;
                 }else{
-                    //TODO
-                    // ask player for username by VIEW
+                    controller.notifyCLI(ObjCommand.cmd.toString());
                     reply = new Command();
                     reply.cmd = CMD.CONNECTED_REPLY;
-                    reply.username = controller.username;
+                    reply.username = controller.getUsername();
                     reply_string = g.toJson(reply);
                     active = true;
                 }
 
             case LOBBY_IS_FULL:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case BOARD:
                 controller.setBoard(ObjCommand.broadcast.grid);
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case COMMON_GOALS:
                 controller.setCommonGoals(ObjCommand.broadcast.cards);
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case PLAYER_TO_PLAY:
                 controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case PERSONAL_GOAL_CARD_REPLY:
                 controller.setPersonalGoal(ObjCommand.gameplay.card);
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case IT_IS_YOUR_TURN:
                 controller.myTurn= true;
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case IT_IS_NOT_YOUR_TURN:
                 controller.myTurn= false;
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case DRAW_VALID:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case DRAW_NOT_VALID:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case PUT_VALID:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case PUT_NOT_VALID:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case RETURN_SCORE:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
             case CHAT:
-                //TODO
-                // notify VIEW
+                controller.notifyCLI(ObjCommand.cmd.toString());
 
         }
     }
