@@ -34,21 +34,20 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
         // Looking up the registry for the remote object
         this.gs = (GameServer) registry.lookup("GameService");
-        this.gs.connect(this);
         System.out.println( "Client is logged to Server!" );
-
+        this.gs.connect(this);
         //TODO
         // INPUT POSSIBILI DA VIEW
-        gs.connect( this );
-        gs.login(controller.username);
-        gs.loginFirst(controller.username, controller.LobbySize);
-        gs.sendPersonalGoal(controller.username);
-        gs.askMyTurn(controller.username);
-        gs.askDraw(controller.username, 1, 2);
-        gs.askPutItem(controller.username, 1, 2, 3, 4);
-        gs.askCheckScore(controller.username);
-        gs.endTurn(controller.username);
-        gs.sendMessage("");
+        //gs.connect( this );
+        //gs.login(controller.username);
+        //gs.loginFirst(controller.username, controller.LobbySize);
+        //gs.sendPersonalGoal(controller.username);
+        //gs.askMyTurn(controller.username);
+        //gs.askDraw(controller.username, 1, 2);
+        //gs.askPutItem(controller.username, 1, 2, 3, 4);
+        //gs.askCheckScore(controller.username);
+        //gs.endTurn(controller.username);
+        //gs.sendMessage("");
 
         inputLoop();
     }
@@ -72,23 +71,22 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         if(message.equals("LOBBY_IS_FULL")){
             controller.LobbyIsFull = true;
             controller.notifyCLI("LOBBY_IS_FULL");
-
         }
         if(message.equals("FIRST_TO_CONNECT")){
-            LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
-            while(!LoginOK){
-                LoginOK = gs.loginFirst(controller.username, controller.getLobbySize());
-            }
             controller.notifyCLI("FIRST_TO_CONNECT");
+            LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
+            while(!LoginOK){
+                controller.notifyCLI(" Username or lobby size not correct. Retry. ");
+                LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
+            }
         }
         if(message.equals("CONNECTED")){
+            controller.notifyCLI("CONNECTED");
             gs.login(controller.getUsername());
             while(!LoginOK){
-                LoginOK=gs.login(controller.getUsername());
+                LoginOK = gs.login(controller.getUsername());
             }
-            controller.notifyCLI("CONNECTED");
         }
-        System.out.println(message);
     }
 
 
@@ -100,7 +98,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receiveBoard(item[][] grid) throws RemoteException {
-        controller.grid=grid;
+        controller.grid = grid;
     }
 
 

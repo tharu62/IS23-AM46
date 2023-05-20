@@ -56,11 +56,11 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
             gc.receiveLOG("LOBBY_IS_FULL");
         }else {
             this.clientsRMI.add(gc);
-            if(controller.game.playerNumber==0){
-                gc.receiveLOG("FIRST_TO_CONNECT");
-            }
-            if(controller.game.playerNumber>=1){
+            if(controller.connected_players >= 1){
                 gc.receiveLOG("CONNECTED");
+            }
+            if(controller.connected_players == 0){
+                gc.receiveLOG("FIRST_TO_CONNECT");
             }
         }
     }

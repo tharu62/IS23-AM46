@@ -45,12 +45,10 @@ public class ClientTCP extends Thread {
                 while( (StrCommand = in.readLine()) != null ) {
                     ObjCommand = g.fromJson(StrCommand, Command.class);
                     CommandSwitcher(ObjCommand, out);
-                    System.out.println(" Client loop ");
                     if (controller.LobbyIsFull) {
                         break;
                     }
                     StrCommand = null;
-
                 }
             }
         } catch (UnknownHostException e) {

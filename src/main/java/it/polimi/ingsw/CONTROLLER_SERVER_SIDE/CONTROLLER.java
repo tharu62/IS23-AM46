@@ -55,7 +55,8 @@ public class CONTROLLER extends Thread{
     synchronized public boolean setFirstLogin(String username, int LobbySize){
         if(LobbySize<=4 && LobbySize>=2) {
             game.addPlayer(username);
-            game.LobbySize=LobbySize;
+            game.LobbySize = LobbySize;
+            this.connected_players = game.playerNumber;
             return true;
         }
         return false;
@@ -69,10 +70,12 @@ public class CONTROLLER extends Thread{
                 game.DrawPersonalGoalCards();
                 game.DrawCommonGoalCards();
                 LobbyIsFull = true;
+                this.connected_players = game.playerNumber;
                 return true;
             } else {
                 if(newUsername(username)){
                     last = game.addPlayer(username);
+                    this.connected_players = game.playerNumber;
                     return true;
                 }
                 return false;
