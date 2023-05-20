@@ -20,15 +20,17 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     CONTROLLER controller;
     public String message;
     public boolean LoginOK;
+    final int PORT;
 
-    public ClientRMI(CONTROLLER controller) throws RemoteException {
+    public ClientRMI(CONTROLLER controller, int port) throws RemoteException {
         this.controller = controller;
+        this.PORT = port;
     }
 
     public void start() throws Exception {
         // Getting the registry
         Registry registry;
-        registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, Settings.PORT_RMI);
+        registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, PORT);
 
         // Looking up the registry for the remote object
         this.gs = (GameServer) registry.lookup("GameService");
