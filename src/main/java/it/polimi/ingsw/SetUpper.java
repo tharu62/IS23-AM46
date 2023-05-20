@@ -93,14 +93,24 @@ public class SetUpper {
                 server.run();
             }
             if (selectedCLIENT) {
+                System.out.println("Inserire server: ");
+                String server = scanner.nextLine();
+                System.out.println("Inserire request port: ");
+                int requestPort = scanner.nextLine();
+                int objectPort = -1;
+
                 if (selectedTCP){
+                    System.out.println("L'attuale layer è TCP.");
+                    System.out.println("Inserire object port: ");
+                    objectPort = scanner.nextLine();
                     CONTROLLER controller = new CONTROLLER();
                     ClientTCP client = new ClientTCP(controller, Settings.PORT_TCP);
                     controller.cli.start();
                     client.start();
-
                 }
+
                 if(selectedRMI){
+                    System.out.println("L'attuale layer è RMI.");
                     CONTROLLER controller = new CONTROLLER();
                     ClientRMI client = new ClientRMI(controller);
                     controller.cli.start();
