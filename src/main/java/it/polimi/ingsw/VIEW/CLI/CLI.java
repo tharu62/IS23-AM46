@@ -23,26 +23,19 @@ public class CLI extends Thread implements CLI_Interface {
 
     @Override
     public String getUsername() {
-        System.out.println(" Type your Username: ");
-        try {
-            Scanner scanner = new Scanner(System.in);
-            return scanner.nextLine();
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+
+        System.out.println( " Insert username:  ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+
     }
 
     @Override
     public int getLobbySize() {
-        int playerNumber;
-        System.out.println(" How many players are going to play? (You can choose between 2, 3 or 4 players): ");
-        try {
-            playerNumber = numberInput(2, 3, 4, null);
-            Scanner scanner = new Scanner(System.in);
-            return scanner.nextInt();
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+        System.out.println( " Insert Lobby size:  ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+
     }
 
 

@@ -3,9 +3,9 @@ import it.polimi.ingsw.TCP.COMANDS.*;
 
 public class Command {
     public CMD cmd;
-    String username;
-    LOGIN login;
+    public String username;
+    public LOGIN login;
     public BROADCAST broadcast;
-    GAMEPLAY gameplay;
-    CHAT chat;
+    public GAMEPLAY gameplay;
+    public CHAT chat;
 }

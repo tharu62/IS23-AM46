@@ -3,10 +3,12 @@ package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 import it.polimi.ingsw.MODEL.*;
 import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
+import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
 import it.polimi.ingsw.TCP.ClientHandler;
 import it.polimi.ingsw.TCP.Command;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CONTROLLER extends Thread{
@@ -23,12 +25,12 @@ public class CONTROLLER extends Thread{
     /************************************************ GETTER **********************************************************/
 
     synchronized public item[][] getBookshelf(String username){
-        PLAYER player = (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
-        if(player == null){
+        int playerIndex = game.search(username);
+        if(game.space.player == null){
             // yet to understand CONTROLLER behavior if non-legal command is given
             return new item[0][];
         }else {
-            return player.bookshelf.getGrid();
+            return game.space.player.get(playerIndex).bookshelf.getGrid();
         }
     }
     synchronized public item[][] getBoard(){
@@ -36,8 +38,8 @@ public class CONTROLLER extends Thread{
     }
 
     synchronized public PERSONAL_GOAL_CARD getPersonalGoalCards(String username){
-        PLAYER player= (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
-        return player.personal;
+        int playerIndex = game.search(username);
+        return game.space.player.get(playerIndex).personal;
     }
 
     synchronized public List<COMMON_GOAL_CARD> getCommonGoalCard(){
@@ -157,15 +159,20 @@ public class CONTROLLER extends Thread{
 
                 temp = new Command();
                 temp.cmd = CMD.BOARD;
+                temp.broadcast = new BROADCAST();
+                temp.broadcast.grid = new item[9][9];
                 temp.broadcast.grid = getBoard();
                 clientsTCP.get(0).broadcast(temp);
 
                 temp = new Command();
+                temp.broadcast = new BROADCAST();
+                temp.broadcast.cards = new ArrayList<>();
                 temp.cmd = CMD.COMMON_GOALS;
                 temp.broadcast.cards = getCommonGoalCard();
                 clientsTCP.get(0).broadcast(temp);
 
                 temp = new Command();
+                temp.broadcast = new BROADCAST();
                 temp.cmd = CMD.PLAYER_TO_PLAY;
                 temp.broadcast.ptp = game.playerToPlay;
                 clientsTCP.get(0).broadcast(temp);

@@ -2,7 +2,10 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.RMI.GameClient;
+import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
+import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,29 +39,31 @@ public class ClientHandler extends Thread {
         try {
             System.out.println(" A NEW CLIENT_TCP HAS CONNECTED! ");
             Scanner in = new Scanner(socket.getInputStream());
-            out = new PrintWriter(socket.getOutputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
 
             if(controller.connected_players == 0){
                 controller.connected_players += 1;
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT;
                 reply_string = g.toJson(reply);
+
                 out.println(reply_string);
             }
-
+            String StrCommand;
+            Command ObjCommand = null;
             do {
+                while( (StrCommand = in.nextLine()) != null ) {
+                    System.out.println(" check reply Server ");
+                    ObjCommand = g.fromJson(StrCommand, Command.class);
+                    CommandSwitcher(ObjCommand);
 
-                String StrCommand = in.nextLine();
-                Command ObjCommand = g.fromJson(StrCommand, Command.class);
-                CommandSwitcher(ObjCommand);
-
-                if (active) {
-                    out.println(reply_string);
-                    active = false;
-                    reply = null;
-                    reply_string = null;
+                    if (active) {
+                        out.println(reply_string);
+                        active = false;
+                        reply = null;
+                        reply_string = null;
+                    }
                 }
-
             } while (!controller.GameIsOver);
 
             // Socket is closed
@@ -71,7 +76,7 @@ public class ClientHandler extends Thread {
     }
 
     synchronized public void broadcast(Command message){
-        String temp= g.toJson(message);
+        String temp = g.toJson(message);
         for (ClientHandler client : clients) {
             client.out.println(message);
         }
@@ -88,7 +93,8 @@ public class ClientHandler extends Thread {
                     reply.cmd = CMD.REPLY_NOT_ACCEPTED;
                 }
                 reply_string = g.toJson(reply);
-                active= true;
+                active = true;
+                break;
 
             case FIRST_TO_CONNECT_REPLY:
                 reply = new Command();
@@ -99,13 +105,17 @@ public class ClientHandler extends Thread {
                 }
                 reply_string = g.toJson(reply);
                 active= true;
+                break;
 
             case SEND_PERSONAL_GOAL_CARD:
                 reply = new Command();
                 reply.cmd = CMD.PERSONAL_GOAL_CARD_REPLY;
+                reply.gameplay = new GAMEPLAY();
+                reply.gameplay.card = new PERSONAL_GOAL_CARD();
                 reply.gameplay.card = controller.getPersonalGoalCards(ObjCommand.username);
                 reply_string = g.toJson(reply);
                 active= true;
+                break;
 
             case ASK_MY_TURN:
                 reply = new Command();
@@ -116,6 +126,7 @@ public class ClientHandler extends Thread {
                 }
                 reply_string = g.toJson(reply);
                 active= true;
+                break;
 
             case ASK_DRAW:
                 reply = new Command();
@@ -126,6 +137,7 @@ public class ClientHandler extends Thread {
                 }
                 reply_string = g.toJson(reply);
                 active= true;
+                break;
 
             case ASK_PUT_ITEM:
                 reply = new Command();
@@ -136,27 +148,33 @@ public class ClientHandler extends Thread {
                 }
                 reply_string = g.toJson(reply);
                 active= true;
+                break;
 
             case CHECK_SCORE:
                 reply = new Command();
                 reply.cmd = CMD.RETURN_SCORE;
+                reply.gameplay = new GAMEPLAY();
                 reply.gameplay.pos.add(controller.setScore(ObjCommand.username));
                 reply_string = g.toJson(reply);
                 active= true;
+                break;
 
             case END_TURN:
                 reply = new Command();
                 if(controller.setEndTurn(ObjCommand.username)){
                     reply.cmd = CMD.PLAYER_TO_PLAY;
+                    reply.broadcast = new BROADCAST();
                     reply.broadcast.ptp = controller.game.playerToPlay;
-                    broadcast(reply);
+                    //broadcast(reply);
                 }
+                break;
 
             case CHAT:
                 reply = new Command();
                 reply.cmd= CMD.CHAT;
                 controller.setChat(ObjCommand.chat.username, ObjCommand.chat.message);
-                broadcast(ObjCommand);
+                //broadcast(ObjCommand);
+                break;
 
         }
     }

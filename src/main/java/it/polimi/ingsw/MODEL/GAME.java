@@ -155,7 +155,7 @@ public class GAME {
     }
 
 
-    private int search(String username){
+    public int search(String username){
         for(int i=0; i<playerNumber; i++){
             if(space.player.get(i).username.equals(username)){return i;}
         }

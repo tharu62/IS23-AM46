@@ -2,11 +2,9 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.TCP.COMANDS.LOGIN;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -19,8 +17,8 @@ public class ClientTCP extends Thread {
     public String userInputStr;
     public Command reply = new Command();
     public String reply_string;
-    public boolean active= false;
     public boolean serverDisconnected = true;
+    public StringBuilder sb = new StringBuilder();
 
     public ClientTCP(CONTROLLER controller, int port){
         this.controller = controller;
@@ -30,26 +28,29 @@ public class ClientTCP extends Thread {
     @Override
     public void run() {
         try (
-                Socket echoSocket = new Socket(hostName, PORT);
-                PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+                Socket Socket = new Socket(hostName, PORT);
+                PrintWriter out = new PrintWriter(Socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
             ) {
+
+            String StrCommand;
+            Command ObjCommand;
 
             while (true) {
                 //userInputStr =  g.toJson(userInputObj);
                 //out.println(userInputStr);
 
                 // wait for reply from server
-                String StrCommand = in.readLine();
-                Command ObjCommand = g.fromJson(StrCommand,Command.class);
-                CommandSwitcher(ObjCommand);
-                if(active){
-                    out.println(reply_string);
-                    active = false;
-                }
-                if(controller.LobbyIsFull){
-                    break;
+                while( (StrCommand = in.readLine()) != null ) {
+                    ObjCommand = g.fromJson(StrCommand, Command.class);
+                    CommandSwitcher(ObjCommand, out);
+                    System.out.println(" Client loop ");
+                    if (controller.LobbyIsFull) {
+                        break;
+                    }
+                    StrCommand = null;
+
                 }
             }
         } catch (UnknownHostException e) {
@@ -65,17 +66,19 @@ public class ClientTCP extends Thread {
      *  instead the reply is give by the user by user input.
      * @param ObjCommand is the object that contains all the message types and data.
      */
-    private void CommandSwitcher(Command ObjCommand){
+    private void CommandSwitcher(Command ObjCommand , PrintWriter out){
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
                 reply.username = controller.getUsername();
+                reply.login = new LOGIN();
                 reply.login.LobbySize = controller.getLobbySize();
                 reply_string = g.toJson(reply);
-                active = true;
+                out.println(reply_string);
                 controller.firstToConnect = true;
+                break;
 
             case CONNECTED:
                 controller.notifyCLI(ObjCommand.cmd.toString());
@@ -83,11 +86,13 @@ public class ClientTCP extends Thread {
                 reply.cmd = CMD.CONNECTED_REPLY;
                 reply.username = controller.getUsername();
                 reply_string = g.toJson(reply);
-                active = true;
+                out.println(reply_string);
+                break;
 
             case REPLY_ACCEPTED:
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 controller.LoginAccepted = true;
+                break;
 
             case REPLY_NOT_ACCEPTED:
                 if(controller.firstToConnect){
@@ -95,9 +100,10 @@ public class ClientTCP extends Thread {
                     reply = new Command();
                     reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
                     reply.username = controller.getUsername();
+                    reply.login = new LOGIN();
                     reply.login.LobbySize = controller.getLobbySize();
                     reply_string = g.toJson(reply);
-                    active = true;
+                    out.println(reply_string);
                     controller.firstToConnect = true;
                 }else{
                     controller.notifyCLI(ObjCommand.cmd.toString());
@@ -105,54 +111,67 @@ public class ClientTCP extends Thread {
                     reply.cmd = CMD.CONNECTED_REPLY;
                     reply.username = controller.getUsername();
                     reply_string = g.toJson(reply);
-                    active = true;
+                    out.println(reply_string);
                 }
+                break;
 
             case LOBBY_IS_FULL:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case BOARD:
                 controller.setBoard(ObjCommand.broadcast.grid);
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case COMMON_GOALS:
                 controller.setCommonGoals(ObjCommand.broadcast.cards);
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case PLAYER_TO_PLAY:
                 controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case PERSONAL_GOAL_CARD_REPLY:
                 controller.setPersonalGoal(ObjCommand.gameplay.card);
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case IT_IS_YOUR_TURN:
                 controller.myTurn= true;
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case IT_IS_NOT_YOUR_TURN:
                 controller.myTurn= false;
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case DRAW_VALID:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case DRAW_NOT_VALID:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case PUT_VALID:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case PUT_NOT_VALID:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case RETURN_SCORE:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
 
             case CHAT:
                 controller.notifyCLI(ObjCommand.cmd.toString());
-
+                break;
         }
     }
 }
