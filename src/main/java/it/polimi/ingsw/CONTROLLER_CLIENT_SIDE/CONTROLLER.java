@@ -34,14 +34,17 @@ public class CONTROLLER{
 
     public void setBoard( item[][] grid ){
         this.grid = grid;
+        cli.printBoard(grid);
         //TODO
     }
 
     public void setCommonGoals(List<COMMON_GOAL_CARD> list){
+        cli.printCommonGoals(list);
         //TODO
     }
 
     public void setPersonalGoal(PERSONAL_GOAL_CARD card){
+        cli.printPersonalGoal(card);
         //TODO
     }
     
