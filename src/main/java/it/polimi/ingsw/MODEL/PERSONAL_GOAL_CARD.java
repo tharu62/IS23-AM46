@@ -7,6 +7,10 @@ public class PERSONAL_GOAL_CARD extends PERSONAL_GOALS {
         this.cardLogic = logic;
     }
 
+    public P_CARD_LOGIC getCardLogic() {
+        return cardLogic;
+    }
+
     public int checkCardLogic(BOOKSHELF bookshelf) {
         return this.cardLogic.checkCardLogic(bookshelf);
     }

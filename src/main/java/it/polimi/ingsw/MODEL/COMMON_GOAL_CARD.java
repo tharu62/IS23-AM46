@@ -9,6 +9,10 @@ public class COMMON_GOAL_CARD extends COMMON_GOALS {
         this.cardLogic = logic;
     }
 
+    public CARD_LOGIC getCardLogic() {
+        return cardLogic;
+    }
+
     public void SetToken(TOKEN token) {
         this.token = token;
     }

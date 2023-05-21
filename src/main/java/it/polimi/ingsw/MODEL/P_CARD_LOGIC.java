@@ -8,6 +8,7 @@ public interface P_CARD_LOGIC {
      * @return the points made by the player
      */
     int checkCardLogic(BOOKSHELF bookshelf);
+    int getId();
 }
 
 class P_CARD_LOGIC_1 implements P_CARD_LOGIC{
@@ -28,6 +29,11 @@ class P_CARD_LOGIC_1 implements P_CARD_LOGIC{
         if (cont == 5) return 9;
         if (cont == 6) return 12;
         return 0;
+    }
+
+    @Override
+    public int getId() {
+        return 1;
     }
 }
 
@@ -50,6 +56,11 @@ class P_CARD_LOGIC_2 implements P_CARD_LOGIC{
         if (cont == 6) return 12;
         return 0;
     }
+
+    @Override
+    public int getId() {
+        return 2;
+    }
 }
 
 class P_CARD_LOGIC_3 implements P_CARD_LOGIC{
@@ -70,6 +81,11 @@ class P_CARD_LOGIC_3 implements P_CARD_LOGIC{
         if (cont == 5) return 9;
         if (cont == 6) return 12;
         return 0;
+    }
+
+    @Override
+    public int getId() {
+        return 3;
     }
 }
 
@@ -92,6 +108,11 @@ class P_CARD_LOGIC_4 implements P_CARD_LOGIC{
         if (cont == 6) return 12;
         return 0;
     }
+
+    @Override
+    public int getId() {
+        return 4;
+    }
 }
 
 class P_CARD_LOGIC_5 implements P_CARD_LOGIC{
@@ -112,6 +133,11 @@ class P_CARD_LOGIC_5 implements P_CARD_LOGIC{
         if (cont == 5) return 9;
         if (cont == 6) return 12;
         return 0;
+    }
+
+    @Override
+    public int getId() {
+        return 5;
     }
 }
 
@@ -134,6 +160,11 @@ class P_CARD_LOGIC_6 implements P_CARD_LOGIC{
         if (cont == 6) return 12;
         return 0;
     }
+
+    @Override
+    public int getId() {
+        return 6;
+    }
 }
 
 class P_CARD_LOGIC_7 implements P_CARD_LOGIC{
@@ -154,6 +185,11 @@ class P_CARD_LOGIC_7 implements P_CARD_LOGIC{
         if (cont == 5) return 9;
         if (cont == 6) return 12;
         return 0;
+    }
+
+    @Override
+    public int getId() {
+        return 7;
     }
 }
 
@@ -176,6 +212,11 @@ class P_CARD_LOGIC_8 implements P_CARD_LOGIC{
         if (cont == 6) return 12;
         return 0;
     }
+
+    @Override
+    public int getId() {
+        return 8;
+    }
 }
 
 class P_CARD_LOGIC_9 implements P_CARD_LOGIC{
@@ -196,6 +237,11 @@ class P_CARD_LOGIC_9 implements P_CARD_LOGIC{
         if (cont == 5) return 9;
         if (cont == 6) return 12;
         return 0;
+    }
+
+    @Override
+    public int getId() {
+        return 9;
     }
 }
 
@@ -218,6 +264,11 @@ class P_CARD_LOGIC_10 implements P_CARD_LOGIC{
         if (cont == 6) return 12;
         return 0;
     }
+
+    @Override
+    public int getId() {
+        return 10;
+    }
 }
 
 class P_CARD_LOGIC_11 implements P_CARD_LOGIC{
@@ -239,6 +290,11 @@ class P_CARD_LOGIC_11 implements P_CARD_LOGIC{
         if (cont == 6) return 12;
         return 0;
     }
+
+    @Override
+    public int getId() {
+        return 11;
+    }
 }
 
 class P_CARD_LOGIC_12 implements P_CARD_LOGIC{
@@ -259,6 +315,11 @@ class P_CARD_LOGIC_12 implements P_CARD_LOGIC{
         if (cont == 5) return 9;
         if (cont == 6) return 12;
         return 0;
+    }
+
+    @Override
+    public int getId() {
+        return 12;
     }
 }
 

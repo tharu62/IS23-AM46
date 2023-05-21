@@ -5,9 +5,10 @@ import java.util.Set;
 
 public interface CARD_LOGIC {
     boolean CheckCardLogic(BOOKSHELF bookshelf);
+    int getId();
 }
 
-class CARD_LOGIC_1 implements CARD_LOGIC{
+class CARD_LOGIC_9 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are eight tiles of the same type.
      * There’s no restriction about the position of these tiles
@@ -31,9 +32,15 @@ class CARD_LOGIC_1 implements CARD_LOGIC{
         }
         return n_cats == 8 || n_books == 8 || n_frames == 8 || n_trophies == 8 || n_games == 8 || n_plants == 8;
     }
+
+    @Override
+    public int getId() {
+        return 1;
+    }
+
 }
 
-class CARD_LOGIC_2 implements CARD_LOGIC{
+class CARD_LOGIC_10 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are five tiles of the same type forming an X.
      * @param bookshelf: player's bookshelf
@@ -55,9 +62,13 @@ class CARD_LOGIC_2 implements CARD_LOGIC{
         }
         return false;
     }
+
+    public int getId() {
+        return 2;
+    }
 }
 
-class CARD_LOGIC_3 implements CARD_LOGIC{
+class CARD_LOGIC_8 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are
      * four tiles of the same type in the four corners of the bookshelf
@@ -67,13 +78,17 @@ class CARD_LOGIC_3 implements CARD_LOGIC{
         item[][] grid = bookshelf.getGrid();
         if (grid[0][0].equals(item.EMPTY)) return false;
         return grid[0][0].equals(grid[0][4]) &&
-               grid[0][0].equals(grid[5][0]) &&
-               grid[0][0].equals(grid[5][4]);
+                grid[0][0].equals(grid[5][0]) &&
+                grid[0][0].equals(grid[5][4]);
 
+    }
+
+    public int getId() {
+        return 3;
     }
 }
 
-class CARD_LOGIC_4 implements CARD_LOGIC{
+class CARD_LOGIC_11 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are
      * five tiles of the same type forming a diagonal
@@ -94,9 +109,13 @@ class CARD_LOGIC_4 implements CARD_LOGIC{
         return false;
 
     }
+
+    public int getId() {
+        return 4;
+    }
 }
 
-class CARD_LOGIC_5 implements CARD_LOGIC{
+class CARD_LOGIC_2 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are
      * two columns each formed by 6 different types of tiles
@@ -117,9 +136,13 @@ class CARD_LOGIC_5 implements CARD_LOGIC{
         }
         return cont == 2;
     }
+
+    public int getId() {
+        return 5;
+    }
 }
 
-class CARD_LOGIC_6 implements CARD_LOGIC{
+class CARD_LOGIC_5 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are
      * three columns each formed by 6 tiles of maximum three different types.
@@ -142,9 +165,13 @@ class CARD_LOGIC_6 implements CARD_LOGIC{
         return cont == 3;
 
     }
+
+    public int getId() {
+        return 6;
+    }
 }
 
-class CARD_LOGIC_7 implements CARD_LOGIC{
+class CARD_LOGIC_6 implements CARD_LOGIC{
     /**
      * This method returns true if inside the player's bookshelf there are
      * two lines each formed by 5 different types of tiles.
@@ -166,9 +193,13 @@ class CARD_LOGIC_7 implements CARD_LOGIC{
         }
         return cont == 2;
     }
+
+    public int getId() {
+        return 7;
+    }
 }
 
-class CARD_LOGIC_8 implements CARD_LOGIC {
+class CARD_LOGIC_7 implements CARD_LOGIC {
     /**
      * This method returns true if inside the player's bookshelf there are
      * four lines each formed by 5 tiles of maximum three different types.
@@ -193,9 +224,13 @@ class CARD_LOGIC_8 implements CARD_LOGIC {
         }
         return cont == 4;
     }
+
+    public int getId() {
+        return 8;
+    }
 }
 
-class CARD_LOGIC_9 implements CARD_LOGIC {
+class CARD_LOGIC_1 implements CARD_LOGIC {
     /**
      * This method returns true if inside the player's bookshelf there are
      * two groups each containing 4 tiles of the same type in a 2x2 square.
@@ -221,6 +256,10 @@ class CARD_LOGIC_9 implements CARD_LOGIC {
         return cont == 2;
     }
 
+    public int getId() {
+        return 9;
+    }
+
     /**
      * This method checks if a 2x2 square made by items of the same type is surrounded by items of different types
      * @param grid: bookshelf's grid
@@ -242,7 +281,7 @@ class CARD_LOGIC_9 implements CARD_LOGIC {
     }
 }
 
-class CARD_LOGIC_10 implements CARD_LOGIC {
+class CARD_LOGIC_12 implements CARD_LOGIC {
     /**
      * This method return true if inside the player's bookshelf there are
      * five columns of increasing or decreasing height. Starting from the first column on the left or on the right,
@@ -267,9 +306,13 @@ class CARD_LOGIC_10 implements CARD_LOGIC {
         }
         return false;
     }
+
+    public int getId() {
+        return 10;
+    }
 }
 
-class CARD_LOGIC_11 implements CARD_LOGIC {
+class CARD_LOGIC_4 implements CARD_LOGIC {
     /**
      * This method return true if inside the player's bookshelf there are
      * six groups each containing at least 2 tiles of the same type.
@@ -299,6 +342,10 @@ class CARD_LOGIC_11 implements CARD_LOGIC {
             }
         }
         return cont == 6;
+    }
+
+    public int getId() {
+        return 11;
     }
 
     /**
@@ -341,7 +388,7 @@ class CARD_LOGIC_11 implements CARD_LOGIC {
     }
 }
 
-class CARD_LOGIC_12 extends CARD_LOGIC_11  implements CARD_LOGIC{
+class CARD_LOGIC_3 extends CARD_LOGIC_4  implements CARD_LOGIC{
     /**
      * This method return true if inside the player's bookshelf there are
      * four groups each containing at least 4 tiles of the same type.
@@ -371,5 +418,9 @@ class CARD_LOGIC_12 extends CARD_LOGIC_11  implements CARD_LOGIC{
             }
         }
         return cont == 4;
+    }
+
+    public int getId() {
+        return 12;
     }
 }
