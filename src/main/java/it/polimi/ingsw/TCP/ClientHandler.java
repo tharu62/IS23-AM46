@@ -169,9 +169,9 @@ public class ClientHandler extends Thread {
                 }
                 break;
 
-            case CHAT:
+            case FROM_CLIENT_CHAT:
                 reply = new Command();
-                reply.cmd= CMD.CHAT;
+                reply.cmd= CMD.FROM_SERVER_CHAT;
                 controller.setChat(ObjCommand.chat.username, ObjCommand.chat.message);
                 //broadcast(ObjCommand);
                 break;

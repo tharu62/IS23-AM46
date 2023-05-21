@@ -49,7 +49,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         //gs.endTurn(controller.username);
         //gs.sendMessage("");
 
-        inputLoop();
+        //inputLoop();
     }
 
     void inputLoop() throws IOException {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
 import it.polimi.ingsw.NETWORK.ServerHandler;
 import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
@@ -95,13 +96,17 @@ public class SetUpper {
             if (selectedCLIENT) {
                 if (selectedTCP){
                     CONTROLLER controller = new CONTROLLER();
+                    controller.connection = Connection.TCP;
                     ClientTCP client = new ClientTCP(controller, Settings.PORT_TCP);
+                    controller.clientTCP = client;
                     controller.cli.start();
                     client.start();
                 }
                 if(selectedRMI){
                     CONTROLLER controller = new CONTROLLER();
+                    controller.connection = Connection.RMI;
                     ClientRMI client = new ClientRMI(controller, Settings.PORT_RMI);
+                    controller.clientRMI = client;
                     controller.cli.start();
                     client.start();  //TODO multi-thread???
                 }

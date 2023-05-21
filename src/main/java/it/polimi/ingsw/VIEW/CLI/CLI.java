@@ -1,34 +1,71 @@
 package it.polimi.ingsw.VIEW.CLI;
 
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
-
 import java.util.List;
 import java.util.Scanner;
 
 public class CLI extends Thread implements CLI_Interface {
-    boolean something = false;
+    CONTROLLER controller;
 
+    public CLI(CONTROLLER controller) {
+        this.controller = controller;
+    }
     @Override
     public void run() {
+        Scanner in = new Scanner(System.in);
+        String StrCommand;
+        boolean inputNotValid = true;
+        System.out.println("******************************************************************************************");
+        System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
-            if (something) {
-                System.out.println(" Shutdown... ");
-                break;
+            if(controller.myTurn) {
+                System.out.println("******************************************************************************************");
+                System.out.println(" Actions: ");
+                System.out.println(" (shutdown) shutdown the APP ");
+                System.out.println(" (chat)     chat with players ");
+                System.out.println(" (draw)     draw a tiles from Board ");
+                System.out.println(" (put)      put tiles in your Bookshelf ");
+                StrCommand = in.nextLine();
+                if (StrCommand.equalsIgnoreCase("shutdown")) {
+                    System.out.println(" Goodbye! ");
+                    System.exit(0);
+                }
+                if (StrCommand.equalsIgnoreCase("chat")) {
+                    sendChat();
+                    inputNotValid = false;
+                }
+                if (StrCommand.equalsIgnoreCase("draw")) {
+                    //TODO
+                    inputNotValid = false;
+                }
+                if (StrCommand.equalsIgnoreCase("put")) {
+                    //TODO
+                    inputNotValid = false;
+                }
+                if(inputNotValid){
+                    System.out.println(" Command not valid, retry. ");
+                    System.out.println("******************************************************************************************");
+                    System.out.println(" Actions: ");
+                    System.out.println(" (shutdown) shutdown the APP ");
+                    System.out.println(" (chat)     chat with players ");
+                    System.out.println(" (draw)     draw a tiles from Board ");
+                    System.out.println(" (put)      put tiles in your Bookshelf ");
+                }
             }
-            //TODO input cases from player...
         }
     }
 
     @Override
     public void notify(String message) {
+        System.out.println("******************************************************************************************");
         System.out.println(message);
     }
 
     @Override
     public String getUsername() {
-
         System.out.println( " Insert username:  ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -95,6 +132,14 @@ public class CLI extends Thread implements CLI_Interface {
         int id2 = commonGoalCards.get(1).getCardLogic().getId();
         printCommonGoals.printCommon(id1);
         printCommonGoals.printCommon(id2);
+    }
+
+    @Override
+    public void sendChat() {
+        System.out.println(" Insert text: ");
+        Scanner in = new Scanner(System.in);
+        String StrCommand = in.nextLine();
+        controller.sendChat(StrCommand);
     }
 
 

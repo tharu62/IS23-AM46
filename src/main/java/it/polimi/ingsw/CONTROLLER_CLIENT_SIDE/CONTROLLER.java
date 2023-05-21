@@ -1,4 +1,9 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.CMD;
+import it.polimi.ingsw.TCP.COMANDS.CHAT;
+import it.polimi.ingsw.TCP.ClientTCP;
+import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
 
@@ -9,13 +14,14 @@ public class CONTROLLER{
     public boolean firstToConnect = false;
     public boolean LoginAccepted = false;
     public boolean LobbyIsFull = false;
+    public Connection connection;
     public int LobbySize;
-
     public item[][] grid;
     public boolean myTurn = false;
     public String playerToPlay;
-    public boolean update = false;
-    public CLI cli = new CLI();
+    public ClientTCP clientTCP;
+    public ClientRMI clientRMI;
+    public CLI cli = new CLI(this);
 
     public void notifyCLI(String message){
         cli.notify(message);
@@ -25,10 +31,12 @@ public class CONTROLLER{
     }
 
     public int getLobbySize(){
-        return cli.getLobbySize();
+        this.LobbySize = cli.getLobbySize();
+        return this.LobbySize;
     }
 
     public void setPlayerToPlay( String ptp){
+        this.playerToPlay = ptp;
         //TODO
     }
 
@@ -46,6 +54,21 @@ public class CONTROLLER{
     public void setPersonalGoal(PERSONAL_GOAL_CARD card){
         cli.printPersonalGoal(card);
         //TODO
+    }
+
+    public void sendChat( String text){
+        if(connection == Connection.TCP){
+            Command send = new Command();
+            send.cmd = CMD.FROM_CLIENT_CHAT;
+            send.chat = new CHAT();
+            send.chat.message.text = text;
+            send.chat.message.header[0] = this.username;
+            //send.chat.message.header[1] = System.nanoTime();
+            clientTCP.CommandSwitcher( send , clientTCP.out_ref);
+        }
+        if(connection == Connection.RMI){
+            //TODO
+        }
     }
     
 }
