@@ -18,7 +18,7 @@ class BOARDTest{
         }
         assertEquals(29, cont);
         assertEquals(board.Grid[0][0], item.EMPTY);
-        assertFalse(board.Grid[1][3].equals(item.EMPTY));
+        assertNotEquals(board.Grid[1][3], item.EMPTY);
         assertEquals(board.Grid[0][3], item.EMPTY);
         assertEquals(board.Grid[0][4], item.EMPTY);
     }
@@ -34,8 +34,8 @@ class BOARDTest{
         }
         assertEquals(37, cont);
         assertEquals(board.Grid[0][0], item.EMPTY);
-        assertFalse(board.Grid[1][3].equals(item.EMPTY));
-        assertFalse(board.Grid[0][3].equals(item.EMPTY));
+        assertNotEquals(board.Grid[1][3], item.EMPTY);
+        assertNotEquals(board.Grid[0][3], item.EMPTY);
         assertEquals(board.Grid[0][4], item.EMPTY);
     }
 
@@ -51,9 +51,9 @@ class BOARDTest{
         }
         assertEquals(45, cont);
         assertEquals(board.Grid[0][0], item.EMPTY);
-        assertFalse(board.Grid[1][3].equals(item.EMPTY));
-        assertFalse(board.Grid[0][3].equals(item.EMPTY));
-        assertFalse(board.Grid[0][4].equals(item.EMPTY));
+        assertNotEquals(board.Grid[1][3], item.EMPTY);
+        assertNotEquals(board.Grid[0][3], item.EMPTY);
+        assertNotEquals(board.Grid[0][4], item.EMPTY);
     }
     @Test
     void testDrawItem(){

@@ -5,30 +5,29 @@ public class GAME {
     public MASTER master= new MASTER();
     public SPACE space= new SPACE();
     public CHAT chat;
-    public int playerNumber=0;
-    public int LobbySize=2;
+    public int CurrentLobbySize = 0;
+    public int LobbySize = 2;
     public String playerToPlay;
     P_CARD_LOGIC_GENERATOR generator = new P_CARD_LOGIC_GENERATOR();
 
-    public boolean addPlayer(String username){
+    public void addPlayer(String username){
         PLAYER player = new PLAYER();
         player.username = username;
-        space.player.add(this.playerNumber, player);
-        master.player=space.player;
-        this.playerNumber++;
-        return playerNumber == (LobbySize - 1);
+        space.player.add(this.CurrentLobbySize, player);
+        master.player = space.player;
+        this.CurrentLobbySize++;
     }
 
     public void setBoard(){
-        space.setBoard(this.playerNumber);
+        space.setBoard(this.LobbySize);
     }
 
     public void DrawCommonGoalCards(){
-        master.setFirstDraw(this.playerNumber);
+        master.setFirstDraw(this.LobbySize);
     }
 
     public void DrawPersonalGoalCards(){
-        for(int i=0; i<this.playerNumber; i++){
+        for(int i=0; i<this.LobbySize; i++){
             space.player.get(i).drawPersonalGoalCard(generator.SetCardLogic());
         }
     }
@@ -85,7 +84,7 @@ public class GAME {
             space.placeItem(i, m, a, b, c);
             if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
                 if(!master.round.last){
-                    space.player.get(search(this.playerToPlay)).score+=1;
+                    space.player.get(search(this.playerToPlay)).score += 1;
                 }
                 master.round.last = true;
             }
@@ -156,7 +155,7 @@ public class GAME {
 
 
     public int search(String username){
-        for(int i=0; i<playerNumber; i++){
+        for(int i=0; i < this.LobbySize; i++){
             if(space.player.get(i).username.equals(username)){return i;}
         }
         return -1;

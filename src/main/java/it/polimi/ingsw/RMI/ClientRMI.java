@@ -1,6 +1,8 @@
 package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
+import it.polimi.ingsw.MODEL.MESSAGE;
+import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.NETWORK.Settings;
 
@@ -15,10 +17,8 @@ import java.util.List;
 
 
 public class ClientRMI extends UnicastRemoteObject implements GameClient{
-
-    private GameServer gs;
+    public static GameServer gs;
     CONTROLLER controller;
-    public String message;
     public boolean LoginOK;
     final int PORT;
 
@@ -33,9 +33,9 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, PORT);
 
         // Looking up the registry for the remote object
-        this.gs = (GameServer) registry.lookup("GameService");
-        System.out.println( "Client is logged to Server!" );
-        this.gs.connect(this);
+        gs = (GameServer) registry.lookup("GameService");
+        gs.connect(this);
+
         //TODO
         // INPUT POSSIBILI DA VIEW
         //gs.connect( this );
@@ -49,21 +49,15 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         //gs.endTurn(controller.username);
         //gs.sendMessage("");
 
-        //inputLoop();
-    }
-
-    void inputLoop() throws IOException {
-        BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
-        while( (this.message = br.readLine()) != null) {
-            //TODO
-            break;
-        }
     }
 
 
     @Override
-    public void receiveMessage(String message) throws RemoteException {
-
+    public void receiveMessage(MESSAGE message) throws RemoteException {
+        if(message.header[1].equals(controller.username) || message.header[1].equals("everyone")){
+            controller.notifyCLI(" NEW CHAT MESSAGE : ");
+            controller.notifyCLI( message.header[0] + ":" + message.text);
+        }
     }
 
     @Override
@@ -82,7 +76,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         }
         if(message.equals("CONNECTED")){
             controller.notifyCLI("CONNECTED");
-            gs.login(controller.getUsername());
+            LoginOK = gs.login(controller.getUsername());
             while(!LoginOK){
                 LoginOK = gs.login(controller.getUsername());
             }
@@ -92,13 +86,14 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receivePlayers(List<String> players) throws RemoteException {
-        /** controller.players = players; **/
+        controller.players = players;
     }
 
 
     @Override
     public void receiveBoard(item[][] grid) throws RemoteException {
-        controller.grid = grid;
+        controller.notifyCLI("BOARD");
+        controller.setBoard(grid);
     }
 
 
@@ -109,11 +104,21 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
 
     @Override
-    public void receivePlayerToPlay(String username) throws RemoteException {
-        if(controller.username.equals(username)){
-            controller.myTurn = true;
-            controller.notifyCLI(" IT'S YOUR TURN! ");
-        }
+    public void receivePlayerToPlay(String ptp) throws RemoteException {
+        controller.setPlayerToPlay(ptp);
     }
 
+    @Override
+    public void receiveWinner(String winner) {
+        controller.notifyCLI(" THE GAME HAS ENDED, THE WINNER IS : " + winner);
+    }
+
+    @Override
+    public void receivePersonalGoal(PERSONAL_GOAL_CARD p) throws RemoteException {
+        controller.setPersonalGoal(p);
+    }
+
+    public static void sendMessage(MESSAGE message) throws RemoteException {
+        gs.sendMessage(message);
+    }
 }

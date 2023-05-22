@@ -108,7 +108,7 @@ public class SetUpper {
                     ClientRMI client = new ClientRMI(controller, Settings.PORT_RMI);
                     controller.clientRMI = client;
                     controller.cli.start();
-                    client.start();  //TODO multi-thread???
+                    client.start();
                 }
             }
         }

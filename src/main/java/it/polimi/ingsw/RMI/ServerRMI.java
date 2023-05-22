@@ -1,6 +1,7 @@
 package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.TCP.*;
 
@@ -22,7 +23,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     public ServerRMI(CONTROLLER controller, int port, List<ClientHandler> clientsTCP) throws RemoteException {
         this.clientsRMI = new ArrayList<>();
         this.clientsTCP = new ArrayList<>();
-        this.controller=controller;
+        this.controller = controller;
         this.PORT = port;
         this.clientsTCP = clientsTCP;
     }
@@ -56,10 +57,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
             gc.receiveLOG("LOBBY_IS_FULL");
         }else {
             this.clientsRMI.add(gc);
-            if(controller.connected_players >= 1){
+            if(controller.getCurrentLobbySize() >= 1){
                 gc.receiveLOG("CONNECTED");
             }
-            if(controller.connected_players == 0){
+            if(controller.getCurrentLobbySize() == 0){
                 gc.receiveLOG("FIRST_TO_CONNECT");
             }
         }
@@ -106,11 +107,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
-    public void sendMessage(String message) throws RemoteException {
-        System.out.println ("server received: " + message);
-        for (GameClient cc : clientsRMI) {
-            cc.receiveMessage(message);
-        }
+    public void sendMessage(MESSAGE message) throws RemoteException {
+        controller.setChat(message);
     }
 
 }

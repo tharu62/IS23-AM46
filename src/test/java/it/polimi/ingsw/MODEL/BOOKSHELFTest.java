@@ -13,9 +13,9 @@ class BOOKSHELFTest {
         bookshelf.itemToPut.add(item.TROPHIES);
         bookshelf.itemToPut.add(item.PLANTS);
         bookshelf.putItems(2, 1, 2, 0);
-        assertTrue(bookshelf.Grid[5][2].equals(item.PLANTS));
-        assertTrue(bookshelf.Grid[4][2].equals(item.CATS));
-        assertTrue(bookshelf.Grid[3][2].equals(item.TROPHIES));
+        assertEquals(bookshelf.Grid[5][2], item.PLANTS);
+        assertEquals(bookshelf.Grid[4][2], item.CATS);
+        assertEquals(bookshelf.Grid[3][2], item.TROPHIES);
         assertEquals(3, bookshelf.itemsInGrid);
     }
 

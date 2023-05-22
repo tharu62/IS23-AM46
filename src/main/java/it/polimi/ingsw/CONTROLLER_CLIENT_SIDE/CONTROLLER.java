@@ -7,6 +7,8 @@ import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CONTROLLER{
@@ -18,7 +20,7 @@ public class CONTROLLER{
     public int LobbySize;
     public item[][] grid;
     public boolean myTurn = false;
-    public String playerToPlay;
+    public List<String> players = new ArrayList<>();
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
@@ -27,7 +29,8 @@ public class CONTROLLER{
         cli.notify(message);
     }
     public String getUsername(){
-        return cli.getUsername();
+        this.username = cli.getUsername();
+        return this.username;
     }
 
     public int getLobbySize(){
@@ -35,40 +38,51 @@ public class CONTROLLER{
         return this.LobbySize;
     }
 
-    public void setPlayerToPlay( String ptp){
-        this.playerToPlay = ptp;
-        //TODO
+    public void setPlayerToPlay( String ptp) throws RemoteException {
+        if( this.username.equals(ptp)){
+            this.myTurn = true;
+            if(connection == Connection.TCP){
+                Command c = new Command();
+                c.cmd = CMD.ASK_MY_TURN;
+                c.username = this.username;
+                clientTCP.CommandSwitcher( c , clientTCP.out_ref );
+            }
+            if(connection == Connection.RMI){
+                clientRMI.gs.askMyTurn(this.username);
+            }
+        }
     }
 
     public void setBoard( item[][] grid ){
         this.grid = grid;
         cli.printBoard(grid);
-        //TODO
     }
 
     public void setCommonGoals(List<COMMON_GOAL_CARD> list){
         cli.printCommonGoals(list);
-        //TODO
     }
 
     public void setPersonalGoal(PERSONAL_GOAL_CARD card){
         cli.printPersonalGoal(card);
-        //TODO
     }
 
-    public void sendChat( String text){
+    public void sendChat(String text, String receiver) throws RemoteException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.FROM_CLIENT_CHAT;
             send.chat = new CHAT();
             send.chat.message.text = text;
             send.chat.message.header[0] = this.username;
-            //send.chat.message.header[1] = System.nanoTime();
+            send.chat.message.header[1] = receiver;
             clientTCP.CommandSwitcher( send , clientTCP.out_ref);
         }
         if(connection == Connection.RMI){
-            //TODO
+            MESSAGE m = new MESSAGE();
+            m.header[0] = this.username;
+            m.header[1] = receiver;
+            m.text = text;
+            ClientRMI.sendMessage(m);
         }
     }
-    
+
 }

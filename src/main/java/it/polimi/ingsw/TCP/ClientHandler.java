@@ -10,14 +10,15 @@ import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
 public class ClientHandler extends Thread {
     private final Socket socket;
-    private CONTROLLER controller;
-    private List<ClientHandler> clients;
-    private  List<GameClient> clientsRMI;
+    private final CONTROLLER controller;
+    private final List<ClientHandler> clients;
+    private final List<GameClient> clientsRMI;
 
     public PrintWriter out;
     public Command reply;
@@ -25,6 +26,7 @@ public class ClientHandler extends Thread {
     public Gson g = new Gson();
     public boolean active = false;
     public boolean disconnect = false;
+    public String username;
 
     public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients, List<GameClient> clientsRMI ) {
         this.socket = socket;
@@ -41,14 +43,19 @@ public class ClientHandler extends Thread {
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            if(controller.connected_players == 0){
-                controller.connected_players += 1;
+            if(controller.getCurrentLobbySize() == 0){
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT;
                 reply_string = g.toJson(reply);
-
                 out.println(reply_string);
             }
+            else{
+                reply = new Command();
+                reply.cmd = CMD.CONNECTED;
+                reply_string = g.toJson(reply);
+                out.println(reply_string);
+            }
+
             String StrCommand;
             Command ObjCommand = null;
             do {
@@ -71,7 +78,7 @@ public class ClientHandler extends Thread {
             out.close();
             socket.close();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            System.err.println(e.getMessage());  //TODO
         }
     }
 
@@ -82,12 +89,13 @@ public class ClientHandler extends Thread {
         }
     }
 
-    synchronized private void CommandSwitcher(Command ObjCommand){
+    synchronized public void CommandSwitcher(Command ObjCommand) throws RemoteException {
         switch (ObjCommand.cmd){
 
             case CONNECTED_REPLY:
                 reply = new Command();
                 if(controller.setLogin(ObjCommand.username)){
+                    this.username = ObjCommand.username;
                     reply.cmd = CMD.REPLY_ACCEPTED;
                 }else{
                     reply.cmd = CMD.REPLY_NOT_ACCEPTED;
@@ -99,6 +107,7 @@ public class ClientHandler extends Thread {
             case FIRST_TO_CONNECT_REPLY:
                 reply = new Command();
                 if(controller.setFirstLogin(ObjCommand.username, ObjCommand.login.LobbySize)){
+                    this.username = ObjCommand.username;
                     reply.cmd = CMD.REPLY_ACCEPTED;
                 }else{
                     reply.cmd = CMD.REPLY_NOT_ACCEPTED;
@@ -136,7 +145,7 @@ public class ClientHandler extends Thread {
                     reply.cmd = CMD.DRAW_NOT_VALID;
                 }
                 reply_string = g.toJson(reply);
-                active= true;
+                active = true;
                 break;
 
             case ASK_PUT_ITEM:
@@ -172,10 +181,13 @@ public class ClientHandler extends Thread {
             case FROM_CLIENT_CHAT:
                 reply = new Command();
                 reply.cmd= CMD.FROM_SERVER_CHAT;
-                controller.setChat(ObjCommand.chat.username, ObjCommand.chat.message);
+                controller.setChat(ObjCommand.chat.message);
                 //broadcast(ObjCommand);
                 break;
 
+            case FROM_SERVER_CHAT:
+                reply_string = g.toJson(ObjCommand);
+                out.println(reply_string);
         }
     }
 }

@@ -7,12 +7,13 @@ import it.polimi.ingsw.TCP.COMANDS.LOGIN;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 
 public class ClientTCP extends Thread {
     public String hostName = "127.0.0.1";
     public int PORT;
     public CONTROLLER controller;
-    public Gson g= new Gson();
+    public Gson g = new Gson();
     public Command reply = new Command();
     public String reply_string;
     public PrintWriter out_ref;
@@ -51,7 +52,7 @@ public class ClientTCP extends Thread {
      *  instead the reply is given by the user by user input.
      * @param ObjCommand is the object that contains all the message types and data.
      */
-    synchronized public void CommandSwitcher(Command ObjCommand , PrintWriter out){
+    synchronized public void CommandSwitcher(Command ObjCommand , PrintWriter out) throws RemoteException {
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
                 controller.notifyCLI(ObjCommand.cmd.toString());
@@ -155,7 +156,8 @@ public class ClientTCP extends Thread {
                 break;
 
             case FROM_SERVER_CHAT:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.notifyCLI(" NEW CHAT MESSAGE : ");
+                controller.notifyCLI(ObjCommand.chat.message.header[0] + ":" + ObjCommand.chat.message.text);
                 break;
 
             case FROM_CLIENT_CHAT:

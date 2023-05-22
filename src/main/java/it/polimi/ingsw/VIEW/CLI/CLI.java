@@ -4,6 +4,8 @@ import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
+
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,19 +24,20 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
             if(controller.myTurn) {
-                System.out.println("******************************************************************************************");
-                System.out.println(" Actions: ");
-                System.out.println(" (shutdown) shutdown the APP ");
-                System.out.println(" (chat)     chat with players ");
-                System.out.println(" (draw)     draw a tiles from Board ");
-                System.out.println(" (put)      put tiles in your Bookshelf ");
+                printActions();
                 StrCommand = in.nextLine();
                 if (StrCommand.equalsIgnoreCase("shutdown")) {
                     System.out.println(" Goodbye! ");
                     System.exit(0);
                 }
                 if (StrCommand.equalsIgnoreCase("chat")) {
-                    sendChat();
+
+                    try {
+                        sendChat();
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+
                     inputNotValid = false;
                 }
                 if (StrCommand.equalsIgnoreCase("draw")) {
@@ -47,12 +50,7 @@ public class CLI extends Thread implements CLI_Interface {
                 }
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
-                    System.out.println("******************************************************************************************");
-                    System.out.println(" Actions: ");
-                    System.out.println(" (shutdown) shutdown the APP ");
-                    System.out.println(" (chat)     chat with players ");
-                    System.out.println(" (draw)     draw a tiles from Board ");
-                    System.out.println(" (put)      put tiles in your Bookshelf ");
+                    printActions();
                 }
             }
         }
@@ -69,7 +67,6 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println( " Insert username:  ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
-
     }
 
     @Override
@@ -135,11 +132,23 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
-    public void sendChat() {
+    public void sendChat() throws RemoteException {
         System.out.println(" Insert text: ");
         Scanner in = new Scanner(System.in);
         String StrCommand = in.nextLine();
-        controller.sendChat(StrCommand);
+        System.out.println(" Insert receiver: ");
+        String receiver = in.nextLine();
+        controller.sendChat(StrCommand, receiver);
+    }
+
+    @Override
+    public void printActions() {
+        System.out.println("******************************************************************************************");
+        System.out.println(" Actions: ");
+        System.out.println(" (shutdown) shutdown the APP ");
+        System.out.println(" (chat)     chat with players ");
+        System.out.println(" (draw)     draw a tiles from Board ");
+        System.out.println(" (put)      put tiles in your Bookshelf ");
     }
 
 

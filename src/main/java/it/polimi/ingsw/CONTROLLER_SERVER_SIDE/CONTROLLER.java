@@ -4,6 +4,7 @@ import it.polimi.ingsw.MODEL.*;
 import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
+import it.polimi.ingsw.TCP.COMANDS.CHAT;
 import it.polimi.ingsw.TCP.ClientHandler;
 import it.polimi.ingsw.TCP.Command;
 
@@ -17,8 +18,6 @@ public class CONTROLLER extends Thread{
     public boolean TurnHasStarted = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
-    public boolean last = false;
-    public int connected_players = 0 ;
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
 
@@ -46,39 +45,37 @@ public class CONTROLLER extends Thread{
         return game.master.FirstDraw.card;
     }
 
+    synchronized public int getCurrentLobbySize(){
+        return game.CurrentLobbySize;
+    }
+
     /*********************************************** SETTERS **********************************************************/
 
     synchronized public void setGame(GAME game){
-        this.game=game;
+        this.game = game;
     }
 
     synchronized public boolean setFirstLogin(String username, int LobbySize){
-        if(LobbySize<=4 && LobbySize>=2) {
-            game.addPlayer(username);
+        if(LobbySize < 5 && LobbySize > 1) {
             game.LobbySize = LobbySize;
-            this.connected_players = game.playerNumber;
+            game.addPlayer(username);
             return true;
         }
         return false;
     }
 
     synchronized public boolean setLogin(String username){
-        if(!LobbyIsFull) {
-            if (last) {
+        if(!LobbyIsFull && newUsername(username)) {
+            if ( game.CurrentLobbySize == (game.LobbySize -1)) {
                 game.addPlayer(username);
                 game.setBoard();
                 game.DrawPersonalGoalCards();
                 game.DrawCommonGoalCards();
                 LobbyIsFull = true;
-                this.connected_players = game.playerNumber;
                 return true;
             } else {
-                if(newUsername(username)){
-                    last = game.addPlayer(username);
-                    this.connected_players = game.playerNumber;
-                    return true;
-                }
-                return false;
+                game.addPlayer(username);
+                return true;
             }
         }
         return false;
@@ -87,7 +84,7 @@ public class CONTROLLER extends Thread{
     synchronized public boolean setTurn(String username){
         if(username.equals(game.playerToPlay)){
             if(game.masterStartTurn(username) && !TurnHasStarted){
-                TurnHasStarted = true;
+                this.TurnHasStarted = true;
                 return true;
             }else{
                 return false;
@@ -119,8 +116,34 @@ public class CONTROLLER extends Thread{
         return false;
     }
 
-    synchronized public void setChat(String username, MESSAGE message){
+    synchronized public void setChat(MESSAGE message) throws RemoteException {
         game.chat.addMessage(message);
+        if(message.header[1].equals("everyone")) {
+            Command c = new Command();
+            c.chat = new CHAT();
+            c.chat.message = new MESSAGE();
+            c.chat.message = message;
+            c.chat.username = message.header[0];
+            this.clientsTCP.get(0).broadcast(c);
+            for (GameClient gc : clientsRMI) {
+                gc.receiveMessage(message);
+            }
+        }else{
+            Command c = new Command();
+            c.chat = new CHAT();
+            c.cmd = CMD.FROM_SERVER_CHAT;
+            c.chat.message = new MESSAGE();
+            c.chat.message = message;
+            c.chat.username = message.header[0];
+            List<ClientHandler> receiver = this.clientsTCP
+                    .stream()
+                    .filter(a -> a.username.equals(message.header[1]))
+                    .toList();
+            receiver.get(0).CommandSwitcher(c); //TODO case receiver has no element? (to consider input management from client)
+            for (GameClient gc : clientsRMI) {
+                gc.receiveMessage(message);
+            }
+        }
     }
 
     /******************************************************************************************************************/
@@ -140,7 +163,7 @@ public class CONTROLLER extends Thread{
             /** PHASE 1
              *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
              */
-            if (game.master.round.turn.count == 0 && LobbyIsFull && !GameHasStarted) {
+            if ( LobbyIsFull && !GameHasStarted ) {
                 Command temp;
                 for (GameClient gc : clientsRMI) {
                     try {
@@ -180,6 +203,7 @@ public class CONTROLLER extends Thread{
                 temp.broadcast.ptp = game.playerToPlay;
                 clientsTCP.get(0).broadcast(temp);
 
+                System.out.println(" BROADCAST CHECK");
                 GameHasStarted = true;
             }
 
@@ -194,13 +218,19 @@ public class CONTROLLER extends Thread{
              * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
              * and finds the winner.
              */
-            if (game.master.round.last && game.master.round.turn.count == (game.playerNumber - 1)) {
+            if (game.master.round.last && game.master.round.turn.count == game.LobbySize) {
                 GameIsOver = true;
-                //TODO
-                // temp = new Command();
-                // temp.cmd = "WINNER";
-                // temp.broadcast.ptp = controller.game.space.winner
-                // clientsTCP.get(0).broadcast(temp);
+                Command temp = new Command();
+                temp.cmd = CMD.WINNER;
+                temp.broadcast.ptp = this.game.space.winner;
+                clientsTCP.get(0).broadcast(temp);
+                for (GameClient gc : clientsRMI) {
+                    try {
+                        gc.receiveWinner( this.game.space.winner );
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         }
     }
