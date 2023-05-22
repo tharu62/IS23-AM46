@@ -14,5 +14,5 @@ public interface CLI_Interface {
     public void printBoard(item[][] grid);
     public void printPersonalGoal(PERSONAL_GOAL_CARD personalGoalCard);
     public void printCommonGoals(List<COMMON_GOAL_CARD> commonGoalCards);
-
+    public void sendChat();
 }

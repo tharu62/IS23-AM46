@@ -13,12 +13,9 @@ public class ClientTCP extends Thread {
     public int PORT;
     public CONTROLLER controller;
     public Gson g= new Gson();
-    public Command userInputObj= new Command();
-    public String userInputStr;
     public Command reply = new Command();
     public String reply_string;
-    public boolean serverDisconnected = true;
-    public StringBuilder sb = new StringBuilder();
+    public PrintWriter out_ref;
 
     public ClientTCP(CONTROLLER controller, int port){
         this.controller = controller;
@@ -30,27 +27,17 @@ public class ClientTCP extends Thread {
         try (
                 Socket Socket = new Socket(hostName, PORT);
                 PrintWriter out = new PrintWriter(Socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
-                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
+                BufferedReader in = new BufferedReader(new InputStreamReader(Socket.getInputStream()))
             ) {
-
             String StrCommand;
             Command ObjCommand;
-
-            while (true) {
-                //userInputStr =  g.toJson(userInputObj);
-                //out.println(userInputStr);
-
-                // wait for reply from server
-                while( (StrCommand = in.readLine()) != null ) {
-                    ObjCommand = g.fromJson(StrCommand, Command.class);
-                    CommandSwitcher(ObjCommand, out);
-                    if (controller.LobbyIsFull) {
-                        break;
-                    }
-                    StrCommand = null;
-                }
+            out_ref = out;
+            // wait for command from server
+            while( (StrCommand = in.readLine()) != null ) {
+                ObjCommand = g.fromJson(StrCommand, Command.class);
+                CommandSwitcher(ObjCommand, out);
             }
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
             System.exit(1);
@@ -61,10 +48,10 @@ public class ClientTCP extends Thread {
     }
 
     /** Logic to check all possible messages from the server, it does not give an instant reply,
-     *  instead the reply is give by the user by user input.
+     *  instead the reply is given by the user by user input.
      * @param ObjCommand is the object that contains all the message types and data.
      */
-    private void CommandSwitcher(Command ObjCommand , PrintWriter out){
+    synchronized public void CommandSwitcher(Command ObjCommand , PrintWriter out){
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
                 controller.notifyCLI(ObjCommand.cmd.toString());
@@ -138,13 +125,13 @@ public class ClientTCP extends Thread {
                 break;
 
             case IT_IS_YOUR_TURN:
-                controller.myTurn= true;
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.myTurn= true;
                 break;
 
             case IT_IS_NOT_YOUR_TURN:
-                controller.myTurn= false;
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.myTurn= false;
                 break;
 
             case DRAW_VALID:
@@ -167,8 +154,14 @@ public class ClientTCP extends Thread {
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 break;
 
-            case CHAT:
+            case FROM_SERVER_CHAT:
                 controller.notifyCLI(ObjCommand.cmd.toString());
+                break;
+
+            case FROM_CLIENT_CHAT:
+                reply = ObjCommand;
+                reply_string = g.toJson(reply);
+                out.println(reply_string);
                 break;
         }
     }
