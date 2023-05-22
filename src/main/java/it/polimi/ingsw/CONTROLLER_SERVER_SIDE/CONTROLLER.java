@@ -187,6 +187,7 @@ public class CONTROLLER extends Thread{
              * PHASE 2
              */
             if (TurnHasStarted) {
+                game.master.round.turn.count=game.master.round.turn.count+1;
 
             }
 
@@ -201,10 +202,45 @@ public class CONTROLLER extends Thread{
                 // temp.cmd = "WINNER";
                 // temp.broadcast.ptp = controller.game.space.winner
                 // clientsTCP.get(0).broadcast(temp);
+                temp.cmd.score=temp.cmd.score+1;
+
             }
         }
     }
 
+}
+
+
+//sarebbe da mettere in una classe IsWinner.java
+
+public class IsWinner extends GenericServerMessage {
+    private final String winner;
+    private final String condition;
+    private final Board board;
+
+    /**
+     * Class constructor.
+     *
+     * @param winner        the nickname of the winner.
+     * @param condition     the winning condition.
+     * @param Board         the player's Board.
+     */
+    public IsWinner(String winner, String condition, Board board) {
+        this.winner = winner;
+        this.condition = condition;
+        this.board = Board;
+    }
+
+    /**
+     * Shows the message (CLI or GUI).
+     *
+     * @param view      a ViewInterface.
+     */
+    @Override
+    public void show(ViewInterface view) {
+        view.printBoard(Board);
+        view.displayEndgameResult(winner, condition);
+    }
 }
 
 
