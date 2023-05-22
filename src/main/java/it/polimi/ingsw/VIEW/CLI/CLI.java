@@ -41,7 +41,7 @@ public class CLI extends Thread implements CLI_Interface {
                     inputNotValid = false;
                 }
                 if (StrCommand.equalsIgnoreCase("draw")) {
-                    //TODO
+
                     inputNotValid = false;
                 }
                 if (StrCommand.equalsIgnoreCase("put")) {
