@@ -149,6 +149,8 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" (chat)     chat with players ");
         System.out.println(" (draw)     draw a tiles from Board ");
         System.out.println(" (put)      put tiles in your Bookshelf ");
+        System.out.println(" (common goal)    show your common goal  ");
+        System.out.println(" (personal goal)  show your personal goal  ");
     }
 
 

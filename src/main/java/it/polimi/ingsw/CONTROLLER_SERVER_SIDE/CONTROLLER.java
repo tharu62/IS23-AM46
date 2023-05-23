@@ -211,7 +211,7 @@ public class CONTROLLER extends Thread{
              * PHASE 2
              */
             if (TurnHasStarted) {
-
+                Command temp = new Command();
             }
 
             /** PHASE 3
