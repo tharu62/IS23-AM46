@@ -76,6 +76,60 @@ public class CONTROLLER extends Thread {
                 game.DrawPersonalGoalCards();
                 game.ChooseFirstPlayerSeat();
                 this.LobbyIsFull = true;
+                if ( this.getLobbyIsFull() && this.GameHasNotStarted ) {
+
+                    if(this.clientsRMI.size() > 0) {
+                        for (GameClient gc : clientsRMI) {
+                            try {
+                                gc.receiveBoard(this.getBoard());
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        for (GameClient gc : clientsRMI) {
+                            try {
+                                gc.receiveCommonGoals(this.getCommonGoalCard(0));
+                                gc.receiveCommonGoals(this.getCommonGoalCard(1));
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        for (GameClient gc : clientsRMI) {
+                            try {
+                                gc.receivePlayerToPlay(game.playerToPlay);
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+
+                    if(clientsTCP.size() > 0) {
+                        Command temp = new Command();
+                        temp.cmd = CMD.BOARD;
+                        temp.broadcast = new BROADCAST();
+                        temp.broadcast.grid = new item[9][9];
+                        temp.broadcast.grid = getBoard();
+                        clientsTCP.get(0).broadcast(temp);
+
+                        temp = new Command();
+                        temp.broadcast = new BROADCAST();
+                        temp.broadcast.cards = new ArrayList<>();
+                        temp.cmd = CMD.COMMON_GOALS;
+                        temp.broadcast.cards.add(getCommonGoalCard(0));
+                        temp.broadcast.cards.add(getCommonGoalCard(1));
+                        clientsTCP.get(0).broadcast(temp);
+
+                        temp = new Command();
+                        temp.broadcast = new BROADCAST();
+                        temp.cmd = CMD.PLAYER_TO_PLAY;
+                        temp.broadcast.ptp = game.playerToPlay;
+                        clientsTCP.get(0).broadcast(temp);
+                    }
+
+                    GameHasNotStarted = false;
+                }
                 return true;
             } else {
                 game.addPlayer(username);
@@ -163,71 +217,6 @@ public class CONTROLLER extends Thread {
     public void run()  {
         System.out.println(" Controller ready ");
         while (true) {
-
-            /**
-             * DA INSERIRE NEL SETLOGIN()
-             */
-            if ( getLobbyIsFull() && this.GameHasNotStarted ) {
-
-                if(clientsRMI.size() > 0) {
-                    for (GameClient gc : clientsRMI) {
-                        try {
-                            gc.receiveBoard(this.getBoard());
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    for (GameClient gc : clientsRMI) {
-                        try {
-                            gc.receiveCommonGoals(this.getCommonGoalCard(0));
-                            gc.receiveCommonGoals(this.getCommonGoalCard(1));
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    for (GameClient gc : clientsRMI) {
-                        try {
-                            gc.receivePlayerToPlay(game.playerToPlay);
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-
-                if(clientsTCP.size() > 0) {
-                    Command temp = new Command();
-                    temp.cmd = CMD.BOARD;
-                    temp.broadcast = new BROADCAST();
-                    temp.broadcast.grid = new item[9][9];
-                    temp.broadcast.grid = getBoard();
-                    clientsTCP.get(0).broadcast(temp);
-
-                    temp = new Command();
-                    temp.broadcast = new BROADCAST();
-                    temp.broadcast.cards = new ArrayList<>();
-                    temp.cmd = CMD.COMMON_GOALS;
-                    temp.broadcast.cards.add(getCommonGoalCard(0));
-                    temp.broadcast.cards.add(getCommonGoalCard(1));
-                    clientsTCP.get(0).broadcast(temp);
-
-                    temp = new Command();
-                    temp.broadcast = new BROADCAST();
-                    temp.cmd = CMD.PLAYER_TO_PLAY;
-                    temp.broadcast.ptp = game.playerToPlay;
-                    clientsTCP.get(0).broadcast(temp);
-                }
-
-                GameHasNotStarted = false;
-            }
-
-            /**
-             * PHASE 2
-             */
-            if (TurnHasStarted) {
-                Command temp = new Command();
-            }
 
             /** PHASE 3
              * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
