@@ -115,7 +115,7 @@ public class SetUpper {
 
         if(selectedGUI){
             if(selectedTCP){
-                //TODO
+                CONTROLLER controller = new CONTROLLER();
             }
             if(selectedRMI){
                 //TODO

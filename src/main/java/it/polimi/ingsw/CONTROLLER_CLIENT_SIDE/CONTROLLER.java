@@ -6,6 +6,7 @@ import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.VIEW.GUI.GUI;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class CONTROLLER{
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
+    public GUI gui = new GUI();
 
     public void notifyCLI(String message){
         cli.notify(message);
@@ -39,8 +41,10 @@ public class CONTROLLER{
         return this.LobbySize;
     }
 
-    public void setPlayerToPlay( String ptp) throws RemoteException {
-        if( this.username.equals(ptp) ){
+    public void setPlayerToPlay( String ptp ) throws RemoteException {
+        System.out.println(" PTP : " + ptp);
+        if( this.username.toLowerCase().equals(ptp) ){
+
             if(connection == Connection.TCP){
                 Command c = new Command();
                 c.cmd = CMD.ASK_MY_TURN;
@@ -49,6 +53,7 @@ public class CONTROLLER{
                 clientTCP.out_ref.println(askTurn);
             }
             if(connection == Connection.RMI){
+                System.out.println(" MY TURN : " + myTurn);
                 this.myTurn = clientRMI.gs.askMyTurn(this.username);
             }
         }

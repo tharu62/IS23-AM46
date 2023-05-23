@@ -74,6 +74,7 @@ public class CONTROLLER extends Thread {
                 game.setBoard();
                 game.DrawCommonGoalCards();
                 game.DrawPersonalGoalCards();
+                game.ChooseFirstPlayerSeat();
                 this.LobbyIsFull = true;
                 return true;
             } else {
@@ -163,8 +164,8 @@ public class CONTROLLER extends Thread {
         System.out.println(" Controller ready ");
         while (true) {
 
-            /** PHASE 1
-             *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play;
+            /**
+             * DA INSERIRE NEL SETLOGIN()
              */
             if ( getLobbyIsFull() && this.GameHasNotStarted ) {
 

@@ -34,7 +34,7 @@ public class GAME {
 
     public void ChooseFirstPlayerSeat(){
         master.ChooseFirstPlayerSeat();
-        this.playerToPlay= master.player.get(search(master.FirstPlayerSeat.username)).username;
+        this.playerToPlay = master.FirstPlayerSeat.username;
     }
 
     /** The player starts his turn, if it's not the last, then round and turn are updated
