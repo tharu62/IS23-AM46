@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CONTROLLER extends Thread {
+public class CONTROLLER {
     public GAME game;
     public boolean GameHasNotStarted = true;
     public boolean TurnHasStarted = false;
@@ -76,6 +76,7 @@ public class CONTROLLER extends Thread {
                 game.DrawPersonalGoalCards();
                 game.ChooseFirstPlayerSeat();
                 this.LobbyIsFull = true;
+
                 if ( this.getLobbyIsFull() && this.GameHasNotStarted ) {
 
                     if(this.clientsRMI.size() > 0) {
@@ -127,7 +128,6 @@ public class CONTROLLER extends Thread {
                         temp.broadcast.ptp = game.playerToPlay;
                         clientsTCP.get(0).broadcast(temp);
                     }
-
                     GameHasNotStarted = false;
                 }
                 return true;
@@ -212,34 +212,6 @@ public class CONTROLLER extends Thread {
     }
 
     /******************************************************************************************************************/
-
-    @Override
-    public void run()  {
-        System.out.println(" Controller ready ");
-        while (true) {
-
-            /** PHASE 3
-             * If it's the last round and the last turn, the game is over, the model autonomously calculate the scores
-             * and finds the winner.
-             */
-            if (game.master.round.last && game.master.round.turn.count == game.LobbySize) {
-                GameIsOver = true;
-                Command temp = new Command();
-                temp.cmd = CMD.WINNER;
-                temp.broadcast.ptp = this.game.space.winner;
-                clientsTCP.get(0).broadcast(temp);
-                for (GameClient gc : clientsRMI) {
-                    try {
-                        gc.receiveWinner( this.game.space.winner );
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }
-
-    }
-
 
 }
 

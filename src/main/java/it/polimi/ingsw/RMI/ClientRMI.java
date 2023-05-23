@@ -121,4 +121,8 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public static void sendMessage(MESSAGE message) throws RemoteException {
         gs.sendMessage(message);
     }
+
+    public boolean askMyTurn( String username) throws RemoteException {
+        return gs.askMyTurn(username);
+    }
 }

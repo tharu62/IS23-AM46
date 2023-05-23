@@ -21,7 +21,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         this.controller.clientsRMI = this.clientsRMI;
         this.PORT = port;
     }
-    public Runnable start() throws RemoteException {
+    public void start() throws RemoteException {
 
         Registry registry = LocateRegistry.createRegistry(PORT);
         try {
@@ -40,7 +40,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         //clientsRMI.get(i).receiveCommonGoals(new List<COMMON_GOAL_CARD>); //BROADCAST
         //clientsRMI.get(i).receivePlayerToPlay("");                        //BROADCAST
 
-        return null;
     }
 
 

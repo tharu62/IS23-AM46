@@ -16,9 +16,7 @@ public class ServerHandler {
         controller.setGame(game);
         ServerRMI serverRMI = new ServerRMI(controller, Settings.PORT_RMI);
 
-
-        controller.start();                                                             // CONTROLLER LOOP STARTED //
-        new Thread( serverRMI.start() ).start();                                            // RMI CONNECTION //
+        serverRMI.start();                                                                  // RMI CONNECTION //
         new SocketAccepter(controller, Settings.PORT_TCP).start();                          // TCP CONNECTION //
 
     }
