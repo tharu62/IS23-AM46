@@ -21,6 +21,7 @@ public class CONTROLLER{
     public item[][] grid;
     public boolean myTurn = false;
     public List<String> players = new ArrayList<>();
+    public List<COMMON_GOAL_CARD> cards = new ArrayList<>();
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
@@ -58,8 +59,13 @@ public class CONTROLLER{
         cli.printBoard(grid);
     }
 
-    public void setCommonGoals(List<COMMON_GOAL_CARD> list){
-        cli.printCommonGoals(list);
+    public void setCommonGoals(COMMON_GOAL_CARD card){
+        if(cards.size() < 1){
+            cards.add(card);
+        }else{
+            cards.add(card);
+            cli.printCommonGoals(this.cards);
+        }
     }
 
     public void setPersonalGoal(PERSONAL_GOAL_CARD card){

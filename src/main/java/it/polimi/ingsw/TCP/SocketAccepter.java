@@ -1,8 +1,6 @@
 package it.polimi.ingsw.TCP;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.RMI.GameClient;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,12 +13,11 @@ public class SocketAccepter extends Thread{
     CONTROLLER controller;
     final int PORT;
     public List<ClientHandler> clientsTCP = new ArrayList<>();
-    public List<GameClient> clientsRMI;
 
-    public SocketAccepter(CONTROLLER Controller, int port, List<GameClient> clientsRMI){
-        this.controller= Controller;
-        this.PORT= port;
-        this.clientsRMI= clientsRMI;
+    public SocketAccepter(CONTROLLER Controller, int port){
+        this.controller = Controller;
+        this.controller.clientsTCP = this.clientsTCP;
+        this.PORT = port;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class SocketAccepter extends Thread{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            new ClientHandler(socket, controller, clientsTCP, clientsRMI).start();
+            new ClientHandler(socket, controller, clientsTCP).start();
         }
         executor.shutdown();
     }

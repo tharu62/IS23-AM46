@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MODEL;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ public interface CARD_LOGIC {
     int getId();
 }
 
-class CARD_LOGIC_9 implements CARD_LOGIC{
+class CARD_LOGIC_9 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are eight tiles of the same type.
      * There’s no restriction about the position of these tiles
@@ -40,7 +41,7 @@ class CARD_LOGIC_9 implements CARD_LOGIC{
 
 }
 
-class CARD_LOGIC_10 implements CARD_LOGIC{
+class CARD_LOGIC_10 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are five tiles of the same type forming an X.
      * @param bookshelf: player's bookshelf
@@ -68,7 +69,7 @@ class CARD_LOGIC_10 implements CARD_LOGIC{
     }
 }
 
-class CARD_LOGIC_8 implements CARD_LOGIC{
+class CARD_LOGIC_8 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are
      * four tiles of the same type in the four corners of the bookshelf
@@ -88,7 +89,7 @@ class CARD_LOGIC_8 implements CARD_LOGIC{
     }
 }
 
-class CARD_LOGIC_11 implements CARD_LOGIC{
+class CARD_LOGIC_11 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are
      * five tiles of the same type forming a diagonal
@@ -115,7 +116,7 @@ class CARD_LOGIC_11 implements CARD_LOGIC{
     }
 }
 
-class CARD_LOGIC_2 implements CARD_LOGIC{
+class CARD_LOGIC_2 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are
      * two columns each formed by 6 different types of tiles
@@ -142,7 +143,7 @@ class CARD_LOGIC_2 implements CARD_LOGIC{
     }
 }
 
-class CARD_LOGIC_5 implements CARD_LOGIC{
+class CARD_LOGIC_5 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are
      * three columns each formed by 6 tiles of maximum three different types.
@@ -171,7 +172,7 @@ class CARD_LOGIC_5 implements CARD_LOGIC{
     }
 }
 
-class CARD_LOGIC_6 implements CARD_LOGIC{
+class CARD_LOGIC_6 implements CARD_LOGIC, Serializable{
     /**
      * This method returns true if inside the player's bookshelf there are
      * two lines each formed by 5 different types of tiles.
@@ -199,7 +200,7 @@ class CARD_LOGIC_6 implements CARD_LOGIC{
     }
 }
 
-class CARD_LOGIC_7 implements CARD_LOGIC {
+class CARD_LOGIC_7 implements CARD_LOGIC, Serializable {
     /**
      * This method returns true if inside the player's bookshelf there are
      * four lines each formed by 5 tiles of maximum three different types.
@@ -230,7 +231,7 @@ class CARD_LOGIC_7 implements CARD_LOGIC {
     }
 }
 
-class CARD_LOGIC_1 implements CARD_LOGIC {
+class CARD_LOGIC_1 implements CARD_LOGIC, Serializable {
     /**
      * This method returns true if inside the player's bookshelf there are
      * two groups each containing 4 tiles of the same type in a 2x2 square.
@@ -281,7 +282,7 @@ class CARD_LOGIC_1 implements CARD_LOGIC {
     }
 }
 
-class CARD_LOGIC_12 implements CARD_LOGIC {
+class CARD_LOGIC_12 implements CARD_LOGIC, Serializable {
     /**
      * This method return true if inside the player's bookshelf there are
      * five columns of increasing or decreasing height. Starting from the first column on the left or on the right,
@@ -312,7 +313,7 @@ class CARD_LOGIC_12 implements CARD_LOGIC {
     }
 }
 
-class CARD_LOGIC_4 implements CARD_LOGIC {
+class CARD_LOGIC_4 implements CARD_LOGIC, Serializable {
     /**
      * This method return true if inside the player's bookshelf there are
      * six groups each containing at least 2 tiles of the same type.
@@ -388,7 +389,7 @@ class CARD_LOGIC_4 implements CARD_LOGIC {
     }
 }
 
-class CARD_LOGIC_3 extends CARD_LOGIC_4  implements CARD_LOGIC{
+class CARD_LOGIC_3 extends CARD_LOGIC_4  implements CARD_LOGIC, Serializable{
     /**
      * This method return true if inside the player's bookshelf there are
      * four groups each containing at least 4 tiles of the same type.

@@ -3,7 +3,6 @@ package it.polimi.ingsw.TCP;
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
-import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
@@ -16,23 +15,20 @@ import java.util.Scanner;
 
 public class ClientHandler extends Thread {
     private final Socket socket;
-    private final CONTROLLER controller;
-    private final List<ClientHandler> clients;
-    private final List<GameClient> clientsRMI;
+    public CONTROLLER controller;
+    public List<ClientHandler> clients;
 
     public PrintWriter out;
     public Command reply;
     public String reply_string;
     public Gson g = new Gson();
     public boolean active = false;
-    public boolean disconnect = false;
     public String username;
 
-    public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients, List<GameClient> clientsRMI ) {
+    public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients ) {
         this.socket = socket;
         this.controller = controller;
         this.clients = clients;
-        this.clientsRMI = clientsRMI;
         clients.add(this);
     }
 

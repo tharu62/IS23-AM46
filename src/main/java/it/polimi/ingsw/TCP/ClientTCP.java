@@ -111,7 +111,8 @@ public class ClientTCP extends Thread {
                 break;
 
             case COMMON_GOALS:
-                controller.setCommonGoals(ObjCommand.broadcast.cards);
+                controller.setCommonGoals(ObjCommand.broadcast.cards.get(0));
+                controller.setCommonGoals(ObjCommand.broadcast.cards.get(1));
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 break;
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.MODEL;
 
-public class COMMON_GOAL_CARD extends COMMON_GOALS {
+import java.io.Serializable;
+
+public class COMMON_GOAL_CARD extends COMMON_GOALS implements Serializable {
     CARD_LOGIC cardLogic;
     TOKEN token;
     int token_value = 8;

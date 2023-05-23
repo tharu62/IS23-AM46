@@ -1,11 +1,13 @@
 package it.polimi.ingsw.MODEL;
 
+import java.io.Serializable;
+
 public interface TOKEN {
     int UpdateValue(int token_value);
 }
 
 
-class TWO_PLAYERS_LOGIC implements TOKEN{
+class TWO_PLAYERS_LOGIC implements TOKEN, Serializable{
 
     public int UpdateValue(int token_value){
         if(token_value>4){return -4;}
@@ -13,7 +15,7 @@ class TWO_PLAYERS_LOGIC implements TOKEN{
     }
 }
 
-class THREE_PLAYERS_LOGIC implements TOKEN{
+class THREE_PLAYERS_LOGIC implements TOKEN, Serializable{
 
     public int UpdateValue(int token_value){
         if(token_value>4){return -2;}
@@ -21,7 +23,7 @@ class THREE_PLAYERS_LOGIC implements TOKEN{
     }
 }
 
-class FOUR_PLAYERS_LOGIC implements TOKEN{
+class FOUR_PLAYERS_LOGIC implements TOKEN, Serializable {
 
     public int UpdateValue(int token_value){
         if(token_value>2){return -2;}
