@@ -89,7 +89,9 @@ public class BAG {
     }
 
     public item draw(){
-        return itemList.get(itemList.size()-1);
+        item draw = itemList.get(itemList.size()-1);
+        itemList.remove(itemList.size() - 1);
+        return draw;
     }
 
 }

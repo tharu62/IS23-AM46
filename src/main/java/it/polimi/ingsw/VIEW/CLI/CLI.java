@@ -106,6 +106,8 @@ public class CLI extends Thread implements CLI_Interface {
                         String cyanBG = Color.GAMES_YELLOW_BG.escape();
                         System.out.print(cyanBG + "\u001B[30m" + " G " + Color.RESET);
                         break;
+                    default:
+                        System.out.print(Color.BLACK_DEFAULT.escape() + "   " + Color.RESET);
                 }
             }
             System.out.println();
