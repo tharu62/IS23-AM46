@@ -16,6 +16,8 @@
    <children>
    
        <Label fx:id="welcomeText" />
-       <Button onAction="#onHelloButtonClick" prefHeight="170.0" prefWidth="178.0" text="Hello!" />
+       <Button onAction="#onHelloButtonClick" prefHeight="70.0" prefWidth="178.0" text="GUI version" />
+       <Button onAction="#onHelloButtonClick" prefHeight="70.0" prefWidth="178.0" text="CLI version" />
+       <Button onAction="#onHelloButtonClick" prefHeight="70.0" prefWidth="178.0" text="Quit game" />
    </children>
 </VBox>
