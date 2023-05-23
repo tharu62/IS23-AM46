@@ -168,28 +168,30 @@ public class CONTROLLER extends Thread {
              */
             if ( getLobbyIsFull() && this.GameHasNotStarted ) {
 
-                for (GameClient gc : clientsRMI) {
-                    try {
-                        gc.receiveBoard(this.getBoard());
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                if(clientsRMI.size() > 0) {
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receiveBoard(this.getBoard());
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                }
 
-                for(GameClient gc : clientsRMI) {
-                    try {
-                        gc.receiveCommonGoals(this.getCommonGoalCard(0));
-                        gc.receiveCommonGoals(this.getCommonGoalCard(1));
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receiveCommonGoals(this.getCommonGoalCard(0));
+                            gc.receiveCommonGoals(this.getCommonGoalCard(1));
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                }
 
-                for(GameClient gc : clientsRMI) {
-                    try {
-                        gc.receivePlayerToPlay(game.playerToPlay);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receivePlayerToPlay(game.playerToPlay);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
 

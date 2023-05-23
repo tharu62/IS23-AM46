@@ -130,7 +130,7 @@ public class ClientHandler extends Thread {
                     reply.cmd = CMD.IT_IS_NOT_YOUR_TURN;
                 }
                 reply_string = g.toJson(reply);
-                active= true;
+                active = true;
                 break;
 
             case ASK_DRAW:

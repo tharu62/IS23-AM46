@@ -40,16 +40,16 @@ public class CONTROLLER{
     }
 
     public void setPlayerToPlay( String ptp) throws RemoteException {
-        if( this.username.equals(ptp)){
-            this.myTurn = true;
+        if( this.username.equals(ptp) ){
             if(connection == Connection.TCP){
                 Command c = new Command();
                 c.cmd = CMD.ASK_MY_TURN;
                 c.username = this.username;
-                clientTCP.CommandSwitcher( c , clientTCP.out_ref );
+                String askTurn = clientTCP.g.toJson(c);
+                clientTCP.out_ref.println(askTurn);
             }
             if(connection == Connection.RMI){
-                clientRMI.gs.askMyTurn(this.username);
+                this.myTurn = clientRMI.gs.askMyTurn(this.username);
             }
         }
     }
@@ -89,6 +89,10 @@ public class CONTROLLER{
             m.text = text;
             ClientRMI.sendMessage(m);
         }
+    }
+
+    synchronized public boolean getMyTurn(){
+        return this.myTurn;
     }
 
 }

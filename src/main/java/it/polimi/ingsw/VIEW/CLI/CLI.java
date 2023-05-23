@@ -23,31 +23,34 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
-            if(controller.myTurn) {
+            if(controller.getMyTurn()) {
                 printActions();
                 StrCommand = in.nextLine();
+
                 if (StrCommand.equalsIgnoreCase("shutdown")) {
                     System.out.println(" Goodbye! ");
                     System.exit(0);
                 }
-                if (StrCommand.equalsIgnoreCase("chat")) {
 
+                if (StrCommand.equalsIgnoreCase("chat")) {
                     try {
                         sendChat();
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
-
                     inputNotValid = false;
                 }
+
                 if (StrCommand.equalsIgnoreCase("draw")) {
-
+                    //TODO
                     inputNotValid = false;
                 }
+
                 if (StrCommand.equalsIgnoreCase("put")) {
                     //TODO
                     inputNotValid = false;
                 }
+                
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
                     printActions();

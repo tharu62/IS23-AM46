@@ -128,7 +128,7 @@ public class ClientTCP extends Thread {
 
             case IT_IS_YOUR_TURN:
                 controller.notifyCLI(ObjCommand.cmd.toString());
-                controller.myTurn= true;
+                controller.myTurn = true;
                 break;
 
             case IT_IS_NOT_YOUR_TURN:
