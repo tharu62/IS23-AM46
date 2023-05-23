@@ -109,6 +109,8 @@ public class CLI extends Thread implements CLI_Interface {
                         String cyanBG = Color.GAMES_YELLOW_BG.escape();
                         System.out.print(cyanBG + "\u001B[30m" + " G " + Color.RESET);
                         break;
+                    default:
+                        System.out.print(Color.BLACK_DEFAULT.escape() + "   " + Color.RESET);
                 }
             }
             System.out.println();
@@ -152,6 +154,8 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" (chat)     chat with players ");
         System.out.println(" (draw)     draw a tiles from Board ");
         System.out.println(" (put)      put tiles in your Bookshelf ");
+        System.out.println(" (common goal)    show your common goal  ");
+        System.out.println(" (personal goal)  show your personal goal  ");
     }
 
 

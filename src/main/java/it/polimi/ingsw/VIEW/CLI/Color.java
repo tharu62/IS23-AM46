@@ -8,7 +8,8 @@ public enum Color {
     GAMES_YELLOW_BG("\u001B[43m"),
     FRAMES_BLUE_BG("\u001B[44m"),
     PLANTS_RED_BG("\u001B[41m"),
-    TROPHIES_CYAN_BG("\u001B[46m");
+    TROPHIES_CYAN_BG("\u001B[46m"),
+    BLACK_DEFAULT("\u001B[40m");
 
     static final String RESET = "\u001B[0m";
 
