@@ -7,14 +7,13 @@ import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;
 import it.polimi.ingsw.TCP.ClientHandler;
 import it.polimi.ingsw.TCP.Command;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CONTROLLER extends Thread{
+public class CONTROLLER extends Thread {
     public GAME game;
-    public boolean GameHasStarted = false;
+    public boolean GameHasNotStarted = true;
     public boolean TurnHasStarted = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
@@ -41,12 +40,15 @@ public class CONTROLLER extends Thread{
         return game.space.player.get(playerIndex).personal;
     }
 
-    synchronized public List<COMMON_GOAL_CARD> getCommonGoalCard(){
-        return game.master.FirstDraw.card;
+    synchronized public COMMON_GOAL_CARD getCommonGoalCard(int i){
+        return game.master.FirstDraw.card.get(i);
     }
 
     synchronized public int getCurrentLobbySize(){
         return game.CurrentLobbySize;
+    }
+    synchronized public boolean getLobbyIsFull(){
+        return this.LobbyIsFull;
     }
 
     /*********************************************** SETTERS **********************************************************/
@@ -55,6 +57,7 @@ public class CONTROLLER extends Thread{
         this.game = game;
     }
 
+    //TODO caso in cui più player accedono contemporaneamente.
     synchronized public boolean setFirstLogin(String username, int LobbySize){
         if(LobbySize < 5 && LobbySize > 1) {
             game.LobbySize = LobbySize;
@@ -69,9 +72,9 @@ public class CONTROLLER extends Thread{
             if ( game.CurrentLobbySize == (game.LobbySize -1)) {
                 game.addPlayer(username);
                 game.setBoard();
-                game.DrawPersonalGoalCards();
                 game.DrawCommonGoalCards();
-                LobbyIsFull = true;
+                game.DrawPersonalGoalCards();
+                this.LobbyIsFull = true;
                 return true;
             } else {
                 game.addPlayer(username);
@@ -156,26 +159,33 @@ public class CONTROLLER extends Thread{
     /******************************************************************************************************************/
 
     @Override
-    public void run() {
+    public void run()  {
         System.out.println(" Controller ready ");
         while (true) {
 
             /** PHASE 1
-             *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play.
+             *   After the login phase the Server sends the Board, the Common_goal_cards and player_to_play;
              */
-            if ( LobbyIsFull && !GameHasStarted ) {
-                Command temp;
+            if ( getLobbyIsFull() && this.GameHasNotStarted ) {
+
                 for (GameClient gc : clientsRMI) {
                     try {
-                        gc.receiveBoard(getBoard());
+                        gc.receiveBoard(this.getBoard());
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
+                }
+
+                for(GameClient gc : clientsRMI) {
                     try {
-                        gc.receiveCommonGoals(getCommonGoalCard());
+                        gc.receiveCommonGoals(this.getCommonGoalCard(0));
+                        gc.receiveCommonGoals(this.getCommonGoalCard(1));
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
+                }
+
+                for(GameClient gc : clientsRMI) {
                     try {
                         gc.receivePlayerToPlay(game.playerToPlay);
                     } catch (RemoteException e) {
@@ -183,28 +193,30 @@ public class CONTROLLER extends Thread{
                     }
                 }
 
-                temp = new Command();
-                temp.cmd = CMD.BOARD;
-                temp.broadcast = new BROADCAST();
-                temp.broadcast.grid = new item[9][9];
-                temp.broadcast.grid = getBoard();
-                clientsTCP.get(0).broadcast(temp);
+                if(clientsTCP.size() > 0) {
+                    Command temp = new Command();
+                    temp.cmd = CMD.BOARD;
+                    temp.broadcast = new BROADCAST();
+                    temp.broadcast.grid = new item[9][9];
+                    temp.broadcast.grid = getBoard();
+                    clientsTCP.get(0).broadcast(temp);
 
-                temp = new Command();
-                temp.broadcast = new BROADCAST();
-                temp.broadcast.cards = new ArrayList<>();
-                temp.cmd = CMD.COMMON_GOALS;
-                temp.broadcast.cards = getCommonGoalCard();
-                clientsTCP.get(0).broadcast(temp);
+                    temp = new Command();
+                    temp.broadcast = new BROADCAST();
+                    temp.broadcast.cards = new ArrayList<>();
+                    temp.cmd = CMD.COMMON_GOALS;
+                    temp.broadcast.cards.add(getCommonGoalCard(0));
+                    temp.broadcast.cards.add(getCommonGoalCard(1));
+                    clientsTCP.get(0).broadcast(temp);
 
-                temp = new Command();
-                temp.broadcast = new BROADCAST();
-                temp.cmd = CMD.PLAYER_TO_PLAY;
-                temp.broadcast.ptp = game.playerToPlay;
-                clientsTCP.get(0).broadcast(temp);
+                    temp = new Command();
+                    temp.broadcast = new BROADCAST();
+                    temp.cmd = CMD.PLAYER_TO_PLAY;
+                    temp.broadcast.ptp = game.playerToPlay;
+                    clientsTCP.get(0).broadcast(temp);
+                }
 
-                System.out.println(" BROADCAST CHECK");
-                GameHasStarted = true;
+                GameHasNotStarted = false;
             }
 
             /**
@@ -233,7 +245,9 @@ public class CONTROLLER extends Thread{
                 }
             }
         }
+
     }
+
 
 }
 

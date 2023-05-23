@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DRAW extends TOKEN_GENERATOR {
-    public List<COMMON_GOAL_CARD> card= new ArrayList<>();
-    CARD_LOGIC_GENERATOR cardGenerator= new CARD_LOGIC_GENERATOR();
-    TOKEN_GENERATOR tokenGenerator= new TOKEN_GENERATOR();
+    public List<COMMON_GOAL_CARD> card = new ArrayList<>();
+    CARD_LOGIC_GENERATOR cardGenerator = new CARD_LOGIC_GENERATOR();
+    TOKEN_GENERATOR tokenGenerator = new TOKEN_GENERATOR();
 
     public void setFirstDraw(int playerNumber){
-        tokenGenerator.player_number=playerNumber;
+        tokenGenerator.player_number = playerNumber;
         COMMON_GOAL_CARD card1 = new COMMON_GOAL_CARD(), card2 = new COMMON_GOAL_CARD();
         card1.SetCardLogic(cardGenerator.SetCardLogic());
         card.add(card1);

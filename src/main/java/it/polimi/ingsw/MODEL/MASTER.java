@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MASTER {
-    public DRAW FirstDraw= new DRAW();
-    FIRST_PLAYER_SEAT FirstPlayerSeat= new FIRST_PLAYER_SEAT();
-    public ROUND round= new ROUND();
-    List<PLAYER> player= new ArrayList<>(0);
+    public DRAW FirstDraw = new DRAW();
+    FIRST_PLAYER_SEAT FirstPlayerSeat = new FIRST_PLAYER_SEAT();
+    public ROUND round = new ROUND();
+    List<PLAYER> player = new ArrayList<>(0);
     int i;
 
 

@@ -98,8 +98,8 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
 
     @Override
-    public void receiveCommonGoals(List<COMMON_GOAL_CARD> list) throws RemoteException {
-        controller.setCommonGoals(list);
+    public void receiveCommonGoals(COMMON_GOAL_CARD card) throws RemoteException {
+        controller.setCommonGoals(card);
     }
 
 

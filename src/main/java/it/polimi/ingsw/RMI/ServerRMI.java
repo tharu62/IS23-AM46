@@ -3,29 +3,23 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
-import it.polimi.ingsw.TCP.*;
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
-    public List<GameClient> clientsRMI;
-    public List<ClientHandler> clientsTCP;
+    public List<GameClient> clientsRMI= new ArrayList<>();;
     final int PORT;
 
-    public ServerRMI(CONTROLLER controller, int port, List<ClientHandler> clientsTCP) throws RemoteException {
-        this.clientsRMI = new ArrayList<>();
-        this.clientsTCP = new ArrayList<>();
+    public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
         this.controller = controller;
+        this.controller.clientsRMI = this.clientsRMI;
         this.PORT = port;
-        this.clientsTCP = clientsTCP;
     }
     public Runnable start() throws RemoteException {
 
