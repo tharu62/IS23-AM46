@@ -82,34 +82,7 @@ public class CLI extends Thread implements CLI_Interface {
     public void printBoard(item[][] grid) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                switch (grid[i][j]) {
-                    case CATS:
-                        String redBG = Color.CATS_GREEN_BG.escape();
-                        System.out.print(redBG + "\u001B[30m" + " C " + Color.RESET);
-                        break;
-                    case PLANTS:
-                        String greenBG = Color.PLANTS_RED_BG.escape();
-                        System.out.print(greenBG + "\u001B[30m" + " P " + Color.RESET);
-                        break;
-                    case FRAMES:
-                        String blueBG = Color.FRAMES_BLUE_BG.escape();
-                        System.out.print(blueBG + "\u001B[30m" + " F " + Color.RESET );
-                        break;
-                    case TROPHIES:
-                        String yellowBG = Color.TROPHIES_CYAN_BG.escape();
-                        System.out.print(yellowBG + "\u001B[30m" + " T " + Color.RESET);
-                        break;
-                    case BOOKS:
-                        String magentaBG = Color.BOOKS_WHITE_BG.escape();
-                        System.out.print(magentaBG + "\u001B[30m" + " B " + Color.RESET);
-                        break;
-                    case GAMES:
-                        String cyanBG = Color.GAMES_YELLOW_BG.escape();
-                        System.out.print(cyanBG + "\u001B[30m" + " G " + Color.RESET);
-                        break;
-                    default:
-                        System.out.print(Color.BLACK_DEFAULT.escape() + "   " + Color.RESET);
-                }
+                colorTile(grid, i, j);
             }
             System.out.println();
         }
@@ -118,10 +91,9 @@ public class CLI extends Thread implements CLI_Interface {
     @Override
     public void printPersonalGoal(int personalGoalCard) {
         PrintPersonalGoals printPersonalGoals = new PrintPersonalGoals();
-        int id = personalGoalCard;
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
         System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");
-        printPersonalGoals.printGoal(id);
+        printPersonalGoals.printGoal(personalGoalCard);
         System.out.println("  ╚═══╩═══╩═══╩═══╩═══╝");
     }
 
@@ -156,5 +128,49 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" (personal goal)  show your personal goal  ");
     }
 
+    public void printBookshelf(item[][] table) {
+        System.out.println("    0 | 1 | 2 | 3 | 4 ");
+        System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");
+        for (int i = 0; i < 6; i++) {
+            System.out.print(i + " ║");
+            for (int j = 0; j < 5; j++) {
+                colorTile(table, i, j);
+                System.out.print("║");
+            }
+            if (i < 5) System.out.println("\n  ╠═══╬═══╬═══╬═══╬═══╣");
+        }
+        System.out.println("\n  ╚═══╩═══╩═══╩═══╩═══╝");
+    }
+
+    private void colorTile(item[][] table, int i, int j) {
+        switch (table[i][j]) {
+            case CATS:
+                String redBG = Color.CATS_GREEN_BG.escape();
+                System.out.print(redBG + "\u001B[30m" + " C " + Color.RESET);
+                break;
+            case PLANTS:
+                String greenBG = Color.PLANTS_RED_BG.escape();
+                System.out.print(greenBG + "\u001B[30m" + " P " + Color.RESET);
+                break;
+            case FRAMES:
+                String blueBG = Color.FRAMES_BLUE_BG.escape();
+                System.out.print(blueBG + "\u001B[30m" + " F " + Color.RESET );
+                break;
+            case TROPHIES:
+                String yellowBG = Color.TROPHIES_CYAN_BG.escape();
+                System.out.print(yellowBG + "\u001B[30m" + " T " + Color.RESET);
+                break;
+            case BOOKS:
+                String magentaBG = Color.BOOKS_WHITE_BG.escape();
+                System.out.print(magentaBG + "\u001B[30m" + " B " + Color.RESET);
+                break;
+            case GAMES:
+                String cyanBG = Color.GAMES_YELLOW_BG.escape();
+                System.out.print(cyanBG + "\u001B[30m" + " G " + Color.RESET);
+                break;
+            default:
+                System.out.print(Color.BLACK_DEFAULT.escape() + "   " + Color.RESET);
+        }
+    }
 
 }

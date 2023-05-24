@@ -93,6 +93,10 @@ public class CONTROLLER{
         }
     }
 
+    public void setBookshelf(item[][] table) {
+        cli.printBookshelf(table);
+    }
+
     synchronized public boolean getMyTurn(){
         return this.myTurn;
     }
