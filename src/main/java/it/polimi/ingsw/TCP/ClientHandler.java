@@ -2,7 +2,6 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 

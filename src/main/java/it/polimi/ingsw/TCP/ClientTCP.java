@@ -128,27 +128,27 @@ public class ClientTCP extends Thread {
 
             case IT_IS_NOT_YOUR_TURN:
                 controller.notifyCLI(ObjCommand.cmd.toString());
-                controller.myTurn= false;
+                controller.myTurn = false;
                 break;
 
             case DRAW_VALID:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.draw_valid = true;
                 break;
 
             case DRAW_NOT_VALID:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.draw_valid = false;
                 break;
 
             case PUT_VALID:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                //TODO
                 break;
 
             case PUT_NOT_VALID:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                //TODO
                 break;
 
             case RETURN_SCORE:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                //TODO
                 break;
 
             case FROM_SERVER_CHAT:
@@ -156,7 +156,7 @@ public class ClientTCP extends Thread {
                 controller.notifyCLI(ObjCommand.chat.message.header[0] + ":" + ObjCommand.chat.message.text);
                 break;
 
-            case FROM_CLIENT_CHAT:
+            case FROM_CLIENT_CHAT, ASK_DRAW:
                 reply = ObjCommand;
                 reply_string = g.toJson(reply);
                 out.println(reply_string);

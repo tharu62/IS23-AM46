@@ -2,6 +2,7 @@ package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;
+import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.VIEW.CLI.CLI;
@@ -13,14 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CONTROLLER{
+    public Connection connection;
     public String username;
     public boolean firstToConnect = false;
     public boolean LoginAccepted = false;
     public boolean LobbyIsFull = false;
-    public Connection connection;
     public int LobbySize;
     public item[][] grid;
+    public int[] draw = new int[6];
+    public int[] put = new int[3];
     public boolean myTurn = false;
+    public boolean reply_received = false;
+    public boolean draw_valid = false;
+    public boolean put_valid = false;
     public List<String> players = new ArrayList<>();
     public List<Integer> cards = new ArrayList<>();
     public ClientTCP clientTCP;
@@ -28,6 +34,7 @@ public class CONTROLLER{
     public CLI cli = new CLI(this);
     public GUI gui = new GUI();
 
+    /******************************************************************************************************************/
     public void notifyCLI(String message){
         cli.notify(message);
     }
@@ -41,6 +48,11 @@ public class CONTROLLER{
         return this.LobbySize;
     }
 
+    synchronized public boolean getMyTurn(){
+        return this.myTurn;
+    }
+
+    /******************************************************************************************************************/
     public void setPlayerToPlay( String ptp ) throws RemoteException {
         if( this.username.toLowerCase().equals(ptp) ){
             if(connection == Connection.TCP){
@@ -93,8 +105,55 @@ public class CONTROLLER{
         }
     }
 
-    synchronized public boolean getMyTurn(){
-        return this.myTurn;
+    public boolean setDraw( int row, int col) throws RemoteException {
+        if(connection == Connection.TCP){
+            Command send = new Command();
+            send.cmd = CMD.ASK_DRAW;
+            send.gameplay = new GAMEPLAY();
+            send.gameplay.pos = new ArrayList<>();
+            send.gameplay.pos.add(row);
+            send.gameplay.pos.add(col);
+            clientTCP.CommandSwitcher(send,clientTCP.out_ref);
+            while(true){
+                if(reply_received){
+                    reply_received = false;
+                    return draw_valid;
+                }
+            }
+        }
+        if(connection == Connection.RMI){
+            return ClientRMI.gs.askDraw(this.username , row , col);
+        }
+        return false;
+    }
+
+    public boolean setPut(int a, int b, int c ,int col) throws RemoteException {
+        if(connection == Connection.TCP){
+            Command send = new Command();
+            send.cmd = CMD.ASK_PUT_ITEM;
+            send.username = this.username;
+            send.gameplay = new GAMEPLAY();
+            send.gameplay.pos = new ArrayList<>();
+            send.gameplay.pos.add(col);
+            send.gameplay.pos.add(a);
+            send.gameplay.pos.add(b);
+            send.gameplay.pos.add(c);
+            clientTCP.CommandSwitcher( send , clientTCP.out_ref);
+            put[0] = a;
+            put[1] = b;
+            put[2] = c;
+            return cli.reply();
+        }
+        if(connection == Connection.RMI){
+            put_valid = ClientRMI.gs.askPutItem(this.username,col,a,b,c);
+            if(put_valid){
+                put[0] = a;
+                put[1] = b;
+                put[2] = c;
+            }
+            return put_valid;
+        }
+        return false;
     }
 
 }
