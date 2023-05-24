@@ -219,6 +219,7 @@ public class CLI extends Thread implements CLI_Interface {
         }
     }
 
+    @Override
     public void printBookshelf(item[][] table) {
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
         System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");

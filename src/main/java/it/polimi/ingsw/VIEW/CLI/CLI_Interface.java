@@ -17,4 +17,9 @@ public interface CLI_Interface {
     void printCommonGoals(List<Integer> commonGoalCards);
     void sendChat() throws RemoteException;
     void printActions();
+    void updateBookshelf();
+    boolean reply() throws RemoteException;
+    void printBookshelf(item[][] table);
+    boolean askDraw() throws RemoteException;
+    boolean putDraw() throws RemoteException;
 }
