@@ -14,9 +14,9 @@ public class GAMETest extends TestCase {
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
-        assertEquals(2, game.playerNumber);
+        assertEquals(2, game.space.player.size());
         game.addPlayer("Chiara");
-        assertEquals(3, game.playerNumber);
+        assertEquals(3, game.space.player.size());
     }
 
     @Test
@@ -36,7 +36,9 @@ public class GAMETest extends TestCase {
     @Test
     public void testDrawCommonGoalCards() {
         GAME game = new GAME();
-        game.playerNumber = 3;
+        game.addPlayer("Antonio");
+        game.addPlayer("Bruno");
+        game.addPlayer("Chiara");
         game.DrawCommonGoalCards();
         assertNotEquals(game.master.FirstDraw.card.get(0), game.master.FirstDraw.card.get(1));
     }
@@ -50,10 +52,10 @@ public class GAMETest extends TestCase {
         game.addPlayer("Davide");
         game.DrawPersonalGoalCards();
         HashSet<PERSONAL_GOAL_CARD> personalGoalCards = new HashSet<>();
-        for (int i = 0; i < game.playerNumber; i++) {
+        for (int i = 0; i < game.space.player.size(); i++) {
             personalGoalCards.add(game.space.player.get(i).personal);
         }
-        assertEquals(game.playerNumber, personalGoalCards.size());
+        assertEquals(game.space.player.size(), personalGoalCards.size());
     }
 
     @Test
@@ -83,7 +85,7 @@ public class GAMETest extends TestCase {
         game.addPlayer("Elisa");
         game.playerToPlay = "Giovanni";
         game.setBoard();
-        assertTrue(game.playerDrawItem("Giovanni", 0, 3));
+        assertFalse(game.playerDrawItem("Giovanni", 0, 3));
         assertFalse(game.playerDrawItem("Antonio", 1, 3));
         assertTrue(game.playerDrawItem("Giovanni", 1, 3));
     }
