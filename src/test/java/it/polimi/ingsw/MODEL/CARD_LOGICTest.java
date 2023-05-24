@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CARD_LOGICTest {
 
     @Test
-    void testCheckCardLogic1() {
-        CARD_LOGIC card = new CARD_LOGIC_1();
+    void testCheckCardLogic9() {
+        CARD_LOGIC card = new CARD_LOGIC_9();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.CATS;
@@ -25,8 +25,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic2() {
-        CARD_LOGIC card = new CARD_LOGIC_2();
+    void testCheckCardLogic10() {
+        CARD_LOGIC card = new CARD_LOGIC_10();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.PLANTS;
@@ -40,8 +40,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic3() {
-        CARD_LOGIC card = new CARD_LOGIC_3();
+    void testCheckCardLogic8() {
+        CARD_LOGIC card = new CARD_LOGIC_8();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[0][0] = item.PLANTS;
@@ -53,8 +53,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic4() {
-        CARD_LOGIC card = new CARD_LOGIC_4();
+    void testCheckCardLogic11() {
+        CARD_LOGIC card = new CARD_LOGIC_11();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         for (int i = 0; i < 4; i++) bookshelf.Grid[i + 1][i] = item.BOOKS;
@@ -64,8 +64,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic5() {
-        CARD_LOGIC card = new CARD_LOGIC_5();
+    void testCheckCardLogic2() {
+        CARD_LOGIC card = new CARD_LOGIC_2();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.BOOKS;
@@ -85,8 +85,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic6() {
-        CARD_LOGIC card = new CARD_LOGIC_6();
+    void testCheckCardLogic5() {
+        CARD_LOGIC card = new CARD_LOGIC_5();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.BOOKS;
@@ -114,8 +114,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic7() {
-        CARD_LOGIC card = new CARD_LOGIC_7();
+    void testCheckCardLogic6() {
+        CARD_LOGIC card = new CARD_LOGIC_6();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.PLANTS;
@@ -135,8 +135,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic8() {
-        CARD_LOGIC card = new CARD_LOGIC_8();
+    void testCheckCardLogic7() {
+        CARD_LOGIC card = new CARD_LOGIC_7();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.PLANTS;
@@ -169,8 +169,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic9() {
-        CARD_LOGIC card = new CARD_LOGIC_9();
+    void testCheckCardLogic1() {
+        CARD_LOGIC card = new CARD_LOGIC_1();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.PLANTS;
@@ -188,8 +188,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic10() {
-        CARD_LOGIC card = new CARD_LOGIC_10();
+    void testCheckCardLogic12() {
+        CARD_LOGIC card = new CARD_LOGIC_12();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         for (int i = 0; i < 5; i++) {
@@ -203,8 +203,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic11() {
-        CARD_LOGIC card = new CARD_LOGIC_11();
+    void testCheckCardLogic4() {
+        CARD_LOGIC card = new CARD_LOGIC_4();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.BOOKS;
@@ -234,8 +234,8 @@ class CARD_LOGICTest {
     }
 
     @Test
-    void testCheckCardLogic12() {
-        CARD_LOGIC card = new CARD_LOGIC_12();
+    void testCheckCardLogic3() {
+        CARD_LOGIC card = new CARD_LOGIC_3();
         BOOKSHELF bookshelf = new BOOKSHELF();
         assertFalse(card.CheckCardLogic(bookshelf));
         bookshelf.Grid[5][0] = item.BOOKS;

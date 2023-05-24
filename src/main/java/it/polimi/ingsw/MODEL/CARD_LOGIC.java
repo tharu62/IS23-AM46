@@ -36,7 +36,7 @@ class CARD_LOGIC_9 implements CARD_LOGIC, Serializable{
 
     @Override
     public int getId() {
-        return 1;
+        return 9;
     }
 
 }
@@ -65,7 +65,7 @@ class CARD_LOGIC_10 implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 2;
+        return 10;
     }
 }
 
@@ -85,7 +85,7 @@ class CARD_LOGIC_8 implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 3;
+        return 8;
     }
 }
 
@@ -112,7 +112,7 @@ class CARD_LOGIC_11 implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 4;
+        return 11;
     }
 }
 
@@ -139,7 +139,7 @@ class CARD_LOGIC_2 implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 5;
+        return 2;
     }
 }
 
@@ -168,7 +168,7 @@ class CARD_LOGIC_5 implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 6;
+        return 5;
     }
 }
 
@@ -196,7 +196,7 @@ class CARD_LOGIC_6 implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 7;
+        return 6;
     }
 }
 
@@ -227,7 +227,7 @@ class CARD_LOGIC_7 implements CARD_LOGIC, Serializable {
     }
 
     public int getId() {
-        return 8;
+        return 7;
     }
 }
 
@@ -258,7 +258,7 @@ class CARD_LOGIC_1 implements CARD_LOGIC, Serializable {
     }
 
     public int getId() {
-        return 9;
+        return 1;
     }
 
     /**
@@ -309,7 +309,7 @@ class CARD_LOGIC_12 implements CARD_LOGIC, Serializable {
     }
 
     public int getId() {
-        return 10;
+        return 12;
     }
 }
 
@@ -346,7 +346,7 @@ class CARD_LOGIC_4 implements CARD_LOGIC, Serializable {
     }
 
     public int getId() {
-        return 11;
+        return 4;
     }
 
     /**
@@ -422,6 +422,6 @@ class CARD_LOGIC_3 extends CARD_LOGIC_4  implements CARD_LOGIC, Serializable{
     }
 
     public int getId() {
-        return 12;
+        return 3;
     }
 }
