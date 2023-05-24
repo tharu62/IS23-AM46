@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface CLI_Interface {
+
     void notify(String message);
     String getUsername();
     int getLobbySize();
@@ -15,9 +16,5 @@ public interface CLI_Interface {
     void printPersonalGoal(int personalGoalCard);
     void printCommonGoals(List<Integer> commonGoalCards);
     void sendChat() throws RemoteException;
-    boolean askDraw() throws RemoteException;
-    boolean putDraw() throws RemoteException;
-    void printActions() throws RemoteException;
-    void updateBookshelf() throws RemoteException;
-    boolean reply() throws RemoteException;
+    void printActions();
 }

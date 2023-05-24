@@ -40,31 +40,12 @@ public class CLI extends Thread implements CLI_Interface {
                 }
 
                 if (StrCommand.equalsIgnoreCase("draw")) {
-                    while(true){
-                        try {
-                            if(askDraw()){
-                                System.out.println(" DRAW VALID. ");
-                                System.out.println(" KEEP DRAWING OR PUT THE ITEMS IN YOUR BOOKSHELF. ");
-                                break;
-                            }else{
-                                System.out.println(" DRAW NOT VALID, RETRY. ");
-                            }
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
+                    //TODO
                     inputNotValid = false;
                 }
 
                 if (StrCommand.equalsIgnoreCase("put")) {
-                    try {
-                        if(putDraw()){
-                            updateBookshelf();
-                        }
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    //TODO
                     inputNotValid = false;
                 }
                 
@@ -94,6 +75,7 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println( " Insert Lobby size:  ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
+
     }
 
     @Override
@@ -163,83 +145,16 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
-    public boolean askDraw() throws RemoteException {
-        int row = 0;
-        int col = 0;
-        System.out.println(" Insert x and y value of the item you want to draw from the Board :");
-        System.out.println(" row : ");
-        Scanner in = new Scanner(System.in);
-        row = in.nextInt();
-        while(row < 0 || row > 8){
-            System.out.println(" Draw out of bound!!! You can insert only a number between 0 and 9. ");
-            System.out.println(" row : ");
-            in = new Scanner(System.in);
-            row = in.nextInt();
-        }
-        System.out.println(" col : ");
-        in = new Scanner(System.in);
-        col = in.nextInt();
-        while(col < 0 || col > 8){
-            System.out.println(" Draw out of bound!!! You can only insert a number between 0 and 9. ");
-            System.out.println(" col : ");
-            in = new Scanner(System.in);
-            col = in.nextInt();
-        }
-        return controller.setDraw(row,col);
-    }
-
-    @Override
-    public boolean putDraw() throws RemoteException {
-        int col = 0;
-        int a = 0,b = 0,c = 0;
-        System.out.println(" Insert the column in which you want to put your draw :");
-        Scanner in = new Scanner(System.in);
-        col = in.nextInt();
-        while(col < 0 || col > 8){
-            System.out.println(" Put out of bound!!! You can only insert a number between 0 and 9. ");
-            System.out.println(" col : ");
-            in = new Scanner(System.in);
-            col = in.nextInt();
-        }
-        System.out.println(" Insert the order ( 1 , 2 , 3 ) in which you want to put your draw : ");
-        //TODO print your draw like a column of 3 item max.
-        System.out.println(" First item ( from top ) : ");
-        in = new Scanner(System.in);
-        a = in.nextInt();
-        //TODO print your draw like a column with the inserted order.
-        in = new Scanner(System.in);
-        b = in.nextInt();
-        //TODO print your draw like a column with the inserted order.
-        in = new Scanner(System.in);
-        c = in.nextInt();
-        //TODO print your draw like a column with the inserted order.
-        return controller.setPut(a,b,c,col);
-    }
-
-    @Override
     public void printActions() {
         System.out.println("******************************************************************************************");
         System.out.println(" Actions: ");
-        System.out.println(" (shutdown)         shutdown the APP ");
-        System.out.println(" (chat)             chat with players ");
-        System.out.println(" (draw)             draw a tiles from Board ");
-        System.out.println(" (put)              put tiles in your Bookshelf ");
-        System.out.println(" (common goal)      show your common goal  ");
-        System.out.println(" (personal goal)    show your personal goal  ");
+        System.out.println(" (shutdown) shutdown the APP ");
+        System.out.println(" (chat)     chat with players ");
+        System.out.println(" (draw)     draw a tiles from Board ");
+        System.out.println(" (put)      put tiles in your Bookshelf ");
+        System.out.println(" (common goal)    show your common goal  ");
+        System.out.println(" (personal goal)  show your personal goal  ");
     }
 
-    @Override
-    public void updateBookshelf() {
-        //TODO look in the controller for the draw array and the put order and update the bookshelf.
-    }
-
-    @Override
-    public boolean reply() throws RemoteException {
-        while(true){
-            if(controller.reply_received){
-                return controller.put_valid;
-            }
-        }
-    }
 
 }
