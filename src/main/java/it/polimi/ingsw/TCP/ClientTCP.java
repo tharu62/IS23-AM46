@@ -132,19 +132,23 @@ public class ClientTCP extends Thread {
                 break;
 
             case DRAW_VALID:
+                controller.reply_draw = true;
                 controller.draw_valid = true;
                 break;
 
             case DRAW_NOT_VALID:
+                controller.reply_draw = true;
                 controller.draw_valid = false;
                 break;
 
             case PUT_VALID:
-                //TODO
+                controller.reply_put = true;
+                controller.put_valid = true;
                 break;
 
             case PUT_NOT_VALID:
-                //TODO
+                controller.reply_put = true;
+                controller.put_valid = false;
                 break;
 
             case RETURN_SCORE:

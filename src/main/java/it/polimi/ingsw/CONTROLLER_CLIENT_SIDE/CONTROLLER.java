@@ -24,8 +24,9 @@ public class CONTROLLER{
     public int[] draw = new int[6];
     public int[] put = new int[3];
     public boolean myTurn = false;
-    public boolean reply_received = false;
+    public boolean reply_draw = false;
     public boolean draw_valid = false;
+    public boolean reply_put = false;
     public boolean put_valid = false;
     public List<String> players = new ArrayList<>();
     public List<Integer> cards = new ArrayList<>();
@@ -114,12 +115,7 @@ public class CONTROLLER{
             send.gameplay.pos.add(row);
             send.gameplay.pos.add(col);
             clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-            while(true){
-                if(reply_received){
-                    reply_received = false;
-                    return draw_valid;
-                }
-            }
+            return cli.reply();
         }
         if(connection == Connection.RMI){
             return ClientRMI.gs.askDraw(this.username , row , col);
@@ -154,6 +150,10 @@ public class CONTROLLER{
             return put_valid;
         }
         return false;
+    }
+
+    public void setBookshelf(item[][] table) {
+        cli.printBookshelf(table);
     }
 
 }
