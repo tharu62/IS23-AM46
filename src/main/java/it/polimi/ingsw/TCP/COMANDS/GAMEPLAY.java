@@ -5,7 +5,7 @@ import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import java.util.List;
 
 public class GAMEPLAY {
-    public PERSONAL_GOAL_CARD card;
+    public int cardID;
     public List<Integer> pos;
 
 }

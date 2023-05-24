@@ -1,8 +1,6 @@
 package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.RemoteException;
@@ -118,9 +116,9 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
-    public void printPersonalGoal(PERSONAL_GOAL_CARD personalGoalCard) {
+    public void printPersonalGoal(int personalGoalCard) {
         PrintPersonalGoals printPersonalGoals = new PrintPersonalGoals();
-        int id = personalGoalCard.getCardLogic().getId();
+        int id = personalGoalCard;
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
         System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");
         printPersonalGoals.printGoal(id);
@@ -128,10 +126,10 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
-    public void printCommonGoals(List<COMMON_GOAL_CARD> commonGoalCards) {
+    public void printCommonGoals(List<Integer> commonGoalCards) {
         PrintCommonGoals printCommonGoals = new PrintCommonGoals();
-        int id1 = commonGoalCards.get(0).getCardLogic().getId();
-        int id2 = commonGoalCards.get(1).getCardLogic().getId();
+        int id1 = commonGoalCards.get(0);
+        int id2 = commonGoalCards.get(1);
         printCommonGoals.printCommon(id1);
         printCommonGoals.printCommon(id2);
     }

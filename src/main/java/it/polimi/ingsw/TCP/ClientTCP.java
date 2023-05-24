@@ -76,7 +76,6 @@ public class ClientTCP extends Thread {
                 break;
 
             case REPLY_ACCEPTED:
-                controller.notifyCLI(ObjCommand.cmd.toString());
                 controller.LoginAccepted = true;
                 break;
 
@@ -107,23 +106,19 @@ public class ClientTCP extends Thread {
 
             case BOARD:
                 controller.setBoard(ObjCommand.broadcast.grid);
-                controller.notifyCLI(ObjCommand.cmd.toString());
                 break;
 
             case COMMON_GOALS:
-                controller.setCommonGoals(ObjCommand.broadcast.cards.get(0));
-                controller.setCommonGoals(ObjCommand.broadcast.cards.get(1));
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(0));
+                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(1));
                 break;
 
             case PLAYER_TO_PLAY:
                 controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
-                controller.notifyCLI(ObjCommand.cmd.toString());
                 break;
 
             case PERSONAL_GOAL_CARD_REPLY:
-                controller.setPersonalGoal(ObjCommand.gameplay.card);
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.setPersonalGoal(ObjCommand.gameplay.cardID);
                 break;
 
             case IT_IS_YOUR_TURN:

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BROADCAST {
     public item[][] grid;
-    public List<COMMON_GOAL_CARD> cards;
+    public List<Integer> cardsID;
     public String ptp;
 
 }

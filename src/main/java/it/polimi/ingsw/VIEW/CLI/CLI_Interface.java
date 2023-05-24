@@ -13,8 +13,8 @@ public interface CLI_Interface {
     String getUsername();
     int getLobbySize();
     void printBoard(item[][] grid);
-    void printPersonalGoal(PERSONAL_GOAL_CARD personalGoalCard);
-    void printCommonGoals(List<COMMON_GOAL_CARD> commonGoalCards);
+    void printPersonalGoal(int personalGoalCard);
+    void printCommonGoals(List<Integer> commonGoalCards);
     void sendChat() throws RemoteException;
     void printActions();
 }

@@ -66,17 +66,17 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     @Override
     public boolean loginFirst(String username, int LobbySize) throws RemoteException {
-        return controller.setFirstLogin(username, LobbySize);
+        return controller.setFirstLogin(username,LobbySize);
     }
 
     @Override
-    public PERSONAL_GOAL_CARD sendPersonalGoal(String username) throws RemoteException {
+    public int sendPersonalGoal(String username) throws RemoteException {
         return controller.getPersonalGoalCards(username);
     }
 
     @Override
     public boolean askMyTurn(String username) throws RemoteException {
-        return (controller.setTurn(username));
+        return controller.setTurn(username);
     }
 
     @Override

@@ -98,8 +98,8 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
 
     @Override
-    public void receiveCommonGoals(COMMON_GOAL_CARD card) throws RemoteException {
-        controller.setCommonGoals(card);
+    public void receiveCommonGoals(int cardID) throws RemoteException {
+        controller.setCommonGoals(cardID);
     }
 
 
@@ -114,7 +114,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     }
 
     @Override
-    public void receivePersonalGoal(PERSONAL_GOAL_CARD p) throws RemoteException {
+    public void receivePersonalGoal(int p) throws RemoteException {
         controller.setPersonalGoal(p);
     }
 
@@ -122,7 +122,4 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         gs.sendMessage(message);
     }
 
-    public boolean askMyTurn( String username) throws RemoteException {
-        return gs.askMyTurn(username);
-    }
 }

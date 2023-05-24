@@ -22,7 +22,7 @@ public class CONTROLLER{
     public item[][] grid;
     public boolean myTurn = false;
     public List<String> players = new ArrayList<>();
-    public List<COMMON_GOAL_CARD> cards = new ArrayList<>();
+    public List<Integer> cards = new ArrayList<>();
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
@@ -42,7 +42,6 @@ public class CONTROLLER{
     }
 
     public void setPlayerToPlay( String ptp ) throws RemoteException {
-        System.out.println(" PTP : " + ptp);
         if( this.username.toLowerCase().equals(ptp) ){
             if(connection == Connection.TCP){
                 Command c = new Command();
@@ -52,7 +51,7 @@ public class CONTROLLER{
                 clientTCP.out_ref.println(askTurn);
             }
             if(connection == Connection.RMI){
-                this.myTurn = this.clientRMI.askMyTurn( this.username );
+                myTurn = ClientRMI.gs.askMyTurn( this.username );
             }
         }
     }
@@ -62,17 +61,17 @@ public class CONTROLLER{
         cli.printBoard(grid);
     }
 
-    public void setCommonGoals(COMMON_GOAL_CARD card){
+    public void setCommonGoals(int  cardID){
         if(cards.size() < 1){
-            cards.add(card);
+            cards.add(cardID);
         }else{
-            cards.add(card);
-            cli.printCommonGoals(this.cards);
+            cards.add(cardID);
+            cli.printCommonGoals(cards);
         }
     }
 
-    public void setPersonalGoal(PERSONAL_GOAL_CARD card){
-        cli.printPersonalGoal(card);
+    public void setPersonalGoal(int cardID){
+        cli.printPersonalGoal(cardID);
     }
 
     public void sendChat(String text, String receiver) throws RemoteException {

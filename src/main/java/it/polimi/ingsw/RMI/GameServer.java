@@ -13,7 +13,7 @@ public interface GameServer extends Remote {
 
     boolean loginFirst(String username, int LobbySize) throws RemoteException;
 
-    PERSONAL_GOAL_CARD sendPersonalGoal(String username) throws RemoteException;
+    int sendPersonalGoal(String username) throws RemoteException;
 
     boolean askMyTurn(String username) throws RemoteException;
 

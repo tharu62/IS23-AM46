@@ -81,7 +81,7 @@ public class ClientHandler extends Thread {
     synchronized public void broadcast(Command message){
         String temp = g.toJson(message);
         for (ClientHandler client : clients) {
-            client.out.println(message);
+            client.out.println(temp);
         }
     }
 
@@ -116,8 +116,7 @@ public class ClientHandler extends Thread {
                 reply = new Command();
                 reply.cmd = CMD.PERSONAL_GOAL_CARD_REPLY;
                 reply.gameplay = new GAMEPLAY();
-                reply.gameplay.card = new PERSONAL_GOAL_CARD();
-                reply.gameplay.card = controller.getPersonalGoalCards(ObjCommand.username);
+                reply.gameplay.cardID = controller.getPersonalGoalCards(ObjCommand.username);
                 reply_string = g.toJson(reply);
                 active= true;
                 break;

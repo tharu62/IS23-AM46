@@ -1,5 +1,6 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.MODEL.*;
 import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
@@ -17,6 +18,7 @@ public class CONTROLLER {
     public boolean TurnHasStarted = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
+    public Gson g = new Gson();
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
 
@@ -35,9 +37,9 @@ public class CONTROLLER {
         return game.space.board.Grid;
     }
 
-    synchronized public PERSONAL_GOAL_CARD getPersonalGoalCards(String username){
+    synchronized public int getPersonalGoalCards(String username){
         int playerIndex = game.search(username);
-        return game.space.player.get(playerIndex).personal;
+        return game.space.player.get(playerIndex).personal.getCardLogic().getId();
     }
 
     synchronized public COMMON_GOAL_CARD getCommonGoalCard(int i){
@@ -90,8 +92,8 @@ public class CONTROLLER {
 
                         for (GameClient gc : clientsRMI) {
                             try {
-                                gc.receiveCommonGoals(this.getCommonGoalCard(0));
-                                gc.receiveCommonGoals(this.getCommonGoalCard(1));
+                                gc.receiveCommonGoals(this.getCommonGoalCard(0).getCardLogic().getId());
+                                gc.receiveCommonGoals(this.getCommonGoalCard(1).getCardLogic().getId());
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
@@ -116,10 +118,10 @@ public class CONTROLLER {
 
                         temp = new Command();
                         temp.broadcast = new BROADCAST();
-                        temp.broadcast.cards = new ArrayList<>();
+                        temp.broadcast.cardsID = new ArrayList<>();
                         temp.cmd = CMD.COMMON_GOALS;
-                        temp.broadcast.cards.add(getCommonGoalCard(0));
-                        temp.broadcast.cards.add(getCommonGoalCard(1));
+                        temp.broadcast.cardsID.add(getCommonGoalCard(0).getCardLogic().getId());
+                        temp.broadcast.cardsID.add(getCommonGoalCard(1).getCardLogic().getId());
                         clientsTCP.get(0).broadcast(temp);
 
                         temp = new Command();
@@ -139,7 +141,7 @@ public class CONTROLLER {
         return false;
     }
 
-    synchronized public boolean setTurn(String username){
+    public boolean setTurn(String username){
         if(username.equals(game.playerToPlay)){
             if(game.masterStartTurn(username) && !TurnHasStarted){
                 this.TurnHasStarted = true;
