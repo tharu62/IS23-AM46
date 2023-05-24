@@ -21,8 +21,15 @@ public class CONTROLLER{
     public boolean LobbyIsFull = false;
     public int LobbySize;
     public item[][] grid;
+    public item[][] bookshelf = {{item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT},
+                                 {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
+                                 {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
+                                 {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
+                                 {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
+                                 {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,}};
     public int[] draw = new int[6];
-    public int[] put = new int[3];
+    public int drawStatus = 0;
+    public int[] put = new int[4];
     public boolean myTurn = false;
     public boolean reply_draw = false;
     public boolean draw_valid = false;
@@ -49,7 +56,7 @@ public class CONTROLLER{
         return this.LobbySize;
     }
 
-    synchronized public boolean getMyTurn(){
+    public boolean getMyTurn(){
         return this.myTurn;
     }
 
@@ -135,17 +142,19 @@ public class CONTROLLER{
             send.gameplay.pos.add(b);
             send.gameplay.pos.add(c);
             clientTCP.CommandSwitcher( send , clientTCP.out_ref);
-            put[0] = a;
-            put[1] = b;
-            put[2] = c;
+            put[0] = col;
+            put[1] = a;
+            put[2] = b;
+            put[3] = c;
             return cli.reply();
         }
         if(connection == Connection.RMI){
             put_valid = ClientRMI.gs.askPutItem(this.username,col,a,b,c);
             if(put_valid){
-                put[0] = a;
-                put[1] = b;
-                put[2] = c;
+                put[0] = col;
+                put[1] = a;
+                put[2] = b;
+                put[3] = c;
             }
             return put_valid;
         }
@@ -154,6 +163,18 @@ public class CONTROLLER{
 
     public void setBookshelf(item[][] table) {
         cli.printBookshelf(table);
+    }
+
+    public void endTurn() throws RemoteException {
+        if(connection == Connection.TCP){
+            Command send = new Command();
+            send.cmd = CMD.END_TURN;
+            send.username = this.username;
+            clientTCP.CommandSwitcher( send , clientTCP.out_ref);
+        }
+        if(connection == Connection.RMI){
+            ClientRMI.gs.endTurn(this.username);
+        }
     }
 
 }

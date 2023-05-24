@@ -22,6 +22,7 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
             if(controller.getMyTurn()) {
+                printBookshelf(controller.bookshelf);
                 printActions();
                 StrCommand = in.nextLine();
 
@@ -45,6 +46,7 @@ public class CLI extends Thread implements CLI_Interface {
                             if(askDraw()){
                                 System.out.println(" DRAW VALID. ");
                                 System.out.println(" KEEP DRAWING OR PUT THE ITEMS IN YOUR BOOKSHELF. ");
+                                controller.drawStatus++;
                                 break;
                             }else{
                                 System.out.println(" DRAW NOT VALID, RETRY. ");
@@ -67,7 +69,14 @@ public class CLI extends Thread implements CLI_Interface {
                     }
                     inputNotValid = false;
                 }
-                
+
+                if(StrCommand.equalsIgnoreCase("end turn")){
+                    try {
+                        endTurn();
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
                     printActions();
@@ -157,6 +166,8 @@ public class CLI extends Thread implements CLI_Interface {
             in = new Scanner(System.in);
             col = in.nextInt();
         }
+        controller.draw[controller.drawStatus] = row;
+        controller.draw[controller.drawStatus + 1] = col;
         return controller.setDraw(row,col);
     }
 
@@ -164,7 +175,7 @@ public class CLI extends Thread implements CLI_Interface {
     public boolean putDraw() throws RemoteException {
         int col = 0;
         int a = 0,b = 0,c = 0;
-        System.out.println(" Insert the column in which you want to put your draw :");
+        System.out.println(" Insert the column in which you want to put your draw : ");
         Scanner in = new Scanner(System.in);
         col = in.nextInt();
         while(col < 0 || col > 8){
@@ -189,15 +200,22 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
+    public void endTurn() throws RemoteException {
+        controller.endTurn();
+    }
+
+    @Override
     public void printActions() {
         System.out.println("******************************************************************************************");
         System.out.println(" Actions: ");
         System.out.println(" (shutdown)         shutdown the APP ");
         System.out.println(" (chat)             chat with players ");
-        System.out.println(" (draw)             draw a tiles from Board ");
-        System.out.println(" (put)              put tiles in your Bookshelf ");
-        System.out.println(" (common goal)      show your common goal  ");
+        System.out.println(" (draw)             draw an item from the Board ");
+        System.out.println(" (put)              put items in your Bookshelf ");
+        System.out.println(" (common goal)      show the common goals ");
         System.out.println(" (personal goal)    show your personal goal  ");
+        System.out.println(" (end turn)         end your turn ");
+
     }
 
     @Override
@@ -221,6 +239,8 @@ public class CLI extends Thread implements CLI_Interface {
 
     @Override
     public void printBookshelf(item[][] table) {
+        System.out.println(" ");
+        System.out.println(" BOOKSHELF ");
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
         System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");
         for (int i = 0; i < 6; i++) {

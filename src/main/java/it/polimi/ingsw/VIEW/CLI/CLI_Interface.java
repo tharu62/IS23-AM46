@@ -8,7 +8,6 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface CLI_Interface {
-
     void notify(String message);
     String getUsername();
     int getLobbySize();
@@ -22,4 +21,5 @@ public interface CLI_Interface {
     void printBookshelf(item[][] table);
     boolean askDraw() throws RemoteException;
     boolean putDraw() throws RemoteException;
+    void endTurn() throws RemoteException;
 }

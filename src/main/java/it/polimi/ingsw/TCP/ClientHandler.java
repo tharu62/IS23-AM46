@@ -163,13 +163,7 @@ public class ClientHandler extends Thread {
                 break;
 
             case END_TURN:
-                reply = new Command();
-                if(controller.setEndTurn(ObjCommand.username)){
-                    reply.cmd = CMD.PLAYER_TO_PLAY;
-                    reply.broadcast = new BROADCAST();
-                    reply.broadcast.ptp = controller.game.playerToPlay;
-                    //broadcast(reply);
-                }
+                controller.setEndTurn(ObjCommand.username);
                 break;
 
             case FROM_CLIENT_CHAT:

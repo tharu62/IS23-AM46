@@ -141,17 +141,8 @@ public class CONTROLLER {
         return false;
     }
 
-    public boolean setTurn(String username){
-        if(username.equals(game.playerToPlay)){
-            if(game.masterStartTurn(username) && !TurnHasStarted){
-                this.TurnHasStarted = true;
-                return true;
-            }else{
-                return false;
-            }
-
-        }
-        return false;
+    synchronized public boolean setTurn(String username){
+        return game.masterStartTurn(username);
     }
 
     synchronized public boolean setDraw(String username, int n, int m){
@@ -170,8 +161,55 @@ public class CONTROLLER {
 
     synchronized public boolean setEndTurn( String username ){
         if(game.masterEndTurn(username)){
-            TurnHasStarted = false;
-            return true;
+            if(this.clientsRMI.size() > 0) {
+                for (GameClient gc : clientsRMI) {
+                    try {
+                        gc.receiveBoard(this.getBoard());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                for (GameClient gc : clientsRMI) {
+                    try {
+                        gc.receiveCommonGoals(this.getCommonGoalCard(0).getCardLogic().getId());
+                        gc.receiveCommonGoals(this.getCommonGoalCard(1).getCardLogic().getId());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                for (GameClient gc : clientsRMI) {
+                    try {
+                        gc.receivePlayerToPlay(game.playerToPlay);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            if(clientsTCP.size() > 0) {
+                Command temp = new Command();
+                temp.cmd = CMD.BOARD;
+                temp.broadcast = new BROADCAST();
+                temp.broadcast.grid = new item[9][9];
+                temp.broadcast.grid = getBoard();
+                clientsTCP.get(0).broadcast(temp);
+
+                temp = new Command();
+                temp.broadcast = new BROADCAST();
+                temp.broadcast.cardsID = new ArrayList<>();
+                temp.cmd = CMD.COMMON_GOALS;
+                temp.broadcast.cardsID.add(getCommonGoalCard(0).getCardLogic().getId());
+                temp.broadcast.cardsID.add(getCommonGoalCard(1).getCardLogic().getId());
+                clientsTCP.get(0).broadcast(temp);
+
+                temp = new Command();
+                temp.broadcast = new BROADCAST();
+                temp.cmd = CMD.PLAYER_TO_PLAY;
+                temp.broadcast.ptp = game.playerToPlay;
+                clientsTCP.get(0).broadcast(temp);
+            }
         }
         return false;
     }
