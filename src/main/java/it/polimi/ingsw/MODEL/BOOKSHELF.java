@@ -19,16 +19,16 @@ public class BOOKSHELF {
             return false;
         }
         for(int j=0; j<3; j++){
-            if (j==a){
-                Grid[firstFreeRow(m)][m]=itemToPut.get(0);
+            if (j==a && itemToPut.get(0) != null){
+                Grid[firstFreeRow(m)][m] = itemToPut.get(0);
                 this.itemsInGrid++;
             }
-            if(j==b){
-                Grid[firstFreeRow(m)][m]=itemToPut.get(1);
+            if(j==b && itemToPut.size() > 1){
+                Grid[firstFreeRow(m)][m] = itemToPut.get(1);
                 this.itemsInGrid++;
             }
-            if (j==c){
-                Grid[firstFreeRow(m)][m]=itemToPut.get(2);
+            if (j==c && itemToPut.size() > 2){
+                Grid[firstFreeRow(m)][m] = itemToPut.get(2);
                 this.itemsInGrid++;
             }
         }

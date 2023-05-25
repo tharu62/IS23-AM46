@@ -1,6 +1,7 @@
 package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Draw;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.RemoteException;
@@ -9,7 +10,6 @@ import java.util.Scanner;
 
 public class CLI extends Thread implements CLI_Interface {
     CONTROLLER controller;
-
     public CLI(CONTROLLER controller) {
         this.controller = controller;
     }
@@ -166,8 +166,12 @@ public class CLI extends Thread implements CLI_Interface {
             in = new Scanner(System.in);
             col = in.nextInt();
         }
-        controller.draw[controller.drawStatus] = row;
-        controller.draw[controller.drawStatus + 1] = col;
+        if(controller.draw.size() <= controller.drawStatus){
+            controller.draw.add(new Draw());
+        }
+        controller.draw.get(controller.drawStatus).coord[0] = row;
+        controller.draw.get(controller.drawStatus).coord[1] = col;
+        controller.draw.get(controller.drawStatus).item = controller.grid[row][col];
         return controller.setDraw(row,col);
     }
 
@@ -184,23 +188,58 @@ public class CLI extends Thread implements CLI_Interface {
             in = new Scanner(System.in);
             col = in.nextInt();
         }
-        System.out.println(" Insert the order ( 1 , 2 , 3 ) in which you want to put your draw : ");
         //TODO print your draw like a column of 3 item max.
-        System.out.println(" First item ( from top ) : ");
-        in = new Scanner(System.in);
-        a = in.nextInt();
-        //TODO print your draw like a column with the inserted order.
-        in = new Scanner(System.in);
-        b = in.nextInt();
-        //TODO print your draw like a column with the inserted order.
-        in = new Scanner(System.in);
-        c = in.nextInt();
-        //TODO print your draw like a column with the inserted order.
+        if(controller.draw.size() > 1) {
+            System.out.println(" Insert the order ( 1 , 2 , 3 ) in which you want to put your draw : ");
+            boolean retry = true;
+            int r;
+            while(retry) {
+                System.out.println(" First item ( from top ) : ");
+                in = new Scanner(System.in);
+                a = in.nextInt();
+                while( a < 3 && a >= 0 ) {
+                    System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
+                    in = new Scanner(System.in);
+                    a = in.nextInt();
+                }
+                //TODO print your draw like a column with the inserted order.
+                System.out.println(" Second item ( from top ) : ");
+                in = new Scanner(System.in);
+                b = in.nextInt();
+                while( b < 3 && b >= 0 ) {
+                    System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
+                    in = new Scanner(System.in);
+                    b = in.nextInt();
+                }
+                if(controller.draw.size() == 3) {
+                    //TODO print your draw like a column with the inserted order.
+                    System.out.println(" Second item ( from top ) : ");
+                    in = new Scanner(System.in);
+                    c = in.nextInt();
+                    while( c < 3 && c >= 0 ) {
+                        System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
+                        in = new Scanner(System.in);
+                        c = in.nextInt();
+                    }
+                    //TODO print your draw like a column with the inserted order.
+                }
+                System.out.println(" Do you want to redo put order ? ( 1 = yes ) ( anything else = no ) ");
+                in = new Scanner(System.in);
+                r = in.nextInt();
+                if (r != 1) {
+                    retry = false;
+                }
+            }
+
+        }
         return controller.setPut(a,b,c,col);
     }
 
     @Override
     public void endTurn() throws RemoteException {
+        controller.draw.clear();
+        controller.drawStatus = 0;
+        controller.put = new int[4];
         controller.endTurn();
     }
 

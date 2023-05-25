@@ -50,7 +50,7 @@ public class CONTROLLER {
         return game.CurrentLobbySize;
     }
     synchronized public boolean getLobbyIsFull(){
-        return this.LobbyIsFull;
+        return LobbyIsFull;
     }
 
     /*********************************************** SETTERS **********************************************************/
@@ -70,67 +70,63 @@ public class CONTROLLER {
     }
 
     synchronized public boolean setLogin(String username){
-        if(!LobbyIsFull && newUsername(username)) {
+        if(!getLobbyIsFull() && newUsername(username)) {
             if ( game.CurrentLobbySize == (game.LobbySize -1)) {
                 game.addPlayer(username);
                 game.setBoard();
                 game.DrawCommonGoalCards();
                 game.DrawPersonalGoalCards();
                 game.ChooseFirstPlayerSeat();
-                this.LobbyIsFull = true;
+                LobbyIsFull = true;
 
-                if ( this.getLobbyIsFull() && this.GameHasNotStarted ) {
-
-                    if(this.clientsRMI.size() > 0) {
-                        for (GameClient gc : clientsRMI) {
-                            try {
-                                gc.receiveBoard(this.getBoard());
-                            } catch (RemoteException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-
-                        for (GameClient gc : clientsRMI) {
-                            try {
-                                gc.receiveCommonGoals(this.getCommonGoalCard(0).getCardLogic().getId());
-                                gc.receiveCommonGoals(this.getCommonGoalCard(1).getCardLogic().getId());
-                            } catch (RemoteException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-
-                        for (GameClient gc : clientsRMI) {
-                            try {
-                                gc.receivePlayerToPlay(game.playerToPlay);
-                            } catch (RemoteException e) {
-                                throw new RuntimeException(e);
-                            }
+                if(this.clientsRMI.size() > 0) {
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receiveBoard(this.getBoard());
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
                         }
                     }
 
-                    if(clientsTCP.size() > 0) {
-                        Command temp = new Command();
-                        temp.cmd = CMD.BOARD;
-                        temp.broadcast = new BROADCAST();
-                        temp.broadcast.grid = new item[9][9];
-                        temp.broadcast.grid = getBoard();
-                        clientsTCP.get(0).broadcast(temp);
-
-                        temp = new Command();
-                        temp.broadcast = new BROADCAST();
-                        temp.broadcast.cardsID = new ArrayList<>();
-                        temp.cmd = CMD.COMMON_GOALS;
-                        temp.broadcast.cardsID.add(getCommonGoalCard(0).getCardLogic().getId());
-                        temp.broadcast.cardsID.add(getCommonGoalCard(1).getCardLogic().getId());
-                        clientsTCP.get(0).broadcast(temp);
-
-                        temp = new Command();
-                        temp.broadcast = new BROADCAST();
-                        temp.cmd = CMD.PLAYER_TO_PLAY;
-                        temp.broadcast.ptp = game.playerToPlay;
-                        clientsTCP.get(0).broadcast(temp);
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receiveCommonGoals(this.getCommonGoalCard(0).getCardLogic().getId());
+                            gc.receiveCommonGoals(this.getCommonGoalCard(1).getCardLogic().getId());
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                    GameHasNotStarted = false;
+
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receivePlayerToPlay(game.playerToPlay);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+                if(clientsTCP.size() > 0) {
+                    Command temp = new Command();
+                    temp.cmd = CMD.BOARD;
+                    temp.broadcast = new BROADCAST();
+                    temp.broadcast.grid = new item[9][9];
+                    temp.broadcast.grid = getBoard();
+                    clientsTCP.get(0).broadcast(temp);
+
+                    temp = new Command();
+                    temp.broadcast = new BROADCAST();
+                    temp.broadcast.cardsID = new ArrayList<>();
+                    temp.cmd = CMD.COMMON_GOALS;
+                    temp.broadcast.cardsID.add(getCommonGoalCard(0).getCardLogic().getId());
+                    temp.broadcast.cardsID.add(getCommonGoalCard(1).getCardLogic().getId());
+                    clientsTCP.get(0).broadcast(temp);
+
+                    temp = new Command();
+                    temp.broadcast = new BROADCAST();
+                    temp.cmd = CMD.PLAYER_TO_PLAY;
+                    temp.broadcast.ptp = game.playerToPlay;
+                    clientsTCP.get(0).broadcast(temp);
                 }
                 return true;
             } else {
@@ -141,8 +137,26 @@ public class CONTROLLER {
         return false;
     }
 
-    synchronized public boolean setTurn(String username){
-        return game.masterStartTurn(username);
+    public boolean setTurn(String username){
+        boolean turn = game.masterStartTurn(username);
+        if(game.IsOver){
+            if(this.clientsRMI.size() > 0) {
+                for (GameClient gc : clientsRMI) {
+                    try {
+                        gc.receiveWinner(game.space.winner);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            if(clientsTCP.size() > 0) {
+                Command temp = new Command();
+                temp.cmd = CMD.WINNER;
+                temp.username = game.space.winner;
+                clientsTCP.get(0).broadcast(temp);
+            }
+        }
+        return turn;
     }
 
     synchronized public boolean setDraw(String username, int n, int m){
@@ -162,6 +176,15 @@ public class CONTROLLER {
     synchronized public boolean setEndTurn( String username ){
         if(game.masterEndTurn(username)){
             if(this.clientsRMI.size() > 0) {
+                if(game.master.round.last){
+                    for (GameClient gc : clientsRMI) {
+                        try {
+                            gc.receiveLastRound();
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
                 for (GameClient gc : clientsRMI) {
                     try {
                         gc.receiveBoard(this.getBoard());
@@ -189,6 +212,11 @@ public class CONTROLLER {
             }
 
             if(clientsTCP.size() > 0) {
+                if(game.master.round.last){
+                    Command temp = new Command();
+                    temp.cmd = CMD.LAST_ROUND;
+                    clientsTCP.get(0).broadcast(temp);
+                }
                 Command temp = new Command();
                 temp.cmd = CMD.BOARD;
                 temp.broadcast = new BROADCAST();

@@ -40,7 +40,6 @@ public class SPACE {
         return player.get(i).bookshelf.putItems(m,a,b,c);
     }
 
-
     public String calculateScore(){
         int tempScore=0;
         int winner=0;

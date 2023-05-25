@@ -5,6 +5,7 @@ public class GAME {
     public MASTER master= new MASTER();
     public SPACE space= new SPACE();
     public CHAT chat;
+    public boolean IsOver = false;
     public int CurrentLobbySize = 0;
     public int LobbySize = 2;
     public String playerToPlay;
@@ -47,6 +48,7 @@ public class GAME {
         if(this.playerToPlay.equals(username)) {
             if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
                 space.calculateScore();
+                IsOver = true;
                 return false;
             }
             return true;
@@ -70,7 +72,7 @@ public class GAME {
 
     /** The player chooses the order to put the items in the bookshelf by giving each item_tile a number that goes from 0 to 2.
      * for example:
-     * if a=2 then the first item picked is the last to be put in the bookshelf in the m column.
+     * if a = 2 then the first item picked is the last to be put in the bookshelf in the m column.
      * If you fill the bookshelf you update the game to it's last round, NOT necessarily the last turn.
      *
      * @param m it's the column to put the items

@@ -151,6 +151,9 @@ public class ClientTCP extends Thread {
                 controller.put_valid = false;
                 break;
 
+            case LAST_ROUND:
+                controller.setLastRound();
+
             case RETURN_SCORE:
                 //TODO
                 break;
@@ -165,6 +168,9 @@ public class ClientTCP extends Thread {
                 reply_string = g.toJson(reply);
                 out.println(reply_string);
                 break;
+
+            case WINNER:
+                controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '"+ ObjCommand.username +"'");
         }
     }
 }

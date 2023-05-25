@@ -109,8 +109,13 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     }
 
     @Override
+    public void receiveLastRound() throws RemoteException {
+        controller.setLastRound();
+    }
+
+    @Override
     public void receiveWinner(String winner) {
-        controller.notifyCLI(" THE GAME HAS ENDED, THE WINNER IS : " + winner);
+        controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '"+ winner +"'");
     }
 
     @Override

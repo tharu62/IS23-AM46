@@ -7,7 +7,7 @@ import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
-import it.polimi.ingsw.VIEW.GUI.GUI;
+//import it.polimi.ingsw.VIEW.GUI.GUI;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class CONTROLLER{
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,}};
-    public int[] draw = new int[6];
+    public List<Draw> draw = new ArrayList<>(3);
     public int drawStatus = 0;
     public int[] put = new int[4];
     public boolean myTurn = false;
@@ -40,28 +40,28 @@ public class CONTROLLER{
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
-    public GUI gui = new GUI();
+    //public GUI gui = new GUI();
 
     /******************************************************************************************************************/
     public void notifyCLI(String message){
         cli.notify(message);
     }
-    public String getUsername(){
+    synchronized public String getUsername(){
         this.username = cli.getUsername();
         return this.username;
     }
 
-    public int getLobbySize(){
+    synchronized public int getLobbySize(){
         this.LobbySize = cli.getLobbySize();
         return this.LobbySize;
     }
 
-    public boolean getMyTurn(){
-        return this.myTurn;
+    synchronized public boolean getMyTurn(){
+        return myTurn;
     }
 
     /******************************************************************************************************************/
-    public void setPlayerToPlay( String ptp ) throws RemoteException {
+    synchronized public void setPlayerToPlay( String ptp ) throws RemoteException {
         if( this.username.toLowerCase().equals(ptp) ){
             if(connection == Connection.TCP){
                 Command c = new Command();
@@ -124,8 +124,8 @@ public class CONTROLLER{
             clientTCP.CommandSwitcher(send,clientTCP.out_ref);
             return cli.reply();
         }
-        if(connection == Connection.RMI){
-            return ClientRMI.gs.askDraw(this.username , row , col);
+        if(connection == Connection.RMI) {
+            return ClientRMI.gs.askDraw(this.username, row, col);
         }
         return false;
     }
@@ -167,14 +167,21 @@ public class CONTROLLER{
 
     public void endTurn() throws RemoteException {
         if(connection == Connection.TCP){
+            myTurn = false;
             Command send = new Command();
             send.cmd = CMD.END_TURN;
             send.username = this.username;
             clientTCP.CommandSwitcher( send , clientTCP.out_ref);
         }
         if(connection == Connection.RMI){
+            myTurn = false;
             ClientRMI.gs.endTurn(this.username);
         }
+    }
+    public void setLastRound(){
+        cli.notify("******************************************************************************************");
+        cli.notify(" LAST ROUND!!! ");
+        cli.notify("******************************************************************************************");
     }
 
 }
