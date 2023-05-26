@@ -1,7 +1,7 @@
 package it.polimi.ingsw.VIEW.GUI;
 
 
-/*
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.SocketException;
 
 
-
+/*
 public class LoginController implements Initializable {
     private Stage stage;
     private Scene scene;
@@ -38,6 +38,7 @@ public class LoginController implements Initializable {
     private ChoiceBox<String> choiceBox;
     @FXML
     private Label waiting_communication;
+    public boolean already_connected;
 
     private void sendLogInRequest() throws SocketException {
         if(already_connected){
@@ -93,5 +94,4 @@ public class LoginController implements Initializable {
 
 
 }
-
 */
