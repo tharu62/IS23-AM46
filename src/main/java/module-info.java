@@ -19,5 +19,6 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
     exports it.polimi.ingsw.VIEW.CLI;
     exports it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
-
+    exports it.polimi.ingsw.CONTROLLER_SCENE to javafx.fxml;
+    opens it.polimi.ingsw.CONTROLLER_SCENE to javafx.fxml;
 }

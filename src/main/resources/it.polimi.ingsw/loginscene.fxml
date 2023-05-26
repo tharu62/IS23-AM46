@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="223.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Title 2000x2000px.png" />
+            <Image url="@../Title 2000x2000px.png" />
          </image>
       </ImageView>
       <Label layoutX="134.0" layoutY="152.0" prefHeight="48.0" prefWidth="333.0" text="Welcome to the login stage pls insert your username" textFill="#fcf7f7" />

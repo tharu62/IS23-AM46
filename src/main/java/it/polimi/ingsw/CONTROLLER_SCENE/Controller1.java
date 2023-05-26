@@ -1,4 +1,4 @@
-/*
+
 
 package it.polimi.ingsw.CONTROLLER_SCENE;
 
@@ -21,4 +21,3 @@ public class Controller1
 
     }
 }
-*/
