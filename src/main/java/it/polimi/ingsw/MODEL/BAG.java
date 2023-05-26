@@ -89,8 +89,10 @@ public class BAG {
     }
 
     public item draw(){
-        item draw = itemList.get(itemList.size()-1);
-        itemList.remove(itemList.size() - 1);
+        Random random = new Random();
+        int drawn_item = random.nextInt(itemList.size());
+        item draw = itemList.get(drawn_item);
+        itemList.remove(drawn_item);
         return draw;
     }
 

@@ -5,8 +5,8 @@ import java.util.Random;
 public class CARD_LOGIC_GENERATOR {
     CARD_LOGIC temp;
     Random rand = new Random();
-    //int upperbound = 12;
-    int upperbound = 2; //used for testing
+    int upperbound = 12;
+    //int upperbound = 2; //used for testing
     int j = -1;
     public CARD_LOGIC SetCardLogic() {
         int i;

@@ -3,6 +3,8 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
+import it.polimi.ingsw.MODEL.item;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -74,6 +76,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         return controller.getPersonalGoalCards(username);
     }
 
+    public item[][] sendBookshelf(String username) throws RemoteException{
+        return controller.getBookshelf(username);
+    }
+
     @Override
     public boolean askMyTurn(String username) throws RemoteException {
         return controller.setTurn(username);
@@ -85,7 +91,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
-    public boolean askPutItem(String username, int a, int b, int c, int col) throws RemoteException {
+    public boolean askPutItem(String username,  int col, int a, int b, int c) throws RemoteException {
         return controller.setBookshelf( username, col , a , b , c );
     }
 

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.VIEW.CLI;
 
-import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.RemoteException;
@@ -16,7 +14,7 @@ public interface CLI_Interface {
     void printCommonGoals(List<Integer> commonGoalCards);
     void sendChat() throws RemoteException;
     void printActions();
-    void updateBookshelf();
+    void updateBookshelf() throws RemoteException;
     boolean reply() throws RemoteException;
     void printBookshelf(item[][] table);
     boolean askDraw() throws RemoteException;

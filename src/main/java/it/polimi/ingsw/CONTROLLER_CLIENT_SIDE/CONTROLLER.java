@@ -161,8 +161,10 @@ public class CONTROLLER{
         return false;
     }
 
-    public void setBookshelf(item[][] table) {
-        cli.printBookshelf(table);
+    public void setBookshelf() throws RemoteException {
+        //RMI
+        cli.printBookshelf(ClientRMI.gs.sendBookshelf(username));
+        //TCP
     }
 
     public void endTurn() throws RemoteException {
