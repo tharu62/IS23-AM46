@@ -26,7 +26,7 @@ public class SPACE {
             return false;
         }
         item temp = board.drawItem(n,m);
-        if(temp!=item.EMPTY){
+        if(temp != item.EMPTY){
             player.get(playerIndex).bookshelf.itemToPut.add(temp);
             i++;
             return true;

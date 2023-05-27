@@ -159,21 +159,21 @@ public class CONTROLLER {
         return turn;
     }
 
-    synchronized public boolean setDraw(String username, int n, int m){
+    public boolean setDraw(String username, int n, int m){
         return game.playerDrawItem(username, n, m);
     }
 
-    synchronized public boolean setBookshelf(String username, int m, int a, int b, int c){
+    public boolean setBookshelf(String username, int m, int a, int b, int c){
         return game.playerPutItems( username, m, a, b, c);
     }
 
-    synchronized public int setScore( String username ){
+    public int setScore( String username ){
         game.PlayerWantsToCheckScore(username);
         PLAYER player= (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         return player.score;
     }
 
-    synchronized public boolean setEndTurn( String username ){
+    public boolean setEndTurn( String username ){
         if(game.masterEndTurn(username)){
             if(this.clientsRMI.size() > 0) {
                 if(game.master.round.last){
@@ -242,30 +242,17 @@ public class CONTROLLER {
         return false;
     }
 
-    synchronized public void setChat(MESSAGE message) throws RemoteException {
+    public void setChat(MESSAGE message) throws RemoteException {
         game.chat.addMessage(message);
-        if(message.header[1].equals("everyone")) {
+        if(clientsTCP.size() > 0) {
             Command c = new Command();
-            c.chat = new CHAT();
-            c.chat.message = new MESSAGE();
-            c.chat.message = message;
-            c.chat.username = message.header[0];
-            this.clientsTCP.get(0).broadcast(c);
-            for (GameClient gc : clientsRMI) {
-                gc.receiveMessage(message);
-            }
-        }else{
-            Command c = new Command();
-            c.chat = new CHAT();
             c.cmd = CMD.FROM_SERVER_CHAT;
+            c.chat = new CHAT();
             c.chat.message = new MESSAGE();
             c.chat.message = message;
-            c.chat.username = message.header[0];
-            List<ClientHandler> receiver = this.clientsTCP
-                    .stream()
-                    .filter(a -> a.username.equals(message.header[1]))
-                    .toList();
-            receiver.get(0).CommandSwitcher(c); //TODO case receiver has no element? (to consider input management from client)
+            this.clientsTCP.get(0).broadcast(c);
+        }
+        if(this.clientsRMI.size() > 0) {
             for (GameClient gc : clientsRMI) {
                 gc.receiveMessage(message);
             }

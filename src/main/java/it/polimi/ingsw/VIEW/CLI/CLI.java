@@ -71,12 +71,27 @@ public class CLI extends Thread implements CLI_Interface {
                     inputNotValid = false;
                 }
 
+                if(StrCommand.equalsIgnoreCase("common goal")){
+                    printCommonGoals(controller.cards);
+                    inputNotValid = false;
+                }
+
+                if(StrCommand.equalsIgnoreCase("personal goal")){
+                    try {
+                        printPersonalGoal(controller.getPersonalGoal());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    inputNotValid = false;
+                }
+
                 if(StrCommand.equalsIgnoreCase("end turn")){
                     try {
                         endTurn();
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
+                    inputNotValid = false;
                 }
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
@@ -86,6 +101,7 @@ public class CLI extends Thread implements CLI_Interface {
         }
     }
 
+    /******************************************** INTERFACE_METHODS ***************************************************/
     @Override
     public void notify(String message) {
         System.out.println("******************************************************************************************");
@@ -342,6 +358,14 @@ public class CLI extends Thread implements CLI_Interface {
                 break;
             default:
                 System.out.print(Color.BLACK_DEFAULT.escape() + "   " + Color.RESET);
+        }
+    }
+
+    public int replyPersonal(){
+        while(true){
+            if(controller.reply_Personal){
+                return controller.PersonalGoalCardID;
+            }
         }
     }
 

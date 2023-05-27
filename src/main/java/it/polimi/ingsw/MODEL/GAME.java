@@ -2,9 +2,9 @@ package it.polimi.ingsw.MODEL;
 
 
 public class GAME {
-    public MASTER master= new MASTER();
-    public SPACE space= new SPACE();
-    public CHAT chat;
+    public MASTER master = new MASTER();
+    public SPACE space = new SPACE();
+    public CHAT chat = new CHAT();
     public boolean IsOver = false;
     public int CurrentLobbySize = 0;
     public int LobbySize = 2;

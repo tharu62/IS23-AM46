@@ -31,39 +31,22 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         // Getting the registry
         Registry registry;
         registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, PORT);
-
         // Looking up the registry for the remote object
         gs = (GameServer) registry.lookup("GameService");
         gs.connect(this);
-
-        //TODO
-        // INPUT POSSIBILI DA VIEW
-        //gs.connect( this );
-        //gs.login(controller.username);
-        //gs.loginFirst(controller.username, controller.LobbySize);
-        //gs.sendPersonalGoal(controller.username);
-        //gs.askMyTurn(controller.username);
-        //gs.askDraw(controller.username, 1, 2);
-        //gs.askPutItem(controller.username, 1, 2, 3, 4);
-        //gs.askCheckScore(controller.username);
-        //gs.endTurn(controller.username);
-        //gs.sendMessage("");
-
     }
 
 
     @Override
     public void receiveMessage(MESSAGE message) throws RemoteException {
         if(message.header[1].equals(controller.username) || message.header[1].equals("everyone")){
-            controller.notifyCLI(" NEW CHAT MESSAGE : ");
-            controller.notifyCLI( message.header[0] + ":" + message.text);
+            controller.receiveChat(message);
         }
     }
 
     @Override
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
-            controller.LobbyIsFull = true;
             controller.notifyCLI("LOBBY_IS_FULL");
         }
         if(message.equals("FIRST_TO_CONNECT")){

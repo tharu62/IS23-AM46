@@ -17,8 +17,8 @@ public class CONTROLLER{
     public Connection connection;
     public String username;
     public boolean firstToConnect = false;
-    public boolean LoginAccepted = false;
-    public boolean LobbyIsFull = false;
+    public boolean LoginOK = false;
+    public boolean GameHasStarted = false;
     public int LobbySize;
     public item[][] grid;
     public item[][] bookshelf = {{item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT},
@@ -35,6 +35,8 @@ public class CONTROLLER{
     public boolean draw_valid = false;
     public boolean reply_put = false;
     public boolean put_valid = false;
+    public boolean reply_Personal = false;
+    public int PersonalGoalCardID = -1;
     public List<String> players = new ArrayList<>();
     public List<Integer> cards = new ArrayList<>();
     public ClientTCP clientTCP;
@@ -49,6 +51,25 @@ public class CONTROLLER{
     synchronized public String getUsername(){
         this.username = cli.getUsername();
         return this.username;
+    }
+
+    public int getPersonalGoal() throws RemoteException {
+        if(PersonalGoalCardID != -1 ){
+            return PersonalGoalCardID;
+        }
+        if(connection == Connection.TCP){
+            Command c = new Command();
+            c.cmd = CMD.SEND_PERSONAL_GOAL_CARD;
+            c.username = this.username;
+            String askPersonal = clientTCP.g.toJson(c);
+            clientTCP.out_ref.println(askPersonal);
+            return cli.replyPersonal();
+        }
+        if(connection == Connection.RMI){
+            PersonalGoalCardID = ClientRMI.gs.sendPersonalGoal(username);
+            return PersonalGoalCardID;
+        }
+        return -1;
     }
 
     synchronized public int getLobbySize(){
@@ -82,11 +103,20 @@ public class CONTROLLER{
     }
 
     public void setCommonGoals(int  cardID){
-        if(cards.size() < 1){
+        boolean setNotDone = true;
+        if(cards.size() == 0){
             cards.add(cardID);
-        }else{
+            setNotDone = false;
+        }
+        if(cards.size() == 1 && setNotDone){
             cards.add(cardID);
             cli.printCommonGoals(cards);
+            GameHasStarted = true;
+            setNotDone = false;
+        }
+        if(cards.size() == 2 && setNotDone){
+            cards = new ArrayList<>();
+            cards.add(cardID);
         }
     }
 
@@ -94,11 +124,12 @@ public class CONTROLLER{
         cli.printPersonalGoal(cardID);
     }
 
-    public void sendChat(String text, String receiver) throws RemoteException {
+    synchronized public void sendChat(String text, String receiver) throws RemoteException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.FROM_CLIENT_CHAT;
             send.chat = new CHAT();
+            send.chat.message = new MESSAGE();
             send.chat.message.text = text;
             send.chat.message.header[0] = this.username;
             send.chat.message.header[1] = receiver;
@@ -110,6 +141,23 @@ public class CONTROLLER{
             m.header[1] = receiver;
             m.text = text;
             ClientRMI.sendMessage(m);
+        }
+    }
+
+    public void receiveChat( MESSAGE message){
+        if(!myTurn) {
+            if(message.header[1].equals("everyone")) {
+                if(!message.header[0].equals(username)){
+                    notifyCLI(" NEW CHAT MESSAGE !");
+                    notifyCLI(message.header[0] + ":" + message.text);
+                }
+            }
+            if(message.header[1].equals(username)){
+                if(!message.header[0].equals(username)){
+                    notifyCLI(" NEW CHAT MESSAGE !");
+                    notifyCLI(message.header[0] + " ( PRIVATE ) : " + message.text);
+                }
+            }
         }
     }
 

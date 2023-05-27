@@ -2,7 +2,6 @@ package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.MESSAGE;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.RemoteException;
@@ -23,8 +22,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         this.controller.clientsRMI = this.clientsRMI;
         this.PORT = port;
     }
-    public void start() throws RemoteException {
 
+    public void start() throws RemoteException {
         Registry registry = LocateRegistry.createRegistry(PORT);
         try {
             registry.bind("GameService", this);
@@ -33,15 +32,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
             e.printStackTrace();
         }
         System.out.println(" Connection RMI ready ");
-
-        // TUTTI I POSSIBILI INPUT DA SERVER:
-        //clientsRMI.get(i).receiveMessage("");                             //BROADCAST
-        //clientsRMI.get(i).receiveLOG("");                                 //BROADCAST
-        //clientsRMI.get(i).receivePlayers(new List<String>);               //BROADCAST
-        //clientsRMI.get(i).receiveBoard( new item[0][0]);                  //BROADCAST
-        //clientsRMI.get(i).receiveCommonGoals(new List<COMMON_GOAL_CARD>); //BROADCAST
-        //clientsRMI.get(i).receivePlayerToPlay("");                        //BROADCAST
-
     }
 
 

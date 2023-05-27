@@ -11,13 +11,13 @@ import java.io.IOException;
 public class GUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/ciao.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/ciao.fxml"));
         //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/helloscene.fxml"));
 
         /** loginscene.fxml non funziona perchè il rispettivo controller nel file fxml non esiste. */
         //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/loginscene.fxml"));
 
-        //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/playersscene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/playersscene.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 720, 480);
 
         /** getIcons non fa nulla per ora. */

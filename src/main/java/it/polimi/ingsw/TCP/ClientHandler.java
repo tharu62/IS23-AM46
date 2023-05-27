@@ -2,7 +2,6 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.TCP.COMANDS.BROADCAST;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
 import java.io.IOException;
@@ -55,7 +54,6 @@ public class ClientHandler extends Thread {
             Command ObjCommand = null;
             do {
                 while( (StrCommand = in.nextLine()) != null ) {
-                    System.out.println(" check reply Server ");
                     ObjCommand = g.fromJson(StrCommand, Command.class);
                     CommandSwitcher(ObjCommand);
 
@@ -170,7 +168,6 @@ public class ClientHandler extends Thread {
                 reply = new Command();
                 reply.cmd= CMD.FROM_SERVER_CHAT;
                 controller.setChat(ObjCommand.chat.message);
-                //broadcast(ObjCommand);
                 break;
 
             case FROM_SERVER_CHAT:

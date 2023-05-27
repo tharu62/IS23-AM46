@@ -76,7 +76,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case REPLY_ACCEPTED:
-                controller.LoginAccepted = true;
+                controller.LoginOK= true;
                 break;
 
             case REPLY_NOT_ACCEPTED:
@@ -159,8 +159,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case FROM_SERVER_CHAT:
-                controller.notifyCLI(" NEW CHAT MESSAGE : ");
-                controller.notifyCLI(ObjCommand.chat.message.header[0] + ":" + ObjCommand.chat.message.text);
+                controller.receiveChat(ObjCommand.chat.message);
                 break;
 
             case FROM_CLIENT_CHAT, ASK_DRAW:
