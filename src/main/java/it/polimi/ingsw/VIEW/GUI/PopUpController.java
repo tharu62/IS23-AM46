@@ -14,8 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class PopUpController {
-    public class PopUpController implements Initializable{
+public class PopUpController implements Initializable{
         private String title, message;
         private Stage owned;
 
@@ -48,6 +47,4 @@ public class PopUpController {
         public void setOwnStage(Stage s){
             owned = s;
         }
-    }
-
 }
