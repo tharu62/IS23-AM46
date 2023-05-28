@@ -2,7 +2,10 @@ package it.polimi.ingsw.VIEW.GUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.effect.ImageInput;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,12 +22,16 @@ public class GUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/AppWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        /** getIcons non fa nulla per ora. */
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("/livingroom.png")));
+
+        //Image img = new Image("sfondo_parquet.jpg"); //servirebbe l'URL qui
+        //ImageInput imginput = new ImageInput();
+        //imginput.setSource(img);
+        //Group root = new Group();
+        //scene = new Scene(root, 1920, 1080);
+
 
         stage.setTitle("Login");
         stage.setScene(scene);
-        stage.setResizable(false);
         stage.show();
         //LoginController loginController = fxmlLoader.getController();
         //loginController.setOwnStage(stage);

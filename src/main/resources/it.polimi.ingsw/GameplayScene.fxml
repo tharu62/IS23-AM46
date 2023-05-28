@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane cacheShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="1080.0" prefWidth="1920.0" snapToPixel="false" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.VIEW.GUI.GameplayScene">
+   <children>
+      <ImageView fx:id="BoardSlot" cache="true" fitHeight="627.0" fitWidth="671.0" focusTraversable="true" layoutX="176.0" layoutY="177.0" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+         <image>
+            <Image url="@../livingroom.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Bookshelf" fitHeight="424.0" fitWidth="401.0" layoutX="987.0" layoutY="35.0" preserveRatio="true">
+         <image>
+            <Image url="@../bookshelf.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="PersonalSlot" fitHeight="1080.0" fitWidth="100.0" layoutX="987.0" layoutY="491.0" preserveRatio="true">
+         <image>
+            <Image url="@../Personal_Goals.png" />
+         </image></ImageView>
+      <HBox alignment="BASELINE_CENTER" layoutX="1414.0" layoutY="30.0" prefHeight="629.0" prefWidth="477.0">
+         <children>
+            <TextFlow fx:id="Chat_output" prefHeight="431.0" prefWidth="477.0" style="-fx-background-color: lightblue;">
+               <children>
+                  <TextField fx:id="Chat_Input" onMouseClicked="#mouse_click" prefHeight="38.0" prefWidth="477.0" text="CHAT" />
+               </children></TextFlow>
+         </children></HBox>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+   <rotationAxis>
+      <Point3D />
+   </rotationAxis>
+</AnchorPane>
