@@ -8,7 +8,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface GameServer extends Remote {
-    void connect(GameClient cc) throws RemoteException;
+    void connect(GameClient cc) throws RemoteException, InterruptedException;
 
     boolean login(String username) throws RemoteException;
 

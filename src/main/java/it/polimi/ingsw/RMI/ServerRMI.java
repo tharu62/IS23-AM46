@@ -36,16 +36,20 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
 
     @Override
-    public void connect(GameClient gc) throws RemoteException {
+    public void connect(GameClient gc) throws RemoteException, InterruptedException {
         System.out.println ("A new Client has appeared");
         if(controller.LobbyIsFull){
             gc.receiveLOG("LOBBY_IS_FULL");
         }else {
             this.clientsRMI.add(gc);
-            if(controller.getCurrentLobbySize() >= 1){
+            if(controller.players >= 1){
+                synchronized (controller.lock) {
+                    controller.lock.wait();
+                }
                 gc.receiveLOG("CONNECTED");
             }
-            if(controller.getCurrentLobbySize() == 0){
+            if(controller.players == 0){
+                controller.players++;
                 gc.receiveLOG("FIRST_TO_CONNECT");
             }
         }

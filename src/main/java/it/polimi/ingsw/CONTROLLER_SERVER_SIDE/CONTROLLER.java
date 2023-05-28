@@ -21,6 +21,8 @@ public class CONTROLLER {
     public Gson g = new Gson();
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
+    public int players = 0;
+    public Object lock = new Object();
 
     /************************************************ GETTER **********************************************************/
 
@@ -64,6 +66,9 @@ public class CONTROLLER {
         if(LobbySize < 5 && LobbySize > 1) {
             game.LobbySize = LobbySize;
             game.addPlayer(username);
+            synchronized (lock) {
+                lock.notifyAll();
+            }
             return true;
         }
         return false;

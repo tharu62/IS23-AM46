@@ -41,16 +41,26 @@ public class CLI extends Thread implements CLI_Interface {
                     inputNotValid = false;
                 }
 
-                if (StrCommand.equalsIgnoreCase("draw")) {
+                if (!controller.draw_end && StrCommand.equalsIgnoreCase("draw")) {
                     while(true){
                         try {
                             if(askDraw()){
                                 System.out.println(" DRAW VALID. ");
-                                System.out.println(" KEEP DRAWING OR PUT THE ITEMS IN YOUR BOOKSHELF. ");
+                                if (controller.drawStatus == 2) controller.draw_end = true;
+                                else {
+                                    System.out.println(" DO YOU WANT TO DRAW ANOTHER TIME? (y = yes, other = no) ");
+                                    StrCommand = in.nextLine();
+                                    if (!StrCommand.equalsIgnoreCase("y")) controller.draw_end = true;
+                                }
                                 controller.drawStatus++;
                                 break;
                             }else{
                                 System.out.println(" DRAW NOT VALID, RETRY. ");
+                                if (controller.draw.size() > 0) {
+                                    System.out.println(" DO YOU WANT TO DRAW ANOTHER TIME? (y = yes, other = no) ");
+                                    StrCommand = in.nextLine();
+                                    if (!StrCommand.equalsIgnoreCase("y")) controller.draw_end = true;
+                                }
                             }
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
@@ -60,10 +70,12 @@ public class CLI extends Thread implements CLI_Interface {
                     inputNotValid = false;
                 }
 
-                if (StrCommand.equalsIgnoreCase("put")) {
+                if (controller.draw_end && StrCommand.equalsIgnoreCase("put")) {
                     try {
                         if(putDraw()){
                             updateBookshelf();
+                            controller.put_end = true;
+                            controller.end_turn = true;
                         }
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -85,7 +97,7 @@ public class CLI extends Thread implements CLI_Interface {
                     inputNotValid = false;
                 }
 
-                if(StrCommand.equalsIgnoreCase("end turn")){
+                if(controller.end_turn && StrCommand.equalsIgnoreCase("end turn")){
                     try {
                         endTurn();
                     } catch (RemoteException e) {
@@ -95,7 +107,6 @@ public class CLI extends Thread implements CLI_Interface {
                 }
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
-                    printActions();
                 }
             }
         }
@@ -229,10 +240,11 @@ public class CLI extends Thread implements CLI_Interface {
             boolean retry = true;
             int r;
             while(retry) {
+                r = -1;
                 System.out.println(" First item ( from top ) : ");
                 in = new Scanner(System.in);
                 a = in.nextInt();
-                while( a > 3 || a < 0 ) {
+                while(a < 0 || a > 2) {
                     System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
                     in = new Scanner(System.in);
                     a = in.nextInt();
@@ -241,26 +253,29 @@ public class CLI extends Thread implements CLI_Interface {
                 System.out.println(" Second item ( from top ) : ");
                 in = new Scanner(System.in);
                 b = in.nextInt();
-                while( b > 3 || b < 0 ) {
+                while(b < 0 || b > 2 || b == a) {
                     System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
                     in = new Scanner(System.in);
                     b = in.nextInt();
                 }
                 if(controller.draw.size() == 3) {
                     //TODO print your draw like a column with the inserted order.
-                    System.out.println(" Second item ( from top ) : ");
-                    in = new Scanner(System.in);
-                    c = in.nextInt();
-                    while( c > 3 || c < 0 ) {
-                        System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
-                        in = new Scanner(System.in);
-                        c = in.nextInt();
-                    }
+                    System.out.println(" Third item ( from top ) : ");
+                    if ((a == 0 && b == 1) || (a == 1 && b == 0)) c = 2;
+                    if ((a == 0 && b == 2) || (a == 2 && b == 0)) c = 1;
+                    if ((a == 2 && b == 1) || (a == 1 && b == 2)) c = 0;
+                    System.out.println(c);
                     //TODO print your draw like a column with the inserted order.
                 }
-                System.out.println(" Do you want to redo put order ? ( 1 = yes ) ( anything else = no ) ");
-                in = new Scanner(System.in);
-                r = in.nextInt();
+                while (r == -1) {
+                    try {
+                        System.out.println(" Do you want to redo put order ? ( 1 = yes ) ( anything else = no ) ");
+                        in = new Scanner(System.in);
+                        r = in.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Enter only numbers!");
+                    }
+                }
                 if (r != 1) {
                     retry = false;
                 }
@@ -284,11 +299,11 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" Actions: ");
         System.out.println(" (shutdown)         shutdown the APP ");
         System.out.println(" (chat)             chat with players ");
-        System.out.println(" (draw)             draw an item from the Board ");
-        System.out.println(" (put)              put items in your Bookshelf ");
+        if (!controller.draw_end) System.out.println(" (draw)             draw an item from the Board ");
+        if (controller.draw_end && !controller.put_end) System.out.println(" (put)              put items in your Bookshelf ");
         System.out.println(" (common goal)      show the common goals ");
         System.out.println(" (personal goal)    show your personal goal  ");
-        System.out.println(" (end turn)         end your turn ");
+        if (controller.end_turn) System.out.println(" (end turn)         end your turn ");
 
     }
 

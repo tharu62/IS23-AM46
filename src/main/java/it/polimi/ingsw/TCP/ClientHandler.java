@@ -37,13 +37,17 @@ public class ClientHandler extends Thread {
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            if(controller.getCurrentLobbySize() == 0){
+            if(controller.players == 0){
+                controller.players++;
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT;
                 reply_string = g.toJson(reply);
                 out.println(reply_string);
             }
             else{
+                synchronized (controller.lock){
+                    controller.lock.wait();
+                }
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED;
                 reply_string = g.toJson(reply);
@@ -72,6 +76,8 @@ public class ClientHandler extends Thread {
             socket.close();
         } catch (IOException e) {
             System.err.println(e.getMessage());  //TODO
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

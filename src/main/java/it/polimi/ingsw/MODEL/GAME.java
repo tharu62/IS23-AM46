@@ -65,6 +65,7 @@ public class GAME {
      */
     public boolean playerDrawItem(String username, int n, int m){
         if (this.playerToPlay.equals(username)){
+            if (space.player.get(search(username)).bookshelf.IsFull) return false;
             return space.draw(search(username), n, m);
         }
         return false;
@@ -136,9 +137,14 @@ public class GAME {
      * @return true if the correct player has ended the turn.
      */
     public boolean masterEndTurn( String username ) {
+        if(space.board.IsToBeRestored()){
+            space.board.restore();
+        }
         if (playerToPlay.equals(username)) {
             this.playerToPlay = master.ChooseNextPlayer();
             space.player.get(search(username)).bookshelf.itemToPut.clear();
+            space.board.itemCounter = 0;
+            space.i = 0;
             return true;
         }
         return false;

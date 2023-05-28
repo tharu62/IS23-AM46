@@ -42,6 +42,10 @@ public class CONTROLLER{
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
+
+    public boolean draw_end = false;
+    public boolean end_turn = false;
+    public boolean put_end = false;
     //public GUI gui = new GUI();
 
     /******************************************************************************************************************/
@@ -216,6 +220,9 @@ public class CONTROLLER{
     }
 
     public void endTurn() throws RemoteException {
+        draw_end = false;
+        put_end = false;
+        end_turn = false;
         if(connection == Connection.TCP){
             myTurn = false;
             Command send = new Command();
