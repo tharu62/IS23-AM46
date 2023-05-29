@@ -67,6 +67,8 @@ public class ClientTCP extends Thread {
                 break;
 
             case CONNECTED:
+                controller.LobbyIsReady = true;
+                controller.cli.notifyThread();
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED_REPLY;
@@ -104,6 +106,11 @@ public class ClientTCP extends Thread {
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 break;
 
+            case LOBBY_IS_NOT_READY:
+                controller.need_to_reconnect = true;
+                controller.cli.notifyThread();
+                break;
+
             case BOARD:
                 controller.setBoard(ObjCommand.broadcast.grid);
                 break;
@@ -121,24 +128,28 @@ public class ClientTCP extends Thread {
                 controller.setPersonalGoal(ObjCommand.gameplay.cardID);
                 break;
 
+            case BOOKSHELF:
+                controller.cli.printBookshelf(ObjCommand.gameplay.bookshelf);
+                break;
+
             case IT_IS_YOUR_TURN:
                 controller.notifyCLI(ObjCommand.cmd.toString());
-                controller.myTurn = true;
+                controller.setMyTurn(true);
                 break;
 
             case IT_IS_NOT_YOUR_TURN:
                 controller.notifyCLI(ObjCommand.cmd.toString());
-                controller.myTurn = false;
+                controller.setMyTurn(false);
                 break;
 
             case DRAW_VALID:
-                controller.reply_draw = true;
                 controller.draw_valid = true;
+                controller.reply_draw = true;
                 break;
 
             case DRAW_NOT_VALID:
-                controller.reply_draw = true;
                 controller.draw_valid = false;
+                controller.reply_draw = true;
                 break;
 
             case PUT_VALID:
@@ -162,7 +173,7 @@ public class ClientTCP extends Thread {
                 controller.receiveChat(ObjCommand.chat.message);
                 break;
 
-            case FROM_CLIENT_CHAT, ASK_DRAW:
+            case FROM_CLIENT_CHAT, ASK_DRAW, ASK_PUT_ITEM , ASK_BOOKSHELF , END_TURN , ASK_MY_TURN:
                 reply = ObjCommand;
                 reply_string = g.toJson(reply);
                 out.println(reply_string);
@@ -170,6 +181,7 @@ public class ClientTCP extends Thread {
 
             case WINNER:
                 controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '"+ ObjCommand.username +"'");
+                break;
         }
     }
 }

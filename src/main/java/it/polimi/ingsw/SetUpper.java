@@ -99,7 +99,7 @@ public class SetUpper {
                     controller.connection = Connection.TCP;
                     ClientTCP client = new ClientTCP(controller, Settings.PORT_TCP);
                     controller.clientTCP = client;
-                    controller.cli.start();
+                    controller.startCLI();
                     client.start();
                 }
                 if(selectedRMI){
@@ -107,7 +107,7 @@ public class SetUpper {
                     controller.connection = Connection.RMI;
                     ClientRMI client = new ClientRMI(controller, Settings.PORT_RMI);
                     controller.clientRMI = client;
-                    controller.cli.start();
+                    controller.startCLI();
                     client.start();
                 }
             }

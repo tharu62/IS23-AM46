@@ -43,10 +43,16 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         }else {
             this.clientsRMI.add(gc);
             if(controller.players >= 1){
-                synchronized (controller.lock) {
-                    controller.lock.wait();
+                if(controller.lobbyIsReady){
+                    gc.receiveLOG("CONNECTED");
                 }
-                gc.receiveLOG("CONNECTED");
+                else{
+                    gc.receiveLOG("LOBBY_IS_NOT_READY");
+                }
+                //synchronized (controller.lock) {
+                  //  controller.lock.wait();
+                //}
+
             }
             if(controller.players == 0){
                 controller.players++;
@@ -72,6 +78,16 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     public item[][] sendBookshelf(String username) throws RemoteException{
         return controller.getBookshelf(username);
+    }
+
+    @Override
+    public void askLobbyReady(GameClient gc) throws RemoteException {
+        if(controller.lobbyIsReady){
+            gc.receiveLOG("CONNECTED");
+        }
+        else{
+            gc.receiveLOG("LOBBY_IS_NOT_READY");
+        }
     }
 
     @Override

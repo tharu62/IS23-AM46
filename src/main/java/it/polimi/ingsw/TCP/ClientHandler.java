@@ -2,6 +2,7 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class ClientHandler extends Thread {
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            if(controller.players == 0){
+            if(controller.getCurrentPlayers() == 0){
                 controller.players++;
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT;
@@ -45,17 +46,25 @@ public class ClientHandler extends Thread {
                 out.println(reply_string);
             }
             else{
-                synchronized (controller.lock){
-                    controller.lock.wait();
+                //synchronized (controller.lock){
+                  //  controller.lock.wait();
+                //}
+                if(controller.getLobbyIsReady()){
+                    reply = new Command();
+                    reply.cmd = CMD.CONNECTED;
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
                 }
-                reply = new Command();
-                reply.cmd = CMD.CONNECTED;
-                reply_string = g.toJson(reply);
-                out.println(reply_string);
+                else{
+                    reply = new Command();
+                    reply.cmd = CMD.LOBBY_IS_NOT_READY;
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }
             }
 
             String StrCommand;
-            Command ObjCommand = null;
+            Command ObjCommand;
             do {
                 while( (StrCommand = in.nextLine()) != null ) {
                     ObjCommand = g.fromJson(StrCommand, Command.class);
@@ -76,8 +85,8 @@ public class ClientHandler extends Thread {
             socket.close();
         } catch (IOException e) {
             System.err.println(e.getMessage());  //TODO
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        //} catch (InterruptedException e) {
+          //  throw new RuntimeException(e);
         }
     }
 
@@ -115,13 +124,38 @@ public class ClientHandler extends Thread {
                 active= true;
                 break;
 
+            case ASK_LOBBY_READY:
+                if(controller.getLobbyIsReady()){
+                    reply = new Command();
+                    reply.cmd = CMD.CONNECTED;
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }
+                else{
+                    reply = new Command();
+                    reply.cmd = CMD.LOBBY_IS_NOT_READY;
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }
+                break;
+
             case SEND_PERSONAL_GOAL_CARD:
                 reply = new Command();
                 reply.cmd = CMD.PERSONAL_GOAL_CARD_REPLY;
                 reply.gameplay = new GAMEPLAY();
                 reply.gameplay.cardID = controller.getPersonalGoalCards(ObjCommand.username);
                 reply_string = g.toJson(reply);
-                active= true;
+                active = true;
+                break;
+
+            case ASK_BOOKSHELF:
+                reply = new Command();
+                reply.cmd = CMD.BOOKSHELF;
+                reply.gameplay = new GAMEPLAY();
+                reply.gameplay.bookshelf = new item[6][5];
+                reply.gameplay.bookshelf = controller.getBookshelf(ObjCommand.username);
+                reply_string = g.toJson(reply);
+                active = true;
                 break;
 
             case ASK_MY_TURN:
@@ -179,6 +213,7 @@ public class ClientHandler extends Thread {
             case FROM_SERVER_CHAT:
                 reply_string = g.toJson(ObjCommand);
                 out.println(reply_string);
+                break;
         }
     }
 }

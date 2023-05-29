@@ -36,7 +36,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         gs.connect(this);
     }
 
-
     @Override
     public void receiveMessage(MESSAGE message) throws RemoteException {
         if(message.header[1].equals(controller.username) || message.header[1].equals("everyone")){
@@ -48,6 +47,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
             controller.notifyCLI("LOBBY_IS_FULL");
+            controller.cli.notifyThread();
         }
         if(message.equals("FIRST_TO_CONNECT")){
             controller.notifyCLI("FIRST_TO_CONNECT");
@@ -58,11 +58,15 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
             }
         }
         if(message.equals("CONNECTED")){
+            controller.setLobbyIsReady();
             controller.notifyCLI("CONNECTED");
             LoginOK = gs.login(controller.getUsername());
             while(!LoginOK){
                 LoginOK = gs.login(controller.getUsername());
             }
+        }
+        if(message.equals("LOBBY_IS_NOT_READY")){
+            controller.need_to_reconnect = true;
         }
     }
 

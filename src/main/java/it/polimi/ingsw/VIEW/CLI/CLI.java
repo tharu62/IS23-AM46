@@ -21,9 +21,53 @@ public class CLI extends Thread implements CLI_Interface {
         boolean inputNotValid = true;
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
+
+        //TODO completare la fase iniziale di login automatico
+        /**
+        if(controller.connection == Connection.TCP) {
+            while (!controller.getLobbyIsReady()) {
+                if (controller.getMyTurn()) {
+                    break;
+                }
+                if (controller.getNeedToReconnect()) {
+                    System.out.println(" The first player has not chosen a lobby size yet, wait a little and retry to login. ");
+                    System.out.println(" Trying to reconnect... ");
+                    synchronized (this) {
+                        try {
+                            wait(2000);
+                            controller.connect();
+                            wait();
+                        } catch (RemoteException | InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        }
+        if(controller.connection == Connection.RMI){
+            while (!controller.getLobbyIsReady()) {
+                if (controller.getNeedToReconnect()) {
+                    System.out.println(" The first player has not chosen a lobby size yet, wait a little  and retry to login. ");
+                    System.out.println(" Trying to reconnect... ");
+                    try {
+                        controller.connect();
+
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                synchronized (this){
+                    try {
+                        wait(2000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        */
         while (true) {
             if(controller.getMyTurn()) {
-                //printBookshelf(controller.bookshelf);
                 printActions();
                 StrCommand = in.nextLine();
 
@@ -41,41 +85,35 @@ public class CLI extends Thread implements CLI_Interface {
                     inputNotValid = false;
                 }
 
+                if( StrCommand.equalsIgnoreCase("draw") && controller.draw_end){
+                    System.out.println(" YOU HAVE DRAWN 3 ITEM! YOU CAN'T DRAW MORE. NOW YOU HAVE TO PUT YOUR DRAW IN YOUR BOOKSHELF! ");
+                }
                 if (!controller.draw_end && StrCommand.equalsIgnoreCase("draw")) {
-                    while(true){
-                        try {
-                            if(askDraw()){
-                                System.out.println(" DRAW VALID. ");
-                                if (controller.drawStatus == 2) controller.draw_end = true;
-                                else {
-                                    System.out.println(" DO YOU WANT TO DRAW ANOTHER TIME? (y = yes, other = no) ");
-                                    StrCommand = in.nextLine();
-                                    if (!StrCommand.equalsIgnoreCase("y")) controller.draw_end = true;
-                                }
-                                controller.drawStatus++;
-                                break;
-                            }else{
-                                System.out.println(" DRAW NOT VALID, RETRY. ");
-                                if (controller.draw.size() > 0) {
-                                    System.out.println(" DO YOU WANT TO DRAW ANOTHER TIME? (y = yes, other = no) ");
-                                    StrCommand = in.nextLine();
-                                    if (!StrCommand.equalsIgnoreCase("y")) controller.draw_end = true;
-                                }
+                    try {
+                        if(askDraw()){
+                            System.out.println(" DRAW VALID. ");
+                            controller.drawStatus++;
+                            if (controller.drawStatus == 3) {
+                                controller.draw_end = true;
                             }
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
+                        }else{
+                            System.out.println(" DRAW NOT VALID, RETRY. ");
                         }
-
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
                     }
                     inputNotValid = false;
                 }
 
-                if (controller.draw_end && StrCommand.equalsIgnoreCase("put")) {
+                if ( StrCommand.equalsIgnoreCase("put")) {
                     try {
                         if(putDraw()){
                             updateBookshelf();
                             controller.put_end = true;
                             controller.end_turn = true;
+                        }
+                        else{
+                            System.out.println(" PUT NOT VALID, RETRY. ");
                         }
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -232,56 +270,44 @@ public class CLI extends Thread implements CLI_Interface {
             } catch (InputMismatchException e) {
                 System.out.println("Enter only number!");
             }
-            if (col < -1 || col > 4)System.out.println(" Put out of bound!!! You can only insert a number between 0 and 4. ");
+            if (col < 0 || col > 4){
+                System.out.println(" Put out of bound!!! You can only insert a number between 0 and 4. ");
+            }
         } while (col < 0 || col > 4);
         //TODO print your draw like a column of 3 item max.
+
         if(controller.draw.size() > 1) {
-            System.out.println(" Insert the order ( 1 , 2 , 3 ) in which you want to put your draw : ");
-            boolean retry = true;
-            int r;
-            while(retry) {
-                r = -1;
-                System.out.println(" First item ( from top ) : ");
+            System.out.println(" Insert the order ( 0 , 1 , 2 ) in which you want to put your draw : ");
+            System.out.println(" First drawn item order of put ( from top ) : ");
+            in = new Scanner(System.in);
+            a = in.nextInt();
+            while(a < 0 || a > 2) {
+                System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
                 in = new Scanner(System.in);
                 a = in.nextInt();
-                while(a < 0 || a > 2) {
-                    System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
-                    in = new Scanner(System.in);
-                    a = in.nextInt();
-                }
-                //TODO print your draw like a column with the inserted order.
-                System.out.println(" Second item ( from top ) : ");
+            }
+            //TODO print your draw like a column with the inserted order.
+            System.out.println(" Second drawn item order of put ( from top ) : ");
+            in = new Scanner(System.in);
+            b = in.nextInt();
+            while(b < 0 || b > 2 || b == a) {
+                System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
                 in = new Scanner(System.in);
                 b = in.nextInt();
-                while(b < 0 || b > 2 || b == a) {
-                    System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
-                    in = new Scanner(System.in);
-                    b = in.nextInt();
-                }
-                if(controller.draw.size() == 3) {
-                    //TODO print your draw like a column with the inserted order.
-                    System.out.println(" Third item ( from top ) : ");
-                    if ((a == 0 && b == 1) || (a == 1 && b == 0)) c = 2;
-                    if ((a == 0 && b == 2) || (a == 2 && b == 0)) c = 1;
-                    if ((a == 2 && b == 1) || (a == 1 && b == 2)) c = 0;
-                    System.out.println(c);
-                    //TODO print your draw like a column with the inserted order.
-                }
-                while (r == -1) {
-                    try {
-                        System.out.println(" Do you want to redo put order ? ( 1 = yes ) ( anything else = no ) ");
-                        in = new Scanner(System.in);
-                        r = in.nextInt();
-                    } catch (InputMismatchException e) {
-                        System.out.println("Enter only numbers!");
-                    }
-                }
-                if (r != 1) {
-                    retry = false;
-                }
             }
-
-        } else a = 0;
+            if(controller.draw.size() == 3) {
+                //TODO print your draw like a column with the inserted order.
+                System.out.println(" Third drawn item order of put ( from top ) : ");
+                if ((a == 0 && b == 1) || (a == 1 && b == 0)) c = 2;
+                if ((a == 0 && b == 2) || (a == 2 && b == 0)) c = 1;
+                if ((a == 2 && b == 1) || (a == 1 && b == 2)) c = 0;
+                System.out.println(c);
+                //TODO print your draw like a column with the inserted order.
+            }
+        }
+        else {
+            a = 0;
+        }
         return controller.setPut(a,b,c,col);
     }
 
@@ -299,23 +325,22 @@ public class CLI extends Thread implements CLI_Interface {
         System.out.println(" Actions: ");
         System.out.println(" (shutdown)         shutdown the APP ");
         System.out.println(" (chat)             chat with players ");
-        if (!controller.draw_end) System.out.println(" (draw)             draw an item from the Board ");
-        if (controller.draw_end && !controller.put_end) System.out.println(" (put)              put items in your Bookshelf ");
+        System.out.println(" (draw)             draw an item from the Board ");
+        if (controller.drawStatus > 0){
+            System.out.println(" (put)              put items in your Bookshelf ");
+        }
         System.out.println(" (common goal)      show the common goals ");
         System.out.println(" (personal goal)    show your personal goal  ");
-        if (controller.end_turn) System.out.println(" (end turn)         end your turn ");
-
+        System.out.println(" (end turn)         end your turn ");
     }
 
     @Override
     public void updateBookshelf() throws RemoteException {
-        //TODO look in the controller for the draw array and the put order and update the bookshelf.
         controller.setBookshelf();
     }
 
-
     @Override
-    public boolean reply() throws RemoteException {
+    public boolean reply() {
         while(true){
             if(controller.reply_draw){
                 controller.reply_draw = false;
@@ -323,13 +348,14 @@ public class CLI extends Thread implements CLI_Interface {
             }
             if(controller.reply_put){
                 controller.reply_put = false;
+                System.out.println(" CHECK 5");
                 return controller.put_valid;
             }
         }
     }
 
     @Override
-    public void printBookshelf(item[][] table) {
+    synchronized public void printBookshelf(item[][] table) {
         System.out.println(" ");
         System.out.println(" BOOKSHELF ");
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
@@ -381,6 +407,12 @@ public class CLI extends Thread implements CLI_Interface {
             if(controller.reply_Personal){
                 return controller.PersonalGoalCardID;
             }
+        }
+    }
+
+    public void notifyThread(){
+        synchronized (this){
+            notifyAll();
         }
     }
 

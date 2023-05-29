@@ -15,6 +15,7 @@ import java.util.List;
 public class CONTROLLER {
     public GAME game;
     public boolean GameHasNotStarted = true;
+    public boolean lobbyIsReady = false;
     public boolean TurnHasStarted = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
@@ -26,55 +27,55 @@ public class CONTROLLER {
 
     /************************************************ GETTER **********************************************************/
 
-    synchronized public item[][] getBookshelf(String username){
+    public item[][] getBookshelf(String username){
         int playerIndex = game.search(username);
-        if(game.space.player == null){
-            // yet to understand CONTROLLER behavior if non-legal command is given
-            return new item[0][];
-        }else {
-            return game.space.player.get(playerIndex).bookshelf.getGrid();
-        }
+        return game.space.player.get(playerIndex).bookshelf.getGrid();
     }
-    synchronized public item[][] getBoard(){
+    public item[][] getBoard(){
         return game.space.board.Grid;
     }
 
-    synchronized public int getPersonalGoalCards(String username){
+    public int getPersonalGoalCards(String username){
         int playerIndex = game.search(username);
         return game.space.player.get(playerIndex).personal.getCardLogic().getId();
     }
 
-    synchronized public COMMON_GOAL_CARD getCommonGoalCard(int i){
+    public COMMON_GOAL_CARD getCommonGoalCard(int i){
         return game.master.FirstDraw.card.get(i);
     }
 
-    synchronized public int getCurrentLobbySize(){
+    public int getCurrentLobbySize(){
         return game.CurrentLobbySize;
     }
-    synchronized public boolean getLobbyIsFull(){
+    public boolean getLobbyIsReady() { return lobbyIsReady; }
+    public int getCurrentPlayers(){
+        return players;
+    }
+    public boolean getLobbyIsFull(){
         return LobbyIsFull;
     }
 
     /*********************************************** SETTERS **********************************************************/
 
-    synchronized public void setGame(GAME game){
+    public void setGame(GAME game){
         this.game = game;
     }
 
     //TODO caso in cui più player accedono contemporaneamente.
-    synchronized public boolean setFirstLogin(String username, int LobbySize){
+    public boolean setFirstLogin(String username, int LobbySize){
         if(LobbySize < 5 && LobbySize > 1) {
             game.LobbySize = LobbySize;
             game.addPlayer(username);
-            synchronized (lock) {
-                lock.notifyAll();
-            }
+            lobbyIsReady = true;
+            //synchronized (lock) {
+              //  lock.notifyAll();
+            //}
             return true;
         }
         return false;
     }
 
-    synchronized public boolean setLogin(String username){
+    public boolean setLogin(String username){
         if(!getLobbyIsFull() && newUsername(username)) {
             if ( game.CurrentLobbySize == (game.LobbySize -1)) {
                 game.addPlayer(username);
@@ -266,7 +267,7 @@ public class CONTROLLER {
 
     /******************************************************************************************************************/
 
-    synchronized private boolean newUsername(String username){
+    private boolean newUsername(String username){
         //TODO
         return true;
     }

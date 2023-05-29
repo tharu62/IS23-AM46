@@ -1,7 +1,6 @@
 package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.MODEL.MESSAGE;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.Remote;
@@ -29,4 +28,6 @@ public interface GameServer extends Remote {
     void sendMessage(MESSAGE message) throws RemoteException;
 
     item[][] sendBookshelf(String username) throws RemoteException;
+
+    void askLobbyReady(GameClient gc) throws RemoteException;
 }

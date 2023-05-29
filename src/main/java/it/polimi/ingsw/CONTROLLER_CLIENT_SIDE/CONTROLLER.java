@@ -18,6 +18,8 @@ public class CONTROLLER{
     public String username;
     public boolean firstToConnect = false;
     public boolean LoginOK = false;
+    public boolean LobbyIsReady = false;
+    public boolean need_to_reconnect = false;
     public boolean GameHasStarted = false;
     public int LobbySize;
     public item[][] grid;
@@ -42,7 +44,6 @@ public class CONTROLLER{
     public ClientTCP clientTCP;
     public ClientRMI clientRMI;
     public CLI cli = new CLI(this);
-
     public boolean draw_end = false;
     public boolean end_turn = false;
     public boolean put_end = false;
@@ -76,24 +77,49 @@ public class CONTROLLER{
         return -1;
     }
 
-    synchronized public int getLobbySize(){
+    public int getLobbySize(){
         this.LobbySize = cli.getLobbySize();
         return this.LobbySize;
     }
-
+    synchronized public boolean getNeedToReconnect(){
+        return need_to_reconnect;
+    }
+    synchronized public boolean getLobbyIsReady(){
+        return LobbyIsReady;
+    }
     synchronized public boolean getMyTurn(){
         return myTurn;
     }
 
     /******************************************************************************************************************/
+
+    synchronized public void setLobbyIsReady(){
+        this.LobbyIsReady = true;
+    }
+
+    synchronized public void setMyTurn(boolean bool){
+        this.myTurn = bool;
+    }
+
+    public void connect() throws RemoteException {
+        if(connection == Connection.TCP){
+            Command c = new Command();
+            c.cmd = CMD.ASK_LOBBY_READY;
+            String askLobby = clientTCP.g.toJson(c);
+            clientTCP.out_ref.println(askLobby);
+        }
+        if(connection == Connection.RMI){
+            ClientRMI.gs.askLobbyReady( clientRMI );
+        }
+    }
+
     synchronized public void setPlayerToPlay( String ptp ) throws RemoteException {
         if( this.username.toLowerCase().equals(ptp) ){
             if(connection == Connection.TCP){
                 Command c = new Command();
                 c.cmd = CMD.ASK_MY_TURN;
                 c.username = this.username;
-                String askTurn = clientTCP.g.toJson(c);
-                clientTCP.out_ref.println(askTurn);
+                clientTCP.CommandSwitcher(c , clientTCP.out_ref);
             }
             if(connection == Connection.RMI){
                 myTurn = ClientRMI.gs.askMyTurn( this.username );
@@ -128,7 +154,7 @@ public class CONTROLLER{
         cli.printPersonalGoal(cardID);
     }
 
-    synchronized public void sendChat(String text, String receiver) throws RemoteException {
+    public void sendChat(String text, String receiver) throws RemoteException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.FROM_CLIENT_CHAT;
@@ -169,17 +195,17 @@ public class CONTROLLER{
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.ASK_DRAW;
+            send.username = this.username;
             send.gameplay = new GAMEPLAY();
-            send.gameplay.pos = new ArrayList<>();
-            send.gameplay.pos.add(row);
-            send.gameplay.pos.add(col);
+            send.gameplay.pos = new ArrayList<Integer>();
+            send.gameplay.pos.add(0,row);
+            send.gameplay.pos.add(1,col);
             clientTCP.CommandSwitcher(send,clientTCP.out_ref);
             return cli.reply();
         }
-        if(connection == Connection.RMI) {
+        else {
             return ClientRMI.gs.askDraw(this.username, row, col);
         }
-        return false;
     }
 
     public boolean setPut(int a, int b, int c ,int col) throws RemoteException {
@@ -193,7 +219,7 @@ public class CONTROLLER{
             send.gameplay.pos.add(a);
             send.gameplay.pos.add(b);
             send.gameplay.pos.add(c);
-            clientTCP.CommandSwitcher( send , clientTCP.out_ref);
+            clientTCP.CommandSwitcher(send,clientTCP.out_ref);
             put[0] = col;
             put[1] = a;
             put[2] = b;
@@ -214,9 +240,15 @@ public class CONTROLLER{
     }
 
     public void setBookshelf() throws RemoteException {
-        //RMI
-        cli.printBookshelf(ClientRMI.gs.sendBookshelf(username));
-        //TCP
+        if(connection == Connection.TCP){
+            Command send = new Command();
+            send.cmd = CMD.ASK_BOOKSHELF;
+            send.username = this.username;
+            clientTCP.CommandSwitcher(send,clientTCP.out_ref);
+        }
+        if(connection == Connection.RMI){
+            cli.printBookshelf(ClientRMI.gs.sendBookshelf(username));
+        }
     }
 
     public void endTurn() throws RemoteException {
@@ -228,17 +260,23 @@ public class CONTROLLER{
             Command send = new Command();
             send.cmd = CMD.END_TURN;
             send.username = this.username;
-            clientTCP.CommandSwitcher( send , clientTCP.out_ref);
+            clientTCP.CommandSwitcher(send , clientTCP.out_ref);
         }
         if(connection == Connection.RMI){
             myTurn = false;
             ClientRMI.gs.endTurn(this.username);
         }
     }
+
     public void setLastRound(){
         cli.notify("******************************************************************************************");
         cli.notify(" LAST ROUND!!! ");
         cli.notify("******************************************************************************************");
     }
 
+    public void startCLI(){
+        this.cli.start();
+    }
+
 }
+
