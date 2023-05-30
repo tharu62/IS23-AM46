@@ -18,8 +18,7 @@ public class ClientTCP extends Thread {
     public String reply_string;
     public PrintWriter out_ref;
 
-    public ClientTCP(CONTROLLER controller, int port){
-        this.controller = controller;
+    public ClientTCP( int port){
         this.PORT = port;
     }
 
@@ -68,7 +67,7 @@ public class ClientTCP extends Thread {
 
             case CONNECTED:
                 controller.LobbyIsReady = true;
-                controller.cli.notifyThread();
+                controller.cli.cmd.notifyThread();
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED_REPLY;
@@ -108,7 +107,7 @@ public class ClientTCP extends Thread {
 
             case LOBBY_IS_NOT_READY:
                 controller.need_to_reconnect = true;
-                controller.cli.notifyThread();
+                controller.cli.cmd.notifyThread();
                 break;
 
             case BOARD:
@@ -129,7 +128,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case BOOKSHELF:
-                controller.cli.printBookshelf(ObjCommand.gameplay.bookshelf);
+                controller.cli.cmd.printBookshelf(ObjCommand.gameplay.bookshelf);
                 break;
 
             case IT_IS_YOUR_TURN:
@@ -145,25 +144,25 @@ public class ClientTCP extends Thread {
             case DRAW_VALID:
                 controller.draw_valid = true;
                 controller.reply_draw = true;
-                controller.cli.notifyThread();
+                controller.cli.cmd.notifyThread();
                 break;
 
             case DRAW_NOT_VALID:
                 controller.draw_valid = false;
                 controller.reply_draw = true;
-                controller.cli.notifyThread();
+                controller.cli.cmd.notifyThread();
                 break;
 
             case PUT_VALID:
                 controller.reply_put = true;
                 controller.put_valid = true;
-                controller.cli.notifyThread();
+                controller.cli.cmd.notifyThread();
                 break;
 
             case PUT_NOT_VALID:
                 controller.reply_put = true;
                 controller.put_valid = false;
-                controller.cli.notifyThread();
+                controller.cli.cmd.notifyThread();
                 break;
 
             case LAST_ROUND:

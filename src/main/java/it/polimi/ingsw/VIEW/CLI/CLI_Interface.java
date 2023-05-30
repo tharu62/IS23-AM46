@@ -1,5 +1,6 @@
 package it.polimi.ingsw.VIEW.CLI;
 
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.RemoteException;
@@ -12,12 +13,17 @@ public interface CLI_Interface {
     void printBoard(item[][] grid);
     void printPersonalGoal(int personalGoalCard);
     void printCommonGoals(List<Integer> commonGoalCards);
-    void sendChat() throws RemoteException;
-    void printActions();
-    void updateBookshelf() throws RemoteException;
-    boolean reply() throws RemoteException;
+    void sendChat( CONTROLLER controller ) throws RemoteException;
+    void printActions(CONTROLLER controller);
+    void updateBookshelf(CONTROLLER controller) throws RemoteException;
+    boolean reply(CONTROLLER controller) throws RemoteException;
     void printBookshelf(item[][] table);
-    boolean askDraw() throws RemoteException, InterruptedException;
-    boolean putDraw() throws RemoteException, InterruptedException;
-    void endTurn() throws RemoteException;
+    boolean askDraw(CONTROLLER controller) throws RemoteException, InterruptedException;
+    boolean putDraw(CONTROLLER controller) throws RemoteException, InterruptedException;
+    void endTurn(CONTROLLER controller) throws RemoteException;
+    void colorTile(item[][] table, int i, int j);
+    int replyPersonal(CONTROLLER controller);
+    boolean replyDraw (CONTROLLER controller) throws InterruptedException;
+    boolean replyPut (CONTROLLER controller) throws InterruptedException;
+    void notifyThread();
 }

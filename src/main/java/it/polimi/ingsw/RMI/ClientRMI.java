@@ -4,6 +4,7 @@ import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.NETWORK.Client;
 import it.polimi.ingsw.NETWORK.Settings;
 
 import java.io.BufferedReader;
@@ -18,12 +19,11 @@ import java.util.List;
 
 public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public static GameServer gs;
-    CONTROLLER controller;
+    public CONTROLLER controller;
     public boolean LoginOK;
     final int PORT;
 
-    public ClientRMI(CONTROLLER controller, int port) throws RemoteException {
-        this.controller = controller;
+    public ClientRMI( int port ) throws RemoteException {
         this.PORT = port;
     }
 
@@ -47,7 +47,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
             controller.notifyCLI("LOBBY_IS_FULL");
-            controller.cli.notifyThread();
+            controller.cli.cmd.notifyThread();
         }
         if(message.equals("FIRST_TO_CONNECT")){
             controller.notifyCLI("FIRST_TO_CONNECT");

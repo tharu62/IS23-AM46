@@ -95,18 +95,16 @@ public class SetUpper {
             }
             if (selectedCLIENT) {
                 if (selectedTCP){
-                    CONTROLLER controller = new CONTROLLER();
-                    controller.connection = Connection.TCP;
-                    ClientTCP client = new ClientTCP(controller, Settings.PORT_TCP);
-                    controller.clientTCP = client;
+                    ClientTCP client = new ClientTCP(Settings.PORT_TCP );
+                    CONTROLLER controller = new CONTROLLER(Connection.TCP , client);
+                    client.controller = controller;
                     controller.startCLI();
                     client.start();
                 }
                 if(selectedRMI){
-                    CONTROLLER controller = new CONTROLLER();
-                    controller.connection = Connection.RMI;
-                    ClientRMI client = new ClientRMI(controller, Settings.PORT_RMI);
-                    controller.clientRMI = client;
+                    ClientRMI client = new ClientRMI(Settings.PORT_RMI);
+                    CONTROLLER controller = new CONTROLLER(Connection.RMI, client);
+                    client.controller = controller;
                     controller.startCLI();
                     client.start();
                 }
@@ -115,7 +113,7 @@ public class SetUpper {
 
         if(selectedGUI){
             if(selectedTCP){
-                CONTROLLER controller = new CONTROLLER();
+                //CONTROLLER controller = new CONTROLLER(Connection.RMI);
             }
             if(selectedRMI){
                 //TODO

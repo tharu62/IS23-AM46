@@ -49,9 +49,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
                 else{
                     gc.receiveLOG("LOBBY_IS_NOT_READY");
                 }
-                //synchronized (controller.lock) {
-                  //  controller.lock.wait();
-                //}
 
             }
             if(controller.players == 0){
