@@ -1,6 +1,7 @@
 package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Draw;
 import it.polimi.ingsw.MODEL.item;
 
@@ -19,11 +20,12 @@ public class CLI extends Thread implements CLI_Interface {
         Scanner in = new Scanner(System.in);
         String StrCommand;
         boolean inputNotValid = true;
+        int counter = 0;
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
 
         //TODO completare la fase iniziale di login automatico
-        /**
+
         if(controller.connection == Connection.TCP) {
             while (!controller.getLobbyIsReady()) {
                 if (controller.getMyTurn()) {
@@ -47,25 +49,21 @@ public class CLI extends Thread implements CLI_Interface {
         if(controller.connection == Connection.RMI){
             while (!controller.getLobbyIsReady()) {
                 if (controller.getNeedToReconnect()) {
-                    System.out.println(" The first player has not chosen a lobby size yet, wait a little  and retry to login. ");
-                    System.out.println(" Trying to reconnect... ");
+                    if(counter == 0) {
+                        System.out.println(" The first player has not chosen a lobby size yet, wait a bit to login. ");
+                        System.out.println(" Trying to reconnect... ");
+                        counter++;
+                    }
                     try {
                         controller.connect();
-
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                synchronized (this){
-                    try {
-                        wait(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+
             }
         }
-        */
+
         while (true) {
             if(controller.getMyTurn()) {
                 printActions();
@@ -99,7 +97,7 @@ public class CLI extends Thread implements CLI_Interface {
                         }else{
                             System.out.println(" DRAW NOT VALID, RETRY. ");
                         }
-                    } catch (RemoteException e) {
+                    } catch (RemoteException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     inputNotValid = false;
@@ -115,7 +113,7 @@ public class CLI extends Thread implements CLI_Interface {
                         else{
                             System.out.println(" PUT NOT VALID, RETRY. ");
                         }
-                    } catch (RemoteException e) {
+                    } catch (RemoteException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     inputNotValid = false;
@@ -222,7 +220,7 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
-    public boolean askDraw() throws RemoteException {
+    public boolean askDraw() throws RemoteException, InterruptedException {
         int row = -1;
         int col = -1;
         Scanner in;
@@ -257,7 +255,7 @@ public class CLI extends Thread implements CLI_Interface {
     }
 
     @Override
-    public boolean putDraw() throws RemoteException {
+    public boolean putDraw() throws RemoteException, InterruptedException {
         int col = -1;
         int a = -1,b = -1,c = -1;
         Scanner in;

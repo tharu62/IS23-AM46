@@ -13,6 +13,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.currentThread;
+
 public class CONTROLLER{
     public Connection connection;
     public String username;
@@ -47,10 +49,11 @@ public class CONTROLLER{
     public boolean draw_end = false;
     public boolean end_turn = false;
     public boolean put_end = false;
+    public final lock lock = new lock();
     //public GUI gui = new GUI();
 
     /******************************************************************************************************************/
-    public void notifyCLI(String message){
+    synchronized public void notifyCLI(String message){
         cli.notify(message);
     }
     synchronized public String getUsername(){
@@ -58,7 +61,7 @@ public class CONTROLLER{
         return this.username;
     }
 
-    public int getPersonalGoal() throws RemoteException {
+    synchronized public int getPersonalGoal() throws RemoteException {
         if(PersonalGoalCardID != -1 ){
             return PersonalGoalCardID;
         }
@@ -77,7 +80,7 @@ public class CONTROLLER{
         return -1;
     }
 
-    public int getLobbySize(){
+    synchronized public int getLobbySize(){
         this.LobbySize = cli.getLobbySize();
         return this.LobbySize;
     }
@@ -93,15 +96,15 @@ public class CONTROLLER{
 
     /******************************************************************************************************************/
 
-    synchronized public void setLobbyIsReady(){
-        this.LobbyIsReady = true;
+    synchronized public void setLobbyIsReady(boolean bool){
+        this.LobbyIsReady = bool;
     }
 
     synchronized public void setMyTurn(boolean bool){
         this.myTurn = bool;
     }
 
-    public void connect() throws RemoteException {
+    synchronized public void connect() throws RemoteException {
         if(connection == Connection.TCP){
             Command c = new Command();
             c.cmd = CMD.ASK_LOBBY_READY;
@@ -127,12 +130,12 @@ public class CONTROLLER{
         }
     }
 
-    public void setBoard( item[][] grid ){
+    synchronized public void setBoard( item[][] grid ){
         this.grid = grid;
         cli.printBoard(grid);
     }
 
-    public void setCommonGoals(int  cardID){
+    synchronized public void setCommonGoals(int  cardID){
         boolean setNotDone = true;
         if(cards.size() == 0){
             cards.add(cardID);
@@ -150,11 +153,11 @@ public class CONTROLLER{
         }
     }
 
-    public void setPersonalGoal(int cardID){
+    synchronized public void setPersonalGoal(int cardID){
         cli.printPersonalGoal(cardID);
     }
 
-    public void sendChat(String text, String receiver) throws RemoteException {
+    synchronized public void sendChat(String text, String receiver) throws RemoteException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.FROM_CLIENT_CHAT;
@@ -174,7 +177,7 @@ public class CONTROLLER{
         }
     }
 
-    public void receiveChat( MESSAGE message){
+    synchronized public void receiveChat( MESSAGE message){
         if(!myTurn) {
             if(message.header[1].equals("everyone")) {
                 if(!message.header[0].equals(username)){
@@ -191,7 +194,7 @@ public class CONTROLLER{
         }
     }
 
-    public boolean setDraw( int row, int col) throws RemoteException {
+    public boolean setDraw( int row, int col) throws RemoteException, InterruptedException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.ASK_DRAW;
@@ -201,14 +204,16 @@ public class CONTROLLER{
             send.gameplay.pos.add(0,row);
             send.gameplay.pos.add(1,col);
             clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-            return cli.reply();
+            Thread t = currentThread();
+            t.wait();
+            return draw_valid;
         }
         else {
             return ClientRMI.gs.askDraw(this.username, row, col);
         }
     }
 
-    public boolean setPut(int a, int b, int c ,int col) throws RemoteException {
+    public boolean setPut(int a, int b, int c ,int col) throws RemoteException, InterruptedException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.ASK_PUT_ITEM;
@@ -224,7 +229,9 @@ public class CONTROLLER{
             put[1] = a;
             put[2] = b;
             put[3] = c;
-            return cli.reply();
+            Thread t = currentThread();
+            t.wait();
+            return put_valid;
         }
         if(connection == Connection.RMI){
             put_valid = ClientRMI.gs.askPutItem(this.username,col,a,b,c);
@@ -239,7 +246,7 @@ public class CONTROLLER{
         return false;
     }
 
-    public void setBookshelf() throws RemoteException {
+    synchronized public void setBookshelf() throws RemoteException {
         if(connection == Connection.TCP){
             Command send = new Command();
             send.cmd = CMD.ASK_BOOKSHELF;
@@ -251,7 +258,7 @@ public class CONTROLLER{
         }
     }
 
-    public void endTurn() throws RemoteException {
+    synchronized public void endTurn() throws RemoteException {
         draw_end = false;
         put_end = false;
         end_turn = false;
@@ -268,7 +275,7 @@ public class CONTROLLER{
         }
     }
 
-    public void setLastRound(){
+    synchronized public void setLastRound(){
         cli.notify("******************************************************************************************");
         cli.notify(" LAST ROUND!!! ");
         cli.notify("******************************************************************************************");
@@ -278,5 +285,10 @@ public class CONTROLLER{
         this.cli.start();
     }
 
+    //public void notifyLock(){
+      //  synchronized (lock){
+        //    notifyAll();
+        //}
+    //}
 }
 

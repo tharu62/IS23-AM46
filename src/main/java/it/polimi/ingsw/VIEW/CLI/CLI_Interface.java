@@ -17,7 +17,7 @@ public interface CLI_Interface {
     void updateBookshelf() throws RemoteException;
     boolean reply() throws RemoteException;
     void printBookshelf(item[][] table);
-    boolean askDraw() throws RemoteException;
-    boolean putDraw() throws RemoteException;
+    boolean askDraw() throws RemoteException, InterruptedException;
+    boolean putDraw() throws RemoteException, InterruptedException;
     void endTurn() throws RemoteException;
 }

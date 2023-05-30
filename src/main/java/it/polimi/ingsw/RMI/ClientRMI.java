@@ -58,7 +58,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
             }
         }
         if(message.equals("CONNECTED")){
-            controller.setLobbyIsReady();
+            controller.setLobbyIsReady(true);
             controller.notifyCLI("CONNECTED");
             LoginOK = gs.login(controller.getUsername());
             while(!LoginOK){
