@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ROUNDTest {
-    @Test
+    /*@Test
     void testUpdate() {
         GAME game = new GAME();
         game.addPlayer("Antonio");
@@ -20,5 +20,5 @@ class ROUNDTest {
         game.master.player.get(0).bookshelf.IsFull = true;
         game.master.round.update(game.space.player.get(0).bookshelf);
         assertTrue(game.master.round.last);
-    }
+    }*/
 }

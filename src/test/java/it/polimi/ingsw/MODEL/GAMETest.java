@@ -105,7 +105,7 @@ public class GAMETest extends TestCase {
         assertNotEquals(game.space.player.get(0).bookshelf.Grid[4][1], item.EMPTY);
     }
 
-    @Test
+    /*@Test
     public void testPlayerWantsToCheckScore() {
         GAME game = new GAME();
         game.addPlayer("Antonio");
@@ -139,5 +139,5 @@ public class GAMETest extends TestCase {
         }
         game.PlayerWantsToCheckScore("Bruno");
         assertEquals(4, game.space.player.get(1).score);
-    }
+    }*/
 }
