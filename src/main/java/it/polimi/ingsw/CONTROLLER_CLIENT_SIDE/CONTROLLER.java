@@ -204,9 +204,7 @@ public class CONTROLLER{
             send.gameplay.pos.add(0,row);
             send.gameplay.pos.add(1,col);
             clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-            Thread t = currentThread();
-            t.wait();
-            return draw_valid;
+            return true;
         }
         else {
             return ClientRMI.gs.askDraw(this.username, row, col);
@@ -229,9 +227,7 @@ public class CONTROLLER{
             put[1] = a;
             put[2] = b;
             put[3] = c;
-            Thread t = currentThread();
-            t.wait();
-            return put_valid;
+            return true;
         }
         if(connection == Connection.RMI){
             put_valid = ClientRMI.gs.askPutItem(this.username,col,a,b,c);
@@ -284,11 +280,5 @@ public class CONTROLLER{
     public void startCLI(){
         this.cli.start();
     }
-
-    //public void notifyLock(){
-      //  synchronized (lock){
-        //    notifyAll();
-        //}
-    //}
 }
 

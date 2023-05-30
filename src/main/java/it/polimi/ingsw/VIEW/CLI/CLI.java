@@ -88,7 +88,8 @@ public class CLI extends Thread implements CLI_Interface {
                 }
                 if (!controller.draw_end && StrCommand.equalsIgnoreCase("draw")) {
                     try {
-                        if(askDraw()){
+                        askDraw();
+                        if(replyDraw()){
                             System.out.println(" DRAW VALID. ");
                             controller.drawStatus++;
                             if (controller.drawStatus == 3) {
@@ -105,7 +106,8 @@ public class CLI extends Thread implements CLI_Interface {
 
                 if ( StrCommand.equalsIgnoreCase("put")) {
                     try {
-                        if(putDraw()){
+                        putDraw();
+                        if(replyPut()){
                             updateBookshelf();
                             controller.put_end = true;
                             controller.end_turn = true;
@@ -407,6 +409,21 @@ public class CLI extends Thread implements CLI_Interface {
             }
         }
     }
+
+    public boolean replyDraw() throws InterruptedException {
+        synchronized (this){
+            wait();
+            return controller.draw_valid;
+        }
+    }
+
+    public boolean replyPut() throws InterruptedException {
+        synchronized (this){
+            wait();
+            return controller.put_valid;
+        }
+    }
+
 
     public void notifyThread(){
         synchronized (this){
