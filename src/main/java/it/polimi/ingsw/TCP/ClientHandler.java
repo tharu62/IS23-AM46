@@ -46,9 +46,6 @@ public class ClientHandler extends Thread {
                 out.println(reply_string);
             }
             else{
-                //synchronized (controller.lock){
-                  //  controller.lock.wait();
-                //}
                 if(controller.getLobbyIsReady()){
                     reply = new Command();
                     reply.cmd = CMD.CONNECTED;
@@ -85,8 +82,6 @@ public class ClientHandler extends Thread {
             socket.close();
         } catch (IOException e) {
             System.err.println(e.getMessage());  //TODO
-        //} catch (InterruptedException e) {
-          //  throw new RuntimeException(e);
         }
     }
 
@@ -97,6 +92,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    //TODO WITH INTERFACE IMPLEMENTATION
     synchronized public void CommandSwitcher(Command ObjCommand) throws RemoteException {
         switch (ObjCommand.cmd){
 
@@ -154,17 +150,6 @@ public class ClientHandler extends Thread {
                 reply.gameplay = new GAMEPLAY();
                 reply.gameplay.bookshelf = new item[6][5];
                 reply.gameplay.bookshelf = controller.getBookshelf(ObjCommand.username);
-                reply_string = g.toJson(reply);
-                active = true;
-                break;
-
-            case ASK_MY_TURN:
-                reply = new Command();
-                if(controller.setTurn(ObjCommand.username)){
-                    reply.cmd = CMD.IT_IS_YOUR_TURN;
-                }else{
-                    reply.cmd = CMD.IT_IS_NOT_YOUR_TURN;
-                }
                 reply_string = g.toJson(reply);
                 active = true;
                 break;

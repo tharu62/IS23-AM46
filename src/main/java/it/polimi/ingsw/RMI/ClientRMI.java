@@ -89,7 +89,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         controller.setCommonGoals(cardID);
     }
 
-
     @Override
     public void receivePlayerToPlay(String ptp) throws RemoteException {
         controller.setPlayerToPlay(ptp);

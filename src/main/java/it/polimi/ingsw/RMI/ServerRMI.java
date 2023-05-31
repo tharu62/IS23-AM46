@@ -88,11 +88,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
-    public boolean askMyTurn(String username) throws RemoteException {
-        return controller.setTurn(username);
-    }
-
-    @Override
     public boolean askDraw(String username, int a, int b) throws RemoteException {
         return controller.setDraw( username , a , b );
     }

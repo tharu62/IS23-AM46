@@ -24,11 +24,11 @@ public class TCP implements COM{
         c.username = username;
         String askPersonal = clientTCP.g.toJson(c);
         clientTCP.out_ref.println(askPersonal);
-        return cli.cmd.replyPersonal(this.clientTCP.controller);
+        return cli.cmd.replyPersonal();
     }
 
     @Override
-    public boolean draw(String username, int row, int col) throws RemoteException {
+    public boolean draw(String username, int row, int col, boolean draw_valid, boolean reply_draw) throws RemoteException {
         Command send = new Command();
         send.cmd = CMD.ASK_DRAW;
         send.username = username;
@@ -41,7 +41,7 @@ public class TCP implements COM{
     }
 
     @Override
-    public boolean put(String username, int col, int a , int b, int c , boolean put_valid) throws RemoteException {
+    public boolean put(String username, int col, int a , int b, int c , boolean put_valid,  boolean reply_put) throws RemoteException {
         Command send = new Command();
         send.cmd = CMD.ASK_PUT_ITEM;
         send.username = username;
@@ -73,14 +73,6 @@ public class TCP implements COM{
         send.chat.message.header[0] = username;
         send.chat.message.header[1] = receiver;
         clientTCP.CommandSwitcher( send , clientTCP.out_ref);
-    }
-
-    @Override
-    public void setPlayerToPlay( String username, boolean myTurn ) throws RemoteException {
-        Command c = new Command();
-        c.cmd = CMD.ASK_MY_TURN;
-        c.username = username;
-        clientTCP.CommandSwitcher(c , clientTCP.out_ref);
     }
 
     @Override

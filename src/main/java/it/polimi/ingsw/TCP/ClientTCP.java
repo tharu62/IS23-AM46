@@ -131,15 +131,6 @@ public class ClientTCP extends Thread {
                 controller.cli.cmd.printBookshelf(ObjCommand.gameplay.bookshelf);
                 break;
 
-            case IT_IS_YOUR_TURN:
-                controller.notifyCLI(ObjCommand.cmd.toString());
-                controller.setMyTurn(true);
-                break;
-
-            case IT_IS_NOT_YOUR_TURN:
-                controller.notifyCLI(ObjCommand.cmd.toString());
-                controller.setMyTurn(false);
-                break;
 
             case DRAW_VALID:
                 controller.draw_valid = true;

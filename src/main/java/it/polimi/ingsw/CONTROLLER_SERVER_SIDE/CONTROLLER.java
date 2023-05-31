@@ -14,19 +14,15 @@ import java.util.List;
 
 public class CONTROLLER {
     public GAME game;
-    public boolean GameHasNotStarted = true;
     public boolean lobbyIsReady = false;
-    public boolean TurnHasStarted = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
     public Gson g = new Gson();
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
     public int players = 0;
-    public Object lock = new Object();
 
     /************************************************ GETTER **********************************************************/
-
     public item[][] getBookshelf(String username){
         int playerIndex = game.search(username);
         return game.space.player.get(playerIndex).bookshelf.getGrid();
@@ -34,16 +30,13 @@ public class CONTROLLER {
     public item[][] getBoard(){
         return game.space.board.Grid;
     }
-
     public int getPersonalGoalCards(String username){
         int playerIndex = game.search(username);
         return game.space.player.get(playerIndex).personal.getCardLogic().getId();
     }
-
     public COMMON_GOAL_CARD getCommonGoalCard(int i){
         return game.master.FirstDraw.card.get(i);
     }
-
     public int getCurrentLobbySize(){
         return game.CurrentLobbySize;
     }
@@ -67,9 +60,6 @@ public class CONTROLLER {
             game.LobbySize = LobbySize;
             game.addPlayer(username);
             lobbyIsReady = true;
-            //synchronized (lock) {
-              //  lock.notifyAll();
-            //}
             return true;
         }
         return false;
@@ -83,8 +73,8 @@ public class CONTROLLER {
                 game.DrawCommonGoalCards();
                 game.DrawPersonalGoalCards();
                 game.ChooseFirstPlayerSeat();
+                setTurn();
                 LobbyIsFull = true;
-
                 if(this.clientsRMI.size() > 0) {
                     for (GameClient gc : clientsRMI) {
                         try {
@@ -111,7 +101,6 @@ public class CONTROLLER {
                         }
                     }
                 }
-
                 if(clientsTCP.size() > 0) {
                     Command temp = new Command();
                     temp.cmd = CMD.BOARD;
@@ -143,8 +132,8 @@ public class CONTROLLER {
         return false;
     }
 
-    public boolean setTurn(String username){
-        boolean turn = game.masterStartTurn(username);
+    public void setTurn(){
+        game.masterStartTurn();
         if(game.IsOver){
             if(this.clientsRMI.size() > 0) {
                 for (GameClient gc : clientsRMI) {
@@ -162,7 +151,6 @@ public class CONTROLLER {
                 clientsTCP.get(0).broadcast(temp);
             }
         }
-        return turn;
     }
 
     public boolean setDraw(String username, int n, int m){
@@ -265,14 +253,12 @@ public class CONTROLLER {
         }
     }
 
-    /******************************************************************************************************************/
+    /************************************************ PRIVATE *********************************************************/
 
     private boolean newUsername(String username){
         //TODO
         return true;
     }
-
-    /******************************************************************************************************************/
 
 }
 

@@ -44,16 +44,11 @@ public class GAME {
      * on the bookshelves, then the scores are compared and the winner's name is saved in space.
      * The score from the common goals cannot be checked here. below there is the reason.
      */
-    public boolean masterStartTurn(String username) {
-        if(this.playerToPlay.equals(username)) {
-            if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
-                space.calculateScore();
-                IsOver = true;
-                return false;
-            }
-            return true;
+    public void masterStartTurn() {
+        if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
+            space.calculateScore();
+            IsOver = true;
         }
-        return false;
     }
 
     /** The player has to ask the MODEL if he can pick an item_tile. One item_tile at a time.

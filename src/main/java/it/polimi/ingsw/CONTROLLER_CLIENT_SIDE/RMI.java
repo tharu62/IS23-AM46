@@ -19,13 +19,16 @@ public class RMI implements COM{
     }
 
     @Override
-    public boolean draw(String username, int row, int col) throws RemoteException {
-        return ClientRMI.gs.askDraw(username, row, col);
+    public boolean draw(String username, int row, int col, boolean draw_valid, boolean reply_draw) throws RemoteException {
+        draw_valid = ClientRMI.gs.askDraw(username, row, col);
+        reply_draw = true;
+        return draw_valid;
     }
 
     @Override
-    public boolean put(String username, int col, int a , int b, int c, boolean put_valid) throws RemoteException {
+    public boolean put(String username, int col, int a , int b, int c, boolean put_valid, boolean reply_put) throws RemoteException {
         put_valid = ClientRMI.gs.askPutItem(username,col,a,b,c);
+        reply_put = true;
         return put_valid;
     }
 
@@ -41,11 +44,6 @@ public class RMI implements COM{
         m.header[1] = receiver;
         m.text = text;
         ClientRMI.sendMessage(m);
-    }
-
-    @Override
-    public void setPlayerToPlay(String username , boolean myTurn) throws RemoteException {
-        myTurn = ClientRMI.gs.askMyTurn( username );
     }
 
     @Override

@@ -15,8 +15,6 @@ public interface GameServer extends Remote {
 
     int sendPersonalGoal(String username) throws RemoteException;
 
-    boolean askMyTurn(String username) throws RemoteException;
-
     boolean askDraw( String username, int a, int b) throws RemoteException;
 
     boolean askPutItem( String username, int a, int b, int c, int col) throws RemoteException;

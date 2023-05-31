@@ -1,11 +1,8 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 import it.polimi.ingsw.RMI.ClientRMI;
-import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.ClientTCP;
-import it.polimi.ingsw.TCP.Command;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
-//import it.polimi.ingsw.VIEW.GUI.GUI;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -38,22 +35,22 @@ public class CONTROLLER{
     public int PersonalGoalCardID = -1;
     public List<String> players = new ArrayList<>();
     public List<Integer> cards = new ArrayList<>();
-    public CLI cli = new CLI(this);
+    public CLI cli;
     public boolean draw_end = false;
     public boolean end_turn = false;
     public boolean put_end = false;
     public COM com;
-    //public GUI gui = new GUI();
-
     public CONTROLLER(Connection connection , ClientRMI client) throws InterruptedException {
         if(connection == Connection.RMI){
             com = new RMI(client);
+            cli = new CLI(this, client);
         }
     }
 
     public CONTROLLER(Connection connection, ClientTCP client) throws InterruptedException {
         if(connection == Connection.TCP){
             com = new TCP(client);
+            cli = new CLI(this, client);
         }
     }
 
@@ -77,15 +74,6 @@ public class CONTROLLER{
         this.LobbySize = cli.cmd.getLobbySize();
         return this.LobbySize;
     }
-
-    synchronized public boolean getNeedToReconnect(){
-        return need_to_reconnect;
-    }
-
-    synchronized public boolean getLobbyIsReady(){
-        return LobbyIsReady;
-    }
-
     synchronized public boolean getMyTurn(){
         return myTurn;
     }
@@ -100,21 +88,12 @@ public class CONTROLLER{
         this.myTurn = bool;
     }
 
-    //synchronized public void connect() throws RemoteException {
-        //if(connection == Connection.TCP){
-          //  Command c = new Command();
-          // c.cmd = CMD.ASK_LOBBY_READY;
-          //  String askLobby = clientTCP.g.toJson(c);
-          //  clientTCP.out_ref.println(askLobby);
-        //}
-        //if(connection == Connection.RMI){
-          //  ClientRMI.gs.askLobbyReady( clientRMI );
-        //}
-    //}
-
     synchronized public void setPlayerToPlay( String ptp ) throws RemoteException {
         if( this.username.toLowerCase().equals(ptp) ){
-            com.setPlayerToPlay(this.username, this.myTurn);
+            setMyTurn(true);
+        }
+        else{
+            notifyCLI(" IT SI NOT YOUR TURN ");
         }
     }
 
@@ -145,10 +124,6 @@ public class CONTROLLER{
         cli.cmd.printPersonalGoal(cardID);
     }
 
-    synchronized public void sendChat(String text, String receiver) throws RemoteException {
-       com.sendChat(this.username, text , receiver);
-    }
-
     synchronized public void receiveChat( MESSAGE message){
         if(!myTurn) {
             if(message.header[1].equals("everyone")) {
@@ -164,26 +139,6 @@ public class CONTROLLER{
                 }
             }
         }
-    }
-
-    public boolean setDraw( int row, int col) throws RemoteException{
-        return com.draw(this.username, row , col);
-    }
-
-    //TODO
-    public boolean setPut(int a, int b, int c ,int col) throws RemoteException, InterruptedException {
-        return com.put(this.username, a, b, c, col,  this.put_valid);
-    }
-
-    synchronized public void setBookshelf() throws RemoteException {
-        com.bookshelf( this.cli , this.username);
-    }
-
-    synchronized public void endTurn() throws RemoteException {
-        draw_end = false;
-        put_end = false;
-        end_turn = false;
-        com.endTurn(this.myTurn, this.username);
     }
 
     synchronized public void setLastRound(){

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.VIEW.CLI;
 
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Draw;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
@@ -10,6 +11,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CLI_methods implements CLI_Interface{
+    CONTROLLER controller;
+    public COM com;
+
+    public CLI_methods(CONTROLLER controller, ClientRMI client) {
+        this.controller = controller;
+        this.com = new RMI(client);
+    }
+
+    public CLI_methods(CONTROLLER controller, ClientTCP client) {
+        this.controller = controller;
+        this.com = new TCP(client);
+    }
+
     @Override
     public void notify(String message) {
         System.out.println("******************************************************************************************");
@@ -71,17 +85,17 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public void sendChat(CONTROLLER controller ) throws RemoteException {
+    public void sendChat() throws RemoteException {
         System.out.println(" Insert text: ");
         Scanner in = new Scanner(System.in);
-        String StrCommand = in.nextLine();
+        String text = in.nextLine();
         System.out.println(" Insert receiver: ");
         String receiver = in.nextLine();
-        controller.sendChat(StrCommand, receiver);
+        com.sendChat(controller.username, text , receiver);
     }
 
     @Override
-    public void printActions( CONTROLLER controller) {
+    public void printActions() {
         System.out.println("******************************************************************************************");
         System.out.println(" Actions: ");
         System.out.println(" (shutdown)         shutdown the APP ");
@@ -96,12 +110,12 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public void updateBookshelf(CONTROLLER controller) throws RemoteException {
-        controller.setBookshelf();
+    public void updateBookshelf() throws RemoteException {
+        com.bookshelf( controller.cli , controller.username);
     }
 
     @Override
-    public boolean reply( CONTROLLER controller ) throws RemoteException {
+    public boolean reply() throws RemoteException {
         while(true){
             if(controller.reply_draw){
                 controller.reply_draw = false;
@@ -109,7 +123,6 @@ public class CLI_methods implements CLI_Interface{
             }
             if(controller.reply_put){
                 controller.reply_put = false;
-                System.out.println(" CHECK 5");
                 return controller.put_valid;
             }
         }
@@ -133,7 +146,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public boolean askDraw( CONTROLLER controller ) throws RemoteException, InterruptedException {
+    public boolean askDraw() throws RemoteException {
         int row = -1;
         int col = -1;
         Scanner in;
@@ -164,11 +177,12 @@ public class CLI_methods implements CLI_Interface{
         controller.draw.get(controller.drawStatus).coord[0] = row;
         controller.draw.get(controller.drawStatus).coord[1] = col;
         controller.draw.get(controller.drawStatus).item = controller.grid[row][col];
-        return controller.setDraw(row,col);
+        com.draw( controller.username, row , col, controller.draw_valid, controller.reply_draw);
+        return true;
     }
 
     @Override
-    public boolean putDraw( CONTROLLER controller) throws RemoteException, InterruptedException {
+    public boolean putDraw() throws RemoteException, InterruptedException {
         int col = -1;
         int a = -1,b = -1,c = -1;
         Scanner in;
@@ -219,15 +233,19 @@ public class CLI_methods implements CLI_Interface{
         else {
             a = 0;
         }
-        return controller.setPut(a,b,c,col);
+        com.put(controller.username, a, b, c, col,  controller.put_valid, controller.reply_put);
+        return true;
     }
 
     @Override
-    public void endTurn(CONTROLLER controller) throws RemoteException {
+    public void endTurn() throws RemoteException {
         controller.draw.clear();
         controller.drawStatus = 0;
         controller.put = new int[4];
-        controller.endTurn();
+        controller.draw_end = false;
+        controller.put_end = false;
+        controller.end_turn = false;
+        com.endTurn(controller.myTurn, controller.username);
     }
 
     @Override
@@ -263,7 +281,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public int replyPersonal(CONTROLLER controller) {
+    public int replyPersonal() {
         while (true) {
             if (controller.reply_Personal) {
                 return controller.PersonalGoalCardID;
@@ -272,7 +290,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public boolean replyDraw(CONTROLLER controller) throws InterruptedException {
+    public boolean replyDraw() throws InterruptedException {
         synchronized (this) {
             wait();
             return controller.draw_valid;
@@ -280,7 +298,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public boolean replyPut(CONTROLLER controller) throws InterruptedException {
+    public boolean replyPut() throws InterruptedException {
         synchronized (this) {
             wait();
             return controller.put_valid;

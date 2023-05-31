@@ -1,15 +1,25 @@
 package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
+
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class CLI extends Thread  {
     CONTROLLER controller;
-    public CLI_Interface cmd = new CLI_methods();
-    public CLI(CONTROLLER controller) throws InterruptedException {
+    public CLI_Interface cmd;
+    public CLI(CONTROLLER controller , ClientRMI client) throws InterruptedException {
         this.controller = controller;
+        cmd = new CLI_methods(controller , client);
     }
+
+    public CLI(CONTROLLER controller , ClientTCP client) throws InterruptedException {
+        this.controller = controller;
+        cmd = new CLI_methods(controller , client);
+    }
+
     @Override
     public void run() {
         Scanner in = new Scanner(System.in);
@@ -20,7 +30,7 @@ public class CLI extends Thread  {
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
             if(controller.getMyTurn()) {
-                cmd.printActions(this.controller);
+                cmd.printActions();
                 StrCommand = in.nextLine();
 
                 if (StrCommand.equalsIgnoreCase("shutdown")) {
@@ -30,7 +40,7 @@ public class CLI extends Thread  {
 
                 if (StrCommand.equalsIgnoreCase("chat")) {
                     try {
-                        cmd.sendChat(this.controller);
+                        cmd.sendChat();
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -42,8 +52,8 @@ public class CLI extends Thread  {
                 }
                 if (!controller.draw_end && StrCommand.equalsIgnoreCase("draw")) {
                     try {
-                        cmd.askDraw(this.controller);
-                        if(cmd.replyDraw(this.controller)){
+                        cmd.askDraw();
+                        if(cmd.replyDraw()){
                             System.out.println(" DRAW VALID. ");
                             controller.drawStatus++;
                             if (controller.drawStatus == 3) {
@@ -60,9 +70,10 @@ public class CLI extends Thread  {
 
                 if ( StrCommand.equalsIgnoreCase("put")) {
                     try {
-                        cmd.putDraw(this.controller);
-                        if(cmd.replyPut(this.controller)){
-                            cmd.updateBookshelf(this.controller);
+                        cmd.putDraw();
+                        if(cmd.replyPut()){
+                            System.out.println(" PUT VALID ");
+                            cmd.updateBookshelf();
                             controller.put_end = true;
                             controller.end_turn = true;
                         }
@@ -91,7 +102,7 @@ public class CLI extends Thread  {
 
                 if(controller.end_turn && StrCommand.equalsIgnoreCase("end turn")){
                     try {
-                        cmd.endTurn(this.controller);
+                        cmd.endTurn();
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
