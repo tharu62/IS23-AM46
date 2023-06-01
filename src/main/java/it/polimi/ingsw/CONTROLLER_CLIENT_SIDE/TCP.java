@@ -18,7 +18,7 @@ public class TCP implements COM{
     }
 
     @Override
-    public int getPersonalGoal(int PersonalGoalCardID, String username, CLI cli) throws RemoteException {
+    public int getPersonalGoal(int PersonalGoalCardID, String username, CLI cli) {
         Command c = new Command();
         c.cmd = CMD.SEND_PERSONAL_GOAL_CARD;
         c.username = username;
@@ -77,10 +77,11 @@ public class TCP implements COM{
 
     @Override
     public void endTurn(boolean myTurn, String username) throws RemoteException {
-        myTurn = false;
         Command send = new Command();
         send.cmd = CMD.END_TURN;
         send.username = username;
         clientTCP.CommandSwitcher(send , clientTCP.out_ref);
     }
+
+    //TODO passare come argomento oggetto controller e non gli attributi, altrimenti non c'è passaggio di reference ma solo di value.
 }

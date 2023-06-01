@@ -6,7 +6,12 @@ import it.polimi.ingsw.RMI.ServerRMI;
 import it.polimi.ingsw.TCP.SocketAccepter;
 import java.rmi.RemoteException;
 
-
+/**
+ * This class generates a new MODEL ( game ) and a new CONTROLLER ( controller ) for the server,
+ * then it starts a new ServerRMI ( for the RMI communication protocol ) AND
+ * a new SocketAccepter ( for the TCP communication protocol).
+ * The SocketAcceptor is started in a separate Thread.
+ */
 public class ServerHandler {
 
     public void run() throws RemoteException{

@@ -1,15 +1,9 @@
 package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.MODEL.MESSAGE;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import it.polimi.ingsw.MODEL.item;
-import it.polimi.ingsw.NETWORK.Client;
 import it.polimi.ingsw.NETWORK.Settings;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -65,9 +59,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
                 LoginOK = gs.login(controller.getUsername());
             }
         }
-        if(message.equals("LOBBY_IS_NOT_READY")){
-            controller.need_to_reconnect = true;
-        }
     }
 
 
@@ -101,7 +92,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receiveWinner(String winner) {
-        controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '"+ winner +"'");
+        controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '" + winner + "'");
     }
 
     @Override
@@ -113,4 +104,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         gs.sendMessage(message);
     }
 
+    //TODO spostare tutti i println() su view (CLI).
 }
+

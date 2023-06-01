@@ -1,6 +1,5 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.MODEL.*;
 import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
@@ -17,7 +16,6 @@ public class CONTROLLER {
     public boolean lobbyIsReady = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
-    public Gson g = new Gson();
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
     public int players = 0;
@@ -37,9 +35,6 @@ public class CONTROLLER {
     public COMMON_GOAL_CARD getCommonGoalCard(int i){
         return game.master.FirstDraw.card.get(i);
     }
-    public int getCurrentLobbySize(){
-        return game.CurrentLobbySize;
-    }
     public boolean getLobbyIsReady() { return lobbyIsReady; }
     public int getCurrentPlayers(){
         return players;
@@ -54,7 +49,6 @@ public class CONTROLLER {
         this.game = game;
     }
 
-    //TODO caso in cui più player accedono contemporaneamente.
     public boolean setFirstLogin(String username, int LobbySize){
         if(LobbySize < 5 && LobbySize > 1) {
             game.LobbySize = LobbySize;
@@ -255,8 +249,12 @@ public class CONTROLLER {
 
     /************************************************ PRIVATE *********************************************************/
 
-    private boolean newUsername(String username){
-        //TODO
+    synchronized private boolean newUsername(String username){
+        for(int i = 0; i < game.space.player.size() ; i++ ){
+            if(game.space.player.get(i).getUsername().equals(username)){
+                return false;
+            }
+        }
         return true;
     }
 

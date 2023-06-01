@@ -25,7 +25,6 @@ public class CLI extends Thread  {
         Scanner in = new Scanner(System.in);
         String StrCommand;
         boolean inputNotValid = true;
-        int counter = 0;
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
@@ -111,6 +110,23 @@ public class CLI extends Thread  {
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
                 }
+            }else{
+                /**
+                 * if(controller.chatBuffer.size() > 0){
+                 *      //stampa i messaggi salvati in buffer, nel mentre cancella il contenuto del buffer.
+                 *      printChatBuffer();
+                 * }
+                 * cmd.printActionsChat();
+                 * StrCommand = in.nextLine();
+                 * if (StrCommand.equalsIgnoreCase("chat")) {
+                 *      try {
+                 *      cmd.sendChat();
+                 *      } catch (RemoteException e) {
+                 *      throw new RuntimeException(e);
+                 *      }
+                 *      inputNotValid = false;
+                 * }
+                 */
             }
         }
     }

@@ -48,9 +48,9 @@ public class RMI implements COM{
 
     @Override
     public void endTurn(boolean myTurn, String username) throws RemoteException {
-        myTurn = false;
         ClientRMI.gs.endTurn(username);
     }
 
 
+    //TODO passare come argomento oggetto controller e non gli attributi, altrimenti non c'è passaggio di reference ma solo di value.
 }

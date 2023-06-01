@@ -2,6 +2,7 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.TCP.COMANDS.LOGIN;
 
 import java.io.*;
@@ -10,7 +11,6 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 public class ClientTCP extends Thread {
-    public String hostName = "127.0.0.1";
     public int PORT;
     public CONTROLLER controller;
     public Gson g = new Gson();
@@ -25,7 +25,7 @@ public class ClientTCP extends Thread {
     @Override
     public void run() {
         try (
-                Socket Socket = new Socket(hostName, PORT);
+                Socket Socket = new Socket(Settings.SERVER_NAME, PORT);
                 PrintWriter out = new PrintWriter(Socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(Socket.getInputStream()))
             ) {
@@ -39,10 +39,10 @@ public class ClientTCP extends Thread {
             }
 
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
+            System.err.println("Don't know about host " + Settings.SERVER_NAME);
             System.exit(1);
         } catch (IOException e) {
-            controller.notifyCLI("Couldn't get I/O for the connection to " + hostName);
+            controller.notifyCLI("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
             System.exit(1);
         }
     }
@@ -77,7 +77,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case REPLY_ACCEPTED:
-                controller.LoginOK= true;
+                controller.LoginOK = true;
                 break;
 
             case REPLY_NOT_ACCEPTED:
@@ -105,11 +105,6 @@ public class ClientTCP extends Thread {
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 break;
 
-            case LOBBY_IS_NOT_READY:
-                controller.need_to_reconnect = true;
-                controller.cli.cmd.notifyThread();
-                break;
-
             case BOARD:
                 controller.setBoard(ObjCommand.broadcast.grid);
                 break;
@@ -130,7 +125,6 @@ public class ClientTCP extends Thread {
             case BOOKSHELF:
                 controller.cli.cmd.printBookshelf(ObjCommand.gameplay.bookshelf);
                 break;
-
 
             case DRAW_VALID:
                 controller.draw_valid = true;
@@ -178,5 +172,7 @@ public class ClientTCP extends Thread {
                 break;
         }
     }
+
+    //TODO spostare tutti i println() su view (CLI).
 }
 

@@ -10,11 +10,6 @@ import java.util.List;
 
 public class CONTROLLER{
     public String username;
-    public boolean firstToConnect = false;
-    public boolean LoginOK = false;
-    public boolean LobbyIsReady = false;
-    public boolean need_to_reconnect = false;
-    public boolean GameHasStarted = false;
     public int LobbySize;
     public item[][] grid;
     public item[][] bookshelf = {{item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT},
@@ -23,23 +18,25 @@ public class CONTROLLER{
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,}};
+
+    public boolean firstToConnect = false , LoginOK = false, LobbyIsReady = false, myTurn = false, end_turn = false;
     public List<Draw> draw = new ArrayList<>(3);
     public int drawStatus = 0;
-    public int[] put = new int[4];
-    public boolean myTurn = false;
     public boolean reply_draw = false;
     public boolean draw_valid = false;
+    public boolean draw_end = false;
+    public int[] put = new int[4];
     public boolean reply_put = false;
     public boolean put_valid = false;
+    public boolean put_end = false;
     public boolean reply_Personal = false;
     public int PersonalGoalCardID = -1;
-    public List<String> players = new ArrayList<>();
     public List<Integer> cards = new ArrayList<>();
+    public List<String> players = new ArrayList<>();
+    public List<MESSAGE> chatBuffer = new ArrayList<>();
     public CLI cli;
-    public boolean draw_end = false;
-    public boolean end_turn = false;
-    public boolean put_end = false;
     public COM com;
+
     public CONTROLLER(Connection connection , ClientRMI client) throws InterruptedException {
         if(connection == Connection.RMI){
             com = new RMI(client);
@@ -111,7 +108,6 @@ public class CONTROLLER{
         if(cards.size() == 1 && setNotDone){
             cards.add(cardID);
             cli.cmd.printCommonGoals(cards);
-            GameHasStarted = true;
             setNotDone = false;
         }
         if(cards.size() == 2 && setNotDone){
@@ -125,7 +121,11 @@ public class CONTROLLER{
     }
 
     synchronized public void receiveChat( MESSAGE message){
-        if(!myTurn) {
+        if(myTurn) {
+            if(!message.header[0].equals(username)){
+                chatBuffer.add(message);
+            }
+        }else{
             if(message.header[1].equals("everyone")) {
                 if(!message.header[0].equals(username)){
                     notifyCLI(" NEW CHAT MESSAGE !");
@@ -143,7 +143,7 @@ public class CONTROLLER{
 
     synchronized public void setLastRound(){
         cli.cmd.notify("******************************************************************************************");
-        cli.cmd.notify(" LAST ROUND!!! ");
+        cli.cmd.notify("                                        LAST ROUND                                        ");
         cli.cmd.notify("******************************************************************************************");
     }
 
@@ -152,3 +152,4 @@ public class CONTROLLER{
     }
 }
 
+//TODO spostare tutti i println() su view (CLI).
