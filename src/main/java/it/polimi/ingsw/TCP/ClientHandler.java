@@ -46,18 +46,10 @@ public class ClientHandler extends Thread {
                 out.println(reply_string);
             }
             else{
-                if(controller.getLobbyIsReady()){
-                    reply = new Command();
-                    reply.cmd = CMD.CONNECTED;
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
-                }
-                else{
-                    reply = new Command();
-                    reply.cmd = CMD.LOBBY_IS_NOT_READY;
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
-                }
+                reply = new Command();
+                reply.cmd = CMD.CONNECTED;
+                reply_string = g.toJson(reply);
+                out.println(reply_string);
             }
 
             String StrCommand;

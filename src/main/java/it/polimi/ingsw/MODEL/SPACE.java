@@ -7,7 +7,7 @@ public class SPACE {
     public BOARD board= new BOARD();
     public List<PLAYER> player= new ArrayList<>(1);
     public String winner;
-    int i = 0;
+    int drawCounter = 0;
 
 
     public void setBoard(int playerNumber){
@@ -22,13 +22,21 @@ public class SPACE {
      * @return True only if the draw is valid.
      */
     public boolean draw(int playerIndex, int n, int m){
-        if(i>2){
+        if(drawCounter > 2){
             return false;
+        }
+        for(int i= 0; i < 5; i++){
+            if(player.get(playerIndex).bookshelf.firstFreeRow(i) >= (drawCounter + 1)){
+                break;
+            }
+            if( i == 4 ){
+                return false;
+            }
         }
         item temp = board.drawItem(n,m);
         if(temp != item.EMPTY){
             player.get(playerIndex).bookshelf.itemToPut.add(temp);
-            i++;
+            drawCounter++;
             return true;
         }
         else{

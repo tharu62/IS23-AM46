@@ -13,13 +13,15 @@ public interface CLI_Interface {
     void printBoard(item[][] grid);
     void printPersonalGoal(int personalGoalCard);
     void printCommonGoals(List<Integer> commonGoalCards);
-    void sendChat( ) throws RemoteException;
+    boolean sendChat( ) throws RemoteException;
     void printActions();
+    void printActionsChat();
+    void printChatBuffer();
     void updateBookshelf() throws RemoteException;
     boolean reply() throws RemoteException;
     void printBookshelf(item[][] table);
-    boolean askDraw() throws RemoteException, InterruptedException;
-    boolean putDraw() throws RemoteException, InterruptedException;
+    void askDraw() throws RemoteException, InterruptedException;
+    void putDraw() throws RemoteException, InterruptedException;
     void endTurn() throws RemoteException;
     void colorTile(item[][] table, int i, int j);
     int replyPersonal();

@@ -14,7 +14,6 @@ import java.util.List;
 public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public static GameServer gs;
     public CONTROLLER controller;
-    public boolean LoginOK;
     final int PORT;
 
     public ClientRMI( int port ) throws RemoteException {
@@ -45,35 +44,31 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         }
         if(message.equals("FIRST_TO_CONNECT")){
             controller.notifyCLI("FIRST_TO_CONNECT");
-            LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
-            while(!LoginOK){
+            controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
+            while(!controller.LoginOK){
                 controller.notifyCLI(" Username or lobby size not correct. Retry. ");
-                LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
+                controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
             }
         }
         if(message.equals("CONNECTED")){
             controller.setLobbyIsReady(true);
             controller.notifyCLI("CONNECTED");
-            LoginOK = gs.login(controller.getUsername());
-            while(!LoginOK){
-                LoginOK = gs.login(controller.getUsername());
+            controller.LoginOK = gs.login(controller.getUsername());
+            while(!controller.LoginOK){
+                controller.LoginOK = gs.login(controller.getUsername());
             }
         }
     }
-
 
     @Override
     public void receivePlayers(List<String> players) throws RemoteException {
         controller.players = players;
     }
 
-
     @Override
     public void receiveBoard(item[][] grid) throws RemoteException {
-        controller.notifyCLI("BOARD");
         controller.setBoard(grid);
     }
-
 
     @Override
     public void receiveCommonGoals(int cardID) throws RemoteException {
@@ -100,10 +95,15 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         controller.setPersonalGoal(p);
     }
 
+    @Override
+    public void receiveBookshelf(item[][] bookshelf) throws RemoteException {
+        controller.bookshelf = bookshelf;
+        controller.bookshelf_received = true;
+    }
+
     public static void sendMessage(MESSAGE message) throws RemoteException {
         gs.sendMessage(message);
     }
 
-    //TODO spostare tutti i println() su view (CLI).
 }
 

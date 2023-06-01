@@ -22,8 +22,7 @@ public class CONTROLLER {
 
     /************************************************ GETTER **********************************************************/
     public item[][] getBookshelf(String username){
-        int playerIndex = game.search(username);
-        return game.space.player.get(playerIndex).bookshelf.getGrid();
+        return game.space.player.get(game.search(username)).bookshelf.getGrid();
     }
     public item[][] getBoard(){
         return game.space.board.Grid;

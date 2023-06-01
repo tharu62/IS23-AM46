@@ -30,6 +30,7 @@ public class CONTROLLER{
     public boolean put_valid = false;
     public boolean put_end = false;
     public boolean reply_Personal = false;
+    public boolean bookshelf_received = false;
     public int PersonalGoalCardID = -1;
     public List<Integer> cards = new ArrayList<>();
     public List<String> players = new ArrayList<>();
@@ -52,75 +53,74 @@ public class CONTROLLER{
     }
 
     /******************************************************************************************************************/
-    synchronized public void notifyCLI(String message){
+    public void notifyCLI(String message){
         cli.cmd.notify(message);
     }
-    synchronized public String getUsername(){
-        this.username = cli.cmd.getUsername();
+    public String getUsername(){
+        this.username = cli.cmd.getUsername().toLowerCase();
         return this.username;
     }
 
-    synchronized public int getPersonalGoal() throws RemoteException {
+    public int getPersonalGoal() throws RemoteException {
         if(PersonalGoalCardID != -1 ){
             return PersonalGoalCardID;
         }
         return com.getPersonalGoal(PersonalGoalCardID, this.username, this.cli);
     }
 
-    synchronized public int getLobbySize(){
+    public int getLobbySize(){
         this.LobbySize = cli.cmd.getLobbySize();
         return this.LobbySize;
     }
     synchronized public boolean getMyTurn(){
-        return myTurn;
+        return this.myTurn;
     }
 
     /******************************************************************************************************************/
 
-    synchronized public void setLobbyIsReady(boolean bool){
+    public void setLobbyIsReady(boolean bool){
         this.LobbyIsReady = bool;
     }
 
-    synchronized public void setMyTurn(boolean bool){
-        this.myTurn = bool;
-    }
-
-    synchronized public void setPlayerToPlay( String ptp ) throws RemoteException {
+    public void setPlayerToPlay( String ptp ) {
         if( this.username.toLowerCase().equals(ptp) ){
-            setMyTurn(true);
+            cli.cmd.notify("                                 IT IS YOUR TURN                                          ");
+            this.myTurn = true;
         }
         else{
-            notifyCLI(" IT SI NOT YOUR TURN ");
+            cli.cmd.notify("                                IT IS NOT YOUR TURN                                       ");
         }
     }
 
-    synchronized public void setBoard( item[][] grid ){
+    public void setBoard( item[][] grid ){
         this.grid = grid;
-        cli.cmd.printBoard(grid);
     }
 
-    synchronized public void setCommonGoals(int  cardID){
+    public void setCommonGoals(int  cardID){
         boolean setNotDone = true;
         if(cards.size() == 0){
-            cards.add(cardID);
+            this.cards.add(cardID);
             setNotDone = false;
         }
         if(cards.size() == 1 && setNotDone){
-            cards.add(cardID);
-            cli.cmd.printCommonGoals(cards);
+            this.cards.add(cardID);
             setNotDone = false;
         }
         if(cards.size() == 2 && setNotDone){
-            cards = new ArrayList<>();
-            cards.add(cardID);
+            this.cards = new ArrayList<>();
+            this.cards.add(cardID);
         }
     }
 
-    synchronized public void setPersonalGoal(int cardID){
-        cli.cmd.printPersonalGoal(cardID);
+    public void setPersonalGoal(int cardID){
+        PersonalGoalCardID = cardID;
     }
 
-    synchronized public void receiveChat( MESSAGE message){
+    public void setBookshelf(item[][] bookshelf){
+        this.bookshelf = bookshelf;
+    }
+
+    public void receiveChat( MESSAGE message){
         if(myTurn) {
             if(!message.header[0].equals(username)){
                 chatBuffer.add(message);
@@ -141,15 +141,13 @@ public class CONTROLLER{
         }
     }
 
-    synchronized public void setLastRound(){
-        cli.cmd.notify("******************************************************************************************");
+    public void setLastRound(){
         cli.cmd.notify("                                        LAST ROUND                                        ");
-        cli.cmd.notify("******************************************************************************************");
     }
 
     public void startCLI(){
         this.cli.start();
     }
+
 }
 
-//TODO spostare tutti i println() su view (CLI).

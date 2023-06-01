@@ -14,7 +14,7 @@ import java.util.List;
 public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
-    public List<GameClient> clientsRMI= new ArrayList<>();;
+    public List<GameClient> clientsRMI= new ArrayList<>();
     final int PORT;
 
     public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
@@ -36,20 +36,14 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
 
     @Override
-    public void connect(GameClient gc) throws RemoteException, InterruptedException {
+    public void connect(GameClient gc) throws RemoteException {
         System.out.println ("A new Client has appeared");
         if(controller.LobbyIsFull){
             gc.receiveLOG("LOBBY_IS_FULL");
         }else {
             this.clientsRMI.add(gc);
             if(controller.players >= 1){
-                if(controller.lobbyIsReady){
-                    gc.receiveLOG("CONNECTED");
-                }
-                else{
-                    gc.receiveLOG("LOBBY_IS_NOT_READY");
-                }
-
+                gc.receiveLOG("CONNECTED");
             }
             if(controller.players == 0){
                 controller.players++;

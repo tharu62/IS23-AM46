@@ -28,7 +28,7 @@ public class TCP implements COM{
     }
 
     @Override
-    public boolean draw(String username, int row, int col, boolean draw_valid, boolean reply_draw) throws RemoteException {
+    public void draw(String username, int row, int col, CONTROLLER controller) throws RemoteException {
         Command send = new Command();
         send.cmd = CMD.ASK_DRAW;
         send.username = username;
@@ -37,11 +37,10 @@ public class TCP implements COM{
         send.gameplay.pos.add(0,row);
         send.gameplay.pos.add(1,col);
         clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-        return true;
     }
 
     @Override
-    public boolean put(String username, int col, int a , int b, int c , boolean put_valid,  boolean reply_put) throws RemoteException {
+    public void put(String username, int col, int a , int b, int c , CONTROLLER controller) throws RemoteException {
         Command send = new Command();
         send.cmd = CMD.ASK_PUT_ITEM;
         send.username = username;
@@ -52,7 +51,6 @@ public class TCP implements COM{
         send.gameplay.pos.add(b);
         send.gameplay.pos.add(c);
         clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-        return true;
     }
 
     @Override
@@ -76,12 +74,10 @@ public class TCP implements COM{
     }
 
     @Override
-    public void endTurn(boolean myTurn, String username) throws RemoteException {
+    public void endTurn( String username) throws RemoteException {
         Command send = new Command();
         send.cmd = CMD.END_TURN;
         send.username = username;
         clientTCP.CommandSwitcher(send , clientTCP.out_ref);
     }
-
-    //TODO passare come argomento oggetto controller e non gli attributi, altrimenti non c'è passaggio di reference ma solo di value.
 }

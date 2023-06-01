@@ -11,9 +11,22 @@ public class BOOKSHELF {
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY},
                      {item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY, item.EMPTY}};
     boolean IsFull=false;
-    public List<item> itemToPut= new ArrayList<item>();
+    public List<item> itemToPut= new ArrayList<>();
     int itemsInGrid=0;
 
+
+    /**
+     * This method places the items drawn in this turn in the bookshelf ( array item[][] ).
+     *
+     * @param m value of the column in which to place the items
+     * @param a place order of the first item in the ItemToPut array
+     * @param b place order of the second item in the ItemToPut array
+     * @param c place order of the third item in the ItemToPut array
+     * @return
+     * If there is no space to place the items in the column, it returns false.
+     * If there is space to place the items in the column, it increments the item counter that counts the number of items in the bookshelf and
+     * deletes the drawn items saved in the ItemToPut array, then it return true.
+     */
     public boolean putItems(int m,int a, int b, int c){
         if(firstFreeRow(m) < (itemToPut.size() - 1)){
             return false;
@@ -82,10 +95,10 @@ public class BOOKSHELF {
     }
 
     public item[][] getGrid() {
-        return Grid;
+        return this.Grid;
     }
 
-    private int firstFreeRow(int x) {
+    public int firstFreeRow(int x) {
         int i=5;
         while (!this.Grid[i][x].equals(item.EMPTY)) {
             i--;

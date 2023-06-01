@@ -38,10 +38,11 @@ public class GAME {
         this.playerToPlay = master.FirstPlayerSeat.username;
     }
 
-    /** The player starts his turn, if it's not the last, then round and turn are updated
+    /**
+     * The player starts his turn, if it's not the last, then round and turn are updated
      * and the player's bookshelves is checked.
      * If it's the last turn the score of each player is calculated checking personal goals and adjacent item_tiles
-     * on the bookshelves, then the scores are compared and the winner's name is saved in space.
+     * on the bookshelves, then the scores are compared and the winner's name is saved in Space.winner .
      * The score from the common goals cannot be checked here. below there is the reason.
      */
     public void masterStartTurn() {
@@ -51,7 +52,8 @@ public class GAME {
         }
     }
 
-    /** The player has to ask the MODEL if he can pick an item_tile. One item_tile at a time.
+    /**
+     * The player has to ask the MODEL if he can pick an item_tile. One item_tile at a time.
      * Once he is satisfied with the pick, the picked items are stored in his bookshelf class until he wants to put them in the bookshelf grid.
      *
      * @param n it's the row from witch to pick the item
@@ -60,13 +62,16 @@ public class GAME {
      */
     public boolean playerDrawItem(String username, int n, int m){
         if (this.playerToPlay.equals(username)){
-            if (space.player.get(search(username)).bookshelf.IsFull) return false;
+            if (space.player.get(search(username)).bookshelf.IsFull) {
+                return false;
+            }
             return space.draw(search(username), n, m);
         }
         return false;
     }
 
-    /** The player chooses the order to put the items in the bookshelf by giving each item_tile a number that goes from 0 to 2.
+    /**
+     * The player chooses the order to put the items in the bookshelf by giving each item_tile a number that goes from 0 to 2.
      * for example:
      * if a = 2 then the first item picked is the last to be put in the bookshelf in the m column.
      * If you fill the bookshelf you update the game to it's last round, NOT necessarily the last turn.
@@ -78,22 +83,16 @@ public class GAME {
      */
     public boolean playerPutItems(String username, int m,int a,int b, int c){
         if (this.playerToPlay.equals(username)) {
-            int i = search(username);
-            space.placeItem(i, m, a, b, c);
-            if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
-                if(!master.round.last){
-                    space.player.get(search(this.playerToPlay)).score += 1;
-                }
-                master.round.last = true;
-            }
-            return true;
+            return space.placeItem(search(username), m, a, b, c);
         }
         return false;
     }
 
-    /** The player has the option of checking his score if he believes that he reached a common goal.
+    /**
+     * The player has the option of checking his score if he believes that he reached a common goal.
      * It is not mandatory each turn, only optional AND it's not checked by the system at the end of the game.
-     * If the player doesn't see he achieved a common goal, he will not get the point. Even so you can exploit the system by checking every turn blindly tho...
+     * If the player doesn't see he achieved a common goal, he will not get the point.
+     * Even so you can exploit the system by checking every turn blindly ...
      * But it follows the game's philosophy, first to see first to get.
      * The method both checks and updates the score based on the common goals available.
      * We implemented two common goals from the beginning, instead of one for the first game and two from the second.
@@ -102,44 +101,49 @@ public class GAME {
         if (this.playerToPlay.equals(username)) {
             int i = search(playerToPlay);
             int temp;
-            if (space.player.get(i).goalReached[0] && space.player.get(i).goalReached[1]) {
-                System.out.println("HAI GIA' OTTENUTO GLI OBIETTIVI COMUNI! NON PUOI PRENDERE ALTRI MODEL.TOKEN!");
-            }
             if (!space.player.get(i).goalReached[0]) {
                 temp = master.CheckCommonGoal(space.player.get(i).bookshelf, false, true);
                 if (temp > 0) {
                     space.player.get(i).score += temp;
                     space.player.get(i).goalReached[0] = true;
                 }
-            } else System.out.println("HAI GIA' OTTENUTO IL PRIMO OBIETTIVO COMUNE!");
+            }
             if(!space.player.get(i).goalReached[1]) {
                 temp = master.CheckCommonGoal(space.player.get(i).bookshelf, true, false);
                 if (temp > 0) {
                     space.player.get(i).score += temp;
                     space.player.get(i).goalReached[1] = true;
                 }
-            } else System.out.println("HAI GIA' OTTENUTO IL SECONDO OBIETTIVO COMUNE!");
-            if (space.player.get(i).bookshelf.IsFull) {
-                master.round.last = true;
             }
+
         }
     }
 
-    /**The player can end his turn in any moment if he has started his turn, also it is not required to make a move nor
-     * to ckeck the score.
-     * When the player ends his turn the new Player To Play is chosen.
+    /**
+     * The player can end his turn in any moment if he has started his turn, also it is not required to make a move or
+     * to check the score.
+     * If the board is empty or there are no drawable items, the board is refilled.
+     * If the Bookshelf of the player that is ending his turn is full, the last round starts and 1 score point is given.
+     * The new PlayerToPlay is chosen.
+     *
      * @param username it's the playerToPlay
      * @return true if the correct player has ended the turn.
      */
     public boolean masterEndTurn( String username ) {
-        if(space.board.IsToBeRestored()){
-            space.board.restore();
-        }
         if (playerToPlay.equals(username)) {
+            if(space.board.IsToBeRestored()){
+                space.board.restore();
+            }
+            if (space.player.get(search(this.playerToPlay)).bookshelf.IsFull) {
+                if(!master.round.last){
+                    space.player.get(search(this.playerToPlay)).score += 1;
+                }
+                master.round.last = true;
+            }
             this.playerToPlay = master.ChooseNextPlayer();
             space.player.get(search(username)).bookshelf.itemToPut.clear();
             space.board.itemCounter = 0;
-            space.i = 0;
+            space.drawCounter = 0;
             return true;
         }
         return false;

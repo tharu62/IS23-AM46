@@ -54,6 +54,7 @@ public class ClientTCP extends Thread {
     synchronized public void CommandSwitcher(Command ObjCommand , PrintWriter out) throws RemoteException {
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
+                controller.firstToConnect = true;
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
@@ -62,12 +63,9 @@ public class ClientTCP extends Thread {
                 reply.login.LobbySize = controller.getLobbySize();
                 reply_string = g.toJson(reply);
                 out.println(reply_string);
-                controller.firstToConnect = true;
                 break;
 
             case CONNECTED:
-                controller.LobbyIsReady = true;
-                controller.cli.cmd.notifyThread();
                 controller.notifyCLI(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED_REPLY;
@@ -90,7 +88,6 @@ public class ClientTCP extends Thread {
                     reply.login.LobbySize = controller.getLobbySize();
                     reply_string = g.toJson(reply);
                     out.println(reply_string);
-                    controller.firstToConnect = true;
                 }else{
                     controller.notifyCLI(ObjCommand.cmd.toString());
                     reply = new Command();
@@ -123,7 +120,8 @@ public class ClientTCP extends Thread {
                 break;
 
             case BOOKSHELF:
-                controller.cli.cmd.printBookshelf(ObjCommand.gameplay.bookshelf);
+                controller.bookshelf = ObjCommand.gameplay.bookshelf;
+                controller.bookshelf_received = true;
                 break;
 
             case DRAW_VALID:

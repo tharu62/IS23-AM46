@@ -19,22 +19,20 @@ public class RMI implements COM{
     }
 
     @Override
-    public boolean draw(String username, int row, int col, boolean draw_valid, boolean reply_draw) throws RemoteException {
-        draw_valid = ClientRMI.gs.askDraw(username, row, col);
-        reply_draw = true;
-        return draw_valid;
+    public void draw(String username, int row, int col, CONTROLLER controller) throws RemoteException {
+        controller.draw_valid = ClientRMI.gs.askDraw(username, row, col);
+        controller.reply_draw = true;
     }
 
     @Override
-    public boolean put(String username, int col, int a , int b, int c, boolean put_valid, boolean reply_put) throws RemoteException {
-        put_valid = ClientRMI.gs.askPutItem(username,col,a,b,c);
-        reply_put = true;
-        return put_valid;
+    public void put(String username, int col, int a , int b, int c, CONTROLLER controller) throws RemoteException {
+        controller.put_valid = ClientRMI.gs.askPutItem(username,col,a,b,c);
+        controller.reply_put = true;
     }
 
     @Override
     public void bookshelf(CLI cli , String username) throws RemoteException {
-        cli.cmd.printBookshelf(ClientRMI.gs.sendBookshelf(username));
+        ClientRMI.gs.sendBookshelf(username);
     }
 
     @Override
@@ -47,10 +45,8 @@ public class RMI implements COM{
     }
 
     @Override
-    public void endTurn(boolean myTurn, String username) throws RemoteException {
+    public void endTurn( String username) throws RemoteException {
         ClientRMI.gs.endTurn(username);
     }
 
-
-    //TODO passare come argomento oggetto controller e non gli attributi, altrimenti non c'è passaggio di reference ma solo di value.
 }

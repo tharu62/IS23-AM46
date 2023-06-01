@@ -17,4 +17,5 @@ public interface GameClient extends Remote {
     void receiveLastRound() throws RemoteException;
     void receiveWinner( String winner ) throws RemoteException;
     void receivePersonalGoal( int p ) throws RemoteException;
+    void receiveBookshelf(item[][] bookshelf) throws RemoteException;
 }

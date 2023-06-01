@@ -25,13 +25,18 @@ public class CLI extends Thread  {
         Scanner in = new Scanner(System.in);
         String StrCommand;
         boolean inputNotValid = true;
+        boolean chatInputInProgress = false;
+        boolean gameplayInputInProgress = false;
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
-            if(controller.getMyTurn()) {
+            inputNotValid = true;
+            if(controller.getMyTurn() && !chatInputInProgress) {
+                cmd.printBoard(controller.grid);
+                cmd.printCommonGoals(controller.cards);
                 cmd.printActions();
                 StrCommand = in.nextLine();
-
+                gameplayInputInProgress = true;
                 if (StrCommand.equalsIgnoreCase("shutdown")) {
                     System.out.println(" Goodbye! ");
                     System.exit(0);
@@ -39,7 +44,8 @@ public class CLI extends Thread  {
 
                 if (StrCommand.equalsIgnoreCase("chat")) {
                     try {
-                        cmd.sendChat();
+                        gameplayInputInProgress = cmd.sendChat();
+
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -64,6 +70,7 @@ public class CLI extends Thread  {
                     } catch (RemoteException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+                    gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
 
@@ -73,7 +80,12 @@ public class CLI extends Thread  {
                         if(cmd.replyPut()){
                             System.out.println(" PUT VALID ");
                             cmd.updateBookshelf();
-                            controller.put_end = true;
+                            while(true){
+                                if(controller.bookshelf_received){
+                                    break;
+                                }
+                            }
+                            cmd.printBookshelf(controller.bookshelf);
                             controller.end_turn = true;
                         }
                         else{
@@ -82,11 +94,13 @@ public class CLI extends Thread  {
                     } catch (RemoteException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+                    gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
 
                 if(StrCommand.equalsIgnoreCase("common goal")){
                     cmd.printCommonGoals(controller.cards);
+                    gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
 
@@ -96,6 +110,7 @@ public class CLI extends Thread  {
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
+                    gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
 
@@ -105,28 +120,39 @@ public class CLI extends Thread  {
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
+                    gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
+                    gameplayInputInProgress = false;
                 }
             }else{
-                /**
-                 * if(controller.chatBuffer.size() > 0){
-                 *      //stampa i messaggi salvati in buffer, nel mentre cancella il contenuto del buffer.
-                 *      printChatBuffer();
-                 * }
-                 * cmd.printActionsChat();
-                 * StrCommand = in.nextLine();
-                 * if (StrCommand.equalsIgnoreCase("chat")) {
-                 *      try {
-                 *      cmd.sendChat();
-                 *      } catch (RemoteException e) {
-                 *      throw new RuntimeException(e);
-                 *      }
-                 *      inputNotValid = false;
-                 * }
-                 */
+                if(controller.LoginOK && !gameplayInputInProgress) {
+                    chatInputInProgress = true;
+                    if (controller.chatBuffer.size() > 0) {
+                        //stampa i messaggi salvati in buffer, nel mentre cancella il contenuto del buffer.
+                        cmd.printChatBuffer();
+                    }
+                    cmd.printActionsChat();
+                    StrCommand = in.nextLine();
+                    if (StrCommand.equalsIgnoreCase("chat")) {
+                        try {
+                            cmd.sendChat();
+                            chatInputInProgress = false;
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                        inputNotValid = false;
+                    }
+                    if(StrCommand.equalsIgnoreCase("play")){
+                        chatInputInProgress = false;
+                        inputNotValid = false;
+                    }
+                    if (inputNotValid) {
+                        System.out.println(" Command not valid, retry. ");
+                    }
+                }
             }
         }
     }
