@@ -26,8 +26,9 @@ public class CLI_methods implements CLI_Interface{
 
     @Override
     public void notify(String message) {
-        System.out.println("******************************************************************************************");
         System.out.println(message);
+        System.out.println("******************************************************************************************");
+
     }
 
     @Override
@@ -63,11 +64,17 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public void printPersonalGoal(int personalGoalCard) {
+    public void printPersonalGoal() throws RemoteException {
+        int cardID;
+        if(controller.PersonalGoalCardID != -1 ){
+            cardID = controller.PersonalGoalCardID;
+        }else {
+            cardID = com.getPersonalGoal(controller.PersonalGoalCardID, controller.username, controller.cli);
+        }
         PrintPersonalGoals printPersonalGoals = new PrintPersonalGoals();
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
         System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");
-        printPersonalGoals.printGoal(personalGoalCard);
+        printPersonalGoals.printGoal(cardID);
         System.out.println("  ╚═══╩═══╩═══╩═══╩═══╝");
     }
 
@@ -89,9 +96,23 @@ public class CLI_methods implements CLI_Interface{
         System.out.println(" Insert text: ");
         Scanner in = new Scanner(System.in);
         String text = in.nextLine();
-        System.out.println(" Insert receiver: ");
-        String receiver = in.nextLine();
-        com.sendChat(controller.username, text , receiver);
+        boolean inputValid = false;
+        String receiver = null;
+        while(!inputValid) {
+            System.out.println(" Insert receiver from this choices: ");
+            for (int i = 0; i < controller.players.size(); i++) {
+                System.out.println(" PLAYER : " + controller.players.get(i));
+            }
+            System.out.println(" If you want to send a message to all players, insert string 'everyone' .");
+            receiver = in.nextLine();
+            if(equalsPlayerNames(receiver, controller.players) || receiver.equalsIgnoreCase("everyone")){
+                inputValid = true;
+            }
+            else{
+                System.out.println(" Input not valid! Retry.");
+            }
+        }
+        com.sendChat(controller.username, text, receiver);
         return false;
     }
 
@@ -107,7 +128,6 @@ public class CLI_methods implements CLI_Interface{
         }
         System.out.println(" (common goal)      show the common goals ");
         System.out.println(" (personal goal)    show your personal goal  ");
-        System.out.println(" (end turn)         end your turn ");
     }
 
     @Override
@@ -132,19 +152,6 @@ public class CLI_methods implements CLI_Interface{
         com.bookshelf( controller.cli , controller.username);
     }
 
-    @Override
-    public boolean reply() {
-        while(true){
-            if(controller.reply_draw){
-                controller.reply_draw = false;
-                return controller.draw_valid;
-            }
-            if(controller.reply_put){
-                controller.reply_put = false;
-                return controller.put_valid;
-            }
-        }
-    }
 
     @Override
     public void printBookshelf(item[][] table) {
@@ -250,7 +257,7 @@ public class CLI_methods implements CLI_Interface{
         else {
             a = 0;
         }
-        com.put(controller.username, a, b, c, col,  controller);
+        com.put(controller.username, col, a, b, c, controller);
     }
 
     @Override
@@ -297,7 +304,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public int replyPersonal() {
+    synchronized public int replyPersonal() {
         while (true) {
             if (controller.reply_Personal) {
                 return controller.PersonalGoalCardID;
@@ -306,24 +313,49 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public boolean replyDraw() throws InterruptedException {
-        synchronized (this) {
-            wait();
-            return controller.draw_valid;
+    synchronized public boolean replyDraw() {
+        while(true){
+            if(controller.getReplyDraw()){
+                controller.reply_draw = false;
+                return controller.draw_valid;
+            }
         }
     }
 
     @Override
-    public boolean replyPut() throws InterruptedException {
-        synchronized (this) {
-            wait();
-            return controller.put_valid;
+    synchronized public boolean replyPut() {
+        while(true){
+            if(controller.getReplyPut()){
+                controller.reply_put = false;
+                return controller.put_valid;
+            }
         }
     }
+
     @Override
-    public void notifyThread() {
-        synchronized (this) {
-            notifyAll();
+    synchronized public boolean replyBookshelf() {
+        while(true){
+            if(controller.getReplyBookshelf()){
+                controller.bookshelf_received = false;
+                return true;
+            }
         }
+    }
+
+    @Override
+    public boolean replyEndTurn() {
+        while(true){
+            if(!controller.getMyTurn()){
+                return true;
+            }
+        }
+    }
+    private boolean equalsPlayerNames( String receiver, List<String> names){
+        for (String name : names) {
+            if (receiver.equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

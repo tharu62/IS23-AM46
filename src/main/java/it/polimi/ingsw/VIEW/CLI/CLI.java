@@ -24,7 +24,7 @@ public class CLI extends Thread  {
     public void run() {
         Scanner in = new Scanner(System.in);
         String StrCommand;
-        boolean inputNotValid = true;
+        boolean inputNotValid;
         boolean chatInputInProgress = false;
         boolean gameplayInputInProgress = false;
         System.out.println("******************************************************************************************");
@@ -80,13 +80,11 @@ public class CLI extends Thread  {
                         if(cmd.replyPut()){
                             System.out.println(" PUT VALID ");
                             cmd.updateBookshelf();
-                            while(true){
-                                if(controller.bookshelf_received){
-                                    break;
-                                }
+                            if(cmd.replyBookshelf()){
+                                cmd.printBookshelf(controller.bookshelf);
                             }
-                            cmd.printBookshelf(controller.bookshelf);
-                            controller.end_turn = true;
+                            cmd.endTurn();
+                            cmd.replyEndTurn();
                         }
                         else{
                             System.out.println(" PUT NOT VALID, RETRY. ");
@@ -106,7 +104,7 @@ public class CLI extends Thread  {
 
                 if(StrCommand.equalsIgnoreCase("personal goal")){
                     try {
-                        cmd.printPersonalGoal(controller.getPersonalGoal());
+                        cmd.printPersonalGoal();
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -114,15 +112,6 @@ public class CLI extends Thread  {
                     inputNotValid = false;
                 }
 
-                if(controller.end_turn && StrCommand.equalsIgnoreCase("end turn")){
-                    try {
-                        cmd.endTurn();
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                    gameplayInputInProgress = false;
-                    inputNotValid = false;
-                }
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");
                     gameplayInputInProgress = false;

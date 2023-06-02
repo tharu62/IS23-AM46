@@ -67,8 +67,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         return controller.getPersonalGoalCards(username);
     }
 
-    public item[][] sendBookshelf(String username) throws RemoteException{
-        return controller.getBookshelf(username);
+    public void sendBookshelf(String username, GameClient gc) throws RemoteException{
+        gc.receiveBookshelf(controller.getBookshelf(username));
     }
 
     @Override

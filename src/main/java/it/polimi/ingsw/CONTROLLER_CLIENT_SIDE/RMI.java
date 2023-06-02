@@ -32,7 +32,7 @@ public class RMI implements COM{
 
     @Override
     public void bookshelf(CLI cli , String username) throws RemoteException {
-        ClientRMI.gs.sendBookshelf(username);
+        ClientRMI.gs.sendBookshelf(username, clientRMI);
     }
 
     @Override

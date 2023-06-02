@@ -40,7 +40,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
             controller.notifyCLI("LOBBY_IS_FULL");
-            controller.cli.cmd.notifyThread();
         }
         if(message.equals("FIRST_TO_CONNECT")){
             controller.notifyCLI("FIRST_TO_CONNECT");

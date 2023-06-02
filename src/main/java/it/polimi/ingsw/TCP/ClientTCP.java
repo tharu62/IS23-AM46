@@ -127,29 +127,30 @@ public class ClientTCP extends Thread {
             case DRAW_VALID:
                 controller.draw_valid = true;
                 controller.reply_draw = true;
-                controller.cli.cmd.notifyThread();
                 break;
 
             case DRAW_NOT_VALID:
                 controller.draw_valid = false;
                 controller.reply_draw = true;
-                controller.cli.cmd.notifyThread();
                 break;
 
             case PUT_VALID:
                 controller.reply_put = true;
                 controller.put_valid = true;
-                controller.cli.cmd.notifyThread();
                 break;
 
             case PUT_NOT_VALID:
                 controller.reply_put = true;
                 controller.put_valid = false;
-                controller.cli.cmd.notifyThread();
+                break;
+
+            case PLAYERS:
+                controller.players = ObjCommand.broadcast.players;
                 break;
 
             case LAST_ROUND:
                 controller.setLastRound();
+                break;
 
             case RETURN_SCORE:
                 //TODO
@@ -170,7 +171,5 @@ public class ClientTCP extends Thread {
                 break;
         }
     }
-
-    //TODO spostare tutti i println() su view (CLI).
 }
 

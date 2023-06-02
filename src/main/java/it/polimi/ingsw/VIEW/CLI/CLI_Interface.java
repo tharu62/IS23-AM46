@@ -7,18 +7,18 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface CLI_Interface {
+
     void notify(String message);
     String getUsername();
     int getLobbySize();
     void printBoard(item[][] grid);
-    void printPersonalGoal(int personalGoalCard);
+    void printPersonalGoal() throws RemoteException;
     void printCommonGoals(List<Integer> commonGoalCards);
     boolean sendChat( ) throws RemoteException;
     void printActions();
     void printActionsChat();
     void printChatBuffer();
     void updateBookshelf() throws RemoteException;
-    boolean reply() throws RemoteException;
     void printBookshelf(item[][] table);
     void askDraw() throws RemoteException, InterruptedException;
     void putDraw() throws RemoteException, InterruptedException;
@@ -27,5 +27,7 @@ public interface CLI_Interface {
     int replyPersonal();
     boolean replyDraw () throws InterruptedException;
     boolean replyPut () throws InterruptedException;
-    void notifyThread();
+    boolean replyBookshelf ();
+    boolean replyEndTurn();
+
 }

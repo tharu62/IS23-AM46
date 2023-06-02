@@ -36,18 +36,15 @@ public class CONTROLLER{
     public List<String> players = new ArrayList<>();
     public List<MESSAGE> chatBuffer = new ArrayList<>();
     public CLI cli;
-    public COM com;
 
     public CONTROLLER(Connection connection , ClientRMI client) throws InterruptedException {
         if(connection == Connection.RMI){
-            com = new RMI(client);
             cli = new CLI(this, client);
         }
     }
 
     public CONTROLLER(Connection connection, ClientTCP client) throws InterruptedException {
         if(connection == Connection.TCP){
-            com = new TCP(client);
             cli = new CLI(this, client);
         }
     }
@@ -61,19 +58,21 @@ public class CONTROLLER{
         return this.username;
     }
 
-    public int getPersonalGoal() throws RemoteException {
-        if(PersonalGoalCardID != -1 ){
-            return PersonalGoalCardID;
-        }
-        return com.getPersonalGoal(PersonalGoalCardID, this.username, this.cli);
-    }
-
     public int getLobbySize(){
         this.LobbySize = cli.cmd.getLobbySize();
         return this.LobbySize;
     }
     synchronized public boolean getMyTurn(){
         return this.myTurn;
+    }
+    synchronized public boolean getReplyDraw(){
+        return this.reply_draw;
+    }
+    synchronized public boolean getReplyPut(){
+        return this.reply_put;
+    }
+    synchronized public boolean getReplyBookshelf(){
+        return this.bookshelf_received;
     }
 
     /******************************************************************************************************************/
@@ -88,6 +87,7 @@ public class CONTROLLER{
             this.myTurn = true;
         }
         else{
+            this.myTurn =false;
             cli.cmd.notify("                                IT IS NOT YOUR TURN                                       ");
         }
     }
@@ -112,8 +112,8 @@ public class CONTROLLER{
         }
     }
 
-    public void setPersonalGoal(int cardID){
-        PersonalGoalCardID = cardID;
+    synchronized public void setPersonalGoal(int cardID){
+        this.PersonalGoalCardID = cardID;
     }
 
     public void setBookshelf(item[][] bookshelf){

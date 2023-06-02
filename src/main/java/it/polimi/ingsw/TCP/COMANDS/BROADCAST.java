@@ -9,5 +9,6 @@ public class BROADCAST {
     public item[][] grid;
     public List<Integer> cardsID;
     public String ptp;
+    public List<String> players;
 
 }

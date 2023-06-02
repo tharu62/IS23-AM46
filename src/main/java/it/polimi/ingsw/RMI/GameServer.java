@@ -25,7 +25,7 @@ public interface GameServer extends Remote {
 
     void sendMessage(MESSAGE message) throws RemoteException;
 
-    item[][] sendBookshelf(String username) throws RemoteException;
+    void sendBookshelf(String username, GameClient gc) throws RemoteException;
 
     void askLobbyReady(GameClient gc) throws RemoteException;
 }
