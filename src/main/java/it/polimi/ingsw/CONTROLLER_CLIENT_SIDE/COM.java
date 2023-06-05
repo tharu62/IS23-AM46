@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 public interface COM {
     Client client = null;
-    int getPersonalGoal( int PersonalGoalCardID , String username, CLI cli) throws RemoteException;
+    int getPersonalGoal( int PersonalGoalCardID , String username) throws RemoteException;
     void draw(String username, int row, int col, CONTROLLER controller) throws RemoteException;
     void put(String username, int col, int a , int b, int c , CONTROLLER controller) throws RemoteException;
     void bookshelf(CLI cli , String username) throws RemoteException;

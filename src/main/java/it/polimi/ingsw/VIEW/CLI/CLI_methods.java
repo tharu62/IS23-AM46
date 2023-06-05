@@ -69,7 +69,9 @@ public class CLI_methods implements CLI_Interface{
         if(controller.PersonalGoalCardID != -1 ){
             cardID = controller.PersonalGoalCardID;
         }else {
-            cardID = com.getPersonalGoal(controller.PersonalGoalCardID, controller.username, controller.cli);
+            com.getPersonalGoal(controller.PersonalGoalCardID, controller.username);
+            System.out.println("CHECK");
+            cardID = replyPersonal();
         }
         PrintPersonalGoals printPersonalGoals = new PrintPersonalGoals();
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
@@ -141,7 +143,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public void printChatBuffer() {
+    synchronized public void printChatBuffer() {
         System.out.println(" CHAT MESSAGES THAT YOU DIDN'T SEE : ");
         for(int i = 0; i< controller.chatBuffer.size(); i++){
             System.out.println(controller.chatBuffer.get(0).header[1] + ":" + controller.chatBuffer.get(0).text);
@@ -308,7 +310,8 @@ public class CLI_methods implements CLI_Interface{
     @Override
     synchronized public int replyPersonal() {
         while (true) {
-            if (controller.reply_Personal) {
+            if (controller.getReplyPersonal()) {
+                //System.out.println("CHECK");
                 return controller.PersonalGoalCardID;
             }
         }

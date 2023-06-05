@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ClientHandler extends Thread {
@@ -72,8 +73,13 @@ public class ClientHandler extends Thread {
             in.close();
             out.close();
             socket.close();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());  //TODO
+
+        } catch (IOException | NoSuchElementException e) {
+            try {
+                controller.disconnected(username, this);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 

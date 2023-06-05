@@ -5,6 +5,7 @@ import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;
 import it.polimi.ingsw.TCP.ClientHandler;
+import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.TCP.Command;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -146,6 +147,25 @@ public class CONTROLLER {
                 gc.receiveMessage(message);
             }
         }
+    }
+
+    public void disconnected(String username, ClientHandler ch) throws RemoteException {
+        if(clientsTCP.size() > 0) {
+            Command c = new Command();
+            //TODO
+            c.cmd = CMD.USER_DISCONNECTED;
+            c.username = username;
+            if(game.space.player.get(0).getUsername().equals(username)){
+                this.clientsTCP.get(1).broadcast(c);
+            }
+            this.clientsTCP.get(0).broadcast(c);
+        }
+        if(this.clientsRMI.size() > 0) {
+            for (GameClient gc : clientsRMI) {
+                gc.receiveLOG(username);
+            }
+        }
+        System.exit(0);
     }
 
     /************************************************ PRIVATE *********************************************************/

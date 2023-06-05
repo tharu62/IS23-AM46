@@ -72,6 +72,9 @@ public class CONTROLLER{
     synchronized public boolean getReplyPut(){
         return this.reply_put;
     }
+    synchronized public boolean getReplyPersonal(){
+        return this.reply_Personal;
+    }
     synchronized public boolean getReplyBookshelf(){
         return this.bookshelf_received;
     }
@@ -116,8 +119,9 @@ public class CONTROLLER{
         }
     }
 
-    synchronized public void setPersonalGoal(int cardID){
+    public void setPersonalGoal(int cardID){
         this.PersonalGoalCardID = cardID;
+        this.reply_Personal = true;
     }
 
     public void setBookshelf(item[][] bookshelf){

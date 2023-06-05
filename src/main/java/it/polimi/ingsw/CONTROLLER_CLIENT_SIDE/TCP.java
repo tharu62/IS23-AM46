@@ -18,13 +18,12 @@ public class TCP implements COM{
     }
 
     @Override
-    public int getPersonalGoal(int PersonalGoalCardID, String username, CLI cli) {
-        Command c = new Command();
-        c.cmd = CMD.SEND_PERSONAL_GOAL_CARD;
-        c.username = username;
-        String askPersonal = clientTCP.g.toJson(c);
-        clientTCP.out_ref.println(askPersonal);
-        return cli.cmd.replyPersonal();
+    public int getPersonalGoal(int PersonalGoalCardID, String username) throws RemoteException {
+        Command send = new Command();
+        send.cmd = CMD.SEND_PERSONAL_GOAL_CARD;
+        send.username = username;
+        clientTCP.CommandSwitcher(send,clientTCP.out_ref);
+        return 0;
     }
 
     @Override

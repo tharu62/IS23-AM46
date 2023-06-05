@@ -57,6 +57,18 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
                 controller.LoginOK = gs.login(controller.getUsername());
             }
         }
+        if(message.equals("USER_DISCONNECTED")){
+            controller.notifyCLI(" The player '" + message + "' has disconnected, the match is over by default.");
+            controller.notifyCLI(" AUTO-SHUTDOWN ...");
+            synchronized (this){
+                try {
+                    this.wait(3000);
+                }catch (InterruptedException e){
+                    System.exit(0);
+                }
+            }
+            System.exit(0);
+        }
     }
 
     @Override

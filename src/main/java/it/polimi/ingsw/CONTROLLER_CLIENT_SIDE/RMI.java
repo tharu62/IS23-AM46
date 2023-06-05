@@ -13,7 +13,7 @@ public class RMI implements COM{
     }
 
     @Override
-    public int getPersonalGoal(int PersonalGoalCardID , String username, CLI cli) throws RemoteException {
+    public int getPersonalGoal(int PersonalGoalCardID , String username) throws RemoteException {
         PersonalGoalCardID = ClientRMI.gs.sendPersonalGoal(username);
         return PersonalGoalCardID;
     }

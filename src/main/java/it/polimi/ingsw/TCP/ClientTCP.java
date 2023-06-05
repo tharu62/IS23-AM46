@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.rmi.UnexpectedException;
 
 public class ClientTCP extends Thread {
     public int PORT;
@@ -160,7 +161,7 @@ public class ClientTCP extends Thread {
                 controller.receiveChat(ObjCommand.chat.message);
                 break;
 
-            case FROM_CLIENT_CHAT, ASK_DRAW, ASK_PUT_ITEM , ASK_BOOKSHELF , END_TURN , ASK_MY_TURN:
+            case FROM_CLIENT_CHAT, ASK_DRAW, ASK_PUT_ITEM , ASK_BOOKSHELF , END_TURN , ASK_MY_TURN, SEND_PERSONAL_GOAL_CARD:
                 reply = ObjCommand;
                 reply_string = g.toJson(reply);
                 out.println(reply_string);
@@ -169,6 +170,18 @@ public class ClientTCP extends Thread {
             case WINNER:
                 controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '"+ ObjCommand.username +"'");
                 break;
+
+            case USER_DISCONNECTED:
+                controller.notifyCLI(" The player '" + ObjCommand.username + "' has disconnected, the match is over by default.");
+                controller.notifyCLI(" AUTO-SHUTDOWN ...");
+                synchronized (this){
+                    try {
+                        this.wait(3000);
+                    }catch (InterruptedException e){
+                        System.exit(0);
+                    }
+                }
+                System.exit(0);
         }
     }
 }
