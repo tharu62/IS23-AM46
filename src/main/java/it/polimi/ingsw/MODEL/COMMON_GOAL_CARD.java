@@ -22,4 +22,8 @@ public class COMMON_GOAL_CARD extends COMMON_GOALS implements Serializable {
     public boolean check(BOOKSHELF bookshelf) {
         return this.cardLogic.CheckCardLogic(bookshelf);
     }
+
+    public int getToken_value() {
+        return token_value;
+    }
 }

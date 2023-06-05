@@ -107,8 +107,8 @@ public class ClientTCP extends Thread {
                 break;
 
             case COMMON_GOALS:
-                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(0));
-                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(1));
+                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(0), ObjCommand.broadcast.cardsValue.get(0));
+                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(1), ObjCommand.broadcast.cardsValue.get(1));
                 break;
 
             case PLAYER_TO_PLAY:

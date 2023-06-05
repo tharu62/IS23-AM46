@@ -79,15 +79,17 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public void printCommonGoals(List<Integer> commonGoalCards) {
+    public void printCommonGoals(List<Integer> commonGoalCards, List<Integer> commonGoalToken) {
         PrintCommonGoals printCommonGoals = new PrintCommonGoals();
         int id1 = commonGoalCards.get(0);
         int id2 = commonGoalCards.get(1);
+        int value1 = commonGoalToken.get(0);
+        int value2 = commonGoalToken.get(1);
         System.out.print("\u001B[32m");
-        printCommonGoals.printCommon(id1);
+        printCommonGoals.printCommon(id1, value1);
         System.out.print(Color.RESET);
         System.out.print("\u001B[34m");
-        printCommonGoals.printCommon(id2);
+        printCommonGoals.printCommon(id2, value2);
         System.out.print(Color.RESET);
     }
 

@@ -28,8 +28,8 @@ public class TurnUpdater {
 
         for (GameClient gc : clientsRMI) {
             try {
-                gc.receiveCommonGoals(controller.getCommonGoalCard(0).getCardLogic().getId());
-                gc.receiveCommonGoals(controller.getCommonGoalCard(1).getCardLogic().getId());
+                gc.receiveCommonGoals(controller.getCommonGoalCard(0).getCardLogic().getId(), controller.getCommonGoalCard(0).getToken_value());
+                gc.receiveCommonGoals(controller.getCommonGoalCard(1).getCardLogic().getId(), controller.getCommonGoalCard(1).getToken_value());
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -66,8 +66,8 @@ public class TurnUpdater {
 
         for (GameClient gc : clientsRMI) {
             try {
-                gc.receiveCommonGoals(controller.getCommonGoalCard(0).getCardLogic().getId());
-                gc.receiveCommonGoals(controller.getCommonGoalCard(1).getCardLogic().getId());
+                gc.receiveCommonGoals(controller.getCommonGoalCard(0).getCardLogic().getId(), controller.getCommonGoalCard(0).getToken_value());
+                gc.receiveCommonGoals(controller.getCommonGoalCard(1).getCardLogic().getId(), controller.getCommonGoalCard(1).getToken_value());
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -100,8 +100,11 @@ public class TurnUpdater {
         temp.cmd = CMD.COMMON_GOALS;
         temp.broadcast = new BROADCAST();
         temp.broadcast.cardsID = new ArrayList<>();
+        temp.broadcast.cardsValue = new ArrayList<>();
         temp.broadcast.cardsID.add(controller.getCommonGoalCard(0).getCardLogic().getId());
+        temp.broadcast.cardsValue.add(controller.getCommonGoalCard(0).getToken_value());
         temp.broadcast.cardsID.add(controller.getCommonGoalCard(1).getCardLogic().getId());
+        temp.broadcast.cardsValue.add(controller.getCommonGoalCard(1).getToken_value());
         clientsTCP.get(0).broadcast(temp);
 
         temp = new Command();
@@ -130,8 +133,11 @@ public class TurnUpdater {
         temp.cmd = CMD.COMMON_GOALS;
         temp.broadcast = new BROADCAST();
         temp.broadcast.cardsID = new ArrayList<>();
+        temp.broadcast.cardsValue = new ArrayList<>();
         temp.broadcast.cardsID.add(controller.getCommonGoalCard(0).getCardLogic().getId());
+        temp.broadcast.cardsValue.add(controller.getCommonGoalCard(0).getToken_value());
         temp.broadcast.cardsID.add(controller.getCommonGoalCard(1).getCardLogic().getId());
+        temp.broadcast.cardsValue.add(controller.getCommonGoalCard(1).getToken_value());
         clientsTCP.get(0).broadcast(temp);
 
         temp = new Command();

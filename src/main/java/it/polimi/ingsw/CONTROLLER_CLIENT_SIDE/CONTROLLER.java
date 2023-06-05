@@ -33,6 +33,7 @@ public class CONTROLLER{
     public boolean bookshelf_received = false;
     public int PersonalGoalCardID = -1;
     public List<Integer> cards = new ArrayList<>();
+    public List<Integer> token_value = new ArrayList<>();
     public List<String> players = new ArrayList<>();
     public List<MESSAGE> chatBuffer = new ArrayList<>();
     public CLI cli;
@@ -96,19 +97,22 @@ public class CONTROLLER{
         this.grid = grid;
     }
 
-    public void setCommonGoals(int  cardID){
+    public void setCommonGoals(int  cardID, int token){
         boolean setNotDone = true;
         if(cards.size() == 0){
             this.cards.add(cardID);
+            this.token_value.add(token);
             setNotDone = false;
         }
         if(cards.size() == 1 && setNotDone){
             this.cards.add(cardID);
+            this.token_value.add(token);
             setNotDone = false;
         }
         if(cards.size() == 2 && setNotDone){
             this.cards = new ArrayList<>();
             this.cards.add(cardID);
+            this.token_value.add(token);
         }
     }
 

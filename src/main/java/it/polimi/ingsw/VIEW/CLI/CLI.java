@@ -33,7 +33,7 @@ public class CLI extends Thread  {
             inputNotValid = true;
             if(controller.getMyTurn() && !chatInputInProgress) {
                 cmd.printBoard(controller.grid);
-                cmd.printCommonGoals(controller.cards);
+                cmd.printCommonGoals(controller.cards, controller.token_value);
                 cmd.printActions();
                 StrCommand = in.nextLine();
                 gameplayInputInProgress = true;
@@ -97,7 +97,7 @@ public class CLI extends Thread  {
                 }
 
                 if(StrCommand.equalsIgnoreCase("common goal")){
-                    cmd.printCommonGoals(controller.cards);
+                    cmd.printCommonGoals(controller.cards, controller.token_value);
                     gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
