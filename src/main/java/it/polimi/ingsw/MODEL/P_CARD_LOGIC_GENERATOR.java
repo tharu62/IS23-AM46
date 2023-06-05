@@ -9,6 +9,8 @@ public class P_CARD_LOGIC_GENERATOR {
     Random rand = new Random();
     int upperbound = 12;
     List<Integer> alreadyTakenLogic = new ArrayList<>();
+
+
     public P_CARD_LOGIC SetCardLogic() {
         int i;
         do {

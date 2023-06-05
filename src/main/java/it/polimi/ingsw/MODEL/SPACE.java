@@ -9,7 +9,10 @@ public class SPACE {
     public String winner;
     int drawCounter = 0;
 
-
+    /**
+     *
+     * @param playerNumber
+     */
     public void setBoard(int playerNumber){
         board.setGrid(playerNumber);
     }
@@ -44,10 +47,23 @@ public class SPACE {
         }
     }
 
+    /**
+     *
+     * @param i
+     * @param m
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
     public boolean placeItem(int i, int m,int a, int b, int c){
         return player.get(i).bookshelf.putItems(m,a,b,c);
     }
 
+    /**
+     *
+     * @return
+     */
     public String calculateScore(){
         int tempScore=0;
         int winner=0;
@@ -68,8 +84,8 @@ public class SPACE {
         return this.winner;
     }
 
-    /** This method resets the board on the state it was before the player made his first draw.
-     *
+    /**
+     * This method resets the board on the state it was before the player made his first draw.
      * @param playerIndex it's the player that made the last draw.
      */
     public void resetDraw( int playerIndex ){

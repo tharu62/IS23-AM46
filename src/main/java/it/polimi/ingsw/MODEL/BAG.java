@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BAG {
-    List<item> itemList= new ArrayList<>(132);
+    List<item> itemList = new ArrayList<>(132);
     int CATS=0;
     int BOOKS=0;
     int GAMES=0;
@@ -13,6 +13,10 @@ public class BAG {
     int TROPHIES=0;
     int PLANTS=0;
 
+    /**
+     * This method "draws" 132 items randomly and places them in attribute List<item> itemList of this class.
+     * The method can draw 6 kind of items, each item type can have 21 duplicates at maximum at the end of the draw.
+     */
     public void setItemList(){
         Random rand = new Random();
         int upperbound = 7, i;
@@ -88,6 +92,11 @@ public class BAG {
         }
     }
 
+    /**
+     * This method returns a random item from the attribute List<item> itemList of this class.
+     * The item is removed from the List.
+     * @return item
+     */
     public item draw(){
         Random random = new Random();
         int drawn_item = random.nextInt(itemList.size());

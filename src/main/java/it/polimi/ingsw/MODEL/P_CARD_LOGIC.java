@@ -8,6 +8,11 @@ public interface P_CARD_LOGIC {
      * @return the points made by the player
      */
     int checkCardLogic(BOOKSHELF bookshelf);
+
+    /**
+     * This method returns the id of the card. Each card has a different objective and a different id.
+     * @return id of the card. ( it is a pre-set value )
+     */
     int getId();
 }
 

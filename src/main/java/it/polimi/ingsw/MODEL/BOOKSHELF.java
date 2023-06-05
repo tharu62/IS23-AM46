@@ -24,8 +24,9 @@ public class BOOKSHELF {
      * @param c place order of the third item in the ItemToPut array
      * @return
      * If there is no space to place the items in the column, it returns false.
-     * If there is space to place the items in the column, it increments the item counter that counts the number of items in the bookshelf and
-     * deletes the drawn items saved in the ItemToPut array, then it return true.
+     * If there is space to place the items in the column, it increments the item counter, that counts
+     * the number of items in the bookshelf, and deletes the drawn items saved in the array ItemToPut,
+     * then it return true.
      */
     public boolean putItems(int m,int a, int b, int c){
         if(firstFreeRow(m) < (itemToPut.size() - 1)){
@@ -52,6 +53,11 @@ public class BOOKSHELF {
         return true;
     }
 
+    /**
+     *
+     * @param comp
+     * @return
+     */
     public  int checkAdjacentItem(item comp){
         int score=0;
         int temp;
@@ -69,6 +75,13 @@ public class BOOKSHELF {
         return score;
     }
 
+    /**
+     *
+     * @param i
+     * @param j
+     * @param comp
+     * @return
+     */
     private int dfs(int i, int j, item comp){
         int score=0;
         if(i<0 || j<0 || i>Grid.length || j>Grid.length){
@@ -94,10 +107,20 @@ public class BOOKSHELF {
         return score;
     }
 
+    /**
+     * This method return the attribute Grid of this class.
+     * @return Grid attribute.
+     */
     public item[][] getGrid() {
         return this.Grid;
     }
 
+    /**
+     * This method checks the attribute Grid of this class in the column with index 'x'.
+     * @param x is the index of the column to check.
+     * @return the index of the first row of the checked column that is not occupied with an item.
+     *         The column is checked from the bottom (row index 5) to the top (row index 0).
+     */
     public int firstFreeRow(int x) {
         int i=5;
         while (!this.Grid[i][x].equals(item.EMPTY)) {
