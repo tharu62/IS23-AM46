@@ -2,22 +2,6 @@ package it.polimi.ingsw.VIEW.GUI;
 
 
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.SocketException;
-
-
 /*
 public class LoginController implements Initializable {
     private Stage stage;
@@ -94,4 +78,75 @@ public class LoginController implements Initializable {
 
 
 }
+
+
+  @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ignore_network = false;
+        choiceBox.getItems().addAll(nof_players);
+        choiceBox.setValue("2");
+        waiting_communication.setVisible(false);
+        confetti = new ImageView[]{confetti_left, confetti_right};
+        nickname.textProperty().addListener((observableValue, oldValue, newValue) -> checkName());
+
+        FXMLLoader fxmlLoader = new FXMLLoader(GUILauncher.class.getResource("waiting.fxml"));
+        try {
+            SubScene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setGameBoard(GameBoard model) {
+        if(ignore_network) return;
+    }
+
+    @Override
+    public void notifyResponse(Action action) {
+        if(ignore_network) return;
+        PopUpLauncher error = new PopUpLauncher();
+        error.setTitle("Error!");
+        switch(action.getGamePhase()){
+            case CORRECT:
+                game_controller.setUsername(action.getUsername());
+                Platform.runLater(() -> {
+                    game_controller.setStarted();
+                    Stage stage = new Stage();
+                    stage.getIcons().add(new Image(getClass().getResourceAsStream(".jpg")));
+                    stage.setTitle("MyShelfie Match");
+                    stage.setScene(new Scene(gameparent, 1290, 690));
+                    stage.setResizable(false);
+                    stage.show();
+                    stage.setOnCloseRequest(windowEvent -> System.exit(-1));
+                    this.stage.close();
+                });
+                ignore_network = true;
+                break;
+            case ERROR_PHASE:
+                error.setMessage("Username already taken!");
+                error.show();
+                showWaitingScene(false);
+                ip.setDisable(true);
+                choiceBox.setDisable(true);
+                break;
+            case CONNECTION_ERROR:
+                error.setMessage("A connection error occurred");
+                error.show();
+                System.exit(0);
+                break;
+        }
+    }
+
+    @Override
+    public void notifyResponse(List<GamePhase> gamephases) {
+        return;
+    }
+
+    public void setOwnStage(Stage stage) {
+        this.stage = stage;
+    }
+}
+
+
 */
