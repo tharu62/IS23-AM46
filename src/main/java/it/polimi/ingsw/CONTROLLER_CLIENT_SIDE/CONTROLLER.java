@@ -4,7 +4,6 @@ import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,13 +136,13 @@ public class CONTROLLER{
             if(message.header[1].equals("everyone")) {
                 if(!message.header[0].equals(username)){
                     notifyCLI(" NEW CHAT MESSAGE !");
-                    notifyCLI(message.header[0] + ":" + message.text);
+                    notifyCLI(message.header[0] + " < public >:" + message.text);
                 }
             }
             if(message.header[1].equals(username)){
                 if(!message.header[0].equals(username)){
                     notifyCLI(" NEW CHAT MESSAGE !");
-                    notifyCLI(message.header[0] + " ( PRIVATE ) : " + message.text);
+                    notifyCLI(message.header[0] + " < private > : " + message.text);
                 }
             }
         }

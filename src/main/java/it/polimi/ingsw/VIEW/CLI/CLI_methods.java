@@ -135,7 +135,7 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public void printActionsChat() {
+    synchronized public void printActionsChat() {
         System.out.println("******************************************************************************************");
         System.out.println(" Actions: ");
         System.out.println(" (chat)         chat with players ");
@@ -146,7 +146,12 @@ public class CLI_methods implements CLI_Interface{
     synchronized public void printChatBuffer() {
         System.out.println(" CHAT MESSAGES THAT YOU DIDN'T SEE : ");
         for(int i = 0; i< controller.chatBuffer.size(); i++){
-            System.out.println(controller.chatBuffer.get(0).header[1] + ":" + controller.chatBuffer.get(0).text);
+            if(controller.chatBuffer.get(i).header[1].equals("everyone")) {
+                controller.notifyCLI(controller.chatBuffer.get(i).header[0] + " < public >:" + controller.chatBuffer.get(i).text);
+            }
+            if(controller.chatBuffer.get(i).header[1].equals(controller.username)){
+                controller.notifyCLI(controller.chatBuffer.get(i).header[0] + " < private > : " + controller.chatBuffer.get(i).text);
+            }
             controller.chatBuffer.remove(0);
         }
     }

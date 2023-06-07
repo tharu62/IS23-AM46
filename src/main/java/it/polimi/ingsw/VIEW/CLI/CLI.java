@@ -121,7 +121,9 @@ public class CLI extends Thread  {
                     chatInputInProgress = true;
                     if (controller.chatBuffer.size() > 0) {
                         //stampa i messaggi salvati in buffer, nel mentre cancella il contenuto del buffer.
-                        cmd.printChatBuffer();
+                        while(controller.chatBuffer.size() > 0) {
+                            cmd.printChatBuffer();
+                        }
                     }
                     cmd.printActionsChat();
                     StrCommand = in.nextLine();
