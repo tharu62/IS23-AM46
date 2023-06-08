@@ -57,7 +57,6 @@ public class CONTROLLER{
         this.username = cli.cmd.getUsername().toLowerCase();
         return this.username;
     }
-
     public int getLobbySize(){
         this.LobbySize = cli.cmd.getLobbySize();
         return this.LobbySize;
@@ -65,12 +64,10 @@ public class CONTROLLER{
     synchronized public boolean getMyTurn(){
         return this.myTurn;
     }
-    synchronized public boolean getReplyDraw(){
-        return this.reply_draw;
-    }
     synchronized public boolean getReplyPut(){
         return this.reply_put;
     }
+    synchronized public boolean getReplyDraw() { return this.reply_draw; }
     synchronized public boolean getReplyPersonal(){
         return this.reply_Personal;
     }

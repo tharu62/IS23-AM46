@@ -5,7 +5,7 @@ import it.polimi.ingsw.VIEW.CLI.CLI;
 
 import java.rmi.RemoteException;
 
-public interface COM {
+public interface CommunicationProtocol {
     Client client = null;
     int getPersonalGoal( int PersonalGoalCardID , String username) throws RemoteException;
     void draw(String username, int row, int col, CONTROLLER controller) throws RemoteException;

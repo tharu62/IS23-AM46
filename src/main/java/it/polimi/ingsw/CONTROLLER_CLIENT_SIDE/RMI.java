@@ -6,7 +6,7 @@ import it.polimi.ingsw.VIEW.CLI.CLI;
 
 import java.rmi.RemoteException;
 
-public class RMI implements COM{
+public class RMI implements CommunicationProtocol {
     public ClientRMI clientRMI;
     public RMI(ClientRMI client){
         this.clientRMI = client;

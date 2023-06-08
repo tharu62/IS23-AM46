@@ -9,7 +9,7 @@ import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.util.Scanner;
 
-public class SetUpper {
+public class SetUp {
     boolean active = true;
     boolean selectedCLI = false;
     public boolean selectedGUI = false;
@@ -62,8 +62,13 @@ public class SetUpper {
                 selectedSERVER = true;
             }
             if ((playerInput.equals("2"))) {
+                selectedCLIENT = true;
+                System.out.println("************************************************************************************");
+                System.out.println(" Insert the ip address of the Server: ( xxx.xxx.xxx.xxx ) ");
+                playerInput = scanner.nextLine();
+                scanner.reset();
+                Settings.SERVER_NAME = playerInput;
                 do {
-                    selectedCLIENT = true;
                     System.out.println("************************************************************************************");
                     System.out.println("Select:");
                     System.out.println(" ( 0 ) if you want to quit");
@@ -113,7 +118,7 @@ public class SetUpper {
 
         if(selectedGUI){
             if(selectedTCP){
-                //CONTROLLER controller = new CONTROLLER(Connection.RMI);
+                //TODO
             }
             if(selectedRMI){
                 //TODO

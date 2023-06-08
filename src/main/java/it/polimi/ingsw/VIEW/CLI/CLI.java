@@ -9,15 +9,15 @@ import java.util.Scanner;
 
 public class CLI extends Thread  {
     CONTROLLER controller;
-    public CLI_Interface cmd;
+    public CLI_commands cmd;
     public CLI(CONTROLLER controller , ClientRMI client) throws InterruptedException {
         this.controller = controller;
-        cmd = new CLI_methods(controller , client);
+        cmd = new Commands_executor(controller , client);
     }
 
     public CLI(CONTROLLER controller , ClientTCP client) throws InterruptedException {
         this.controller = controller;
-        cmd = new CLI_methods(controller , client);
+        cmd = new Commands_executor(controller , client);
     }
 
     @Override

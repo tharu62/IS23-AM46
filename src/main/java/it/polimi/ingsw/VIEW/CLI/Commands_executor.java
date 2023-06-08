@@ -10,16 +10,16 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI_methods implements CLI_Interface{
+public class Commands_executor implements CLI_commands {
     CONTROLLER controller;
-    public COM com;
+    public CommunicationProtocol com;
 
-    public CLI_methods(CONTROLLER controller, ClientRMI client) {
+    public Commands_executor(CONTROLLER controller, ClientRMI client) {
         this.controller = controller;
         this.com = new RMI(client);
     }
 
-    public CLI_methods(CONTROLLER controller, ClientTCP client) {
+    public Commands_executor(CONTROLLER controller, ClientTCP client) {
         this.controller = controller;
         this.com = new TCP(client);
     }
@@ -28,7 +28,6 @@ public class CLI_methods implements CLI_Interface{
     public void notify(String message) {
         System.out.println(message);
         System.out.println("******************************************************************************************");
-
     }
 
     @Override
@@ -353,10 +352,10 @@ public class CLI_methods implements CLI_Interface{
     }
 
     @Override
-    public boolean replyEndTurn() {
+    public void replyEndTurn() {
         while(true){
             if(!controller.getMyTurn()){
-                return true;
+                return;
             }
         }
     }
