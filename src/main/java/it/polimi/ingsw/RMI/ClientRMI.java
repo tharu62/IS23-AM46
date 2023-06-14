@@ -30,6 +30,11 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     }
 
     @Override
+    public void ping() throws RemoteException {
+
+    }
+
+    @Override
     public void receiveMessage(MESSAGE message) throws RemoteException {
         if(message.header[1].equals(controller.username) || message.header[1].equals("everyone")){
             controller.receiveChat(message);
