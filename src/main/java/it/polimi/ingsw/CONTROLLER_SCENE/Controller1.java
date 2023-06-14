@@ -8,7 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -18,13 +18,14 @@ import java.util.EventObject;
 public class Controller1
 {
     @FXML
-    public Label Login;
-    public Label Username;
+    public TextField Username;
+    @FXML
+    public TextField LobbySize;
+    public int lobbySizeINT;
     private Stage stage;
     private Scene scene;
     private Parent root;
     private EventObject event;
-
 
     public void helloscene(ActionEvent actionEvent) throws IOException {
         root= FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/HelloScene0.fxml"));
@@ -42,7 +43,13 @@ public class Controller1
         stage.show();
     }
 
+    /**
+     * This method uses the values stored in the "username" and "LobbySize" TextField for the Login.
+     * @param mouseEvent
+     */
     public void LoginSend(MouseEvent mouseEvent) {
-
+        lobbySizeINT = Integer.parseInt(LobbySize.getText());
+        System.out.println(lobbySizeINT);
     }
+
 }
