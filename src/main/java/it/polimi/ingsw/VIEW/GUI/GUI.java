@@ -19,9 +19,9 @@ public class GUI extends Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/loginscene.fxml"));
         //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/playersscene.fxml"));
 
+        //FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/LoginScene1Player.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/AppWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-
 
         //Image img = new Image("sfondo_parquet.jpg"); //servirebbe l'URL qui
         //ImageInput imginput = new ImageInput();

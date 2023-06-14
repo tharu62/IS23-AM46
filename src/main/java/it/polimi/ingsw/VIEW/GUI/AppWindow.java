@@ -19,12 +19,11 @@ public class AppWindow {
     public void ButtonCLick(ActionEvent actionEvent) throws IOException {
 
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/GameplayScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/LoginScene1Player.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
         stage.show();
-
 
     }
 }
