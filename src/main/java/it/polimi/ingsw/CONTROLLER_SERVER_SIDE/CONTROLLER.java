@@ -5,7 +5,6 @@ import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;
 import it.polimi.ingsw.TCP.ClientHandler;
-import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.TCP.Command;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class CONTROLLER {
     public int players = 0;
 
     /************************************************ GETTER **********************************************************/
+
     public item[][] getBookshelf(String username){
         return game.space.player.get(game.search(username)).bookshelf.getGrid();
     }
@@ -115,7 +115,7 @@ public class CONTROLLER {
 
     public int setScore( String username ){
         game.PlayerWantsToCheckScore(username);
-        PLAYER player= (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
+        PLAYER player = (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         return player.score;
     }
 
@@ -149,7 +149,7 @@ public class CONTROLLER {
         }
     }
 
-    public void disconnected(String username, ClientHandler ch) throws RemoteException {
+    public void disconnected(String username) throws RemoteException {
         if(clientsTCP.size() > 0) {
             Command c = new Command();
             //TODO

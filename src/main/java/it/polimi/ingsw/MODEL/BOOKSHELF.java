@@ -122,7 +122,7 @@ public class BOOKSHELF {
      *         The column is checked from the bottom (row index 5) to the top (row index 0).
      */
     public int firstFreeRow(int x) {
-        int i=5;
+        int i = 5;
         while (!this.Grid[i][x].equals(item.EMPTY)) {
             i--;
         }

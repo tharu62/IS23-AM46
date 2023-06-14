@@ -28,7 +28,7 @@ public class SPACE {
         if(drawCounter > 2){
             return false;
         }
-        for(int i= 0; i < 5; i++){
+        for(int i = 0; i < 5; i++){
             if(player.get(playerIndex).bookshelf.firstFreeRow(i) >= (drawCounter + 1)){
                 break;
             }

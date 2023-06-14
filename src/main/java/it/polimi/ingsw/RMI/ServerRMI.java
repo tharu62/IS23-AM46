@@ -2,7 +2,6 @@ package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.MESSAGE;
-import it.polimi.ingsw.MODEL.item;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -15,7 +14,7 @@ import java.util.List;
 public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
-    public List<GameClient> clientsRMI= new ArrayList<>();
+    public List<GameClient> clientsRMI = new ArrayList<>();
     final int PORT;
 
     public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
@@ -34,7 +33,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         }
         System.out.println(" Connection RMI ready ");
     }
-
 
     @Override
     public void connect(GameClient gc) throws RemoteException {

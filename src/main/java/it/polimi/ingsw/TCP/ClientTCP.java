@@ -9,7 +9,6 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
-import java.rmi.UnexpectedException;
 
 public class ClientTCP extends Thread {
     public int PORT;

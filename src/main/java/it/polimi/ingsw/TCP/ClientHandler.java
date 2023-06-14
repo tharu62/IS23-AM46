@@ -76,7 +76,7 @@ public class ClientHandler extends Thread {
 
         } catch (IOException | NoSuchElementException e) {
             try {
-                controller.disconnected(username, this);
+                controller.disconnected(username);
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }

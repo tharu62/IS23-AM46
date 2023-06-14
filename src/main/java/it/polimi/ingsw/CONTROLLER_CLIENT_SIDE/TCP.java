@@ -11,7 +11,7 @@ import it.polimi.ingsw.VIEW.CLI.CLI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class TCP implements COM{
+public class TCP implements CommunicationProtocol {
     public ClientTCP clientTCP;
     public TCP(ClientTCP client) {
         this.clientTCP = client;

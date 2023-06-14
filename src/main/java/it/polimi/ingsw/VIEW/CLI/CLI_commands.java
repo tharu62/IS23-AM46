@@ -1,12 +1,11 @@
 package it.polimi.ingsw.VIEW.CLI;
 
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.item;
 
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface CLI_Interface {
+public interface CLI_commands {
 
     void notify(String message);
     String getUsername();
@@ -28,6 +27,6 @@ public interface CLI_Interface {
     boolean replyDraw () throws InterruptedException;
     boolean replyPut () throws InterruptedException;
     boolean replyBookshelf ();
-    boolean replyEndTurn();
+    void replyEndTurn();
 
 }
