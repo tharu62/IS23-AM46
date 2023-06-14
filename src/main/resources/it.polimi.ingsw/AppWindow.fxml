@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.VIEW.GUI.AppWindow">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.VIEW.GUI.AppWindow">
    <children>
-      <ImageView cache="true" disable="true" fitHeight="456.0" fitWidth="456.0" focusTraversable="true" layoutX="732.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+      <ImageView fitHeight="400.0" fitWidth="600.0" layoutX="100.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Title_2000x618px.png" />
+            <Image url="@../Title_2000x2000px.png" />
          </image>
       </ImageView>
-      <Button fx:id="Button" layoutX="403.0" layoutY="534.0" mnemonicParsing="false" onAction="#ButtonCLick" prefHeight="50.0" prefWidth="474.0" text="CLICK TO START TO START" textAlignment="CENTER" AnchorPane.leftAnchor="403.0" AnchorPane.rightAnchor="403.0" />
+      <Button fx:id="button" layoutX="263.0" layoutY="284.0" mnemonicParsing="false" onMouseClicked="#ButtonClick" text="Button" />
    </children>
 </AnchorPane>
