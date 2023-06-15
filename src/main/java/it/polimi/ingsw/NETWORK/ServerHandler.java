@@ -26,7 +26,7 @@ public class ServerHandler {
 
         serverRMI.start();                               // RMI CONNECTION //
         socketAccepter.start();                          // TCP CONNECTION //
-        ping.start();
+        ping.start();                                    // RMI PING //
     }
 
 }

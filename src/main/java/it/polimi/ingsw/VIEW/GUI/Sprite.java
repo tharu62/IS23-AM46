@@ -4,43 +4,48 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Sprite implements Movable {
-    double x, y;
-    String f_name;
-    ImageView imageView;
+    public double x, y;
+    public ImageView fxid;
 
-    public Sprite(double x, double y, String f_name) {
+    public Sprite(int x, int y, ImageView fxid) {
         this.x = x;
         this.y = y;
-        this.f_name = f_name;
-        Image img = new Image(f_name);
-        this.imageView = new ImageView(img);
+        this.fxid = fxid;
+    }
+
+    public Sprite(ImageView fxid){
+        this.fxid = fxid;
     }
 
     @Override
     public void MoveUp(){
-        this.y-=10;
+        this.y-=1;
         updatePos();
     }
     @Override
     public void MoveDown(){
-        this.y+=10;
+        this.y+=1;
         updatePos();
     }
     @Override
     public void MoveLeft(){
-        this.x-=10;
+        this.x-=1;
         updatePos();
     }
     @Override
     public void MoveRight(){
-        this.x+=10;
+        this.x+=1;
         updatePos();
     }
     void updatePos(){
-        this.imageView.setX(this.x);
-        this.imageView.setY(this.y);
+        this.fxid.setX(this.x);
+        this.fxid.setY(this.y);
     }
     public ImageView getImageView() {
-        return this.imageView;
+        return this.fxid;
+    }
+    public void setImage(String imageName){
+        Image img = new Image(imageName);
+        this.fxid = new ImageView(img);
     }
 }

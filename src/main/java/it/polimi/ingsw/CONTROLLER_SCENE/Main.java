@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class Main
 {
-
         public void start(Stage stage)
         {
             try
