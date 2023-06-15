@@ -1,5 +1,7 @@
 package it.polimi.ingsw.MODEL;
 
+import static it.polimi.ingsw.MODEL.P_CARD_LOGIC_1.calculateScore;
+
 public interface P_CARD_LOGIC {
     /**
      * This method returns the points made by the player based on his personal goal.
@@ -27,6 +29,10 @@ class P_CARD_LOGIC_1 implements P_CARD_LOGIC{
         if (grid[2][3].equals(item.BOOKS)) cont++;
         if (grid[3][1].equals(item.GAMES)) cont++;
         if (grid[5][2].equals(item.TROPHIES)) cont++;
+        return calculateScore(cont);
+    }
+
+    static int calculateScore(int cont) {
         if (cont == 1) return 1;
         if (cont == 2) return 2;
         if (cont == 3) return 4;
@@ -53,13 +59,7 @@ class P_CARD_LOGIC_2 implements P_CARD_LOGIC{
         if (grid[3][4].equals(item.BOOKS)) cont++;
         if (grid[2][2].equals(item.GAMES)) cont++;
         if (grid[4][3].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -79,13 +79,7 @@ class P_CARD_LOGIC_3 implements P_CARD_LOGIC{
         if (grid[5][0].equals(item.BOOKS)) cont++;
         if (grid[1][3].equals(item.GAMES)) cont++;
         if (grid[3][4].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -105,13 +99,7 @@ class P_CARD_LOGIC_4 implements P_CARD_LOGIC{
         if (grid[4][1].equals(item.BOOKS)) cont++;
         if (grid[0][4].equals(item.GAMES)) cont++;
         if (grid[2][0].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -131,13 +119,7 @@ class P_CARD_LOGIC_5 implements P_CARD_LOGIC{
         if (grid[3][2].equals(item.BOOKS)) cont++;
         if (grid[5][0].equals(item.GAMES)) cont++;
         if (grid[1][1].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -157,13 +139,7 @@ class P_CARD_LOGIC_6 implements P_CARD_LOGIC{
         if (grid[2][3].equals(item.BOOKS)) cont++;
         if (grid[4][1].equals(item.GAMES)) cont++;
         if (grid[0][2].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -183,13 +159,7 @@ class P_CARD_LOGIC_7 implements P_CARD_LOGIC{
         if (grid[5][2].equals(item.BOOKS)) cont++;
         if (grid[4][4].equals(item.GAMES)) cont++;
         if (grid[3][0].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -209,13 +179,7 @@ class P_CARD_LOGIC_8 implements P_CARD_LOGIC{
         if (grid[4][3].equals(item.BOOKS)) cont++;
         if (grid[5][3].equals(item.GAMES)) cont++;
         if (grid[2][2].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -235,13 +199,7 @@ class P_CARD_LOGIC_9 implements P_CARD_LOGIC{
         if (grid[3][4].equals(item.BOOKS)) cont++;
         if (grid[0][2].equals(item.GAMES)) cont++;
         if (grid[4][1].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -261,13 +219,7 @@ class P_CARD_LOGIC_10 implements P_CARD_LOGIC{
         if (grid[2][0].equals(item.BOOKS)) cont++;
         if (grid[1][1].equals(item.GAMES)) cont++;
         if (grid[0][4].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -287,13 +239,7 @@ class P_CARD_LOGIC_11 implements P_CARD_LOGIC{
         if (grid[1][1].equals(item.BOOKS)) cont++;
         if (grid[2][0].equals(item.GAMES)) cont++;
         if (grid[5][3].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override
@@ -313,13 +259,7 @@ class P_CARD_LOGIC_12 implements P_CARD_LOGIC{
         if (grid[0][2].equals(item.BOOKS)) cont++;
         if (grid[4][4].equals(item.GAMES)) cont++;
         if (grid[3][3].equals(item.TROPHIES)) cont++;
-        if (cont == 1) return 1;
-        if (cont == 2) return 2;
-        if (cont == 3) return 4;
-        if (cont == 4) return 6;
-        if (cont == 5) return 9;
-        if (cont == 6) return 12;
-        return 0;
+        return calculateScore(cont);
     }
 
     @Override

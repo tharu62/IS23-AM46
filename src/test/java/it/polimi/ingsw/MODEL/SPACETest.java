@@ -57,4 +57,43 @@ class SPACETest {
         game.space.player.get(0).bookshelf.itemToPut.add(item.GAMES);
         assertFalse(game.space.placeItem(0, 1, 2, 1, -1));
     }
+
+    @Test
+    void testDraw() {
+        GAME game= new GAME();
+        game.addPlayer("Giovanni");
+        game.addPlayer("Antonio");
+        game.setBoard();
+        assertTrue(game.space.draw(0, 1, 3));
+        assertTrue(game.space.draw(0, 1, 4));
+        assertFalse(game.space.draw(0, 2, 3));
+
+        game.space.drawCounter = 0;
+        game.space.board.itemCounter = 0;
+        assertFalse(game.space.draw(1, 1, 3));
+        assertFalse(game.space.draw(1, 3, 3));
+        assertTrue(game.space.draw(1, 2, 3));
+        assertTrue(game.space.draw(1, 2, 4));
+        assertTrue(game.space.draw(1, 2, 5));
+
+        game.space.drawCounter = 0;
+        game.space.board.itemCounter = 0;
+        assertTrue(game.space.draw(0, 3, 3));
+        assertTrue(game.space.draw(0, 3, 4));
+        assertTrue(game.space.draw(0, 3, 5));
+        assertFalse(game.space.draw(0, 3, 6));
+
+        game.space.drawCounter = 0;
+        game.space.board.itemCounter = 0;
+        assertTrue(game.space.draw(1, 4, 1));
+        assertTrue(game.space.draw(1, 5, 1));
+        assertFalse(game.space.draw(1, 6, 1));
+        assertFalse(game.space.draw(1, 4, 2));
+
+        game.space.drawCounter = 0;
+        game.space.board.itemCounter = 0;
+        assertTrue(game.space.draw(0, 3, 2));
+        assertTrue(game.space.draw(0, 4, 2));
+        assertTrue(game.space.draw(0, 5, 2));
+    }
 }

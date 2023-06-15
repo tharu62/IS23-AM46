@@ -105,13 +105,21 @@ public class GAMETest extends TestCase {
         assertNotEquals(game.space.player.get(0).bookshelf.Grid[4][1], item.EMPTY);
     }
 
-    /*@Test
+    @Test
     public void testPlayerWantsToCheckScore() {
         GAME game = new GAME();
+        TOKEN_GENERATOR tokenGenerator = new TOKEN_GENERATOR();
+        tokenGenerator.player_number = 2;
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");
         game.playerToPlay = "Antonio";
-        game.DrawCommonGoalCards();
+        COMMON_GOAL_CARD card = new COMMON_GOAL_CARD(), card1 = new COMMON_GOAL_CARD();
+        card.cardLogic = new CARD_LOGIC_9();
+        card1.cardLogic = new CARD_LOGIC_1();
+        card.SetToken(tokenGenerator.setTokenLogic());
+        card1.SetToken(tokenGenerator.setTokenLogic());
+        game.master.FirstDraw.card.add(0, card);
+        game.master.FirstDraw.card.add(card1);
         game.PlayerWantsToCheckScore("Antonio");
         assertEquals(0, game.space.player.get(0).score);
 
@@ -139,5 +147,27 @@ public class GAMETest extends TestCase {
         }
         game.PlayerWantsToCheckScore("Bruno");
         assertEquals(4, game.space.player.get(1).score);
-    }*/
+    }
+
+    @Test
+    public void testMasterEndTurn() {
+        GAME game = new GAME();
+        game.addPlayer("Antonio");
+        game.addPlayer("Bruno");
+        game.addPlayer("Chiara");
+        game.addPlayer("Davide");
+        game.setBoard();
+        game.playerToPlay = "Bruno";
+        assertFalse(game.masterEndTurn("Antonio"));
+        assertTrue(game.masterEndTurn("Bruno"));
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (game.space.board.Grid[i][j] != item.EMPTY) game.space.board.Grid[i][j] = item.OBJECT;
+            }
+        }
+        assertTrue(game.space.board.IsToBeRestored());
+        assertTrue(game.masterEndTurn("Bruno"));
+        assertFalse(game.space.board.IsToBeRestored());
+    }
 }

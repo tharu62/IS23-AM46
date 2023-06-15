@@ -61,8 +61,17 @@ class BOARDTest{
         board.setGrid(2);
         assertEquals(item.EMPTY, board.drawItem(0, 0));
         assertNotEquals(item.EMPTY, board.drawItem(1, 3));
+        assertNotEquals(item.OBJECT, board.drawItem(1, 3));
         assertEquals(item.EMPTY, board.drawItem(5, 1));
         assertNotEquals(item.EMPTY, board.drawItem(1, 4));
         assertEquals(item.EMPTY, board.drawItem(2, 4));
+    }
+
+    @Test
+    void testIsToBeRestored() {
+        BOARD board = new BOARD();
+        assertTrue(board.IsToBeRestored());
+        board.setGrid(3);
+        assertFalse(board.IsToBeRestored());
     }
 }
