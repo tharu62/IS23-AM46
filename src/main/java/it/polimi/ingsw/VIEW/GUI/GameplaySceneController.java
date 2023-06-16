@@ -2,10 +2,19 @@ package it.polimi.ingsw.VIEW.GUI;
 
 import it.polimi.ingsw.MODEL.item;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static javafx.scene.input.KeyCode.TAB;
 
 public class GameplaySceneController {
     @FXML
@@ -16,13 +25,33 @@ public class GameplaySceneController {
     public ImageView t342;
     @FXML
     public ImageView t343;
+    @FXML
+    public TextField mes0;
+    @FXML
+    public TextField mes1;
+    @FXML
+    public TextField mes2;
+    @FXML
+    public TextField mes3;
+    @FXML
+    public TextField mes4;
+    @FXML
+    public TextField chatInput;
     int i=0;
     public boolean drawInProgress = false;
     public int drawCounter = 0;
     public boolean putInProgress = false;
+    String playerInput = new String();
+    public boolean pce = false;
+    public boolean privateMess = false;
+    public boolean privateMessRec = false;
+    public String privateReceiver;
+    StringBuilder stringBuilder = new StringBuilder();
+    StringBuilder privateStringBuilder = new StringBuilder();
     public Sprite selectedItem = new Sprite(null);
     public Sprite[][] SpritesBoard = new StandardSprite().setBoard(gridPane);
     public Sprite[] DrawPile = new Sprite[3];
+    public TextField[] chatField = new TextField[5];
     public Sprite[][] SpriteBookshelf = new Sprite[6][5];
 
     public void ButtonCLick(MouseEvent mouseEvent) {
@@ -104,7 +133,6 @@ public class GameplaySceneController {
         }
     }
 
-
     public void UpClicked(MouseEvent mouseEvent) {
         Image temp;
         if(drawInProgress){
@@ -143,5 +171,69 @@ public class GameplaySceneController {
 
     public void drawPileClick(MouseEvent mouseEvent) {
         selectedItem = new Sprite((ImageView) mouseEvent.getSource());
+    }
+
+    public void inputKey(KeyEvent keyEvent) {
+            if(pce && !privateMessRec ){
+                chatInput.setPromptText("type the name of the receiver for the private message");
+                privateMessRec = true;
+            }
+            if(privateMessRec || privateMess){
+                privateStringBuilder.append(keyEvent.getCharacter());
+            }
+            else{
+                stringBuilder.append(keyEvent.getCharacter());
+            }
+    }
+
+    public void chatClick(MouseEvent mouseEvent) {
+        chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4);
+    }
+
+    synchronized public void scrollChat(String text){
+        for(int i=4;i>0;i--){
+            if(i==4){
+                mes4.setText(mes3.getText());
+            }
+            if(i==3){
+                mes3.setText(mes2.getText());
+            }
+            if(i==2){
+                mes2.setText(mes1.getText());
+            }
+            if(i==1){
+                mes1.setText(mes0.getText());
+                if(privateMess){
+                    mes0.setText("<private:" + privateReceiver + "> " + text);
+                    privateMess = false;
+                }
+                mes0.setText("<public> " + text);
+            }
+        }
+    }
+
+    public void chatEnter(MouseEvent mouseEvent) {
+        if(!privateMessRec && !privateMess){
+            scrollChat(stringBuilder.toString());
+            chatInput.clear();
+            stringBuilder = new StringBuilder();
+        }
+        if(privateMess){
+            scrollChat(privateStringBuilder.toString());
+            chatInput.clear();
+            privateStringBuilder = new StringBuilder();
+        }
+        if(privateMessRec){
+            privateReceiver = privateStringBuilder.toString();
+            chatInput.clear();
+            privateMessRec = false;
+            privateMess = true;
+            privateStringBuilder = new StringBuilder();
+        }
+
+    }
+
+    public void privateChatEnter(MouseEvent mouseEvent) {
+        pce = true;
     }
 }

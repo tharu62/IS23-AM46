@@ -3,6 +3,7 @@ import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.VIEW.GUI.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,31 +36,42 @@ public class CONTROLLER{
     public List<Integer> token_value = new ArrayList<>();
     public List<String> players = new ArrayList<>();
     public List<MESSAGE> chatBuffer = new ArrayList<>();
+    public GameInterface Interface;
     public CLI cli;
+    public GUI gui;
 
-    public CONTROLLER(Connection connection , ClientRMI client) throws InterruptedException {
+    public CONTROLLER(Connection connection , ClientRMI client , interfaceType Interface) throws InterruptedException {
         if(connection == Connection.RMI){
-            cli = new CLI(this, client);
+            if(Interface == interfaceType.GUI){
+                gui = new GUI();
+                this.Interface = new guiHandler(this.gui);
+            }
+            if(Interface == interfaceType.CLI ){
+                cli  = new CLI(this, client);
+                this.Interface = new cliHandler(this.cli);
+            }
         }
     }
 
-    public CONTROLLER(Connection connection, ClientTCP client) throws InterruptedException {
+    public CONTROLLER(Connection connection, ClientTCP client, interfaceType Interface) throws InterruptedException {
         if(connection == Connection.TCP){
-            cli = new CLI(this, client);
+            if(Interface == interfaceType.GUI){
+                gui = new GUI();
+                this.Interface = new guiHandler(this.gui);
+            }
+            if(Interface == interfaceType.CLI){
+                cli = new CLI(this, client);
+                this.Interface = new cliHandler(this.cli);
+            }
         }
     }
 
     /******************************************************************************************************************/
-    public void notifyCLI(String message){
-        cli.cmd.notify(message);
-    }
     public String getUsername(){
-        this.username = cli.cmd.getUsername().toLowerCase();
-        return this.username;
+        return Interface.getUsername(this);
     }
     public int getLobbySize(){
-        this.LobbySize = cli.cmd.getLobbySize();
-        return this.LobbySize;
+        return Interface.getLobbySize(this);
     }
     synchronized public boolean getMyTurn(){
         return this.myTurn;
@@ -77,18 +89,22 @@ public class CONTROLLER{
 
     /******************************************************************************************************************/
 
+    public void notifyInterface(String message){
+        Interface.notifyInterface(message);
+    }
+
     public void setLobbyIsReady(boolean bool){
         this.LobbyIsReady = bool;
     }
 
     public void setPlayerToPlay( String ptp ) {
         if( this.username.toLowerCase().equals(ptp) ){
-            cli.cmd.notify("                                 IT IS YOUR TURN                                          ");
+            Interface.notifyInterface("                                 IT IS YOUR TURN                                          ");
             this.myTurn = true;
         }
         else{
             this.myTurn =false;
-            cli.cmd.notify("                                IT IS NOT YOUR TURN                                       ");
+            Interface.notifyInterface("                                IT IS NOT YOUR TURN                                       ");
         }
     }
 
@@ -132,25 +148,25 @@ public class CONTROLLER{
         }else{
             if(message.header[1].equals("everyone")) {
                 if(!message.header[0].equals(username)){
-                    notifyCLI(" NEW CHAT MESSAGE !");
-                    notifyCLI(message.header[0] + " < public >:" + message.text);
+                    Interface.notifyInterface(" NEW CHAT MESSAGE !");
+                    Interface.notifyInterface(message.header[0] + " < public >:" + message.text);
                 }
             }
             if(message.header[1].equals(username)){
                 if(!message.header[0].equals(username)){
-                    notifyCLI(" NEW CHAT MESSAGE !");
-                    notifyCLI(message.header[0] + " < private > : " + message.text);
+                    Interface.notifyInterface(" NEW CHAT MESSAGE !");
+                    Interface.notifyInterface(message.header[0] + " < private > : " + message.text);
                 }
             }
         }
     }
 
     public void setLastRound(){
-        cli.cmd.notify("                                        LAST ROUND                                        ");
+        Interface.notifyInterface("                                        LAST ROUND                                        ");
     }
 
     public void startCLI(){
-        this.cli.start();
+        Interface.startInterface();
     }
 
 }

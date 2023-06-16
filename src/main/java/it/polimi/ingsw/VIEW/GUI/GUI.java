@@ -1,5 +1,6 @@
 package it.polimi.ingsw.VIEW.GUI;
 
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.GameInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;

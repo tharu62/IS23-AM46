@@ -2,10 +2,12 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.interfaceType;
 import it.polimi.ingsw.NETWORK.ServerHandler;
 import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
+import it.polimi.ingsw.VIEW.CLI.CLI;
 
 import java.util.Scanner;
 
@@ -101,14 +103,14 @@ public class SetUp {
             if (selectedCLIENT) {
                 if (selectedTCP){
                     ClientTCP client = new ClientTCP(Settings.PORT_TCP );
-                    CONTROLLER controller = new CONTROLLER(Connection.TCP , client);
+                    CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.CLI);
                     client.controller = controller;
                     controller.startCLI();
                     client.start();
                 }
                 if(selectedRMI){
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI);
-                    CONTROLLER controller = new CONTROLLER(Connection.RMI, client);
+                    CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.CLI);
                     client.controller = controller;
                     controller.startCLI();
                     client.start();

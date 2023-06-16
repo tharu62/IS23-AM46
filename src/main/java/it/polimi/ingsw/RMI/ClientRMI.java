@@ -44,27 +44,27 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     @Override
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
-            controller.notifyCLI("LOBBY_IS_FULL");
+            controller.notifyInterface("LOBBY_IS_FULL");
         }
         if(message.equals("FIRST_TO_CONNECT")){
-            controller.notifyCLI("FIRST_TO_CONNECT");
+            controller.notifyInterface("FIRST_TO_CONNECT");
             controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
             while(!controller.LoginOK){
-                controller.notifyCLI(" Username or lobby size not correct. Retry. ");
+                controller.notifyInterface(" Username or lobby size not correct. Retry. ");
                 controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
             }
         }
         if(message.equals("CONNECTED")){
             controller.setLobbyIsReady(true);
-            controller.notifyCLI("CONNECTED");
+            controller.notifyInterface("CONNECTED");
             controller.LoginOK = gs.login(controller.getUsername());
             while(!controller.LoginOK){
                 controller.LoginOK = gs.login(controller.getUsername());
             }
         }
         if(message.equals("USER_DISCONNECTED")){
-            controller.notifyCLI(" The player '" + message + "' has disconnected, the match is over by default.");
-            controller.notifyCLI(" AUTO-SHUTDOWN ...");
+            controller.notifyInterface(" The player '" + message + "' has disconnected, the match is over by default.");
+            controller.notifyInterface(" AUTO-SHUTDOWN ...");
             synchronized (this){
                 try {
                     this.wait(3000);
@@ -103,7 +103,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receiveWinner(String winner) {
-        controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '" + winner + "'");
+        controller.notifyInterface(" THE GAME IS OVER, THE WINNER IS '" + winner + "'");
     }
 
     @Override

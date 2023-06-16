@@ -146,10 +146,10 @@ public class Commands_executor implements CLI_commands {
         System.out.println(" CHAT MESSAGES THAT YOU DIDN'T SEE : ");
         for(int i = 0; i< controller.chatBuffer.size(); i++){
             if(controller.chatBuffer.get(i).header[1].equals("everyone")) {
-                controller.notifyCLI(controller.chatBuffer.get(i).header[0] + " < public >:" + controller.chatBuffer.get(i).text);
+                controller.notifyInterface(controller.chatBuffer.get(i).header[0] + " < public >:" + controller.chatBuffer.get(i).text);
             }
             if(controller.chatBuffer.get(i).header[1].equals(controller.username)){
-                controller.notifyCLI(controller.chatBuffer.get(i).header[0] + " < private > : " + controller.chatBuffer.get(i).text);
+                controller.notifyInterface(controller.chatBuffer.get(i).header[0] + " < private > : " + controller.chatBuffer.get(i).text);
             }
             controller.chatBuffer.remove(0);
         }

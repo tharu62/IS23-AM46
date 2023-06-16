@@ -1,13 +1,14 @@
 package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.GameInterface;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class CLI extends Thread  {
+public class CLI extends Thread {
     CONTROLLER controller;
     public CLI_commands cmd;
     public CLI(CONTROLLER controller , ClientRMI client) throws InterruptedException {

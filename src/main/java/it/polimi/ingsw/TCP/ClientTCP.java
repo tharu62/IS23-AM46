@@ -42,7 +42,7 @@ public class ClientTCP extends Thread {
             System.err.println("Don't know about host " + Settings.SERVER_NAME);
             System.exit(1);
         } catch (IOException e) {
-            controller.notifyCLI("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
+            controller.notifyInterface("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
             System.exit(1);
         }
     }
@@ -55,7 +55,7 @@ public class ClientTCP extends Thread {
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
                 controller.firstToConnect = true;
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.notifyInterface(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
                 reply.username = controller.getUsername();
@@ -66,7 +66,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case CONNECTED:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.notifyInterface(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED_REPLY;
                 reply.username = controller.getUsername();
@@ -80,7 +80,7 @@ public class ClientTCP extends Thread {
 
             case REPLY_NOT_ACCEPTED:
                 if(controller.firstToConnect){
-                    controller.notifyCLI(ObjCommand.cmd.toString());
+                    controller.notifyInterface(ObjCommand.cmd.toString());
                     reply = new Command();
                     reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
                     reply.username = controller.getUsername();
@@ -89,7 +89,7 @@ public class ClientTCP extends Thread {
                     reply_string = g.toJson(reply);
                     out.println(reply_string);
                 }else{
-                    controller.notifyCLI(ObjCommand.cmd.toString());
+                    controller.notifyInterface(ObjCommand.cmd.toString());
                     reply = new Command();
                     reply.cmd = CMD.CONNECTED_REPLY;
                     reply.username = controller.getUsername();
@@ -99,7 +99,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case LOBBY_IS_FULL:
-                controller.notifyCLI(ObjCommand.cmd.toString());
+                controller.notifyInterface(ObjCommand.cmd.toString());
                 break;
 
             case BOARD:
@@ -167,12 +167,12 @@ public class ClientTCP extends Thread {
                 break;
 
             case WINNER:
-                controller.notifyCLI(" THE GAME IS OVER, THE WINNER IS '"+ ObjCommand.username +"'");
+                controller.notifyInterface(" THE GAME IS OVER, THE WINNER IS '"+ ObjCommand.username +"'");
                 break;
 
             case USER_DISCONNECTED:
-                controller.notifyCLI(" The player '" + ObjCommand.username + "' has disconnected, the match is over by default.");
-                controller.notifyCLI(" AUTO-SHUTDOWN ...");
+                controller.notifyInterface(" The player '" + ObjCommand.username + "' has disconnected, the match is over by default.");
+                controller.notifyInterface(" AUTO-SHUTDOWN ...");
                 synchronized (this){
                     try {
                         this.wait(3000);
