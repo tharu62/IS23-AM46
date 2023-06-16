@@ -1,18 +1,25 @@
 package it.polimi.ingsw.VIEW.GUI;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
+import java.util.List;
 
 
 public class StandardSprite {
     Sprite[][] Board = new Sprite[9][9];
     public Sprite[][] setBoard(GridPane gridPane){
-        int count=0;
+        int count = 0;
         for(int i=0; i<9; i++){
             for(int j=0; j < 9; j++){
-                //Board[i][j] = new Sprite(i,j, ((ImageView) gridPane.getChildren().get(i)));
-                count++;
+                if(gridPane.getChildren().get(count) instanceof ImageView){
+                    Board[i][j] = new Sprite(i,j, (ImageView) gridPane.getChildren().get(count));
+                    System.out.println(count);
+                    count++;
+                }
             }
         }
         return Board;

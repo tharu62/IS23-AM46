@@ -1,20 +1,14 @@
 package it.polimi.ingsw.VIEW.GUI;
 
+import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.item;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static javafx.scene.input.KeyCode.TAB;
 
 public class GameplaySceneController {
     @FXML
@@ -41,15 +35,13 @@ public class GameplaySceneController {
     public boolean drawInProgress = false;
     public int drawCounter = 0;
     public boolean putInProgress = false;
-    String playerInput = new String();
-    public boolean pce = false;
     public boolean privateMess = false;
     public boolean privateMessRec = false;
     public String privateReceiver;
     StringBuilder stringBuilder = new StringBuilder();
     StringBuilder privateStringBuilder = new StringBuilder();
     public Sprite selectedItem = new Sprite(null);
-    public Sprite[][] SpritesBoard = new StandardSprite().setBoard(gridPane);
+    public Sprite[][] SpritesBoard;
     public Sprite[] DrawPile = new Sprite[3];
     public TextField[] chatField = new TextField[5];
     public Sprite[][] SpriteBookshelf = new Sprite[6][5];
@@ -66,27 +58,22 @@ public class GameplaySceneController {
 
     private void updateSlotCats(ImageView imageViewID){
         imageViewID.setImage(new Image("Gatti1.1.png"));
-        System.out.println("button clicked");
     }
 
     private void updateSlotGames(ImageView imageViewID){
         imageViewID.setImage(new Image("Giochi1.1.png"));
-        System.out.println("button clicked");
     }
 
     private void updateSlotBooks(ImageView imageViewID){
         imageViewID.setImage(new Image("Libri1.1.png"));
-        System.out.println("button clicked");
     }
 
     private void updateSlotPlants(ImageView imageViewID){
         imageViewID.setImage(new Image("Piante1.1.png"));
-        System.out.println("button clicked");
     }
 
     private void updateSlotTrophies(ImageView imageViewID){
         imageViewID.setImage(new Image("Trofei1.1.png"));
-        System.out.println("button clicked");
     }
 
     public void updateGrid(item[][] grid){
@@ -174,10 +161,6 @@ public class GameplaySceneController {
     }
 
     public void inputKey(KeyEvent keyEvent) {
-            if(pce && !privateMessRec ){
-                chatInput.setPromptText("type the name of the receiver for the private message");
-                privateMessRec = true;
-            }
             if(privateMessRec || privateMess){
                 privateStringBuilder.append(keyEvent.getCharacter());
             }
@@ -190,7 +173,7 @@ public class GameplaySceneController {
         chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4);
     }
 
-    synchronized public void scrollChat(String text){
+    synchronized public void scrollChat(String text, boolean Private){
         for(int i=4;i>0;i--){
             if(i==4){
                 mes4.setText(mes3.getText());
@@ -203,25 +186,29 @@ public class GameplaySceneController {
             }
             if(i==1){
                 mes1.setText(mes0.getText());
-                if(privateMess){
-                    mes0.setText("<private:" + privateReceiver + "> " + text);
-                    privateMess = false;
+                if(Private){
+                    mes0.setText("<private : " + privateReceiver + "> " + text);
+                }else{
+                    mes0.setText("<public> " + text);
                 }
-                mes0.setText("<public> " + text);
             }
         }
     }
 
     public void chatEnter(MouseEvent mouseEvent) {
         if(!privateMessRec && !privateMess){
-            scrollChat(stringBuilder.toString());
-            chatInput.clear();
-            stringBuilder = new StringBuilder();
+            if(stringBuilder.toString() != ""){
+                scrollChat(stringBuilder.toString(), false);
+                chatInput.clear();
+                stringBuilder = new StringBuilder();
+            }
         }
         if(privateMess){
-            scrollChat(privateStringBuilder.toString());
+            scrollChat(privateStringBuilder.toString(), true);
             chatInput.clear();
+            privateMess = false;
             privateStringBuilder = new StringBuilder();
+            chatInput.setPromptText("type something...");
         }
         if(privateMessRec){
             privateReceiver = privateStringBuilder.toString();
@@ -229,11 +216,20 @@ public class GameplaySceneController {
             privateMessRec = false;
             privateMess = true;
             privateStringBuilder = new StringBuilder();
+            chatInput.setPromptText("Insert text for receiver");
         }
 
     }
 
     public void privateChatEnter(MouseEvent mouseEvent) {
-        pce = true;
+        chatInput.setPromptText("Insert receiver");
+        privateMessRec = true;
+    }
+
+    public void setScene(MouseEvent mouseEvent) {
+        this.SpritesBoard = new StandardSprite().setBoard(gridPane);
+        GAME game = new GAME();
+        game.space.board.setGrid(2);
+        updateGrid(game.space.board.Grid);
     }
 }

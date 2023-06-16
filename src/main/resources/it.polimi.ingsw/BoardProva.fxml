@@ -184,6 +184,26 @@
                   <Image url="@../Gatti1.1.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="t344" fitHeight="40.0" fitWidth="40.0" layoutX="166.0" layoutY="130.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fx:id="t3441" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fx:id="t3442" fitHeight="40.0" fitWidth="40.0" layoutX="88.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fx:id="t34421" fitHeight="40.0" fitWidth="40.0" layoutX="127.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fx:id="t344211" fitHeight="40.0" fitWidth="40.0" layoutX="166.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fx:id="t344212" fitHeight="40.0" fitWidth="40.0" layoutX="166.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <ImageView fx:id="t3442121" fitHeight="40.0" fitWidth="40.0" layoutX="137.0" layoutY="20.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <ImageView fx:id="t34421211" fitHeight="40.0" fitWidth="40.0" layoutX="176.0" layoutY="20.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fx:id="t344212111" fitHeight="40.0" fitWidth="40.0" layoutX="147.0" layoutY="30.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fx:id="t3442121111" fitHeight="40.0" fitWidth="40.0" layoutX="186.0" layoutY="30.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+            <ImageView fx:id="t34421211111" fitHeight="40.0" fitWidth="40.0" layoutX="157.0" layoutY="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+            <ImageView fx:id="t344212111111" fitHeight="40.0" fitWidth="40.0" layoutX="196.0" layoutY="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fx:id="t3442121111111" fitHeight="40.0" fitWidth="40.0" layoutX="167.0" layoutY="50.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+            <ImageView fx:id="t34421211111111" fitHeight="40.0" fitWidth="40.0" layoutX="206.0" layoutY="50.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fx:id="t3442111" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="50.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="t344212111111111" fitHeight="40.0" fitWidth="40.0" layoutX="205.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+            <ImageView fx:id="t3442121111111111" fitHeight="40.0" fitWidth="40.0" layoutX="216.0" layoutY="60.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+            <ImageView fx:id="t34421211111111111" fitHeight="40.0" fitWidth="40.0" layoutX="283.0" layoutY="50.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <ImageView fx:id="t344212111111111111" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fx:id="t3442121111111111111" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Button layoutX="419.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#ButtonCLick" text="Button" />
@@ -206,5 +226,6 @@
       </GridPane>
       <Button fx:id="drawUp" layoutX="457.0" layoutY="48.0" mnemonicParsing="false" onMouseClicked="#UpClicked" text="up" />
       <Button fx:id="drawDown" layoutX="454.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#DownClicked" text="down" />
+      <Button layoutX="501.0" layoutY="194.0" mnemonicParsing="false" onMouseClicked="#setScene" text="setScene" />
    </children>
 </AnchorPane>

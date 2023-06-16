@@ -26,7 +26,7 @@
       <TextFlow layoutX="176.0" layoutY="315.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="235.0">
          <children>
             <Button fx:id="chatButton" mnemonicParsing="false" onMouseClicked="#chatEnter" prefHeight="38.0" prefWidth="32.0" text="Button" />
-            <TextField fx:id="chatInput" onKeyTyped="#inputKey" onMouseClicked="#chatClick" prefHeight="38.0" prefWidth="199.0" promptText="type something to chat..." />
+            <TextField fx:id="chatInput" onKeyTyped="#inputKey" onMouseClicked="#chatClick" prefHeight="38.0" prefWidth="199.0" promptText="type something..." />
             <VBox />
          </children>
       </TextFlow>
