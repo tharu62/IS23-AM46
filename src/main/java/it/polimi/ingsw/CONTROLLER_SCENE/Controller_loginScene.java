@@ -32,6 +32,8 @@ public class Controller_loginScene
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         scene= new Scene(root);
         stage.setScene(scene);
+        stage.setFullScreen(true);
+
         stage.show();
     }
     public void loginScene(ActionEvent actionEvent) throws IOException {
@@ -40,6 +42,8 @@ public class Controller_loginScene
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         scene= new Scene(root);
         stage.setScene(scene);
+        stage.setFullScreen(true);
+
         stage.show();
     }
 

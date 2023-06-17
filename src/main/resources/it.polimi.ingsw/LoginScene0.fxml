@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="412.0" fitWidth="612.0" layoutX="-6.0" layoutY="-6.0">
          <image>
-            <Image url="@../../../../../../../Downloads/stock-vector-seamless-background-of-wooden-parquet.jpeg" />
+            <Image url="@../stock-vector-seamless-background-of-wooden-parquet.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="129.0" fitWidth="359.0" layoutX="128.0" layoutY="40.0">
@@ -19,14 +19,17 @@
             <Image url="@../../../../../../../Downloads/Title_2000x618px-removebg-preview.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="164.0" layoutY="185.0" prefHeight="144.0" prefWidth="273.0" style="-fx-background-color: #212121;">
+      <AnchorPane layoutX="164.0" layoutY="200.0" prefHeight="135.0" prefWidth="273.0" style="-fx-background-color: #212121;">
          <children>
             <Label layoutX="103.0" layoutY="8.0" prefHeight="15.0" prefWidth="67.0" text="Login" textFill="#f5f5f5">
                <font>
                   <Font name="Tahoma Bold" size="24.0" />
                </font>
             </Label>
-            <TextField layoutX="23.0" layoutY="74.0" prefHeight="30.0" prefWidth="231.0" style="-fx-background-color: #212121;" text="Username" />
+            <TextField layoutX="24.0" layoutY="71.0" prefHeight="30.0" prefWidth="232.0" style="-fx-background-color: #C0C0C0;" text="Username">
+               <font>
+                  <Font name="Baskerville" size="15.0" />
+               </font></TextField>
             <AnchorPane layoutX="15.0" layoutY="39.0" prefHeight="9.0" prefWidth="249.0" style="-fx-background-color: #795548;" />
          </children>
       </AnchorPane>

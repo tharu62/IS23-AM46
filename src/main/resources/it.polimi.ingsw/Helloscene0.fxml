@@ -9,11 +9,10 @@
    <children>
       <ImageView fitHeight="406.0" fitWidth="600.0" layoutY="-3.0">
          <image>
-            <Image url="@../../../../../../../Downloads/stock-vector-seamless-background-of-wooden-parquet.jpeg" />
-         </image>
-      </ImageView>
+            <Image url="@../stock-vector-seamless-background-of-wooden-parquet.png" />
+         </image></ImageView>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="107.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="129.0" fitWidth="359.0" layoutX="128.0" layoutY="14.0">
+      <ImageView fitHeight="129.0" fitWidth="359.0" layoutX="121.0" layoutY="40.0">
          <image>
             <Image url="@../../../../../../../Downloads/Title_2000x618px-removebg-preview.png" />
          </image>
