@@ -13,6 +13,7 @@ public interface GameServer extends Remote {
 
     boolean loginFirst(String username, int LobbySize) throws RemoteException;
 
+    boolean loginReconnect(String username) throws RemoteException;
     int sendPersonalGoal(String username) throws RemoteException;
 
     boolean askDraw( String username, int a, int b) throws RemoteException;

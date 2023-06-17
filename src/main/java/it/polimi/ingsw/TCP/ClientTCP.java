@@ -17,9 +17,10 @@ public class ClientTCP extends Thread {
     public Command reply = new Command();
     public String reply_string;
     public PrintWriter out_ref;
-
-    public ClientTCP( int port){
+    public boolean disconnected = false;
+    public ClientTCP( int port, boolean disconnected){
         this.PORT = port;
+        this.disconnected = disconnected;
     }
 
     @Override
@@ -99,7 +100,16 @@ public class ClientTCP extends Thread {
                 break;
 
             case LOBBY_IS_FULL:
-                controller.notifyInterface(ObjCommand.cmd.toString());
+                if(disconnected){
+                    //TODO
+                    // reply.cmd = CMD.RECONNECTED_REPLY;
+                    // reply.username = controller.getUsername();
+                    // reply_string = g.toJson(reply);
+                    // out.println(reply_string);
+                }else{
+                    controller.notifyInterface(ObjCommand.cmd.toString());
+                    System.exit(0);
+                }
                 break;
 
             case BOARD:

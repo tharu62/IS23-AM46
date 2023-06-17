@@ -118,20 +118,15 @@ public class ClientHandler extends Thread {
                 active= true;
                 break;
 
-            case ASK_LOBBY_READY:
-                if(controller.getLobbyIsReady()){
-                    reply = new Command();
-                    reply.cmd = CMD.CONNECTED;
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
-                }
-                else{
-                    reply = new Command();
-                    reply.cmd = CMD.LOBBY_IS_NOT_READY;
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
-                }
-                break;
+            //TODO
+            // case RECONNECTED_REPLY:
+            //      reply = new Command();
+            //      if(controller.setLoginReconnection(ObjCommand.username){
+            //          reply.cmd = CMD.REPLY_ACCEPTED;
+            //      }else{
+            //          reply.cmd = CMD.REPLY_NOT_ACCEPTED;
+            //      }
+            //      break;
 
             case SEND_PERSONAL_GOAL_CARD:
                 reply = new Command();
