@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="406.0" fitWidth="607.0">
+      <ImageView fitHeight="410.0" fitWidth="626.0" layoutX="-14.0" layoutY="-5.0">
          <image>
             <Image url="@../stock-vector-seamless-background-of-wooden-parquet.jpeg" />
          </image>
@@ -32,42 +33,40 @@
                   <Image url="@../livingroom.png" />
                </image>
             </ImageView>
-            <GridPane gridLinesVisible="true" layoutX="16.0" layoutY="27.0" prefHeight="309.0" prefWidth="307.0">
+            <GridPane gridLinesVisible="true" layoutX="16.0" layoutY="23.0" prefHeight="314.0" prefWidth="303.0">
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="36.159141540527344" minWidth="10.0" prefWidth="36.159141540527344" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.0" minWidth="0.0" prefWidth="34.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.9322624206543" minWidth="0.0" prefWidth="32.86365509033203" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="0.0" prefWidth="32.13634490966797" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="63.750335693359375" minWidth="0.0" prefWidth="35.43182373046875" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="102.76139831542969" minWidth="10.0" prefWidth="34.56817626953125" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.1363525390625" minWidth="10.0" prefWidth="33.465911865234375" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="49.659149169921875" minWidth="10.0" prefWidth="35.465911865234375" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.795501708984375" minWidth="10.0" prefWidth="35.965911865234375" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="36.159141540527344" minWidth="10.0" prefWidth="35.993011474609375" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.0" minWidth="0.0" prefWidth="33.49388122558594" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.9322624206543" minWidth="0.0" prefWidth="33.99475860595703" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="0.0" prefWidth="34.493011474609375" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="63.750335693359375" minWidth="0.0" prefWidth="34.99388122558594" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="102.76139831542969" minWidth="10.0" prefWidth="33.993011474609375" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.1363525390625" minWidth="10.0" prefWidth="33.99476623535156" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="49.659149169921875" minWidth="10.0" prefWidth="32.50523376464844" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.795501708984375" minWidth="10.0" prefWidth="38.15850830078125" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="35.82957458496094" minHeight="10.0" prefHeight="35.82957458496094" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="39.329559326171875" minHeight="10.0" prefHeight="34.67042541503906" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="39.329559326171875" minHeight="10.0" prefHeight="37.397735595703125" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="37.32957458496094" minHeight="10.0" prefHeight="34.602264404296875" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="43.329559326171875" minHeight="10.0" prefHeight="30.170425415039062" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="39.82957458496094" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="40.829559326171875" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="33.08489990234375" minHeight="10.0" prefHeight="31.042449951171875" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="33.995635986328125" minHeight="10.0" prefHeight="33.995635986328125" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.82957458496094" minHeight="10.0" prefHeight="35.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.99476623535156" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="39.329559326171875" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="38.99562072753906" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="43.495635986328125" minHeight="10.0" prefHeight="33.5" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="46.5" minHeight="10.0" prefHeight="35.5" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="44.5" minHeight="10.0" prefHeight="34.5" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
          </children>
       </AnchorPane>
-      <Button layoutX="378.0" layoutY="283.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Put" />
-      <Button layoutX="377.0" layoutY="337.0" mnemonicParsing="false" text="Draw" />
       <AnchorPane layoutX="357.0" layoutY="28.0" prefHeight="204.0" prefWidth="248.0">
          <children>
-            <ImageView fitHeight="211.0" fitWidth="241.0" layoutX="-3.0" layoutY="-3.0">
+            <ImageView fitHeight="166.0" fitWidth="235.0" layoutX="-3.0" layoutY="-3.0">
                <image>
                   <Image url="@../bookshelf.png" />
                </image>
             </ImageView>
-            <GridPane gridLinesVisible="true" layoutX="19.0" layoutY="7.0" prefHeight="172.0" prefWidth="196.0">
+            <GridPane layoutX="19.0" layoutY="7.0" prefHeight="142.0" prefWidth="192.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.82958984375" minWidth="10.0" prefWidth="40.693206787109375" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.82958984375" minWidth="10.0" prefWidth="37.806793212890625" />
@@ -76,16 +75,29 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.82958984375" minWidth="9.01129150390625" prefWidth="35.397705078125" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="56.21602249145508" minHeight="10.0" prefHeight="36.397743225097656" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="56.21602249145508" minHeight="10.0" prefHeight="26.102256774902344" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="45.78419494628906" minHeight="10.0" prefHeight="29.761398315429688" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="43.522796630859375" minHeight="10.0" prefHeight="29.93182373046875" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="35.12506103515625" minHeight="10.0" prefHeight="26.06817626953125" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="40.62504577636719" minHeight="10.0" prefHeight="28.06817626953125" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="56.21602249145508" minHeight="10.0" prefHeight="25.157215118408203" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="56.21602249145508" minHeight="10.0" prefHeight="20.485824584960938" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="56.21602249145508" minHeight="10.0" prefHeight="22.514175415039062" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.78419494628906" minHeight="10.0" prefHeight="25.17847442626953" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="43.522796630859375" minHeight="10.0" prefHeight="22.014175415039062" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="35.12506103515625" minHeight="10.0" prefHeight="31.856948852539062" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
          </children>
       </AnchorPane>
-      <Button layoutX="473.0" layoutY="312.0" mnemonicParsing="false" text="Open Chat" />
+      <AnchorPane layoutX="105.0" layoutY="170.0" prefHeight="248.0" prefWidth="586.0">
+         <children>
+            <TextField fx:id="chatInput" layoutX="350.0" layoutY="160.0" onKeyTyped="#inputKey" onMouseClicked="#chatClick" prefHeight="38.0" prefWidth="140.0" promptText="type something..." />
+            <VBox layoutX="418.0" layoutY="229.0" prefHeight="139.0" prefWidth="153.0" />
+            <Button layoutX="256.0" layoutY="95.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Put" />
+            <Button layoutX="252.0" layoutY="43.0" mnemonicParsing="false" text="Draw" />
+            <Button fx:id="chatButton" layoutX="294.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#chatEnter" prefHeight="26.0" prefWidth="55.0" text="Private" />
+            <TextField fx:id="mes2" editable="false" layoutX="350.0" layoutY="82.0" prefHeight="26.0" prefWidth="140.0" promptText="mes2" />
+            <TextField fx:id="mes0" editable="false" layoutX="350.0" layoutY="134.0" prefHeight="26.0" prefWidth="140.0" promptText="mes0" />
+            <TextField fx:id="mes1" editable="false" layoutX="350.0" layoutY="108.0" prefHeight="26.0" prefWidth="140.0" promptText="mes1" />
+            <TextField fx:id="mes3" editable="false" layoutX="350.0" layoutY="56.0" prefHeight="26.0" prefWidth="140.0" promptText="mes3" />
+            <TextField fx:id="mes4" editable="false" layoutX="350.0" layoutY="30.0" prefHeight="26.0" prefWidth="140.0" promptText="mes4" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
