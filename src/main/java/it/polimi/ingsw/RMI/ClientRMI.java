@@ -15,9 +15,11 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public static GameServer gs;
     public CONTROLLER controller;
     final int PORT;
+    public boolean disconnected = false;
 
-    public ClientRMI( int port ) throws RemoteException {
+    public ClientRMI( int port, boolean disconnected ) throws RemoteException {
         this.PORT = port;
+        this.disconnected = disconnected;
     }
 
     public void start() throws Exception {
@@ -44,7 +46,16 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     @Override
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
-            controller.notifyInterface("LOBBY_IS_FULL");
+            if(disconnected){
+                //TODO
+                // controller.LoginOK = gs.loginReconnect(controller.getUsername());
+                // while(!controller.LoinOK){
+                //      controller.LoginOK = gs.loginReconnect(controller.getUsername());
+                // }
+            }else{
+                controller.notifyInterface("LOBBY_IS_FULL");
+                System.exit(0);
+            }
         }
         if(message.equals("FIRST_TO_CONNECT")){
             controller.notifyInterface("FIRST_TO_CONNECT");
@@ -58,7 +69,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
             controller.setLobbyIsReady(true);
             controller.notifyInterface("CONNECTED");
             controller.LoginOK = gs.login(controller.getUsername());
-            while(!controller.LoginOK){
+            while(!controller.LoginOK) {
                 controller.LoginOK = gs.login(controller.getUsername());
             }
         }

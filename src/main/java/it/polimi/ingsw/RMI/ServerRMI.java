@@ -62,6 +62,13 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
+    public boolean loginReconnect(String username) throws RemoteException {
+        //TODO
+        // return controller.setLoginReconnection(username);
+        return false;
+    }
+
+    @Override
     public int sendPersonalGoal(String username) throws RemoteException {
         return controller.getPersonalGoalCards(username);
     }

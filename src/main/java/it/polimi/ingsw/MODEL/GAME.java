@@ -1,6 +1,5 @@
 package it.polimi.ingsw.MODEL;
 
-
 public class GAME {
     public MASTER master = new MASTER();
     public SPACE space = new SPACE();

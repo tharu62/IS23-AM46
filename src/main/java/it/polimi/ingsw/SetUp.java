@@ -19,6 +19,7 @@ public class SetUp {
     public boolean selectedSERVER = false;
     public boolean selectedRMI = false;
     public boolean selectedTCP = false;
+    public boolean disconnected = false;
 
     public void run() throws Exception {
         Scanner scanner;
@@ -95,6 +96,26 @@ public class SetUp {
 
         } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
 
+        do{
+            System.out.println("************************************************************************************");
+            System.out.println("Select:");
+            System.out.println(" ( 0 ) if ypu want to connect ");
+            System.out.println(" ( 1 ) if you want to reconnect after disconnection ");
+
+            scanner = new Scanner(System.in);
+            playerInput = scanner.nextLine();
+            scanner.reset();
+
+            if (playerInput.equals("0")) {
+                disconnected = false;
+            }
+
+            if (playerInput.equals("1")) {
+                disconnected = true;
+            }
+
+        }while(!playerInput.equals("0") && !playerInput.equals("1"));
+
         if (selectedCLI) {
             if (selectedSERVER) {
                 ServerHandler server = new ServerHandler();
@@ -102,14 +123,14 @@ public class SetUp {
             }
             if (selectedCLIENT) {
                 if (selectedTCP){
-                    ClientTCP client = new ClientTCP(Settings.PORT_TCP );
+                    ClientTCP client = new ClientTCP(Settings.PORT_TCP, this.disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.CLI);
                     client.controller = controller;
                     controller.startCLI();
                     client.start();
                 }
                 if(selectedRMI){
-                    ClientRMI client = new ClientRMI(Settings.PORT_RMI);
+                    ClientRMI client = new ClientRMI(Settings.PORT_RMI, this.disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.CLI);
                     client.controller = controller;
                     controller.startCLI();

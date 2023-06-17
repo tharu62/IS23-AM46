@@ -18,6 +18,7 @@ public class CONTROLLER {
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
     public int players = 0;
+    public List<PLAYER> playerList = new ArrayList<>();
 
     /************************************************ GETTER **********************************************************/
 
@@ -84,6 +85,23 @@ public class CONTROLLER {
         return false;
     }
 
+    synchronized public boolean setLoginReconnection(String username){
+        //TODO
+        // if(newUsername(username)){
+        //      return false;
+        // }else{
+        //      Int index = IndexSearch(username, playerList);
+        //      if(index != -1){
+        //          if(playerList.get(index).disconnected){
+        //              playerList.get(index).disconnected = false;
+        //              return true;
+        //          }
+        //      }
+        //      return false;
+        // }
+        return false;
+    }
+
     public void setTurn(){
         game.masterStartTurn();
         if(game.IsOver){
@@ -115,21 +133,25 @@ public class CONTROLLER {
 
     public int setScore( String username ){
         game.PlayerWantsToCheckScore(username);
-        PLAYER player = (PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
+        it.polimi.ingsw.MODEL.PLAYER player = (it.polimi.ingsw.MODEL.PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         return player.score;
     }
 
     public boolean setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
             TurnUpdater updater = new TurnUpdater();
+
+            //DA MODIFICARE PER RESILIENZA ALLE DISCONNESSIONI
             if(this.clientsRMI.size() > 0) {
                 updater.RMI(clientsRMI, this, this.game);
             }
             if(clientsTCP.size() > 0) {
                 updater.TCP(clientsTCP, this, this.game);
             }
+
+
         }
-        return false;
+        return true;
     }
 
     public void setChat(MESSAGE message) throws RemoteException {
@@ -152,7 +174,6 @@ public class CONTROLLER {
     public void disconnected(String username) throws RemoteException {
         if(clientsTCP.size() > 0) {
             Command c = new Command();
-            //TODO
             c.cmd = CMD.USER_DISCONNECTED;
             c.username = username;
             if(game.space.player.get(0).getUsername().equals(username)){
@@ -185,6 +206,15 @@ public class CONTROLLER {
             playerNames.add(game.space.player.get(i).getUsername());
         }
         return playerNames;
+    }
+
+    synchronized private int IndexSearch(String username, List<PLAYER> playerList){
+        for(int i=0; i<playerList.size(); i++){
+            if(playerList.get(i).username.equals(username)){
+                return i;
+            }
+        }
+        return -1;
     }
 
 }

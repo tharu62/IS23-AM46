@@ -20,7 +20,7 @@ public class AppWindow {
 
     public void ButtonClick(MouseEvent mouseEvent) throws IOException{
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/BoardProva.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/ChatProva.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         //stage.setFullScreen(true);

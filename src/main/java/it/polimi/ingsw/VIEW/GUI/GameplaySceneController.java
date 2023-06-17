@@ -198,7 +198,23 @@ public class GameplaySceneController {
     public void chatEnter(MouseEvent mouseEvent) {
         if(!privateMessRec && !privateMess){
             if(stringBuilder.toString() != ""){
-                scrollChat(stringBuilder.toString(), false);
+
+                //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
+                if(((String) stringBuilder.toString()).length() > 15){
+                    int x=0;
+                    int y=15;
+                    while(x+1 < stringBuilder.toString().length()){
+                        char[] temp = new char[15];
+                        ((String) stringBuilder.toString()).getChars(x,x+y, temp,0);
+                        System.out.println(String.valueOf(temp));
+                        scrollChat(String.valueOf(temp),false);
+                        x+=15;
+                        if((stringBuilder.toString().length()-x) <= 15){
+                            y = stringBuilder.toString().length()-x;
+                        }
+                    }
+                }
+
                 chatInput.clear();
                 stringBuilder = new StringBuilder();
             }
