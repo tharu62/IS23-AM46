@@ -157,6 +157,7 @@ public class GAMETest extends TestCase {
         game.addPlayer("Chiara");
         game.addPlayer("Davide");
         game.setBoard();
+        game.DrawCommonGoalCards();
         game.playerToPlay = "Bruno";
         assertFalse(game.masterEndTurn("Antonio"));
         assertTrue(game.masterEndTurn("Bruno"));
