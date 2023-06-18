@@ -132,7 +132,7 @@ public class CONTROLLER {
     }
 
     public int setScore( String username ){
-        game.PlayerWantsToCheckScore(username);
+        game.CheckScore(username);
         it.polimi.ingsw.MODEL.PLAYER player = (it.polimi.ingsw.MODEL.PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
         return player.score;
     }

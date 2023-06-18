@@ -1,6 +1,5 @@
 package it.polimi.ingsw.VIEW.GUI;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,7 +19,7 @@ public class AppWindow {
 
     public void ButtonClick(MouseEvent mouseEvent) throws IOException{
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/ChatProva.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/StandardGameScene.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         //stage.setFullScreen(true);

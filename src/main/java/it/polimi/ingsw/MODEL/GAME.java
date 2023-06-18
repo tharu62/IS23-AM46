@@ -88,15 +88,10 @@ public class GAME {
     }
 
     /**
-     * The player has the option of checking his score if he believes that he reached a common goal.
-     * It is not mandatory each turn, only optional AND it's not checked by the system at the end of the game.
-     * If the player doesn't see he achieved a common goal, he will not get the point.
-     * Even so you can exploit the system by checking every turn blindly ...
-     * But it follows the game's philosophy, first to see first to get.
-     * The method both checks and updates the score based on the common goals available.
-     * We implemented two common goals from the beginning, instead of one for the first game and two from the second.
+     *
+     * @param username
      */
-    public void PlayerWantsToCheckScore(String username){
+    public void CheckScore(String username){
         if (this.playerToPlay.equals(username)) {
             int i = search(playerToPlay);
             int temp;
@@ -139,6 +134,7 @@ public class GAME {
                 }
                 master.round.last = true;
             }
+            CheckScore(username);
             this.playerToPlay = master.ChooseNextPlayer();
             space.player.get(search(username)).bookshelf.itemToPut.clear();
             space.board.itemCounter = 0;

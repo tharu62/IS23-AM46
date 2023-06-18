@@ -1,7 +1,10 @@
-package it.polimi.ingsw.VIEW.GUI;
+package it.polimi.ingsw.VIEW.GUI.BOH;
 
 import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.VIEW.GUI.Sprite;
+import it.polimi.ingsw.VIEW.GUI.StandardSprite;
+import it.polimi.ingsw.VIEW.GUI.chatBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;

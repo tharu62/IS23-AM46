@@ -8,11 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.VIEW.GUI.GameplaySceneController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.VIEW.GUI.BOH.GameplaySceneController">
    <children>
       <ImageView fitHeight="388.0" fitWidth="440.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../livingroom.png" />
+            <Image url="@../../livingroom.png" />
          </image>
       </ImageView>
       <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="15.0" layoutY="16.0" prefHeight="357.0" prefWidth="352.0">
@@ -41,147 +41,147 @@
          <children>
             <ImageView fx:id="t34" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t1" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t0" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t4" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t348" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t349" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3410" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3411" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3412" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3414" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3415" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3413" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3416" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3417" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3418" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3419" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3420" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3421" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3422" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3423" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3424" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3431" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3430" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3429" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3428" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3427" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3426" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t3425" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7">
                <image>
-                  <Image url="@../Gatti1.1.png" />
+                  <Image url="@../../Gatti1.1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="t344" fitHeight="40.0" fitWidth="40.0" layoutX="166.0" layoutY="130.0" onMouseClicked="#itemClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />

@@ -120,7 +120,7 @@ public class GAMETest extends TestCase {
         card1.SetToken(tokenGenerator.setTokenLogic());
         game.master.FirstDraw.card.add(0, card);
         game.master.FirstDraw.card.add(card1);
-        game.PlayerWantsToCheckScore("Antonio");
+        game.CheckScore("Antonio");
         assertEquals(0, game.space.player.get(0).score);
 
         int cont = 0;
@@ -132,7 +132,7 @@ public class GAMETest extends TestCase {
                 } else break;
             }
         }
-        game.PlayerWantsToCheckScore("Antonio");
+        game.CheckScore("Antonio");
         assertEquals(8, game.space.player.get(0).score);
 
         game.playerToPlay = "Bruno";
@@ -145,7 +145,7 @@ public class GAMETest extends TestCase {
                 } else break;
             }
         }
-        game.PlayerWantsToCheckScore("Bruno");
+        game.CheckScore("Bruno");
         assertEquals(4, game.space.player.get(1).score);
     }
 

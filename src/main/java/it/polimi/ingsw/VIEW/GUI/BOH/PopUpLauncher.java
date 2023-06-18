@@ -1,6 +1,7 @@
-package it.polimi.ingsw.VIEW.GUI;
+package it.polimi.ingsw.VIEW.GUI.BOH;
 
 
+import it.polimi.ingsw.VIEW.GUI.BOH.PopUpController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
