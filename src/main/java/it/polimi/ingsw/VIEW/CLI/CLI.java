@@ -1,7 +1,6 @@
 package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.GameInterface;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
@@ -13,12 +12,12 @@ public class CLI extends Thread {
     public CLI_commands cmd;
     public CLI(CONTROLLER controller , ClientRMI client) throws InterruptedException {
         this.controller = controller;
-        cmd = new Commands_executor(controller , client);
+        cmd = new CommandsExecutor(controller , client);
     }
 
     public CLI(CONTROLLER controller , ClientTCP client) throws InterruptedException {
         this.controller = controller;
-        cmd = new Commands_executor(controller , client);
+        cmd = new CommandsExecutor(controller , client);
     }
 
     @Override

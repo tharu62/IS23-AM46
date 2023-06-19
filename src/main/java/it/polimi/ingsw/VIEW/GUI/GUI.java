@@ -1,22 +1,31 @@
 package it.polimi.ingsw.VIEW.GUI;
 
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
+import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GUI extends Application {
+public class GUI extends Application{
+    @FXML
+    public Stage stage;
     @FXML
     public GridPane gridPane;
     @FXML
@@ -37,84 +46,88 @@ public class GUI extends Application {
     public TextField mes4;
     @FXML
     public TextField chatInput;
-    int i=0;
-    public boolean drawInProgress = false;
-    public int drawCounter = 0;
-    public boolean putInProgress = false;
-    public boolean privateMess = false;
-    public boolean privateMessRec = false;
-    public String privateReceiver;
-    StringBuilder stringBuilder = new StringBuilder();
-    StringBuilder privateStringBuilder = new StringBuilder();
-    public Sprite selectedItem = new Sprite(null);
-    public Sprite[][] SpritesBoard;
-    public Sprite[] DrawPile = new Sprite[3];
-    public TextField[] chatField = new TextField[5];
-    public Sprite[][] SpriteBookshelf = new Sprite[6][5];
+    @FXML
+    public ImageView commonGoal1;
+    @FXML
+    public ImageView commonGoal2;
+    @FXML
+    public ImageView personalGoal;
+     @FXML
+     public TextField Username;
+     @FXML
+     public TextField LobbySize;
+    @FXML
+    public TextField notification;
 
-    public static void main(String[] args) {
-        launch();
+    static public List<String> notificationBuffer = new ArrayList<>();
+    public int i=0, drawCounter = 0;
+    static public boolean usernameNotSet = true, lobbySizeNotSet = true, AppButtonCLicked = false, loginSceneOpen = false;
+    static public boolean waiting = false, putInProgress = false, drawInProgress = false;
+    static public boolean privateMess = false, privateMessRec = false;
+    static public String privateReceiver;
+    static public StringBuilder stringBuilder = new StringBuilder();
+    static public StringBuilder privateStringBuilder = new StringBuilder();
+    static public Sprite selectedItem = new Sprite(null);
+    static public Sprite[][] SpritesBoard;
+    static public Sprite[] DrawPile = new Sprite[3];
+    static public TextField[] chatField = new TextField[5];
+    static public Sprite[][] SpriteBookshelf = new Sprite[6][5];
+    static public CONTROLLER controller;
+    static public CommunicationProtocol com;
+    static public CommandsExecutor cmd;
+
+    public void GUI(CONTROLLER controller, ClientRMI client){
+        GUI.controller = controller;
+        System.out.println("CHECK CONTROLLER OK");
+        cmd = new CommandsExecutor(controller, client, this);
     }
+
+    public void GUI(CONTROLLER controller, ClientTCP client){
+        GUI.controller = controller;
+        if(controller.LoginOK){
+            System.out.println("CHECK CONTROLLER OK");
+        }
+        cmd = new CommandsExecutor(controller, client, this);
+    }
+
+    /******************************************************************************************************************/
+
     @Override
     public void start(Stage stage) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/BOH/AppWindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/AppWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MY SHELFIE GAME");
         stage.setScene(scene);
         stage.show();
     }
 
-    public void ButtonCLick(MouseEvent mouseEvent) {
-        if(i==0){
-            updateSlotGames((ImageView) gridPane.getChildren().get(0));
-            i++;
-        }else{
-            updateSlotBooks((ImageView) gridPane.getChildren().get(0));
-            i=0;
-        }
+    synchronized public boolean getUsername(){
+        return usernameNotSet;
     }
 
-    private void updateSlotCats(ImageView imageViewID){
-        imageViewID.setImage(new Image("Gatti1.1.png"));
+    synchronized public boolean getLobbySize(){
+        return lobbySizeNotSet;
     }
 
-    private void updateSlotGames(ImageView imageViewID){
-        imageViewID.setImage(new Image("Giochi1.1.png"));
+    public void ButtonClickAPP(MouseEvent mouseEvent) throws IOException{
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/LoginSceneFirstPlayer.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        loginSceneOpen = true;
     }
 
-    private void updateSlotBooks(ImageView imageViewID){
-        imageViewID.setImage(new Image("Libri1.1.png"));
-    }
-
-    private void updateSlotPlants(ImageView imageViewID){
-        imageViewID.setImage(new Image("Piante1.1.png"));
-    }
-
-    private void updateSlotTrophies(ImageView imageViewID){
-        imageViewID.setImage(new Image("Trofei1.1.png"));
+    public void ButtonCLick(MouseEvent mouseEvent) throws IOException {
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/StandardGameScene.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void updateGrid(item[][] grid){
-        for(int i=0; i < 9; i++){
-            for(int j=0; j < 9; j++){
-                if(grid[i][j]==item.CATS){
-                    updateSlotCats(SpritesBoard[i][j].fxid);
-                }
-                if(grid[i][j]==item.GAMES){
-                    updateSlotGames(SpritesBoard[i][j].fxid);
-                }
-                if(grid[i][j]==item.BOOKS){
-                    updateSlotBooks(SpritesBoard[i][j].fxid);
-                }
-                if(grid[i][j]==item.PLANTS){
-                    updateSlotPlants(SpritesBoard[i][j].fxid);
-                }
-                if(grid[i][j]==item.TROPHIES){
-                    updateSlotTrophies(SpritesBoard[i][j].fxid);
-                }
-            }
-        }
+        cmd.updateGrid(grid);
     }
 
     private void updateDrawPile(){
@@ -130,49 +143,15 @@ public class GUI extends Application {
     }
 
     public void itemClick(MouseEvent mouseEvent) {
-        if(drawInProgress && drawCounter == 0){
-            DrawPile = new StandardSprite().setDrawPile(t341,t342,t343);
-        }
-        if(drawInProgress && drawCounter < 3){
-            DrawPile[drawCounter].fxid.setImage(((ImageView) mouseEvent.getSource()).getImage());
-            drawCounter++;
-        }
+        cmd.selectItemToDraw(mouseEvent);
     }
 
     public void UpClicked(MouseEvent mouseEvent) {
-        Image temp;
-        if(drawInProgress){
-            if(selectedItem.fxid == DrawPile[1].fxid){
-                temp = DrawPile[0].fxid.getImage();
-                DrawPile[0].fxid.setImage(selectedItem.getImageView().getImage());
-                DrawPile[1].fxid.setImage(temp);
-                selectedItem = DrawPile[0];
-            }
-            if(selectedItem.fxid == DrawPile[2].fxid){
-                temp = DrawPile[1].fxid.getImage();
-                DrawPile[1].fxid.setImage(selectedItem.getImageView().getImage());
-                DrawPile[2].fxid.setImage(temp);
-                selectedItem = DrawPile[1];
-            }
-        }
+        cmd.drawUp();
     }
 
     public void DownClicked(MouseEvent mouseEvent) {
-        Image temp;
-        if(drawInProgress){
-            if(selectedItem.fxid == DrawPile[1].fxid){
-                temp = DrawPile[2].fxid.getImage();
-                DrawPile[2].fxid.setImage(selectedItem.getImageView().getImage());
-                DrawPile[1].fxid.setImage(temp);
-                selectedItem = DrawPile[2];
-            }
-            if(selectedItem.fxid == DrawPile[0].fxid){
-                temp = DrawPile[1].fxid.getImage();
-                DrawPile[1].fxid.setImage(selectedItem.getImageView().getImage());
-                DrawPile[0].fxid.setImage(temp);
-                selectedItem = DrawPile[1];
-            }
-        }
+        cmd.drawDown();
     }
 
     public void drawPileClick(MouseEvent mouseEvent) {
@@ -193,68 +172,14 @@ public class GUI extends Application {
     }
 
     synchronized public void scrollChat(String text, boolean Private){
-        for(int i=4;i>0;i--){
-            if(i==4){
-                mes4.setText(mes3.getText());
-            }
-            if(i==3){
-                mes3.setText(mes2.getText());
-            }
-            if(i==2){
-                mes2.setText(mes1.getText());
-            }
-            if(i==1){
-                mes1.setText(mes0.getText());
-                if(Private){
-                    mes0.setText("<private : " + privateReceiver + "> " + text);
-                }else{
-                    mes0.setText("<public> " + text);
-                }
-            }
-        }
+        //TODO
+        MESSAGE mess = new MESSAGE();
+        mess.text = text;
+        cmd.scrollChat(mess, Private);
     }
 
     public void chatEnter(MouseEvent mouseEvent) {
-        if(!privateMessRec && !privateMess){
-            if(!stringBuilder.toString().equals("")){
-
-                //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-                if(((String) stringBuilder.toString()).length() > 50){
-                    int x=0;
-                    int y=50;
-                    while(x+1 < stringBuilder.toString().length()){
-                        char[] temp = new char[50];
-                        ((String) stringBuilder.toString()).getChars(x,x+y, temp,0);
-                        System.out.println(String.valueOf(temp));
-                        scrollChat(String.valueOf(temp),false);
-                        x+=50;
-                        if((stringBuilder.toString().length()-x) <= 50){
-                            y = stringBuilder.toString().length()-x;
-                        }
-                    }
-                }else{
-                    scrollChat(stringBuilder.toString(),false);
-                }
-                chatInput.clear();
-                stringBuilder = new StringBuilder();
-            }
-        }
-        if(privateMess){
-            scrollChat(privateStringBuilder.toString(), true);
-            chatInput.clear();
-            privateMess = false;
-            privateStringBuilder = new StringBuilder();
-            chatInput.setPromptText("type something...");
-        }
-        if(privateMessRec){
-            privateReceiver = privateStringBuilder.toString();
-            chatInput.clear();
-            privateMessRec = false;
-            privateMess = true;
-            privateStringBuilder = new StringBuilder();
-            chatInput.setPromptText("Insert text for receiver");
-        }
-
+        cmd.chatEnter();
     }
 
     public void privateChatEnter(MouseEvent mouseEvent) {
@@ -263,10 +188,51 @@ public class GUI extends Application {
     }
 
     public void setScene(MouseEvent mouseEvent) {
-        this.SpritesBoard = new StandardSprite().setBoard(gridPane);
+        DrawPile = new StandardSprite().setDrawPile(t341,t342,t343);
+        SpritesBoard = new StandardSprite().setBoard(gridPane);
         GAME game = new GAME();
         game.space.board.setGrid(4);
         updateGrid(game.space.board.Grid);
     }
+
+    public void ButtonClick(MouseEvent mouseEvent) {
+
+    }
+
+    public void setCommonGoals(int[] cardsID){
+        cmd.setCommonGoals();
+    }
+
+    public void setPersonalGoal(int cardID){
+        cmd.setPersonalGoal();
+    }
+
+    public void sendUsername(MouseEvent mouseEvent) {
+        if(controller.LoginOK){
+            /**
+             * if(check input valid)
+             */
+            usernameNotSet = false;
+        }
+        if(notificationBuffer.size() > 0){
+            notification.setText(notificationBuffer.get(0));
+        }
+    }
+
+    public void sendLobbySize(MouseEvent mouseEvent) {
+        /**
+         * if(check input valid)
+         */
+        lobbySizeNotSet = false;
+    }
+
+    public void setNotification(String text){
+        notificationBuffer.add(text);
+    }
+
+    public synchronized boolean getAppButtonClicked(){
+        return AppButtonCLicked;
+    }
+
 }
 

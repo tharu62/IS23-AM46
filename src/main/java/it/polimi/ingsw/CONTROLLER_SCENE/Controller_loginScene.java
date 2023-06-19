@@ -28,7 +28,7 @@ public class Controller_loginScene
     private EventObject event;
 
     public void helloscene(ActionEvent actionEvent) throws IOException {
-        root= FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/HelloScene0.fxml"));
+        root= FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/BOH/Helloscene0.fxml"));
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         scene= new Scene(root);
         stage.setScene(scene);
@@ -37,7 +37,7 @@ public class Controller_loginScene
         stage.show();
     }
     public void loginScene(ActionEvent actionEvent) throws IOException {
-        root= FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/LoginScene0.fxml"));
+        root= FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/LoginScene.fxml"));
         event = new EventObject(root);
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         scene= new Scene(root);

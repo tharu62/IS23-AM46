@@ -1,4 +1,4 @@
-package it.polimi.ingsw.VIEW.GUI;
+package it.polimi.ingsw.VIEW.GUI.BOH;
 
 
 

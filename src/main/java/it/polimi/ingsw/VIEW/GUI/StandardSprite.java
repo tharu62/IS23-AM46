@@ -1,13 +1,7 @@
 package it.polimi.ingsw.VIEW.GUI;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-
-import java.util.List;
-
 
 public class StandardSprite {
     Sprite[][] Board = new Sprite[9][9];

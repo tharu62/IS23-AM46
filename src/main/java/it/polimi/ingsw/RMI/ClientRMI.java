@@ -46,6 +46,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     @Override
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
+            controller.notConnected = false;
             if(disconnected){
                 //TODO
                 // controller.LoginOK = gs.loginReconnect(controller.getUsername());
@@ -58,6 +59,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
             }
         }
         if(message.equals("FIRST_TO_CONNECT")){
+            controller.notConnected = false;
             controller.notifyInterface("FIRST_TO_CONNECT");
             controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
             while(!controller.LoginOK){
@@ -66,7 +68,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
             }
         }
         if(message.equals("CONNECTED")){
-            controller.setLobbyIsReady(true);
+            controller.notConnected = false;
             controller.notifyInterface("CONNECTED");
             controller.LoginOK = gs.login(controller.getUsername());
             while(!controller.LoginOK) {

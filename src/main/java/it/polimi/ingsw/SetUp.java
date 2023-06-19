@@ -8,10 +8,12 @@ import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
+import javafx.stage.Stage;
 
 import java.util.Scanner;
 
 public class SetUp {
+    public Stage stage;
     boolean active = true;
     boolean selectedCLI = false;
     public boolean selectedGUI = false;
@@ -126,26 +128,42 @@ public class SetUp {
                     ClientTCP client = new ClientTCP(Settings.PORT_TCP, this.disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.CLI);
                     client.controller = controller;
-                    controller.startCLI();
+                    controller.startUserInterface(stage);
                     client.start();
                 }
                 if(selectedRMI){
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, this.disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.CLI);
                     client.controller = controller;
-                    controller.startCLI();
+                    controller.startUserInterface(stage);
                     client.start();
                 }
             }
         }
 
         if(selectedGUI){
-            if(selectedTCP){
-                //TODO
+            if (selectedSERVER) {
+                ServerHandler server = new ServerHandler();
+                server.run();
             }
-            if(selectedRMI){
-                //TODO
+            if (selectedCLIENT) {
+                if (selectedTCP){
+                    ClientTCP client = new ClientTCP(Settings.PORT_TCP, disconnected);
+                    CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.GUI);
+                    client.controller = controller;
+                    controller.startUserInterface(stage);
+                    client.start();
+                }
+                if(selectedRMI){
+                    ClientRMI client = new ClientRMI(Settings.PORT_RMI, disconnected);
+                    CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.GUI);
+                    client.controller = controller;
+                    controller.startUserInterface(stage);
+                    client.start();
+                }
             }
         }
+
+
     }
 }

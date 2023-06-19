@@ -207,9 +207,9 @@
 
          </children>
       </GridPane>
-      <Button layoutX="763.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#ButtonCLick" text="Button" />
-      <Button fx:id="put" layoutX="776.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#putClick" text="put" />
-      <Button fx:id="draw" layoutX="770.0" layoutY="447.0" mnemonicParsing="false" onMouseClicked="#drawClick" text="draw" />
+      <Button layoutX="962.0" layoutY="116.0" mnemonicParsing="false" onMouseClicked="#ButtonCLick" text="Button" />
+      <Button fx:id="put" layoutX="762.0" layoutY="591.0" mnemonicParsing="false" onMouseClicked="#putClick" text="put" />
+      <Button fx:id="draw" layoutX="756.0" layoutY="650.0" mnemonicParsing="false" onMouseClicked="#drawClick" text="draw" />
       <GridPane fx:id="drawPile" gridLinesVisible="true" layoutX="767.0" layoutY="20.0" prefHeight="192.0" prefWidth="66.0">
          <children>
             <ImageView fx:id="t343" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
@@ -227,7 +227,7 @@
       </GridPane>
       <Button fx:id="drawUp" layoutX="874.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#UpClicked" text="up" />
       <Button fx:id="drawDown" layoutX="863.0" layoutY="116.0" mnemonicParsing="false" onMouseClicked="#DownClicked" text="down" />
-      <Button layoutX="755.0" layoutY="246.0" mnemonicParsing="false" onMouseClicked="#setScene" text="setScene" />
+      <Button layoutX="954.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#setScene" text="setScene" />
       <TextFlow layoutX="1091.0" layoutY="419.0" prefHeight="269.0" prefWidth="322.0">
          <children>
             <VBox prefHeight="267.0" prefWidth="323.0">
@@ -309,5 +309,8 @@
       <Button layoutX="1236.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
       <Button layoutX="1291.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
       <Button layoutX="1346.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
+      <ImageView fx:id="commonGoal1" fitHeight="192.0" fitWidth="138.0" layoutX="756.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="commonGoal2" fitHeight="192.0" fitWidth="138.0" layoutX="907.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="personalGoal" fitHeight="192.0" fitWidth="138.0" layoutX="893.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

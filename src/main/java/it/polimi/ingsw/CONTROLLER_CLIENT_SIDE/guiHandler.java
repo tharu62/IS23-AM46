@@ -1,8 +1,10 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
+import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.VIEW.GUI.GUI;
+import javafx.stage.Stage;
 
-public class guiHandler implements GameInterface{
+public class guiHandler implements GameInterface {
     public GUI gui;
 
     public guiHandler(GUI gui) {
@@ -11,21 +13,33 @@ public class guiHandler implements GameInterface{
 
     @Override
     public void notifyInterface(String message) {
-
+        gui.setNotification(message);
     }
 
     @Override
     public String getUsername(CONTROLLER controller) {
-        return new String();
+        while(gui.getUsername()){
+
+        }
+        return gui.Username.getText();
     }
 
     @Override
     public int getLobbySize(CONTROLLER controller) {
-        return 0;
+        while(gui.getLobbySize()){
+
+        }
+        return Integer.parseInt(gui.LobbySize.getText());
     }
 
     @Override
-    public void startInterface() {
-
+    public void receiveChat(CONTROLLER controller, MESSAGE message) {
+        //TODO
     }
+
+    @Override
+    public void startInterface(Stage stage) throws Exception {
+        gui.start(stage);
+    }
+
 }

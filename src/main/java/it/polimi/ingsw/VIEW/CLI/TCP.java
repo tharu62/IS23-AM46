@@ -1,5 +1,7 @@
-package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
+package it.polimi.ingsw.VIEW.CLI;
 
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;

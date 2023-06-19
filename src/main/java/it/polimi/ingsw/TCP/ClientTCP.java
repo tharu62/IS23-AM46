@@ -56,6 +56,7 @@ public class ClientTCP extends Thread {
         switch (ObjCommand.cmd){
             case FIRST_TO_CONNECT:
                 controller.firstToConnect = true;
+                controller.notConnected = false;
                 controller.notifyInterface(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT_REPLY;
@@ -67,6 +68,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case CONNECTED:
+                controller.notConnected = false;
                 controller.notifyInterface(ObjCommand.cmd.toString());
                 reply = new Command();
                 reply.cmd = CMD.CONNECTED_REPLY;
@@ -100,6 +102,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case LOBBY_IS_FULL:
+                controller.notConnected = false;
                 if(disconnected){
                     //TODO
                     // reply.cmd = CMD.RECONNECTED_REPLY;

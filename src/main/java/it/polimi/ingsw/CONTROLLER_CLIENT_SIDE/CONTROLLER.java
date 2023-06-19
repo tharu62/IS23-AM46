@@ -3,8 +3,11 @@ import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
+import it.polimi.ingsw.VIEW.GUI.CommandsExecutor;
 import it.polimi.ingsw.VIEW.GUI.GUI;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,8 @@ public class CONTROLLER{
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,}};
 
-    public boolean firstToConnect = false , LoginOK = false, LobbyIsReady = false, myTurn = false, end_turn = false;
+    public boolean notConnected = true;
+    public boolean firstToConnect = false , LoginOK = false, myTurn = false, end_turn = false;
     public List<Draw> draw = new ArrayList<>(3);
     public int drawStatus = 0;
     public boolean reply_draw = false;
@@ -40,11 +44,12 @@ public class CONTROLLER{
     public CLI cli;
     public GUI gui;
 
-    public CONTROLLER(Connection connection , ClientRMI client , interfaceType Interface) throws InterruptedException {
+    public CONTROLLER(Connection connection , ClientRMI client , interfaceType Interface) throws InterruptedException, IOException {
         if(connection == Connection.RMI){
             if(Interface == interfaceType.GUI){
                 gui = new GUI();
-                this.Interface = new guiHandler(this.gui);
+                gui.GUI(this, client);
+                this.Interface = new guiHandler(gui);
             }
             if(Interface == interfaceType.CLI ){
                 cli  = new CLI(this, client);
@@ -53,11 +58,12 @@ public class CONTROLLER{
         }
     }
 
-    public CONTROLLER(Connection connection, ClientTCP client, interfaceType Interface) throws InterruptedException {
+    public CONTROLLER(Connection connection, ClientTCP client, interfaceType Interface) throws InterruptedException, IOException {
         if(connection == Connection.TCP){
             if(Interface == interfaceType.GUI){
                 gui = new GUI();
-                this.Interface = new guiHandler(this.gui);
+                gui.GUI(this, client);
+                this.Interface = new guiHandler(gui);
             }
             if(Interface == interfaceType.CLI){
                 cli = new CLI(this, client);
@@ -80,6 +86,7 @@ public class CONTROLLER{
         return this.reply_put;
     }
     synchronized public boolean getReplyDraw() { return this.reply_draw; }
+    synchronized public boolean getNotConnected() { return this.notConnected; }
     synchronized public boolean getReplyPersonal(){
         return this.reply_Personal;
     }
@@ -91,10 +98,6 @@ public class CONTROLLER{
 
     public void notifyInterface(String message){
         Interface.notifyInterface(message);
-    }
-
-    public void setLobbyIsReady(boolean bool){
-        this.LobbyIsReady = bool;
     }
 
     public void setPlayerToPlay( String ptp ) {
@@ -141,32 +144,15 @@ public class CONTROLLER{
     }
 
     public void receiveChat( MESSAGE message){
-        if(myTurn) {
-            if(!message.header[0].equals(username)){
-                chatBuffer.add(message);
-            }
-        }else{
-            if(message.header[1].equals("everyone")) {
-                if(!message.header[0].equals(username)){
-                    Interface.notifyInterface(" NEW CHAT MESSAGE !");
-                    Interface.notifyInterface(message.header[0] + " < public >:" + message.text);
-                }
-            }
-            if(message.header[1].equals(username)){
-                if(!message.header[0].equals(username)){
-                    Interface.notifyInterface(" NEW CHAT MESSAGE !");
-                    Interface.notifyInterface(message.header[0] + " < private > : " + message.text);
-                }
-            }
-        }
+        Interface.receiveChat(this,message);
     }
 
     public void setLastRound(){
         Interface.notifyInterface("                                        LAST ROUND                                        ");
     }
 
-    public void startCLI(){
-        Interface.startInterface();
+    public void startUserInterface(Stage stage) throws Exception {
+        Interface.startInterface(stage);
     }
 
 }

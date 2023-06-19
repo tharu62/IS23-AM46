@@ -1,29 +1,18 @@
 package it.polimi.ingsw.VIEW.GUI;
 
-import javafx.fxml.FXML;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-public class AppWindow {
-    @FXML
-    public Button button;
-    public Stage stage;
-    private Parent parent;
-
-    public void ButtonClick(MouseEvent mouseEvent) throws IOException{
-        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/StandardGameScene.fxml"));
+public class AppWindow extends Application {
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/it.polimi.ingsw/LoginScene.fxml"));
         Scene scene = new Scene(root);
+        stage.setTitle("MY SHELFIE GAME");
         stage.setScene(scene);
-        //stage.setFullScreen(true);
         stage.show();
-        System.out.println("check");
     }
 }

@@ -10,16 +10,16 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Commands_executor implements CLI_commands {
+public class CommandsExecutor implements CLI_commands {
     CONTROLLER controller;
     public CommunicationProtocol com;
 
-    public Commands_executor(CONTROLLER controller, ClientRMI client) {
+    public CommandsExecutor(CONTROLLER controller, ClientRMI client) {
         this.controller = controller;
         this.com = new RMI(client);
     }
 
-    public Commands_executor(CONTROLLER controller, ClientTCP client) {
+    public CommandsExecutor(CONTROLLER controller, ClientTCP client) {
         this.controller = controller;
         this.com = new TCP(client);
     }
