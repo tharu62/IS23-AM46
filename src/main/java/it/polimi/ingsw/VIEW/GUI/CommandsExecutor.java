@@ -33,22 +33,22 @@ public class CommandsExecutor implements GUI_commands {
         for(int i=0; i < 9; i++){
             for(int j=0; j < 9; j++){
                 if(grid[i][j]== item.CATS){
-                    updateSlotCats(gui.SpritesBoard[i][j].fxid);
+                    updateSlotCats(GUI.SpritesBoard[i][j].fxid);
                 }
                 if(grid[i][j]==item.GAMES){
-                    updateSlotGames(gui.SpritesBoard[i][j].fxid);
+                    updateSlotGames(GUI.SpritesBoard[i][j].fxid);
                 }
                 if(grid[i][j]==item.BOOKS){
-                    updateSlotBooks(gui.SpritesBoard[i][j].fxid);
+                    updateSlotBooks(GUI.SpritesBoard[i][j].fxid);
                 }
                 if(grid[i][j]==item.PLANTS){
-                    updateSlotPlants(gui.SpritesBoard[i][j].fxid);
+                    updateSlotPlants(GUI.SpritesBoard[i][j].fxid);
                 }
                 if(grid[i][j]==item.TROPHIES){
-                    updateSlotTrophies(gui.SpritesBoard[i][j].fxid);
+                    updateSlotTrophies(GUI.SpritesBoard[i][j].fxid);
                 }
                 if(grid[i][j]==item.FRAMES){
-                    updateSlotFrames(gui.SpritesBoard[i][j].fxid);
+                    updateSlotFrames(GUI.SpritesBoard[i][j].fxid);
                 }
             }
         }
@@ -74,7 +74,7 @@ public class CommandsExecutor implements GUI_commands {
             if(i==1){
                 gui.mes1.setText(gui.mes0.getText());
                 if(Private){
-                    gui.mes0.setText("<private : " + gui.privateReceiver + "> " + message.text);
+                    gui.mes0.setText("<private : " + GUI.chatData.privateReceiver + "> " + message.text);
                 }else{
                     gui.mes0.setText("<public> " + message.text);
                 }
@@ -84,16 +84,16 @@ public class CommandsExecutor implements GUI_commands {
 
     @Override
     public void chatEnter() {
-        if(!gui.privateMessRec && !gui.privateMess){
-            if(!gui.stringBuilder.toString().equals("")){
+        if(!GUI.chatData.privateMessRec && !GUI.chatData.privateMess){
+            if(!GUI.chatData.stringBuilder.toString().equals("")){
 
                 //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-                if(((String) gui.stringBuilder.toString()).length() > 50){
+                if(((String) GUI.chatData.stringBuilder.toString()).length() > 50){
                     int x=0;
                     int y=50;
-                    while(x+1 < gui.stringBuilder.toString().length()){
+                    while(x+1 < GUI.chatData.stringBuilder.toString().length()){
                         char[] temp = new char[50];
-                        ((String) gui.stringBuilder.toString()).getChars(x,x+y, temp,0);
+                        ((String) GUI.chatData.stringBuilder.toString()).getChars(x,x+y, temp,0);
                         System.out.println(String.valueOf(temp));
                         //
                         MESSAGE m = new MESSAGE();
@@ -101,34 +101,34 @@ public class CommandsExecutor implements GUI_commands {
                         //
                         scrollChat(m,false);
                         x+=50;
-                        if((gui.stringBuilder.toString().length()-x) <= 50){
-                            y = gui.stringBuilder.toString().length()-x;
+                        if((GUI.chatData.stringBuilder.toString().length()-x) <= 50){
+                            y = GUI.chatData.stringBuilder.toString().length()-x;
                         }
                     }
                 }else{
                     MESSAGE m = new MESSAGE();
-                    m.text =gui.stringBuilder.toString();
+                    m.text =GUI.chatData.stringBuilder.toString();
                     scrollChat(m,false);
                 }
                 gui.chatInput.clear();
-                gui.stringBuilder = new StringBuilder();
+                GUI.chatData.stringBuilder = new StringBuilder();
             }
         }
-        if(gui.privateMess){
+        if(GUI.chatData.privateMess){
             MESSAGE m = new MESSAGE();
-            m.text =gui.privateStringBuilder.toString();
+            m.text =GUI.chatData.privateStringBuilder.toString();
             scrollChat(m, true);
             gui.chatInput.clear();
-            gui.privateMess = false;
-            gui.privateStringBuilder = new StringBuilder();
+            GUI.chatData.privateMess = false;
+            GUI.chatData.privateStringBuilder = new StringBuilder();
             gui.chatInput.setPromptText("type something...");
         }
-        if(gui.privateMessRec){
-            gui.privateReceiver = gui.privateStringBuilder.toString();
+        if(GUI.chatData.privateMessRec){
+            GUI.chatData.privateReceiver = GUI.chatData.privateStringBuilder.toString();
             gui.chatInput.clear();
-            gui.privateMessRec = false;
-            gui.privateMess = true;
-            gui.privateStringBuilder = new StringBuilder();
+            GUI.chatData.privateMessRec = false;
+            GUI.chatData.privateMess = true;
+            GUI.chatData.privateStringBuilder = new StringBuilder();
             gui.chatInput.setPromptText("Insert text for receiver");
         }
 
@@ -137,18 +137,18 @@ public class CommandsExecutor implements GUI_commands {
     @Override
     public void drawUp() {
         Image temp;
-        if(gui.drawInProgress){
-            if(gui.selectedItem.fxid == gui.DrawPile[1].fxid){
-                temp = gui.DrawPile[0].fxid.getImage();
-                gui.DrawPile[0].fxid.setImage(gui.selectedItem.getImageView().getImage());
-                gui.DrawPile[1].fxid.setImage(temp);
-                gui.selectedItem = gui.DrawPile[0];
+        if(GUI.drawInProgress){
+            if(GUI.selectedItem.fxid == GUI.DrawPile[1].fxid){
+                temp = GUI.DrawPile[0].fxid.getImage();
+                GUI.DrawPile[0].fxid.setImage(GUI.selectedItem.getImageView().getImage());
+                GUI.DrawPile[1].fxid.setImage(temp);
+                GUI.selectedItem = GUI.DrawPile[0];
             }
-            if(gui.selectedItem.fxid == gui.DrawPile[2].fxid){
-                temp = gui.DrawPile[1].fxid.getImage();
-                gui.DrawPile[1].fxid.setImage(gui.selectedItem.getImageView().getImage());
-                gui.DrawPile[2].fxid.setImage(temp);
-                gui.selectedItem = gui.DrawPile[1];
+            if(GUI.selectedItem.fxid == GUI.DrawPile[2].fxid){
+                temp = GUI.DrawPile[1].fxid.getImage();
+                GUI.DrawPile[1].fxid.setImage(GUI.selectedItem.getImageView().getImage());
+                GUI.DrawPile[2].fxid.setImage(temp);
+                GUI.selectedItem = GUI.DrawPile[1];
             }
         }
     }
@@ -156,25 +156,25 @@ public class CommandsExecutor implements GUI_commands {
     @Override
     public void drawDown() {
         Image temp;
-        if(gui.drawInProgress){
-            if(gui.selectedItem.fxid == gui.DrawPile[1].fxid){
-                temp = gui.DrawPile[2].fxid.getImage();
-                gui.DrawPile[2].fxid.setImage(gui.selectedItem.getImageView().getImage());
-                gui.DrawPile[1].fxid.setImage(temp);
-                gui.selectedItem = gui.DrawPile[2];
+        if(GUI.drawInProgress){
+            if(GUI.selectedItem.fxid == GUI.DrawPile[1].fxid){
+                temp = GUI.DrawPile[2].fxid.getImage();
+                GUI.DrawPile[2].fxid.setImage(GUI.selectedItem.getImageView().getImage());
+                GUI.DrawPile[1].fxid.setImage(temp);
+                GUI.selectedItem = GUI.DrawPile[2];
             }
-            if(gui.selectedItem.fxid == gui.DrawPile[0].fxid){
-                temp = gui.DrawPile[1].fxid.getImage();
-                gui.DrawPile[1].fxid.setImage(gui.selectedItem.getImageView().getImage());
-                gui.DrawPile[0].fxid.setImage(temp);
-                gui.selectedItem = gui.DrawPile[1];
+            if(GUI.selectedItem.fxid == GUI.DrawPile[0].fxid){
+                temp = GUI.DrawPile[1].fxid.getImage();
+                GUI.DrawPile[1].fxid.setImage(GUI.selectedItem.getImageView().getImage());
+                GUI.DrawPile[0].fxid.setImage(temp);
+                GUI.selectedItem = GUI.DrawPile[1];
             }
         }
     }
 
     @Override
     public void selectItemToDraw(MouseEvent mouseEvent) {
-        if(gui.drawInProgress && gui.drawCounter < 3){
+        if(GUI.drawInProgress && GUI.drawCounter < 3){
             /**
              * com.draw(controller.username, int row, int col);
              * if(drawValid){
@@ -182,8 +182,8 @@ public class CommandsExecutor implements GUI_commands {
              * gui.drawCounter++;
              * }
             */
-            gui.DrawPile[gui.drawCounter].fxid.setImage(((ImageView) mouseEvent.getSource()).getImage());
-            gui.drawCounter++;
+            GUI.DrawPile[GUI.drawCounter].fxid.setImage(((ImageView) mouseEvent.getSource()).getImage());
+            GUI.drawCounter++;
         }
     }
 

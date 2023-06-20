@@ -79,6 +79,7 @@ public class ClientTCP extends Thread {
 
             case REPLY_ACCEPTED:
                 controller.LoginOK = true;
+                controller.notifyInterface("LOGIN OK");
                 break;
 
             case REPLY_NOT_ACCEPTED:

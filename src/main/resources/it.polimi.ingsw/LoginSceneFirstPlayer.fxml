@@ -40,6 +40,7 @@
       </AnchorPane>
       <Button layoutX="459.0" layoutY="139.0" mnemonicParsing="false" onMouseClicked="#sendUsername" text="send" />
       <Button layoutX="459.0" layoutY="220.0" mnemonicParsing="false" onMouseClicked="#sendLobbySize" text="send" />
-      <TextField fx:id="notification" editable="false" layoutX="93.0" layoutY="302.0" prefHeight="38.0" prefWidth="414.0" promptText="notification" />
+      <TextField fx:id="Notification" editable="false" layoutX="93.0" layoutY="302.0" prefHeight="38.0" prefWidth="414.0" promptText="notification" />
+      <Button layoutX="452.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#setLoginScene" text="Set Login" />
    </children>
 </AnchorPane>

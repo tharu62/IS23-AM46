@@ -14,6 +14,6 @@
             <Image url="@../Title_2000x2000px.png" />
          </image>
       </ImageView>
-      <Button fx:id="button" layoutX="263.0" layoutY="284.0" mnemonicParsing="false" onMouseClicked="#ButtonClickAPP" text="Button" />
+      <Button fx:id="button" layoutX="263.0" layoutY="284.0" mnemonicParsing="false" onMouseClicked="#loadLoginScene" text="Button" />
    </children>
 </AnchorPane>

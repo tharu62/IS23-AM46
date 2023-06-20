@@ -8,6 +8,7 @@ import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
+import it.polimi.ingsw.VIEW.GUI.GUI;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -148,18 +149,29 @@ public class SetUp {
             }
             if (selectedCLIENT) {
                 if (selectedTCP){
+                    /**
                     ClientTCP client = new ClientTCP(Settings.PORT_TCP, disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.GUI);
                     client.controller = controller;
                     controller.startUserInterface(stage);
                     client.start();
+                     */
+
+                    GUI gui = new GUI();
+                    gui.setUp = this;
+                    gui.start(stage);
                 }
                 if(selectedRMI){
+                    /**
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.GUI);
                     client.controller = controller;
                     controller.startUserInterface(stage);
                     client.start();
+                     */
+                    GUI gui = new GUI();
+                    gui.setUp = this;
+                    gui.start(stage);
                 }
             }
         }

@@ -42,14 +42,13 @@ public class CONTROLLER{
     public List<MESSAGE> chatBuffer = new ArrayList<>();
     public GameInterface Interface;
     public CLI cli;
-    public GUI gui;
+    static public GUI gui;
 
     public CONTROLLER(Connection connection , ClientRMI client , interfaceType Interface) throws InterruptedException, IOException {
         if(connection == Connection.RMI){
             if(Interface == interfaceType.GUI){
                 gui = new GUI();
-                gui.GUI(this, client);
-                this.Interface = new guiHandler(gui);
+                this.Interface = new guiHandler(gui, this, client);
             }
             if(Interface == interfaceType.CLI ){
                 cli  = new CLI(this, client);
@@ -62,8 +61,7 @@ public class CONTROLLER{
         if(connection == Connection.TCP){
             if(Interface == interfaceType.GUI){
                 gui = new GUI();
-                gui.GUI(this, client);
-                this.Interface = new guiHandler(gui);
+                this.Interface = new guiHandler(gui, this, client);
             }
             if(Interface == interfaceType.CLI){
                 cli = new CLI(this, client);
@@ -85,13 +83,19 @@ public class CONTROLLER{
     synchronized public boolean getReplyPut(){
         return this.reply_put;
     }
-    synchronized public boolean getReplyDraw() { return this.reply_draw; }
-    synchronized public boolean getNotConnected() { return this.notConnected; }
+    synchronized public boolean getReplyDraw() {
+        return this.reply_draw; }
+    synchronized public boolean getNotConnected() {
+        return this.notConnected; }
     synchronized public boolean getReplyPersonal(){
         return this.reply_Personal;
     }
     synchronized public boolean getReplyBookshelf(){
         return this.bookshelf_received;
+    }
+
+    synchronized public boolean getLoginOK(){
+        return this.LoginOK;
     }
 
     /******************************************************************************************************************/
