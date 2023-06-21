@@ -1,7 +1,7 @@
 package it.polimi.ingsw.VIEW.GUI;
 
-import it.polimi.ingsw.MODEL.GAME;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -13,11 +13,13 @@ public class GameSceneController {
     @FXML
     public GridPane gridPane;
     @FXML
-    public ImageView t341;
+    public GridPane BookshelfGrid;
     @FXML
-    public ImageView t342;
+    public ImageView firstDraw;
     @FXML
-    public ImageView t343;
+    public ImageView secondDraw;
+    @FXML
+    public ImageView thirdDraw;
     @FXML
     public TextField mes0;
     @FXML
@@ -36,12 +38,16 @@ public class GameSceneController {
     public ImageView commonGoal2;
     @FXML
     public ImageView personalGoal;
+    @FXML
+    public TextField notification;
 
     public static GUI gui;
 
-
+    /******************************************************************************************************************/
     public void itemClick(MouseEvent mouseEvent) {
-        GUI.cmd.selectItemToDraw(mouseEvent);
+        if(GUI.controller.getMyTurn()) {
+            GUI.cmd.selectItemToDraw(mouseEvent);
+        }
     }
 
     public void ButtonCLick(MouseEvent mouseEvent) {
@@ -49,15 +55,24 @@ public class GameSceneController {
     }
 
     public void putClick(MouseEvent mouseEvent) {
-        GUI.drawInProgress = false;
+        if(GUI.controller.getMyTurn()) {
+            GUI.gameplayData.drawInProgress = false;
+            if(GUI.gameplayData.selectedCol == -1){
+                gui.setNotification(" SELECT A COLUMN FROM THE BOOKSHELF FIRST! ");
+            }else{
+                GUI.cmd.putDrawInBookshelf();
+            }
+        }
     }
 
     public void drawClick(MouseEvent mouseEvent) {
-        GUI.drawInProgress = true;
+        if(GUI.controller.getMyTurn()){
+            GUI.gameplayData.drawInProgress = true;
+        }
     }
 
     public void drawPileClick(MouseEvent mouseEvent) {
-        GUI.selectedItem = new Sprite((ImageView) mouseEvent.getSource());
+        GUI.gameplayData.selectedItem = new Sprite((ImageView) mouseEvent.getSource());
     }
 
     public void UpClicked(MouseEvent mouseEvent) {
@@ -68,20 +83,27 @@ public class GameSceneController {
         GUI.cmd.drawDown();
     }
 
-    public void setScene(MouseEvent mouseEvent) {
-        GUI.DrawPile = new StandardSprite().setDrawPile(t341,t342,t343);
-        GUI.SpritesBoard = new StandardSprite().setBoard(gridPane);
-        GAME game = new GAME();
-        game.space.board.setGrid(4);
-        gui.updateGrid(game.space.board.Grid);
+    public void pickCol(MouseEvent mouseEvent){
+        if(GUI.gameplayData.drawInProgress){
+            GUI.gameplayData.selectedCol = Integer.parseInt(((Button) mouseEvent.getSource()).getId());
+        }
     }
+
+    public void setScene(MouseEvent mouseEvent) {
+        GUI.gameplayData.DrawPile = new StandardSprite().setDrawPile(firstDraw,secondDraw,thirdDraw);
+        GUI.gameplayData.SpritesBoard = new StandardSprite().setBoard(gridPane);
+        GUI.gameplayData.SpriteBookshelf = new StandardSprite().setBookshelf(BookshelfGrid);
+        gui.updateGrid(GUI.controller.grid);
+    }
+
+    /************************************************ CHAT ************************************************************/
 
     public void chatEnter(MouseEvent mouseEvent) {
         GUI.cmd.chatEnter();
     }
 
     public void chatClick(MouseEvent mouseEvent) {
-        GUI.chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4);
+        GUI.chatData.chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4);
     }
 
     public void inputKey(KeyEvent keyEvent) {
@@ -92,4 +114,5 @@ public class GameSceneController {
             GUI.chatData.stringBuilder.append(keyEvent.getCharacter());
         }
     }
+
 }

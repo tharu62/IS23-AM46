@@ -5,7 +5,6 @@ import it.polimi.ingsw.VIEW.CLI.CLI;
 import it.polimi.ingsw.MODEL.*;
 import it.polimi.ingsw.VIEW.GUI.CommandsExecutor;
 import it.polimi.ingsw.VIEW.GUI.GUI;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +47,8 @@ public class CONTROLLER{
         if(connection == Connection.RMI){
             if(Interface == interfaceType.GUI){
                 gui = new GUI();
+                GUI.controller = this;
+                GUI.cmd = new CommandsExecutor(this, client, gui);
                 this.Interface = new guiHandler(gui, this, client);
             }
             if(Interface == interfaceType.CLI ){
@@ -61,6 +62,8 @@ public class CONTROLLER{
         if(connection == Connection.TCP){
             if(Interface == interfaceType.GUI){
                 gui = new GUI();
+                GUI.controller = this;
+                GUI.cmd = new CommandsExecutor(this, client, gui);
                 this.Interface = new guiHandler(gui, this, client);
             }
             if(Interface == interfaceType.CLI){
@@ -83,17 +86,13 @@ public class CONTROLLER{
     synchronized public boolean getReplyPut(){
         return this.reply_put;
     }
-    synchronized public boolean getReplyDraw() {
-        return this.reply_draw; }
-    synchronized public boolean getNotConnected() {
-        return this.notConnected; }
+    synchronized public boolean getReplyDraw() { return this.reply_draw; }
     synchronized public boolean getReplyPersonal(){
         return this.reply_Personal;
     }
     synchronized public boolean getReplyBookshelf(){
         return this.bookshelf_received;
     }
-
     synchronized public boolean getLoginOK(){
         return this.LoginOK;
     }
@@ -110,7 +109,7 @@ public class CONTROLLER{
             this.myTurn = true;
         }
         else{
-            this.myTurn =false;
+            this.myTurn = false;
             Interface.notifyInterface("                                IT IS NOT YOUR TURN                                       ");
         }
     }
@@ -155,8 +154,8 @@ public class CONTROLLER{
         Interface.notifyInterface("                                        LAST ROUND                                        ");
     }
 
-    public void startUserInterface(Stage stage) throws Exception {
-        Interface.startInterface(stage);
+    public void startUserInterface(String[] args) throws Exception {
+        Interface.startInterface(args);
     }
 
 }

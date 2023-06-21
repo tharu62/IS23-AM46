@@ -51,7 +51,7 @@ public class cliHandler implements GameInterface{
     }
 
     @Override
-    public void startInterface(Stage stage) {
+    public void startInterface(String[] args) {
         cli.start();
     }
 }

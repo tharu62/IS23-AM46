@@ -1,4 +1,4 @@
-package it.polimi.ingsw.VIEW.CLI;
+package it.polimi.ingsw.VIEW;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;

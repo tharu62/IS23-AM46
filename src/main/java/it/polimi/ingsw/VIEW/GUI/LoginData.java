@@ -8,4 +8,5 @@ public class LoginData {
     public boolean lobbySizeNotSet = true;
     public boolean AppButtonCLicked = false;
     public boolean loginSceneOpen = false;
+    public StringBuilder stringBuilder = new StringBuilder();
 }

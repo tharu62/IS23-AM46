@@ -1,4 +1,4 @@
-package it.polimi.ingsw.VIEW.CLI;
+package it.polimi.ingsw.VIEW;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
@@ -34,7 +34,7 @@ public class TCP implements CommunicationProtocol {
         send.cmd = CMD.ASK_DRAW;
         send.username = username;
         send.gameplay = new GAMEPLAY();
-        send.gameplay.pos = new ArrayList<Integer>();
+        send.gameplay.pos = new ArrayList<>();
         send.gameplay.pos.add(0,row);
         send.gameplay.pos.add(1,col);
         clientTCP.CommandSwitcher(send,clientTCP.out_ref);

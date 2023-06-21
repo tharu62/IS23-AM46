@@ -1,9 +1,6 @@
 package it.polimi.ingsw.VIEW.GUI;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -21,14 +18,16 @@ public class LoginSceneController {
     public Button loginButton;
     @FXML
     public TextField InputField;
-
+    @FXML
+    public TextField InputStatus;
 
     public static GUI gui;
+
     public void setLoginScene(MouseEvent mouseEvent) {
         if(!GUI.loginData.loginSceneOpen) {
             GUI.loginData.loginSceneOpen = true;
             while (GUI.notificationBuffer.size() > 0) {
-                InputField.setPromptText("Insert username");
+                InputStatus.setText("Insert username");
                 if(GUI.notificationBuffer.get(0).equals("FIRST_TO_CONNECT")){
                     GUI.loginData.firstToConnect = true;
                 }
@@ -40,42 +39,41 @@ public class LoginSceneController {
 
     public void sendLogin(MouseEvent mouseEvent) throws IOException {
         if(GUI.loginData.usernameNotSet){
-            GUI.loginData.username = GUI.chatData.stringBuilder.toString();
-            GUI.chatData.stringBuilder = new StringBuilder();
+            GUI.loginData.username = GUI.loginData.stringBuilder.toString();
+            GUI.loginData.stringBuilder = new StringBuilder();
             GUI.loginData.usernameNotSet = false;
             InputField.setText(null);
             if(GUI.loginData.firstToConnect){
-                InputField.setPromptText("Insert Lobby Size");
+                InputStatus.setText("Insert Lobby Size");
             }
         }else{
-            if(GUI.loginData.firstToConnect){
-                GUI.loginData.lobbySize = Integer.parseInt(GUI.chatData.stringBuilder.toString());
-                GUI.loginData.lobbySizeNotSet = false;
-            }else{
-                if(!GUI.controller.LoginOK){
-                    GUI.loginData.username = GUI.chatData.stringBuilder.toString();
-                    GUI.chatData.stringBuilder = new StringBuilder();
-                    InputField.setText(null);
+            if(GUI.loginData.lobbySizeNotSet){
+                if(GUI.loginData.stringBuilder.toString().length() > 0) {
+                    GUI.loginData.lobbySize = Integer.parseInt(GUI.loginData.stringBuilder.toString());
+                    GUI.loginData.lobbySizeNotSet = false;
                 }
             }
         }
     }
 
     public void inputKeyLogin(KeyEvent keyEvent) {
-        if(!GUI.controller.LoginOK){
-            if(gui.getUsernameNotSet()){
-                GUI.chatData.stringBuilder.append(keyEvent.getCharacter());
+        IntegerChecker integerChecker = new IntegerChecker();
+        if(gui.getUsernameNotSet()){
+            GUI.loginData.stringBuilder.append(keyEvent.getCharacter());
+        }else{
+            if(integerChecker.check(keyEvent.getCharacter())){
+                GUI.loginData.stringBuilder.append(keyEvent.getCharacter());
             }else{
-                if(new IntegerChecker().check(keyEvent.getCharacter())){
-                    GUI.chatData.stringBuilder.append(keyEvent.getCharacter());
-                }
+                GUI.loginData.stringBuilder = new StringBuilder();
+                InputField.setText(null);
             }
         }
     }
 
+
     public void Login(MouseEvent mouseEvent) throws IOException {
         if(GUI.controller.getLoginOK()){
-            gui.loadGameScene();
+            gui.loadGameScene(mouseEvent);
         }
     }
 

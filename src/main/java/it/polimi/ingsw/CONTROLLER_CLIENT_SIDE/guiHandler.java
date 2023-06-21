@@ -24,23 +24,20 @@ public class guiHandler implements GameInterface {
 
     @Override
     public void notifyInterface(String message) {
-        System.out.println(message);
         gui.setNotification(message);
     }
 
     @Override
     public String getUsername(CONTROLLER controller) {
-        while(gui.getUsernameNotSet()){
-
-        }
+        while(gui.getUsernameNotSet());
+        controller.username = GUI.loginData.username;
         return GUI.loginData.username;
     }
 
     @Override
     public int getLobbySize(CONTROLLER controller) {
-        while(gui.getLobbySizeNotSet()){
-
-        }
+        while(gui.getLobbySizeNotSet());
+        controller.LobbySize = GUI.loginData.lobbySize;
         return GUI.loginData.lobbySize;
     }
 
@@ -50,8 +47,8 @@ public class guiHandler implements GameInterface {
     }
 
     @Override
-    public void startInterface(Stage stage){
-        //
+    public void startInterface(String[] args){
+        gui.main(args);
     }
 
 }

@@ -10,6 +10,6 @@ public interface GameInterface {
     String getUsername(CONTROLLER controller);
     int getLobbySize(CONTROLLER controller);
     void receiveChat(CONTROLLER controller, MESSAGE message);
-    void startInterface(Stage stage);
+    void startInterface(String[] args);
 
 }

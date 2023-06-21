@@ -212,9 +212,9 @@
       <Button fx:id="draw" layoutX="756.0" layoutY="650.0" mnemonicParsing="false" onMouseClicked="#drawClick" text="draw" />
       <GridPane fx:id="drawPile" gridLinesVisible="true" layoutX="767.0" layoutY="20.0" prefHeight="192.0" prefWidth="66.0">
          <children>
-            <ImageView fx:id="t343" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-            <ImageView fx:id="t342" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fx:id="t341" fitHeight="59.0" fitWidth="65.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="thirdDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="secondDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fx:id="firstDraw" fitHeight="59.0" fitWidth="65.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -304,13 +304,14 @@
             <ImageView fx:id="itemBookshelf30" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Button layoutX="1125.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
-      <Button layoutX="1181.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
-      <Button layoutX="1236.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
-      <Button layoutX="1291.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
-      <Button layoutX="1346.0" layoutY="20.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" text="Button" />
+      <Button fx:id="0" layoutX="1125.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
+      <Button fx:id="1" layoutX="1181.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
+      <Button fx:id="2" layoutX="1236.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
+      <Button fx:id="3" layoutX="1291.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
+      <Button fx:id="4" layoutX="1346.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
       <ImageView fx:id="commonGoal1" fitHeight="192.0" fitWidth="138.0" layoutX="756.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="commonGoal2" fitHeight="192.0" fitWidth="138.0" layoutX="907.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="personalGoal" fitHeight="192.0" fitWidth="138.0" layoutX="893.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="notification" editable="false" layoutX="19.0" layoutY="734.0" prefHeight="38.0" prefWidth="700.0" />
    </children>
 </AnchorPane>

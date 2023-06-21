@@ -4,6 +4,8 @@ import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
+import it.polimi.ingsw.VIEW.RMI;
+import it.polimi.ingsw.VIEW.TCP;
 
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;

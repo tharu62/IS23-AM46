@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.guiHandler;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.interfaceType;
 import it.polimi.ingsw.NETWORK.ServerHandler;
 import it.polimi.ingsw.NETWORK.Settings;
@@ -24,7 +25,7 @@ public class SetUp {
     public boolean selectedTCP = false;
     public boolean disconnected = false;
 
-    public void run() throws Exception {
+    public void run(String[] args) throws Exception {
         Scanner scanner;
         String playerInput;
 
@@ -129,18 +130,19 @@ public class SetUp {
                     ClientTCP client = new ClientTCP(Settings.PORT_TCP, this.disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.CLI);
                     client.controller = controller;
-                    controller.startUserInterface(stage);
+                    controller.startUserInterface(args);
                     client.start();
                 }
                 if(selectedRMI){
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, this.disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.CLI);
                     client.controller = controller;
-                    controller.startUserInterface(stage);
+                    controller.startUserInterface(args);
                     client.start();
                 }
             }
         }
+
 
         if(selectedGUI){
             if (selectedSERVER) {
@@ -149,33 +151,20 @@ public class SetUp {
             }
             if (selectedCLIENT) {
                 if (selectedTCP){
-                    /**
                     ClientTCP client = new ClientTCP(Settings.PORT_TCP, disconnected);
                     CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.GUI);
                     client.controller = controller;
-                    controller.startUserInterface(stage);
                     client.start();
-                     */
-
-                    GUI gui = new GUI();
-                    gui.setUp = this;
-                    gui.start(stage);
+                    controller.startUserInterface(args);
                 }
-                if(selectedRMI){
-                    /**
+                if(selectedRMI) {
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, disconnected);
-                    CONTROLLER controller = new CONTROLLER(Connection.RMI, client, interfaceType.GUI);
+                    CONTROLLER controller = new CONTROLLER(Connection.TCP , client, interfaceType.GUI);
                     client.controller = controller;
-                    controller.startUserInterface(stage);
                     client.start();
-                     */
-                    GUI gui = new GUI();
-                    gui.setUp = this;
-                    gui.start(stage);
+                    controller.startUserInterface(args);
                 }
             }
         }
-
-
     }
 }

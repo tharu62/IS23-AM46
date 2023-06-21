@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 
 public interface GUI_commands {
     void updateGrid(item[][] grid);
-    void updateBookshalf(item[][] grid);
+    void updateBookshelf();
     void scrollChat(MESSAGE message, boolean Private);
     void chatEnter();
     void drawUp();
@@ -16,5 +16,7 @@ public interface GUI_commands {
     void setCommonGoals();
     void setPersonalGoal();
     void login();
+    boolean replyDraw();
+    boolean replyPut();
 
 }

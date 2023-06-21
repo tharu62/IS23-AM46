@@ -24,4 +24,5 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.CONTROLLER_SCENE to javafx.fxml;
     exports it.polimi.ingsw.VIEW.GUI.BOH;
     opens it.polimi.ingsw.VIEW.GUI.BOH to javafx.fxml;
+    exports it.polimi.ingsw.VIEW;
 }

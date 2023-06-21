@@ -4,9 +4,6 @@ import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.item;
-import it.polimi.ingsw.NETWORK.Settings;
-import it.polimi.ingsw.SetUp;
-import it.polimi.ingsw.TCP.ClientTCP;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -52,43 +48,21 @@ public class GUI extends Application{
     @FXML
     public ImageView personalGoal;
 
-    public static int i=0, drawCounter = 0;
+    public static boolean disconnected;
+    public static boolean selectedTCP;
+    public static boolean selectedRMI;
     public static List<String> notificationBuffer = new ArrayList<>();
     public static LoginData loginData = new LoginData();
     public static ChatData chatData = new ChatData();
-    public static boolean waiting = false, putInProgress = false, drawInProgress = false;
-    public static Sprite selectedItem = new Sprite(null);
-    public static Sprite[][] SpritesBoard;
-    public static Sprite[] DrawPile = new Sprite[3];
-    public static TextField[] chatField = new TextField[5];
-    public static Sprite[][] SpriteBookshelf = new Sprite[6][5];
+    public static GameplayData gameplayData = new GameplayData();
     public static LoginSceneController loginSceneController;
     public static GameSceneController gameSceneController;
-    public static SetUp setUp;
+
     public static CONTROLLER controller;
-    public static CommunicationProtocol com;
     public static CommandsExecutor cmd;
 
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        this.stage = stage;
-        if(setUp.selectedTCP){
-            ClientTCP client = new ClientTCP(Settings.PORT_TCP, setUp.disconnected);
-            controller = new CONTROLLER(Connection.TCP , client, interfaceType.GUI);
-            CONTROLLER.gui = this;
-            controller.Interface = new guiHandler(this, controller, client);
-            client.controller = controller;
-            client.start();
-        }
-        if(setUp.selectedRMI){
-            ClientTCP client = new ClientTCP(Settings.PORT_TCP, setUp.disconnected);
-            controller = new CONTROLLER(Connection.TCP , client, interfaceType.GUI);
-            CONTROLLER.gui = this;
-            controller.Interface = new guiHandler(this, controller, client);
-            client.controller = controller;
-            client.start();
-        }
-
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/AppWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MY SHELFIE GAME");
@@ -106,11 +80,14 @@ public class GUI extends Application{
         LoginSceneController.gui = this;
     }
 
-    public void loadGameScene() throws IOException {
+    public void loadGameScene(MouseEvent mouseEvent) throws IOException {
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/StandardGameScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
+        loginData.loginSceneOpen = false;
+        gameplayData.gameSceneOpen = true;
         gameSceneController = fxmlLoader.getController();
         GameSceneController.gui = this;
     }
@@ -132,8 +109,8 @@ public class GUI extends Application{
     }
 
     public void setScene(MouseEvent mouseEvent) {
-        DrawPile = new StandardSprite().setDrawPile(t341,t342,t343);
-        SpritesBoard = new StandardSprite().setBoard(gridPane);
+        gameplayData.DrawPile = new StandardSprite().setDrawPile(t341,t342,t343);
+        gameplayData.SpritesBoard = new StandardSprite().setBoard(gridPane);
         GAME game = new GAME();
         game.space.board.setGrid(4);
         updateGrid(game.space.board.Grid);
@@ -148,9 +125,19 @@ public class GUI extends Application{
     }
 
     public void setNotification(String text){
+        System.out.println(text);
         if(loginData.loginSceneOpen){
+            if(text.equals("REPLY_NOT_ACCEPTED")){
+                loginData.usernameNotSet = true;
+                loginData.lobbySizeNotSet = true;
+            }
             loginSceneController.notification.setText(text);
-        }else{
+        }
+        if(gameplayData.gameSceneOpen){
+            gameSceneController.notification.setText(text);
+
+        }
+        if(!loginData.loginSceneOpen && !gameplayData.gameSceneOpen){
             notificationBuffer.add(text);
         }
     }
@@ -163,5 +150,8 @@ public class GUI extends Application{
         return loginData.lobbySizeNotSet;
     }
 
+    public void main(String[] args){
+        launch();
+    }
 }
 

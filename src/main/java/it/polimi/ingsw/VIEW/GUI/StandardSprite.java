@@ -5,13 +5,13 @@ import javafx.scene.layout.GridPane;
 
 public class StandardSprite {
     Sprite[][] Board = new Sprite[9][9];
+    Sprite[][] Bookshelf = new Sprite[6][5];
     public Sprite[][] setBoard(GridPane gridPane){
         int count = 0;
         for(int i=0; i<9; i++){
             for(int j=0; j < 9; j++){
                 if(gridPane.getChildren().get(count) instanceof ImageView){
                     Board[i][j] = new Sprite(i,j, (ImageView) gridPane.getChildren().get(count));
-                    System.out.println(count);
                     count++;
                 }
             }
@@ -27,4 +27,16 @@ public class StandardSprite {
         return drawpile;
      }
 
+    public Sprite[][] setBookshelf(GridPane gridPane){
+        int count = 0;
+        for(int i=0; i<6; i++){
+            for(int j=0; j < 5; j++){
+                if(gridPane.getChildren().get(count) instanceof ImageView){
+                    Bookshelf[i][j] = new Sprite(i,j, (ImageView) gridPane.getChildren().get(count));
+                    count++;
+                }
+            }
+        }
+        return Bookshelf;
+    }
 }
