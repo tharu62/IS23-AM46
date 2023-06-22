@@ -207,10 +207,9 @@
 
          </children>
       </GridPane>
-      <Button layoutX="962.0" layoutY="116.0" mnemonicParsing="false" onMouseClicked="#ButtonCLick" text="Button" />
-      <Button fx:id="put" layoutX="762.0" layoutY="591.0" mnemonicParsing="false" onMouseClicked="#putClick" text="put" />
-      <Button fx:id="draw" layoutX="756.0" layoutY="650.0" mnemonicParsing="false" onMouseClicked="#drawClick" text="draw" />
-      <GridPane fx:id="drawPile" gridLinesVisible="true" layoutX="767.0" layoutY="20.0" prefHeight="192.0" prefWidth="66.0">
+      <Button fx:id="put" layoutX="808.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#putClick" text="put" />
+      <Button fx:id="draw" layoutX="737.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#drawClick" text="draw" />
+      <GridPane fx:id="drawPile" gridLinesVisible="true" layoutX="735.0" layoutY="20.0" prefHeight="192.0" prefWidth="66.0">
          <children>
             <ImageView fx:id="thirdDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
             <ImageView fx:id="secondDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
@@ -225,37 +224,31 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button fx:id="drawUp" layoutX="874.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#UpClicked" text="up" />
-      <Button fx:id="drawDown" layoutX="863.0" layoutY="116.0" mnemonicParsing="false" onMouseClicked="#DownClicked" text="down" />
-      <Button layoutX="954.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#setScene" text="setScene" />
-      <TextFlow layoutX="1091.0" layoutY="419.0" prefHeight="269.0" prefWidth="322.0">
+      <Button fx:id="drawUp" layoutX="836.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#UpClicked" text="up" />
+      <Button fx:id="drawDown" layoutX="825.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#DownClicked" text="down" />
+      <TextFlow layoutX="1091.0" layoutY="419.0" prefHeight="269.0" prefWidth="361.0">
          <children>
-            <VBox prefHeight="267.0" prefWidth="323.0">
+            <VBox prefHeight="267.0" prefWidth="360.0">
                <children>
-                  <TextField fx:id="mes4" editable="false" promptText="mes4" />
-                  <TextField fx:id="mes3" editable="false" layoutX="10.0" layoutY="10.0" promptText="mes3" />
-                  <TextField fx:id="mes2" editable="false" layoutX="10.0" layoutY="48.0" promptText="mes2" />
-                  <TextField fx:id="mes1" editable="false" layoutX="10.0" layoutY="86.0" promptText="mes1" />
-                  <TextField fx:id="mes0" editable="false" layoutX="10.0" layoutY="124.0" promptText="mes0" />
-                  <TextField fx:id="mes01" editable="false" layoutX="10.0" layoutY="162.0" promptText="mes0" />
-                  <TextField fx:id="mes011" editable="false" layoutX="10.0" layoutY="200.0" promptText="mes0" />
+                  <TextField fx:id="mes6" editable="false" promptText="mes6" />
+                  <TextField fx:id="mes5" editable="false" layoutX="10.0" layoutY="10.0" promptText="mes5" />
+                  <TextField fx:id="mes4" editable="false" layoutX="10.0" layoutY="48.0" promptText="mes4" />
+                  <TextField fx:id="mes3" editable="false" layoutX="10.0" layoutY="86.0" promptText="mes3" />
+                  <TextField fx:id="mes2" editable="false" layoutX="10.0" layoutY="124.0" promptText="mes2" />
+                  <TextField fx:id="mes1" editable="false" layoutX="10.0" layoutY="162.0" promptText="mes1" />
+                  <TextField fx:id="mes0" editable="false" layoutX="10.0" layoutY="200.0" promptText="mes0" />
                </children>
             </VBox>
          </children>
       </TextFlow>
-      <TextFlow layoutX="1091.0" layoutY="690.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="322.0">
+      <TextFlow layoutX="1091.0" layoutY="690.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="360.0">
          <children>
             <Button fx:id="chatButton" mnemonicParsing="false" onMouseClicked="#chatEnter" prefHeight="38.0" prefWidth="32.0" text="Button" />
-            <TextField fx:id="chatInput" alignment="TOP_LEFT" onKeyTyped="#inputKey" onMouseClicked="#chatClick" prefHeight="38.0" prefWidth="284.0" promptText="type something" />
+            <TextField fx:id="chatInput" alignment="TOP_LEFT" onKeyTyped="#inputKey" prefHeight="38.0" prefWidth="323.0" promptText="type something" />
             <VBox />
          </children>
       </TextFlow>
-      <ImageView fitHeight="327.0" fitWidth="343.0" layoutX="1101.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../bookshelf.png" />
-         </image>
-      </ImageView>
-      <GridPane fx:id="BookshelfGrid" gridLinesVisible="true" layoutX="1135.0" layoutY="83.0" prefHeight="267.0" prefWidth="254.0">
+      <GridPane fx:id="BookshelfGrid" layoutX="1135.0" layoutY="83.0" prefHeight="267.0" prefWidth="254.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -272,46 +265,66 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="itemBookshelf" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="itemBookshelf1" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-            <ImageView fx:id="itemBookshelf2" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-            <ImageView fx:id="itemBookshelf3" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-            <ImageView fx:id="itemBookshelf5" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-            <ImageView fx:id="itemBookshelf6" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf7" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf8" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf9" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf10" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf11" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-            <ImageView fx:id="itemBookshelf12" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ImageView fx:id="itemBookshelf13" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <ImageView fx:id="itemBookshelf14" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <ImageView fx:id="itemBookshelf15" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <ImageView fx:id="itemBookshelf16" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
-            <ImageView fx:id="itemBookshelf17" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ImageView fx:id="itemBookshelf18" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <ImageView fx:id="itemBookshelf19" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <ImageView fx:id="itemBookshelf20" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <ImageView fx:id="itemBookshelf21" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
-            <ImageView fx:id="itemBookshelf22" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ImageView fx:id="itemBookshelf23" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <ImageView fx:id="itemBookshelf24" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <ImageView fx:id="itemBookshelf25" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <ImageView fx:id="itemBookshelf26" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5" />
-            <ImageView fx:id="itemBookshelf27" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ImageView fx:id="itemBookshelf28" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <ImageView fx:id="itemBookshelf29" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <ImageView fx:id="itemBookshelf30" fitHeight="38.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <ImageView fx:id="itemBookshelf" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="itemBookshelf1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fx:id="itemBookshelf2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fx:id="itemBookshelf3" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fx:id="itemBookshelf5" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fx:id="itemBookshelf6" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fx:id="itemBookshelf7" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fx:id="itemBookshelf8" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fx:id="itemBookshelf9" fitHeight="38.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fx:id="itemBookshelf10" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ImageView fx:id="itemBookshelf11" fitHeight="38.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="itemBookshelf12" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView fx:id="itemBookshelf13" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fx:id="itemBookshelf14" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ImageView fx:id="itemBookshelf15" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ImageView fx:id="itemBookshelf16" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+            <ImageView fx:id="itemBookshelf17" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ImageView fx:id="itemBookshelf18" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ImageView fx:id="itemBookshelf19" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ImageView fx:id="itemBookshelf20" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <ImageView fx:id="itemBookshelf21" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+            <ImageView fx:id="itemBookshelf22" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ImageView fx:id="itemBookshelf23" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <ImageView fx:id="itemBookshelf24" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <ImageView fx:id="itemBookshelf25" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <ImageView fx:id="itemBookshelf26" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5" />
+            <ImageView fx:id="itemBookshelf27" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ImageView fx:id="itemBookshelf28" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <ImageView fx:id="itemBookshelf29" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <ImageView fx:id="itemBookshelf30" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
          </children>
       </GridPane>
+      <ImageView fitHeight="327.0" fitWidth="343.0" layoutX="1101.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../bookshelf.png" />
+         </image>
+      </ImageView>
       <Button fx:id="0" layoutX="1125.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
       <Button fx:id="1" layoutX="1181.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
       <Button fx:id="2" layoutX="1236.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
       <Button fx:id="3" layoutX="1291.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
       <Button fx:id="4" layoutX="1346.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#pickCol" prefHeight="31.0" prefWidth="50.0" text="\\/" />
-      <ImageView fx:id="commonGoal1" fitHeight="192.0" fitWidth="138.0" layoutX="756.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="commonGoal2" fitHeight="192.0" fitWidth="138.0" layoutX="907.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="personalGoal" fitHeight="192.0" fitWidth="138.0" layoutX="893.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="commonGoal1" fitHeight="128.0" fitWidth="195.0" layoutX="728.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="commonGoal2" fitHeight="128.0" fitWidth="195.0" layoutX="728.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="personalGoal" fitHeight="192.0" fitWidth="138.0" layoutX="945.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="notification" editable="false" layoutX="19.0" layoutY="734.0" prefHeight="38.0" prefWidth="700.0" />
+      <Button layoutX="1458.0" layoutY="690.0" mnemonicParsing="false" onMouseClicked="#privateChatEnter" prefHeight="38.0" prefWidth="36.0" text="P" />
+      <TextField fx:id="player_0" editable="false" layoutX="929.0" layoutY="419.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />
+      <TextField fx:id="player_1" editable="false" layoutX="929.0" layoutY="457.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />
+      <TextField fx:id="player_2" editable="false" layoutX="929.0" layoutY="495.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />
+      <TextField fx:id="player_3" editable="false" layoutX="929.0" layoutY="533.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />
+      <Text layoutX="965.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLAYERS" />
+      <Text layoutX="972.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE" />
+      <TextField editable="false" layoutX="945.0" layoutY="58.0" prefHeight="38.0" prefWidth="105.0" />
+      <ImageView fx:id="scoreToken0" fitHeight="60.0" fitWidth="60.0" layoutX="595.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true" rotate="10.0">
+         <image>
+            <Image url="@../end_game_token.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="scoreToken1" fitHeight="50.0" fitWidth="50.0" layoutX="845.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true" rotate="-9.0" />
+      <ImageView fx:id="scoreToken2" fitHeight="50.0" fitWidth="50.0" layoutX="845.0" layoutY="465.0" pickOnBounds="true" preserveRatio="true" rotate="-9.0" />
    </children>
 </AnchorPane>

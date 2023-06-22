@@ -33,6 +33,10 @@ public class GameplaySceneController {
     @FXML
     public TextField mes4;
     @FXML
+    public TextField mes5;
+    @FXML
+    public TextField mes6;
+    @FXML
     public TextField chatInput;
     int i=0;
     public boolean drawInProgress = false;
@@ -173,7 +177,7 @@ public class GameplaySceneController {
     }
 
     public void chatClick(MouseEvent mouseEvent) {
-        chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4);
+        chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4,mes5,mes6);
     }
 
     synchronized public void scrollChat(String text, boolean Private){

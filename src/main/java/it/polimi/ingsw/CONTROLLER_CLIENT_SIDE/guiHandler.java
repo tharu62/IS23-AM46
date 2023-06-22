@@ -5,7 +5,6 @@ import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.GUI.CommandsExecutor;
 import it.polimi.ingsw.VIEW.GUI.GUI;
-import javafx.stage.Stage;
 
 public class guiHandler implements GameInterface {
     public GUI gui;
@@ -43,7 +42,14 @@ public class guiHandler implements GameInterface {
 
     @Override
     public void receiveChat(CONTROLLER controller, MESSAGE message) {
-        //TODO
+        if(!message.header[0].equals(controller.username)) {
+            if(message.header[1].equals("everyone")) {
+                gui.scrollChat(message, false);
+            }
+            if(message.header[1].equals(controller.username)){
+                gui.scrollChat(message, true);
+            }
+        }
     }
 
     @Override
