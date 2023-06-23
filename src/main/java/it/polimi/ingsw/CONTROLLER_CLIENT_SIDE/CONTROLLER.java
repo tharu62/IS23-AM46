@@ -34,6 +34,7 @@ public class CONTROLLER{
     public boolean put_end = false;
     public boolean reply_Personal = false;
     public boolean bookshelf_received = false;
+    public boolean gameDataReceived = false;
     public int PersonalGoalCardID = -1;
     public List<Integer> cards = new ArrayList<>();
     public List<Integer> token_value = new ArrayList<>();
@@ -74,6 +75,7 @@ public class CONTROLLER{
     }
 
     /******************************************************************************************************************/
+
     public String getUsername(){
         return Interface.getUsername(this);
     }
@@ -82,6 +84,9 @@ public class CONTROLLER{
     }
     synchronized public boolean getMyTurn(){
         return this.myTurn;
+    }
+    synchronized public boolean getLoginOK(){
+        return this.LoginOK;
     }
     synchronized public boolean getReplyPut(){
         return this.reply_put;
@@ -93,9 +98,6 @@ public class CONTROLLER{
     synchronized public boolean getReplyBookshelf(){
         return this.bookshelf_received;
     }
-    synchronized public boolean getLoginOK(){
-        return this.LoginOK;
-    }
 
     /******************************************************************************************************************/
 
@@ -104,6 +106,7 @@ public class CONTROLLER{
     }
 
     public void setPlayerToPlay( String ptp ) {
+        this.gameDataReceived = true;
         if( this.username.toLowerCase().equals(ptp) ){
             Interface.notifyInterface("                                 IT IS YOUR TURN                                          ");
             this.myTurn = true;

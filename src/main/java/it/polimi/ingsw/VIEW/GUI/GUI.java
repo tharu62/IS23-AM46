@@ -2,17 +2,13 @@ package it.polimi.ingsw.VIEW.GUI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 import it.polimi.ingsw.MODEL.MESSAGE;
-import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.MODEL.item;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,42 +17,14 @@ import java.util.List;
 public class GUI extends Application{
     @FXML
     public Stage stage;
-    @FXML
-    public GridPane gridPane;
-    @FXML
-    public ImageView t341;
-    @FXML
-    public ImageView t342;
-    @FXML
-    public ImageView t343;
-    @FXML
-    public TextField mes0;
-    @FXML
-    public TextField mes1;
-    @FXML
-    public TextField mes2;
-    @FXML
-    public TextField mes3;
-    @FXML
-    public TextField mes4;
-    @FXML
-    public TextField chatInput;
-    @FXML
-    public ImageView commonGoal1;
-    @FXML
-    public ImageView commonGoal2;
-    @FXML
-    public ImageView personalGoal;
-
-    public static boolean disconnected;
-    public static boolean selectedTCP;
-    public static boolean selectedRMI;
     public static List<String> notificationBuffer = new ArrayList<>();
     public static LoginData loginData = new LoginData();
     public static ChatData chatData = new ChatData();
     public static GameplayData gameplayData = new GameplayData();
     public static LoginSceneController loginSceneController;
     public static GameSceneController gameSceneController;
+    public static GuiLoginHandler guiLoginHandler = new GuiLoginHandler();
+    public static boolean loginHandlerNotActive = true;
 
     public static CONTROLLER controller;
     public static CommandsExecutor cmd;
@@ -77,6 +45,7 @@ public class GUI extends Application{
         stage.setScene(scene);
         stage.show();
         loginSceneController = fxmlLoader.getController();
+        loginData.loginSceneOpen = true;
         LoginSceneController.gui = this;
     }
 
@@ -96,49 +65,51 @@ public class GUI extends Application{
         cmd.updateGrid(grid);
     }
 
-    synchronized public void scrollChat(String text, boolean Private){
+    synchronized public void scrollChat(MESSAGE message, boolean Private){
         //TODO
-        MESSAGE mess = new MESSAGE();
-        mess.text = text;
-        cmd.scrollChat(mess, Private);
+        if(gameSceneController != null){
+            cmd.scrollChat(message, Private);
+        }else{
+            chatData.chatBuffer.add(message);
+        }
     }
 
-    public void privateChatEnter(MouseEvent mouseEvent) {
-        chatInput.setPromptText("Insert receiver");
-        chatData.privateMessRec = true;
+    public void setNotification(String message){
+        if(gameplayData.gameSceneOpen) {
+            gameSceneController.notification.setText(message);
+            if (message.equals("                                 IT IS YOUR TURN                                          ")) {
+                gameSceneController.updateScene();
+            }
+            if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
+                gameSceneController.updateScene();
+            }
+            if (message.equals("                                        LAST ROUND                                        ")) {
+                gameSceneController.scoreToken0.setImage(null);
+            }
+        }else{
+            notificationBuffer.add(message);
+            if(loginHandlerNotActive){
+                loginHandlerNotActive = false;
+                GuiLoginHandler.gui = this;
+                guiLoginHandler.start();
+            }
+        }
     }
 
-    public void setScene(MouseEvent mouseEvent) {
-        gameplayData.DrawPile = new StandardSprite().setDrawPile(t341,t342,t343);
-        gameplayData.SpritesBoard = new StandardSprite().setBoard(gridPane);
-        GAME game = new GAME();
-        game.space.board.setGrid(4);
-        updateGrid(game.space.board.Grid);
-    }
-
-    public void setCommonGoals(int[] cardsID){
-        cmd.setCommonGoals();
-    }
-
-    public void setPersonalGoal(int cardID){
-        cmd.setPersonalGoal();
-    }
-
-    public void setNotification(String text){
-        System.out.println(text);
+    public void setLoginNotification(String message){
         if(loginData.loginSceneOpen){
-            if(text.equals("REPLY_NOT_ACCEPTED")){
+            if(message.equals("REPLY_NOT_ACCEPTED")){
                 loginData.usernameNotSet = true;
                 loginData.lobbySizeNotSet = true;
             }
-            loginSceneController.notification.setText(text);
-        }
-        if(gameplayData.gameSceneOpen){
-            gameSceneController.notification.setText(text);
-
-        }
-        if(!loginData.loginSceneOpen && !gameplayData.gameSceneOpen){
-            notificationBuffer.add(text);
+            loginSceneController.notification.setText(message);
+        }else{
+            notificationBuffer.add(message);
+            if(loginHandlerNotActive){
+                loginHandlerNotActive = false;
+                GuiLoginHandler.gui = this;
+                guiLoginHandler.start();
+            }
         }
     }
 

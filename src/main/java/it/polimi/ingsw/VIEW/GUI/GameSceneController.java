@@ -31,6 +31,10 @@ public class GameSceneController {
     @FXML
     public TextField mes4;
     @FXML
+    public TextField mes5;
+    @FXML
+    public TextField mes6;
+    @FXML
     public TextField chatInput;
     @FXML
     public ImageView commonGoal1;
@@ -40,7 +44,21 @@ public class GameSceneController {
     public ImageView personalGoal;
     @FXML
     public TextField notification;
-
+    @FXML
+    public TextField player_0;
+    @FXML
+    public TextField player_1;
+    @FXML
+    public TextField player_2;
+    @FXML
+    public TextField player_3;
+    @FXML
+    public ImageView scoreToken0;
+    @FXML
+    public ImageView scoreToken1;
+    @FXML
+    public ImageView scoreToken2;
+    public boolean sceneNotSet = true;
     public static GUI gui;
 
     /******************************************************************************************************************/
@@ -48,10 +66,6 @@ public class GameSceneController {
         if(GUI.controller.getMyTurn()) {
             GUI.cmd.selectItemToDraw(mouseEvent);
         }
-    }
-
-    public void ButtonCLick(MouseEvent mouseEvent) {
-
     }
 
     public void putClick(MouseEvent mouseEvent) {
@@ -89,11 +103,32 @@ public class GameSceneController {
         }
     }
 
-    public void setScene(MouseEvent mouseEvent) {
+    public void setScene() {
         GUI.gameplayData.DrawPile = new StandardSprite().setDrawPile(firstDraw,secondDraw,thirdDraw);
         GUI.gameplayData.SpritesBoard = new StandardSprite().setBoard(gridPane);
         GUI.gameplayData.SpriteBookshelf = new StandardSprite().setBookshelf(BookshelfGrid);
+        GUI.chatData.chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4,mes5,mes6);
         gui.updateGrid(GUI.controller.grid);
+        player_0.setText(GUI.controller.players.get(0));
+        player_0.setText(GUI.controller.players.get(1));
+        if (GUI.controller.players.size() > 2) {
+            player_0.setText(GUI.controller.players.get(2));
+            if (GUI.controller.players.size() > 3) {
+                player_0.setText(GUI.controller.players.get(3));
+            }
+        }
+        GUI.cmd.setCommonGoals();
+    }
+
+    public void updateScene(){
+        if(sceneNotSet){
+            setScene();
+            sceneNotSet = false;
+        }
+        gui.updateGrid(GUI.controller.grid);
+        GUI.gameplayData.DrawPile = new StandardSprite().setDrawPile(firstDraw,secondDraw,thirdDraw);
+        GUI.gameplayData.drawCounter = 0;
+        //score
     }
 
     /************************************************ CHAT ************************************************************/
@@ -102,12 +137,13 @@ public class GameSceneController {
         GUI.cmd.chatEnter();
     }
 
-    public void chatClick(MouseEvent mouseEvent) {
-        GUI.chatData.chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4);
+    public void privateChatEnter(MouseEvent mouseEvent) {
+        chatInput.setPromptText("Insert receiver");
+        GUI.chatData.privateMess = true;
     }
 
     public void inputKey(KeyEvent keyEvent) {
-        if(GUI.chatData.privateMessRec || GUI.chatData.privateMess){
+        if(GUI.chatData.privateMess){
             GUI.chatData.privateStringBuilder.append(keyEvent.getCharacter());
         }
         else{
@@ -115,4 +151,16 @@ public class GameSceneController {
         }
     }
 
+    public void privateReceiverClicked(MouseEvent mouseEvent) {
+        if(GUI.chatData.privateMess){
+            String receiver = ((TextField) mouseEvent.getSource()).getText();
+            if( receiver != null ){
+                GUI.chatData.privateReceiver = receiver;
+            }
+        }
+    }
+
+    public void pclick(MouseEvent mouseEvent) {
+        GUI.cmd.setPersonalGoal();
+    }
 }

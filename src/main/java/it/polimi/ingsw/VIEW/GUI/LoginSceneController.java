@@ -70,7 +70,6 @@ public class LoginSceneController {
         }
     }
 
-
     public void Login(MouseEvent mouseEvent) throws IOException {
         if(GUI.controller.getLoginOK()){
             gui.loadGameScene(mouseEvent);
