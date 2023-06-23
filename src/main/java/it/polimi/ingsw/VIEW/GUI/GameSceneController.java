@@ -58,9 +58,6 @@ public class GameSceneController {
     public ImageView scoreToken1;
     @FXML
     public ImageView scoreToken2;
-
-
-
     public boolean sceneNotSet = true;
     public static GUI gui;
 
@@ -121,7 +118,6 @@ public class GameSceneController {
             }
         }
         GUI.cmd.setCommonGoals();
-        GUI.cmd.setPersonalGoal();
     }
 
     public void updateScene(){
@@ -130,6 +126,8 @@ public class GameSceneController {
             sceneNotSet = false;
         }
         gui.updateGrid(GUI.controller.grid);
+        GUI.gameplayData.DrawPile = new StandardSprite().setDrawPile(firstDraw,secondDraw,thirdDraw);
+        GUI.gameplayData.drawCounter = 0;
         //score
     }
 
@@ -141,8 +139,7 @@ public class GameSceneController {
 
     public void privateChatEnter(MouseEvent mouseEvent) {
         chatInput.setPromptText("Insert receiver");
-        GUI.chatData.privateMessRec = true;
-        chatInput.setEditable(false);
+        GUI.chatData.privateMess = true;
     }
 
     public void inputKey(KeyEvent keyEvent) {
@@ -156,13 +153,14 @@ public class GameSceneController {
 
     public void privateReceiverClicked(MouseEvent mouseEvent) {
         if(GUI.chatData.privateMess){
-            String receiver = "";
-            receiver = ((TextField) mouseEvent.getSource()).getText();
-            if( !receiver.equals("") ){
+            String receiver = ((TextField) mouseEvent.getSource()).getText();
+            if( receiver != null ){
                 GUI.chatData.privateReceiver = receiver;
-                chatInput.setEditable(true);
             }
         }
     }
 
+    public void pclick(MouseEvent mouseEvent) {
+        GUI.cmd.setPersonalGoal();
+    }
 }

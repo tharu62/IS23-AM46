@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -18,18 +17,14 @@ import java.util.List;
 public class GUI extends Application{
     @FXML
     public Stage stage;
-    @FXML
-    public ImageView commonGoal1;
-    @FXML
-    public ImageView commonGoal2;
-    @FXML
-    public ImageView personalGoal;
     public static List<String> notificationBuffer = new ArrayList<>();
     public static LoginData loginData = new LoginData();
     public static ChatData chatData = new ChatData();
     public static GameplayData gameplayData = new GameplayData();
     public static LoginSceneController loginSceneController;
     public static GameSceneController gameSceneController;
+    public static GuiLoginHandler guiLoginHandler = new GuiLoginHandler();
+    public static boolean loginHandlerNotActive = true;
 
     public static CONTROLLER controller;
     public static CommandsExecutor cmd;
@@ -50,6 +45,7 @@ public class GUI extends Application{
         stage.setScene(scene);
         stage.show();
         loginSceneController = fxmlLoader.getController();
+        loginData.loginSceneOpen = true;
         LoginSceneController.gui = this;
     }
 
@@ -70,6 +66,7 @@ public class GUI extends Application{
     }
 
     synchronized public void scrollChat(MESSAGE message, boolean Private){
+        //TODO
         if(gameSceneController != null){
             cmd.scrollChat(message, Private);
         }else{
@@ -77,28 +74,41 @@ public class GUI extends Application{
         }
     }
 
-    public void setNotification(String text){
-        if(gameplayData.gameSceneOpen){
-            gameSceneController.notification.setText(text);
-            if(text.equals("                                 IT IS YOUR TURN                                          ")){
+    public void setNotification(String message){
+        if(gameplayData.gameSceneOpen) {
+            gameSceneController.notification.setText(message);
+            if (message.equals("                                 IT IS YOUR TURN                                          ")) {
                 gameSceneController.updateScene();
             }
-            if(text.equals("                                IT IS NOT YOUR TURN                                       ")){
+            if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
                 gameSceneController.updateScene();
             }
-            if(text.equals("                                        LAST ROUND                                        ")){
+            if (message.equals("                                        LAST ROUND                                        ")) {
                 gameSceneController.scoreToken0.setImage(null);
             }
+        }else{
+            notificationBuffer.add(message);
+            if(loginHandlerNotActive){
+                loginHandlerNotActive = false;
+                GuiLoginHandler.gui = this;
+                guiLoginHandler.start();
+            }
         }
+    }
+
+    public void setLoginNotification(String message){
         if(loginData.loginSceneOpen){
-            if(text.equals("REPLY_NOT_ACCEPTED")){
+            if(message.equals("REPLY_NOT_ACCEPTED")){
                 loginData.usernameNotSet = true;
                 loginData.lobbySizeNotSet = true;
             }
-            loginSceneController.notification.setText(text);
+            loginSceneController.notification.setText(message);
         }else{
-            if(!gameplayData.gameSceneOpen){
-                notificationBuffer.add(text);
+            notificationBuffer.add(message);
+            if(loginHandlerNotActive){
+                loginHandlerNotActive = false;
+                GuiLoginHandler.gui = this;
+                guiLoginHandler.start();
             }
         }
     }

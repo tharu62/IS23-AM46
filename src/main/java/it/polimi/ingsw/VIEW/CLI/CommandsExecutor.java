@@ -317,7 +317,6 @@ public class CommandsExecutor implements CLI_commands {
     synchronized public int replyPersonal() {
         while (true) {
             if (controller.getReplyPersonal()) {
-                //System.out.println("CHECK");
                 return controller.PersonalGoalCardID;
             }
         }

@@ -62,7 +62,6 @@ public class CommandsExecutor implements GUI_commands {
 
     @Override
     public void updateBookshelf() {
-        StandardSprite standardSprite = new StandardSprite();
         int col = GUI.gameplayData.selectedCol;
         for(int i=5; i >= 0; i--){
             for(int j=4; j >= 0; j--){
@@ -86,7 +85,6 @@ public class CommandsExecutor implements GUI_commands {
                 }
             }
         }
-        GUI.gameplayData.DrawPile = standardSprite.setDrawPile(GUI.gameSceneController.firstDraw, GUI.gameSceneController.secondDraw, GUI.gameSceneController.thirdDraw);
         try {
             com.endTurn(controller.username);
         } catch (RemoteException e) {
@@ -130,7 +128,7 @@ public class CommandsExecutor implements GUI_commands {
 
         if(!GUI.chatData.privateMess){
             try {
-                com.sendChat(GUI.chatData.stringBuilder.toString(), "everyone", GUI.controller.username);
+                com.sendChat(GUI.controller.username, GUI.chatData.stringBuilder.toString(), "everyone");
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -156,6 +154,7 @@ public class CommandsExecutor implements GUI_commands {
                 }else{
                     MESSAGE m = new MESSAGE();
                     m.text = GUI.chatData.stringBuilder.toString();
+                    m.header[0] = controller.username;
                     scrollChat(m,false);
                 }
                 GUI.gameSceneController.chatInput.clear();
@@ -165,9 +164,10 @@ public class CommandsExecutor implements GUI_commands {
         if(GUI.chatData.privateMess){
             MESSAGE m = new MESSAGE();
             m.text = GUI.chatData.privateStringBuilder.toString();
+            m.header[0] = controller.username;
             m.header[1] = GUI.chatData.privateReceiver;
             try {
-                com.sendChat(GUI.chatData.privateStringBuilder.toString(), GUI.chatData.privateReceiver, GUI.controller.username);
+                com.sendChat(GUI.controller.username, GUI.chatData.privateStringBuilder.toString(), GUI.chatData.privateReceiver);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -181,6 +181,7 @@ public class CommandsExecutor implements GUI_commands {
                     //
                     MESSAGE n = new MESSAGE();
                     n.text = String.valueOf(temp);
+                    n.header[0] = controller.username;
                     n.header[1] = m.header[1];
                     //
                     scrollChat(n,true);
@@ -294,7 +295,7 @@ public class CommandsExecutor implements GUI_commands {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        if(controller.getReplyPersonal()){
+        if(replyPersonal()){
             SearchGoalCards searchGoalCards = new SearchGoalCards();
             GUI.gameSceneController.personalGoal.setImage(searchGoalCards.search(CardType.PERSONAL, GUI.controller.PersonalGoalCardID));
         }
@@ -348,4 +349,13 @@ public class CommandsExecutor implements GUI_commands {
             }
         }
     }
+
+    synchronized public boolean replyPersonal(){
+        while(true){
+            if(controller.getReplyPersonal()){
+                return true;
+            }
+        }
+    }
 }
+

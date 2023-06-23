@@ -98,7 +98,6 @@ public class CONTROLLER{
     synchronized public boolean getReplyBookshelf(){
         return this.bookshelf_received;
     }
-    synchronized public boolean getGameDataReceived() { return this.gameDataReceived; }
 
     /******************************************************************************************************************/
 

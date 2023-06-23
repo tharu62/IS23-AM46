@@ -23,7 +23,16 @@ public class guiHandler implements GameInterface {
 
     @Override
     public void notifyInterface(String message) {
-        gui.setNotification(message);
+        /**
+        if(GUI.gameplayData.gameSceneOpen){
+            gui.setNotification(message);
+        }else{
+            gui.setLoginNotification(message);
+        }
+         */
+
+        gui.setLoginNotification(message);
+
     }
 
     @Override

@@ -60,6 +60,6 @@ public class SearchGoalCards {
                     return new Image("Personal_Goals12.png");
             }
         }
-        return new Image("");
+        return new Image("back.jpg");
     }
 }
