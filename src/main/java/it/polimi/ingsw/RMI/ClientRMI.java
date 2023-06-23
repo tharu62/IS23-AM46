@@ -61,18 +61,18 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         if(message.equals("FIRST_TO_CONNECT")){
             controller.notConnected = false;
             controller.notifyInterface("FIRST_TO_CONNECT");
-            controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
+            controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize(), this);
             while(!controller.LoginOK){
                 controller.notifyInterface(" Username or lobby size not correct. Retry. ");
-                controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize());
+                controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize(), this);
             }
         }
         if(message.equals("CONNECTED")){
             controller.notConnected = false;
             controller.notifyInterface("CONNECTED");
-            controller.LoginOK = gs.login(controller.getUsername());
+            controller.LoginOK = gs.login(controller.getUsername(), this);
             while(!controller.LoginOK) {
-                controller.LoginOK = gs.login(controller.getUsername());
+                controller.LoginOK = gs.login(controller.getUsername(), this);
             }
         }
         if(message.equals("USER_DISCONNECTED")){

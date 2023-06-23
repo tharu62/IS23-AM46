@@ -9,9 +9,9 @@ import java.rmi.RemoteException;
 public interface GameServer extends Remote {
     void connect(GameClient cc) throws RemoteException, InterruptedException;
 
-    boolean login(String username) throws RemoteException;
+    boolean login(String username, GameClient client) throws RemoteException;
 
-    boolean loginFirst(String username, int LobbySize) throws RemoteException;
+    boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException;
 
     boolean loginReconnect(String username) throws RemoteException;
     int sendPersonalGoal(String username) throws RemoteException;

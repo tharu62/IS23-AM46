@@ -9,12 +9,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
     public List<GameClient> clientsRMI = new ArrayList<>();
+    public Map<GameClient, String> clientRmiUsername = new HashMap<>();
     final int PORT;
 
     public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
@@ -52,12 +55,14 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
-    public boolean login(String username) throws RemoteException {
+    public boolean login(String username, GameClient client) throws RemoteException {
+        clientRmiUsername.put(client, username);
         return controller.setLogin(username);
     }
 
     @Override
-    public boolean loginFirst(String username, int LobbySize) throws RemoteException {
+    public boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException {
+        clientRmiUsername.put(client, username);
         return controller.setFirstLogin(username,LobbySize);
     }
 

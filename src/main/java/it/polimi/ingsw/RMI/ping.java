@@ -3,16 +3,16 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ping extends Thread{
     CONTROLLER controller;
-    public List<GameClient> clientsRMI = new ArrayList<>();
+    public Map<GameClient, String> clientsRMIUsername;
 
-    public ping(CONTROLLER controller, List<GameClient> clientsRMI) {
+    public ping(CONTROLLER controller, Map<GameClient, String> clientsRMIUsername) {
         this.controller = controller;
-        this.clientsRMI = clientsRMI;
+        this.clientsRMIUsername = clientsRMIUsername;
     }
 
     public void run(){
@@ -24,12 +24,12 @@ public class ping extends Thread{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            for (GameClient gc : clientsRMI) {
+            for (GameClient gc : clientsRMIUsername.keySet()) {
                 try {
                     gc.ping();
                 } catch (RemoteException e) {
                     try {
-                        controller.disconnected("someone");
+                        controller.disconnected(clientsRMIUsername.get(gc));
                     } catch (RemoteException ex) {
                         //throw new RuntimeException(ex);
                     }
