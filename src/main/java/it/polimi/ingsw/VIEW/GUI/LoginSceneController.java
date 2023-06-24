@@ -23,20 +23,6 @@ public class LoginSceneController {
 
     public static GUI gui;
 
-    public void setLoginScene(MouseEvent mouseEvent) {
-        if(!GUI.loginData.loginSceneOpen) {
-            GUI.loginData.loginSceneOpen = true;
-            while (GUI.notificationBuffer.size() > 0) {
-                InputStatus.setText("Insert username");
-                if(GUI.notificationBuffer.get(0).equals("FIRST_TO_CONNECT")){
-                    GUI.loginData.firstToConnect = true;
-                }
-                notification.setText(GUI.notificationBuffer.get(0));
-                GUI.notificationBuffer.remove(0);
-            }
-        }
-    }
-
     public void sendLogin(MouseEvent mouseEvent) throws IOException {
         if(GUI.loginData.usernameNotSet){
             GUI.loginData.username = GUI.loginData.stringBuilder.toString();
@@ -73,6 +59,7 @@ public class LoginSceneController {
     public void Login(MouseEvent mouseEvent) throws IOException {
         if(GUI.controller.getLoginOK()){
             gui.loadGameScene(mouseEvent);
+            GUI.gameplayData.gameSceneOpen = true;
         }
     }
 

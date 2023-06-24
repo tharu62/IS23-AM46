@@ -24,7 +24,10 @@ public class GUI extends Application{
     public static LoginSceneController loginSceneController;
     public static GameSceneController gameSceneController;
     public static GuiLoginHandler guiLoginHandler = new GuiLoginHandler();
+    public static GuiGameHandler guiGameHandler = new GuiGameHandler();
     public static boolean loginHandlerNotActive = true;
+    public static boolean gameHandlerNotActive = true;
+    public static boolean appWindowOpen = true;
 
     public static CONTROLLER controller;
     public static CommandsExecutor cmd;
@@ -45,6 +48,7 @@ public class GUI extends Application{
         stage.setScene(scene);
         stage.show();
         loginSceneController = fxmlLoader.getController();
+        appWindowOpen = false;
         loginData.loginSceneOpen = true;
         LoginSceneController.gui = this;
     }
@@ -55,8 +59,6 @@ public class GUI extends Application{
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
-        loginData.loginSceneOpen = false;
-        gameplayData.gameSceneOpen = true;
         gameSceneController = fxmlLoader.getController();
         GameSceneController.gui = this;
     }
@@ -75,23 +77,34 @@ public class GUI extends Application{
     }
 
     public void setNotification(String message){
-        if(gameplayData.gameSceneOpen) {
-            gameSceneController.notification.setText(message);
-            if (message.equals("                                 IT IS YOUR TURN                                          ")) {
-                gameSceneController.updateScene();
-            }
-            if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
-                gameSceneController.updateScene();
-            }
-            if (message.equals("                                        LAST ROUND                                        ")) {
-                gameSceneController.scoreToken0.setImage(null);
-            }
-        }else{
+        gameSceneController.notification.setText(message);
+        if (message.equals("                                 IT IS YOUR TURN                                          ")) {
+            gameSceneController.updateScene();
+        }
+        if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
+            gameSceneController.updateScene();
+        }
+        if (message.equals("                                        LAST ROUND                                        ")) {
+            gameSceneController.scoreToken0.setImage(null);
+        }
+    }
+
+    public void setGameNotification(String message){
+        loginSceneController.notification.setText(message);
+        if (message.equals("                                 IT IS YOUR TURN                                          ")) {
             notificationBuffer.add(message);
-            if(loginHandlerNotActive){
-                loginHandlerNotActive = false;
-                GuiLoginHandler.gui = this;
-                guiLoginHandler.start();
+            if(gameHandlerNotActive){
+                gameHandlerNotActive = false;
+                GuiGameHandler.gui = this;
+                guiGameHandler.start();
+            }
+        }
+        if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
+            notificationBuffer.add(message);
+            if(gameHandlerNotActive){
+                gameHandlerNotActive = false;
+                GuiGameHandler.gui = this;
+                guiGameHandler.start();
             }
         }
     }

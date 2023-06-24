@@ -3,7 +3,6 @@ package it.polimi.ingsw.RMI;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.MESSAGE;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -23,6 +22,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
         this.controller = controller;
         this.controller.clientsRMI = this.clientsRMI;
+        this.controller.clientRmiUsername = this.clientRmiUsername;
         this.PORT = port;
     }
 
@@ -68,9 +68,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     @Override
     public boolean loginReconnect(String username) throws RemoteException {
-        //TODO
-        // return controller.setLoginReconnection(username);
-        return false;
+        return controller.setLoginReconnection(username);
     }
 
     @Override

@@ -17,19 +17,25 @@ public class TurnUpdater {
     public void RMI(List<GameClient> clientsRMI, List<String> players, CONTROLLER controller, GAME game) throws RemoteException {
         for (GameClient gc : clientsRMI) {
             try {
+
                 gc.receiveBoard(controller.getBoard());
+
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
         for(GameClient gc : clientsRMI){
+
             gc.receivePlayers(players);
+
         }
 
         for (GameClient gc : clientsRMI) {
             try {
+
                 gc.receiveCommonGoals(controller.getCommonGoalCard(0).getCardLogic().getId(), controller.getCommonGoalCard(0).getToken_value());
                 gc.receiveCommonGoals(controller.getCommonGoalCard(1).getCardLogic().getId(), controller.getCommonGoalCard(1).getToken_value());
+
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -37,7 +43,9 @@ public class TurnUpdater {
 
         for (GameClient gc : clientsRMI) {
             try {
+
                 gc.receivePlayerToPlay(game.playerToPlay);
+
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -49,7 +57,9 @@ public class TurnUpdater {
         if(game.master.round.last){
             for (GameClient gc : clientsRMI) {
                 try {
+
                     gc.receiveLastRound();
+
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -58,7 +68,9 @@ public class TurnUpdater {
 
         for (GameClient gc : clientsRMI) {
             try {
+
                 gc.receiveBoard(controller.getBoard());
+
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -66,8 +78,10 @@ public class TurnUpdater {
 
         for (GameClient gc : clientsRMI) {
             try {
+
                 gc.receiveCommonGoals(controller.getCommonGoalCard(0).getCardLogic().getId(), controller.getCommonGoalCard(0).getToken_value());
                 gc.receiveCommonGoals(controller.getCommonGoalCard(1).getCardLogic().getId(), controller.getCommonGoalCard(1).getToken_value());
+
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -75,13 +89,16 @@ public class TurnUpdater {
 
         for (GameClient gc : clientsRMI) {
             try {
+
                 gc.receivePlayerToPlay(game.playerToPlay);
+
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
     }
     public void TCP(List<ClientHandler> clientsTCP, List<String> players, CONTROLLER controller, GAME game){
+
         Command temp = new Command();
         temp.cmd = CMD.BOARD;
         temp.broadcast = new BROADCAST();

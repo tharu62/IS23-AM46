@@ -2,6 +2,7 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.PLAYER;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
@@ -76,7 +77,7 @@ public class ClientHandler extends Thread {
 
         } catch (IOException | NoSuchElementException e) {
             try {
-                controller.disconnected(username);
+                controller.disconnected(this.username);
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
@@ -87,6 +88,7 @@ public class ClientHandler extends Thread {
         String temp = g.toJson(message);
         for (ClientHandler client : clients) {
             client.out.println(temp);
+
         }
     }
 
@@ -118,15 +120,14 @@ public class ClientHandler extends Thread {
                 active= true;
                 break;
 
-            //TODO
-            // case RECONNECTED_REPLY:
-            //      reply = new Command();
-            //      if(controller.setLoginReconnection(ObjCommand.username){
-            //          reply.cmd = CMD.REPLY_ACCEPTED;
-            //      }else{
-            //          reply.cmd = CMD.REPLY_NOT_ACCEPTED;
-            //      }
-            //      break;
+            case RECONNECTED_REPLY:
+                reply = new Command();
+                if(controller.setLoginReconnection(ObjCommand.username)){
+                    reply.cmd = CMD.REPLY_ACCEPTED;
+                }else{
+                    reply.cmd = CMD.REPLY_NOT_ACCEPTED;
+                }
+                break;
 
             case SEND_PERSONAL_GOAL_CARD:
                 reply = new Command();

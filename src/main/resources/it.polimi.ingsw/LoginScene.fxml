@@ -34,7 +34,6 @@
             <TextField fx:id="InputStatus" editable="false" layoutX="31.0" layoutY="49.0" prefHeight="38.0" prefWidth="217.0" />
          </children>
       </AnchorPane>
-      <Button fx:id="loginButton" layoutX="419.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#setLoginScene" text="Check Login Status" />
       <TextField fx:id="notification" editable="false" layoutX="118.0" layoutY="262.0" prefHeight="38.0" prefWidth="366.0" />
       <Button layoutX="473.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#sendLogin" text="send" />
       <Button layoutX="263.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#Login" text="LOGIN" />

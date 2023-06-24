@@ -26,7 +26,9 @@ public class ping extends Thread{
             }
             for (GameClient gc : clientsRMIUsername.keySet()) {
                 try {
-                    gc.ping();
+                    if(!playerHasDisconnected(gc)){
+                        gc.ping();
+                    }
                 } catch (RemoteException e) {
                     try {
                         controller.disconnected(clientsRMIUsername.get(gc));
@@ -36,8 +38,18 @@ public class ping extends Thread{
                 }
 
             }
-
         }
+    }
+
+    private boolean playerHasDisconnected(GameClient gc){
+        for(int i = 0; i < controller.playerList.size(); i++){
+            if(controller.playerList.get(i).disconnected){
+                if(controller.playerList.get(i).username.equals(controller.clientRmiUsername.get(gc))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 

@@ -8,7 +8,9 @@ import it.polimi.ingsw.TCP.ClientHandler;
 import it.polimi.ingsw.TCP.Command;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CONTROLLER {
     public GAME game;
@@ -17,6 +19,7 @@ public class CONTROLLER {
     public boolean GameIsOver = false;
     public List<ClientHandler> clientsTCP;
     public  List<GameClient> clientsRMI;
+    public Map<GameClient, String> clientRmiUsername = new HashMap<>();
     public int players = 0;
     public List<PLAYER> playerList = new ArrayList<>();
 
@@ -54,6 +57,10 @@ public class CONTROLLER {
             game.LobbySize = LobbySize;
             game.addPlayer(username);
             lobbyIsReady = true;
+            PLAYER player = new PLAYER();
+            player.username = username;
+            player.disconnected = false;
+            playerList.add(player);
             return true;
         }
         return false;
@@ -62,14 +69,19 @@ public class CONTROLLER {
     public boolean setLogin(String username) throws RemoteException {
         if(!getLobbyIsFull() && newUsername(username)) {
             if ( game.CurrentLobbySize == (game.LobbySize -1)) {
+                LobbyIsFull = true;
                 game.addPlayer(username);
+                PLAYER player = new PLAYER();
+                player.username = username;
+                player.disconnected = false;
+                playerList.add(player);
+
                 game.setBoard();
                 game.DrawCommonGoalCards();
                 game.DrawPersonalGoalCards();
                 game.ChooseFirstPlayerSeat();
                 setTurn();
                 TurnUpdater updater = new TurnUpdater();
-                LobbyIsFull = true;
                 if(this.clientsRMI.size() > 0) {
                    updater.RMI(clientsRMI, getPlayerNames(), this, this.game);
                 }
@@ -78,7 +90,12 @@ public class CONTROLLER {
                 }
                 return true;
             } else {
+
                 game.addPlayer(username);
+                PLAYER player = new PLAYER();
+                player.username = username;
+                player.disconnected = false;
+                playerList.add(player);
                 return true;
             }
         }
@@ -86,19 +103,15 @@ public class CONTROLLER {
     }
 
     synchronized public boolean setLoginReconnection(String username){
-        //TODO
-        // if(newUsername(username)){
-        //      return false;
-        // }else{
-        //      Int index = IndexSearch(username, playerList);
-        //      if(index != -1){
-        //          if(playerList.get(index).disconnected){
-        //              playerList.get(index).disconnected = false;
-        //              return true;
-        //          }
-        //      }
-        //      return false;
-        // }
+        if (!newUsername(username)) {
+            int index = IndexSearch(username, playerList);
+            if (index != -1) {
+                if (playerList.get(index).disconnected) {
+                    playerList.get(index).disconnected = false;
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -139,16 +152,17 @@ public class CONTROLLER {
 
     public boolean setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
-            TurnUpdater updater = new TurnUpdater();
+            while(turnOfDisconnectedPlayer(this.game.playerToPlay)){
+                game.masterEndTurn(this.game.playerToPlay);
+            }
 
-            //DA MODIFICARE PER RESILIENZA ALLE DISCONNESSIONI
+            TurnUpdater updater = new TurnUpdater();
             if(this.clientsRMI.size() > 0) {
                 updater.RMI(clientsRMI, this, this.game);
             }
             if(clientsTCP.size() > 0) {
                 updater.TCP(clientsTCP, this, this.game);
             }
-
 
         }
         return true;
@@ -171,22 +185,34 @@ public class CONTROLLER {
         }
     }
 
-    public void disconnected(String username) throws RemoteException {
+    synchronized public void disconnected(String username) throws RemoteException {
+        removeDisconnectedPlayerRMI(username);
+        removeDisconnectedPlayerTCP(username);
+
+        for(int i = 0; i < playerList.size(); i++){
+            if (playerList.get(i).username.equals(username)) {
+                playerList.get(i).disconnected = true;
+                break;
+            }
+        }
+
         if(clientsTCP.size() > 0) {
             Command c = new Command();
             c.cmd = CMD.USER_DISCONNECTED;
             c.username = username;
-            if(game.space.player.get(0).getUsername().equals(username)){
-                this.clientsTCP.get(1).broadcast(c);
-            }
             this.clientsTCP.get(0).broadcast(c);
         }
+
         if(this.clientsRMI.size() > 0) {
             for (GameClient gc : clientsRMI) {
-                gc.receiveLOG(username);
+                gc.receiveDisconnectedPlayer(username);
             }
         }
-        System.exit(0);
+
+        if(this.game.playerToPlay.equals(username)){
+            //TODO handling di eventuali pescate non inserite;
+            setEndTurn(username);
+        }
     }
 
     /************************************************ PRIVATE *********************************************************/
@@ -215,6 +241,30 @@ public class CONTROLLER {
             }
         }
         return -1;
+    }
+
+    synchronized private void removeDisconnectedPlayerTCP(String username){
+        for(int i = 0; i < clientsTCP.size(); i++){
+            if(clientsTCP.get(i).username.equals(username)){
+                clientsTCP.remove(i);
+                break;
+            }
+        }
+    }
+
+    synchronized private void removeDisconnectedPlayerRMI(String username){
+        clientRmiUsername.remove(username);
+    }
+
+    synchronized private boolean turnOfDisconnectedPlayer(String username){
+        for (PLAYER player : playerList) {
+            if (player.disconnected) {
+                if(player.username.equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

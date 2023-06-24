@@ -103,13 +103,11 @@ public class ClientTCP extends Thread {
                 break;
 
             case LOBBY_IS_FULL:
-                controller.notConnected = false;
                 if(disconnected){
-                    //TODO
-                    // reply.cmd = CMD.RECONNECTED_REPLY;
-                    // reply.username = controller.getUsername();
-                    // reply_string = g.toJson(reply);
-                    // out.println(reply_string);
+                    reply.cmd = CMD.RECONNECTED_REPLY;
+                    reply.username = controller.getUsername();
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
                 }else{
                     controller.notifyInterface(ObjCommand.cmd.toString());
                     System.exit(0);
@@ -185,7 +183,9 @@ public class ClientTCP extends Thread {
                 break;
 
             case USER_DISCONNECTED:
-                controller.notifyInterface(" The player '" + ObjCommand.username + "' has disconnected, the match is over by default.");
+                controller.notifyInterface(" The player '" + ObjCommand.username + "' has disconnected ");
+
+                /*
                 controller.notifyInterface(" AUTO-SHUTDOWN ...");
                 synchronized (this){
                     try {
@@ -195,6 +195,9 @@ public class ClientTCP extends Thread {
                     }
                 }
                 System.exit(0);
+
+                 */
+
         }
     }
 }

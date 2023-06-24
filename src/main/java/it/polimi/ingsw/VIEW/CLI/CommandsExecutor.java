@@ -360,6 +360,7 @@ public class CommandsExecutor implements CLI_commands {
             }
         }
     }
+
     private boolean equalsPlayerNames( String receiver, List<String> names){
         for (String name : names) {
             if (receiver.equalsIgnoreCase(name)) {
