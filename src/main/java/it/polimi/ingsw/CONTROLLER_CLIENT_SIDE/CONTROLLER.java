@@ -95,6 +95,9 @@ public class CONTROLLER{
     synchronized public boolean getReplyPersonal(){
         return this.reply_Personal;
     }
+    synchronized public boolean getGameDataReceived() {
+        return this.gameDataReceived;
+    }
     synchronized public boolean getReplyBookshelf(){
         return this.bookshelf_received;
     }
@@ -106,15 +109,15 @@ public class CONTROLLER{
     }
 
     public void setPlayerToPlay( String ptp ) {
-        this.gameDataReceived = true;
         if( this.username.toLowerCase().equals(ptp) ){
             Interface.notifyInterface("                                 IT IS YOUR TURN                                          ");
             this.myTurn = true;
         }
         else{
-            this.myTurn = false;
             Interface.notifyInterface("                                IT IS NOT YOUR TURN                                       ");
+            this.myTurn = false;
         }
+        this.gameDataReceived = true;
     }
 
     public void setBoard( item[][] grid ){
@@ -157,7 +160,7 @@ public class CONTROLLER{
         Interface.notifyInterface("                                        LAST ROUND                                        ");
     }
 
-    public void startUserInterface(String[] args) throws Exception {
+    public void startUserInterface(String[] args) {
         Interface.startInterface(args);
     }
 

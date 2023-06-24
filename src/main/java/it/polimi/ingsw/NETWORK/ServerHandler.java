@@ -24,7 +24,7 @@ public class ServerHandler{
         serverRMI = new ServerRMI(controller, Settings.PORT_RMI);
 
         SocketAccepter socketAccepter = new SocketAccepter(controller, Settings.PORT_TCP);
-        ping ping = new ping(controller, serverRMI.clientRmiUsername);
+        ping ping = new ping(controller, serverRMI.clientsRMI);
 
 
         serverRMI.start();                              // RMI CONNECTION //

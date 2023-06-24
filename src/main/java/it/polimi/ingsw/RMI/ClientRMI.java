@@ -10,7 +10,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-
 public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public static GameServer gs;
     public CONTROLLER controller;
@@ -33,7 +32,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void ping() throws RemoteException {
-
+        //DOES NOTHING
     }
 
     @Override
@@ -47,9 +46,9 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     public void receiveLOG(String message) throws RemoteException {
         if(message.equals("LOBBY_IS_FULL")){
             if(disconnected){
-                controller.LoginOK = gs.loginReconnect(controller.getUsername());
+                controller.LoginOK = gs.loginReconnect(controller.getUsername(), this);
                 while(!controller.LoginOK){
-                    controller.LoginOK = gs.loginReconnect(controller.getUsername());
+                    controller.LoginOK = gs.loginReconnect(controller.getUsername(), this);
                 }
             }else{
                 controller.notifyInterface("LOBBY_IS_FULL");

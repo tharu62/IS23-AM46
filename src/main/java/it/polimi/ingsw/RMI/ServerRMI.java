@@ -7,22 +7,18 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ServerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
-    public List<GameClient> clientsRMI = new ArrayList<>();
-    public Map<GameClient, String> clientRmiUsername = new HashMap<>();
+    public Map<GameClient, String> clientsRMI = new HashMap<>();
     final int PORT;
 
     public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
         this.controller = controller;
         this.controller.clientsRMI = this.clientsRMI;
-        this.controller.clientRmiUsername = this.clientRmiUsername;
         this.PORT = port;
     }
 
@@ -43,32 +39,36 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
         if(controller.LobbyIsFull){
             gc.receiveLOG("LOBBY_IS_FULL");
         }else {
-            this.clientsRMI.add(gc);
             if(controller.players >= 1){
                 gc.receiveLOG("CONNECTED");
             }
             if(controller.players == 0){
-                controller.players++;
                 gc.receiveLOG("FIRST_TO_CONNECT");
             }
+            this.clientsRMI.put(gc,null);
+            controller.players++;
         }
     }
 
     @Override
     public boolean login(String username, GameClient client) throws RemoteException {
-        clientRmiUsername.put(client, username);
+        clientsRMI.replace(client,username);
         return controller.setLogin(username);
     }
 
     @Override
     public boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException {
-        clientRmiUsername.put(client, username);
+        clientsRMI.replace(client,username);
         return controller.setFirstLogin(username,LobbySize);
     }
 
     @Override
-    public boolean loginReconnect(String username) throws RemoteException {
-        return controller.setLoginReconnection(username);
+    public boolean loginReconnect(String username, GameClient gc) throws RemoteException {
+        if(controller.setLoginReconnection(username)){
+            clientsRMI.put(gc, username);
+            return true;
+        }
+        return false;
     }
 
     @Override

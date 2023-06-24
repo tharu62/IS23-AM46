@@ -1,11 +1,14 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.GAME;
+import it.polimi.ingsw.RMI.GameClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +21,7 @@ class CONTROLLERTest {
         controller = new CONTROLLER();
         controller.setGame(new GAME());
         controller.clientsTCP = new ArrayList<>();
-        controller.clientsRMI = new ArrayList<>();
+        controller.clientsRMI = new HashMap<>();
     }
     @Test
     void setFirstLogin() {

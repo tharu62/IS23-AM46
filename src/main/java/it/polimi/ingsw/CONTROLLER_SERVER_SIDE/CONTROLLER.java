@@ -18,8 +18,7 @@ public class CONTROLLER {
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
     public List<ClientHandler> clientsTCP;
-    public  List<GameClient> clientsRMI;
-    public Map<GameClient, String> clientRmiUsername = new HashMap<>();
+    public Map<GameClient, String> clientsRMI = new HashMap<>();
     public int players = 0;
     public List<PLAYER> playerList = new ArrayList<>();
 
@@ -67,36 +66,38 @@ public class CONTROLLER {
     }
 
     public boolean setLogin(String username) throws RemoteException {
-        if(!getLobbyIsFull() && newUsername(username)) {
-            if ( game.CurrentLobbySize == (game.LobbySize -1)) {
-                LobbyIsFull = true;
-                game.addPlayer(username);
-                PLAYER player = new PLAYER();
-                player.username = username;
-                player.disconnected = false;
-                playerList.add(player);
+        if(lobbyIsReady){
+            if(!getLobbyIsFull() && newUsername(username)) {
+                if(game.CurrentLobbySize == (game.LobbySize -1)) {
+                    LobbyIsFull = true;
+                    game.addPlayer(username);
+                    PLAYER player = new PLAYER();
+                    player.username = username;
+                    player.disconnected = false;
+                    playerList.add(player);
 
-                game.setBoard();
-                game.DrawCommonGoalCards();
-                game.DrawPersonalGoalCards();
-                game.ChooseFirstPlayerSeat();
-                setTurn();
-                TurnUpdater updater = new TurnUpdater();
-                if(this.clientsRMI.size() > 0) {
-                   updater.RMI(clientsRMI, getPlayerNames(), this, this.game);
-                }
-                if(clientsTCP.size() > 0) {
-                   updater.TCP(clientsTCP, getPlayerNames(), this, this.game);
-                }
-                return true;
-            } else {
+                    game.setBoard();
+                    game.DrawCommonGoalCards();
+                    game.DrawPersonalGoalCards();
+                    game.ChooseFirstPlayerSeat();
+                    setTurn();
+                    TurnUpdater updater = new TurnUpdater();
+                    if(this.clientsRMI.size() > 0) {
+                        updater.RMI(clientsRMI, getPlayerNames(), this, this.game);
+                    }
+                    if(clientsTCP.size() > 0) {
+                        updater.TCP(clientsTCP, getPlayerNames(), this, this.game);
+                    }
+                    return true;
+                } else {
 
-                game.addPlayer(username);
-                PLAYER player = new PLAYER();
-                player.username = username;
-                player.disconnected = false;
-                playerList.add(player);
-                return true;
+                    game.addPlayer(username);
+                    PLAYER player = new PLAYER();
+                    player.username = username;
+                    player.disconnected = false;
+                    playerList.add(player);
+                    return true;
+                }
             }
         }
         return false;
@@ -119,7 +120,7 @@ public class CONTROLLER {
         game.masterStartTurn();
         if(game.IsOver){
             if(this.clientsRMI.size() > 0) {
-                for (GameClient gc : clientsRMI) {
+                for (GameClient gc : clientsRMI.keySet()) {
                     try {
                         gc.receiveWinner(game.space.winner);
                     } catch (RemoteException e) {
@@ -179,7 +180,7 @@ public class CONTROLLER {
             this.clientsTCP.get(0).broadcast(c);
         }
         if(this.clientsRMI.size() > 0) {
-            for (GameClient gc : clientsRMI) {
+            for (GameClient gc : clientsRMI.keySet()) {
                 gc.receiveMessage(message);
             }
         }
@@ -204,14 +205,41 @@ public class CONTROLLER {
         }
 
         if(this.clientsRMI.size() > 0) {
-            for (GameClient gc : clientsRMI) {
+            for (GameClient gc : clientsRMI.keySet()) {
                 gc.receiveDisconnectedPlayer(username);
             }
         }
 
         if(this.game.playerToPlay.equals(username)){
-            //TODO handling di eventuali pescate non inserite;
-            setEndTurn(username);
+            game.forcedEndTurn(username);
+            while(turnOfDisconnectedPlayer(this.game.playerToPlay)){
+                game.masterEndTurn(this.game.playerToPlay);
+            }
+
+            TurnUpdater updater = new TurnUpdater();
+            if(this.clientsRMI.size() > 0) {
+                updater.RMI(clientsRMI, this, this.game);
+            }
+            if(clientsTCP.size() > 0) {
+                updater.TCP(clientsTCP, this, this.game);
+            }
+        }
+    }
+
+    public void sendReconnectionData(String username){
+        TurnUpdater turnUpdater = new TurnUpdater();
+
+        for(GameClient gameClient : clientsRMI.keySet()){
+            if(clientsRMI.get(gameClient).equals(username)){
+                turnUpdater.reconnectRMI(gameClient, getPlayerNames(),this, game,username);
+                break;
+            }
+        }
+
+        for( ClientHandler clientHandler : clientsTCP){
+            if(clientHandler.username.equals(username)){
+                turnUpdater.reconnectTCP(clientHandler, getPlayerNames(),this, game);
+            }
         }
     }
 
@@ -253,7 +281,12 @@ public class CONTROLLER {
     }
 
     synchronized private void removeDisconnectedPlayerRMI(String username){
-        clientRmiUsername.remove(username);
+        for(GameClient gameClient : clientsRMI.keySet()){
+            if(clientsRMI.get(gameClient).equals(username)){
+                clientsRMI.remove(gameClient);
+                break;
+            }
+        }
     }
 
     synchronized private boolean turnOfDisconnectedPlayer(String username){

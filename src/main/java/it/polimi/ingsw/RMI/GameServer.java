@@ -7,13 +7,13 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface GameServer extends Remote {
-    void connect(GameClient cc) throws RemoteException, InterruptedException;
+    void connect(GameClient gc) throws RemoteException, InterruptedException;
 
     boolean login(String username, GameClient client) throws RemoteException;
 
     boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException;
 
-    boolean loginReconnect(String username) throws RemoteException;
+    boolean loginReconnect(String username, GameClient gc) throws RemoteException;
     int sendPersonalGoal(String username) throws RemoteException;
 
     boolean askDraw( String username, int a, int b) throws RemoteException;

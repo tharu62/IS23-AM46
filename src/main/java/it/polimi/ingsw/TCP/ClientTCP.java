@@ -44,7 +44,6 @@ public class ClientTCP extends Thread {
             System.exit(1);
         } catch (IOException e) {
             controller.notifyInterface("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
-            System.exit(1);
         }
     }
 
@@ -78,8 +77,15 @@ public class ClientTCP extends Thread {
                 break;
 
             case REPLY_ACCEPTED:
-                controller.LoginOK = true;
-                controller.notifyInterface("LOGIN OK");
+                if(disconnected){
+                    reply.cmd = CMD.SEND_RECONNECTION_DATA;
+                    reply.username = controller.getUsername();
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }else{
+                    controller.LoginOK = true;
+                    controller.notifyInterface("LOGIN OK");
+                }
                 break;
 
             case REPLY_NOT_ACCEPTED:

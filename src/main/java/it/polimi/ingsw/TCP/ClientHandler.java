@@ -2,7 +2,6 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.PLAYER;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
@@ -30,7 +29,6 @@ public class ClientHandler extends Thread {
         this.socket = socket;
         this.controller = controller;
         this.clients = clients;
-        clients.add(this);
     }
 
     @Override
@@ -41,6 +39,7 @@ public class ClientHandler extends Thread {
             out = new PrintWriter(socket.getOutputStream(), true);
 
             if(controller.getCurrentPlayers() == 0){
+                clients.add(this);
                 controller.players++;
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT;
@@ -48,10 +47,19 @@ public class ClientHandler extends Thread {
                 out.println(reply_string);
             }
             else{
-                reply = new Command();
-                reply.cmd = CMD.CONNECTED;
-                reply_string = g.toJson(reply);
-                out.println(reply_string);
+                if(!controller.getLobbyIsFull()){
+                    clients.add(this);
+                    controller.players++;
+                    reply = new Command();
+                    reply.cmd = CMD.CONNECTED;
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }else{
+                    reply = new Command();
+                    reply.cmd = CMD.LOBBY_IS_FULL;
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }
             }
 
             String StrCommand;
@@ -77,7 +85,12 @@ public class ClientHandler extends Thread {
 
         } catch (IOException | NoSuchElementException e) {
             try {
-                controller.disconnected(this.username);
+                if(this.username == null){
+                    controller.players--;
+                    clients.remove(this);
+                }else{
+                    controller.disconnected(this.username);
+                }
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
@@ -92,7 +105,6 @@ public class ClientHandler extends Thread {
         }
     }
 
-    //TODO WITH INTERFACE IMPLEMENTATION
     synchronized public void CommandSwitcher(Command ObjCommand) throws RemoteException {
         switch (ObjCommand.cmd){
 
@@ -123,7 +135,9 @@ public class ClientHandler extends Thread {
             case RECONNECTED_REPLY:
                 reply = new Command();
                 if(controller.setLoginReconnection(ObjCommand.username)){
+                    clients.add(this);
                     reply.cmd = CMD.REPLY_ACCEPTED;
+
                 }else{
                     reply.cmd = CMD.REPLY_NOT_ACCEPTED;
                 }
@@ -192,6 +206,10 @@ public class ClientHandler extends Thread {
             case FROM_SERVER_CHAT:
                 reply_string = g.toJson(ObjCommand);
                 out.println(reply_string);
+                break;
+
+            case SEND_RECONNECTION_DATA:
+                controller.sendReconnectionData(ObjCommand.username);
                 break;
         }
     }

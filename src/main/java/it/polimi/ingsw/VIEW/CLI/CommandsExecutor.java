@@ -355,7 +355,8 @@ public class CommandsExecutor implements CLI_commands {
     @Override
     public void replyEndTurn() {
         while(true){
-            if(!controller.getMyTurn()){
+            if(controller.getGameDataReceived()){
+                controller.gameDataReceived = false;
                 return;
             }
         }

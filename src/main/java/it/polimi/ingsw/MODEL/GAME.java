@@ -151,7 +151,7 @@ public class GAME {
      */
     public void forcedEndTurn( String username ){
         this.playerToPlay = master.ChooseNextPlayer();
-        space.resetDraw( search(username));
+        space.resetDraw(search(username));
         space.player.get(search(username)).bookshelf.itemToPut.clear();
     }
 

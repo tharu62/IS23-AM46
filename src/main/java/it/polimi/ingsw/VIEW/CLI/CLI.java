@@ -84,7 +84,7 @@ public class CLI extends Thread {
                                 cmd.printBookshelf(controller.bookshelf);
                             }
                             cmd.endTurn();
-                            //cmd.replyEndTurn();
+                            cmd.replyEndTurn();
                         }
                         else{
                             System.out.println(" PUT NOT VALID, RETRY. ");
