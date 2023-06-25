@@ -3,9 +3,10 @@ package it.polimi.ingsw.VIEW.GUI;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-public class StandardSprite {
+public class StandardSpriteDataStructure {
     Sprite[][] Board = new Sprite[9][9];
     Sprite[][] Bookshelf = new Sprite[6][5];
+
     public Sprite[][] setBoard(GridPane gridPane){
         int count = 0;
         for(int i=0; i<9; i++){
@@ -26,6 +27,12 @@ public class StandardSprite {
         drawpile[2] = new Sprite(c);
         return drawpile;
      }
+
+    public void setDrawPileOrder(String[] pile){
+        pile[0] = "a";
+        pile[1] = "b";
+        pile[2] = "c";
+    }
 
     public Sprite[][] setBookshelf(GridPane gridPane){
         int count = 0;

@@ -14,7 +14,8 @@ public interface GameClient extends Remote {
     void receiveDisconnectedPlayer(String username) throws RemoteException;
     void receivePlayers( List< String > players ) throws RemoteException;
     void receiveBoard( item[][] grid ) throws RemoteException;
-    void receiveCommonGoals( int cardID, int token ) throws RemoteException;
+    void receiveCommonGoals( List<Integer> cardID, List<Integer> token ) throws RemoteException;
+    void receiveScore(int score) throws RemoteException;
     void receivePlayerToPlay( String username ) throws RemoteException;
     void receiveLastRound() throws RemoteException;
     void receiveWinner( String winner ) throws RemoteException;

@@ -8,7 +8,6 @@ import it.polimi.ingsw.TCP.COMANDS.CHAT;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.TCP.Command;
-import it.polimi.ingsw.VIEW.CLI.CLI;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -17,15 +16,6 @@ public class TCP implements CommunicationProtocol {
     public ClientTCP clientTCP;
     public TCP(ClientTCP client) {
         this.clientTCP = client;
-    }
-
-    @Override
-    public int getPersonalGoal(int PersonalGoalCardID, String username) throws RemoteException {
-        Command send = new Command();
-        send.cmd = CMD.SEND_PERSONAL_GOAL_CARD;
-        send.username = username;
-        clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-        return 0;
     }
 
     @Override
@@ -43,7 +33,7 @@ public class TCP implements CommunicationProtocol {
     @Override
     public void put(String username, int col, int a , int b, int c , CONTROLLER controller) throws RemoteException {
         Command send = new Command();
-        send.cmd = CMD.ASK_PUT_ITEM;
+        send.cmd = CMD.ASK_PUT;
         send.username = username;
         send.gameplay = new GAMEPLAY();
         send.gameplay.pos = new ArrayList<>();
@@ -51,14 +41,6 @@ public class TCP implements CommunicationProtocol {
         send.gameplay.pos.add(a);
         send.gameplay.pos.add(b);
         send.gameplay.pos.add(c);
-        clientTCP.CommandSwitcher(send,clientTCP.out_ref);
-    }
-
-    @Override
-    public void bookshelf(CLI cli , String username) throws RemoteException {
-        Command send = new Command();
-        send.cmd = CMD.ASK_BOOKSHELF;
-        send.username = username;
         clientTCP.CommandSwitcher(send,clientTCP.out_ref);
     }
 

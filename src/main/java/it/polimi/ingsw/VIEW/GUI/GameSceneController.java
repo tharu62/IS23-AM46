@@ -58,23 +58,25 @@ public class GameSceneController {
     public ImageView scoreToken1;
     @FXML
     public ImageView scoreToken2;
-    public boolean sceneNotSet = true;
+    @FXML
+    public TextField score;
+
     public static GUI gui;
 
     /******************************************************************************************************************/
     public void itemClick(MouseEvent mouseEvent) {
         if(GUI.controller.getMyTurn()) {
-            GUI.cmd.selectItemToDraw(mouseEvent);
+            GUI.cmd.drawItem(mouseEvent);
         }
     }
 
     public void putClick(MouseEvent mouseEvent) {
         if(GUI.controller.getMyTurn()) {
-            GUI.gameplayData.drawInProgress = false;
             if(GUI.gameplayData.selectedCol == -1){
-                gui.setNotification(" SELECT A COLUMN FROM THE BOOKSHELF FIRST! ");
+                notification.setText(" SELECT A COLUMN FROM THE BOOKSHELF FIRST! ");
             }else{
-                GUI.cmd.putDrawInBookshelf();
+                GUI.gameplayData.drawInProgress = false;
+                GUI.cmd.putItem();
             }
         }
     }
@@ -86,15 +88,21 @@ public class GameSceneController {
     }
 
     public void drawPileClick(MouseEvent mouseEvent) {
-        GUI.gameplayData.selectedItem = new Sprite((ImageView) mouseEvent.getSource());
+        if(GUI.gameplayData.drawInProgress) {
+            GUI.gameplayData.selectedItem = new Sprite((ImageView) mouseEvent.getSource());
+        }
     }
 
     public void UpClicked(MouseEvent mouseEvent) {
-        GUI.cmd.drawUp();
+        if(GUI.gameplayData.drawInProgress) {
+            GUI.cmd.drawUp();
+        }
     }
 
     public void DownClicked(MouseEvent mouseEvent) {
-        GUI.cmd.drawDown();
+        if(GUI.gameplayData.drawInProgress) {
+            GUI.cmd.drawDown();
+        }
     }
 
     public void pickCol(MouseEvent mouseEvent){
@@ -104,31 +112,11 @@ public class GameSceneController {
     }
 
     public void setScene() {
-        GUI.gameplayData.DrawPile = new StandardSprite().setDrawPile(firstDraw,secondDraw,thirdDraw);
-        GUI.gameplayData.SpritesBoard = new StandardSprite().setBoard(gridPane);
-        GUI.gameplayData.SpriteBookshelf = new StandardSprite().setBookshelf(BookshelfGrid);
+        GUI.gameplayData.DrawPile = new StandardSpriteDataStructure().setDrawPile(firstDraw,secondDraw,thirdDraw);
+        new StandardSpriteDataStructure().setDrawPileOrder(GUI.gameplayData.drawPileOrder);
+        GUI.gameplayData.SpritesBoard = new StandardSpriteDataStructure().setBoard(gridPane);
+        GUI.gameplayData.SpriteBookshelf = new StandardSpriteDataStructure().setBookshelf(BookshelfGrid);
         GUI.chatData.chatField = new chatBuilder().standardChat(mes0,mes1,mes2,mes3,mes4,mes5,mes6);
-        gui.updateGrid(GUI.controller.grid);
-        player_0.setText(GUI.controller.players.get(0));
-        player_0.setText(GUI.controller.players.get(1));
-        if (GUI.controller.players.size() > 2) {
-            player_0.setText(GUI.controller.players.get(2));
-            if (GUI.controller.players.size() > 3) {
-                player_0.setText(GUI.controller.players.get(3));
-            }
-        }
-        GUI.cmd.setCommonGoals();
-    }
-
-    public void updateScene(){
-        if(sceneNotSet){
-            setScene();
-            sceneNotSet = false;
-        }
-        gui.updateGrid(GUI.controller.grid);
-        GUI.gameplayData.DrawPile = new StandardSprite().setDrawPile(firstDraw,secondDraw,thirdDraw);
-        GUI.gameplayData.drawCounter = 0;
-        //score
     }
 
     /************************************************ CHAT ************************************************************/
@@ -160,7 +148,4 @@ public class GameSceneController {
         }
     }
 
-    public void pclick(MouseEvent mouseEvent) {
-        GUI.cmd.setPersonalGoal();
-    }
 }

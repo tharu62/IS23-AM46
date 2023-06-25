@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class CommandsExecutor implements GUI_commands {
     static CommunicationProtocol com;
@@ -30,6 +31,8 @@ public class CommandsExecutor implements GUI_commands {
         CommandsExecutor.gui = gui;
         CommandsExecutor.controller = controller;
     }
+
+    /******************************************************************************************************************/
 
     @Override
     public void updateGrid(item[][] grid) {
@@ -61,34 +64,31 @@ public class CommandsExecutor implements GUI_commands {
     }
 
     @Override
-    public void updateBookshelf() {
-        int col = GUI.gameplayData.selectedCol;
-        for(int i=5; i >= 0; i--){
-            for(int j=4; j >= 0; j--){
-                if(j == col){
-                    if(GUI.gameplayData.SpriteBookshelf[i][j].fxid.getImage() == null){
-                        if(GUI.gameplayData.DrawPile[2].fxid.getImage() != null){
-                            GUI.gameplayData.SpriteBookshelf[i][j].fxid.setImage(GUI.gameplayData.DrawPile[2].fxid.getImage());
-                            GUI.gameplayData.DrawPile[2].fxid.setImage(null);
-                        }else{
-                            if(GUI.gameplayData.DrawPile[1].fxid.getImage() != null){
-                                GUI.gameplayData.SpriteBookshelf[i][j].fxid.setImage(GUI.gameplayData.DrawPile[1].fxid.getImage());
-                                GUI.gameplayData.DrawPile[1].fxid.setImage(null);
-                            }else{
-                                if(GUI.gameplayData.DrawPile[0].fxid.getImage() != null){
-                                    GUI.gameplayData.SpriteBookshelf[i][j].fxid.setImage(GUI.gameplayData.DrawPile[0].fxid.getImage());
-                                    GUI.gameplayData.DrawPile[0].fxid.setImage(null);
-                                }
-                            }
-                        }
-                    }
+    public void updateBookshelf( item[][] bookshelf) {
+        for(int i=0; i < 6; i++){
+            for(int j=0; j < 5; j++){
+                if(bookshelf[i][j]==item.CATS){
+                    updateSlotCats(GUI.gameplayData.SpriteBookshelf[i][j].fxid);
+                }
+                if(bookshelf[i][j]==item.GAMES){
+                    updateSlotGames(GUI.gameplayData.SpriteBookshelf[i][j].fxid);
+                }
+                if(bookshelf[i][j]==item.BOOKS){
+                    updateSlotBooks(GUI.gameplayData.SpriteBookshelf[i][j].fxid);
+                }
+                if(bookshelf[i][j]==item.PLANTS){
+                    updateSlotPlants(GUI.gameplayData.SpriteBookshelf[i][j].fxid);
+                }
+                if(bookshelf[i][j]==item.TROPHIES){
+                    updateSlotTrophies(GUI.gameplayData.SpriteBookshelf[i][j].fxid);
+                }
+                if(bookshelf[i][j]==item.FRAMES){
+                    updateSlotFrames(GUI.gameplayData.SpriteBookshelf[i][j].fxid);
+                }
+                if(bookshelf[i][j]==item.OBJECT){
+                    GUI.gameplayData.SpriteBookshelf[i][j].fxid.setImage(null);
                 }
             }
-        }
-        try {
-            com.endTurn(controller.username);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -203,18 +203,25 @@ public class CommandsExecutor implements GUI_commands {
     @Override
     public void drawUp() {
         Image temp;
+        String tempOrder;
         if(GUI.gameplayData.drawInProgress){
             if(GUI.gameplayData.selectedItem.fxid == GUI.gameplayData.DrawPile[1].fxid){
                 temp = GUI.gameplayData.DrawPile[0].fxid.getImage();
                 GUI.gameplayData.DrawPile[0].fxid.setImage(GUI.gameplayData.selectedItem.getImageView().getImage());
                 GUI.gameplayData.DrawPile[1].fxid.setImage(temp);
                 GUI.gameplayData.selectedItem = GUI.gameplayData.DrawPile[0];
+                tempOrder = GUI.gameplayData.drawPileOrder[0];
+                GUI.gameplayData.drawPileOrder[0] = GUI.gameplayData.drawPileOrder[1];
+                GUI.gameplayData.drawPileOrder[1] = tempOrder;
             }
             if(GUI.gameplayData.selectedItem.fxid == GUI.gameplayData.DrawPile[2].fxid){
                 temp = GUI.gameplayData.DrawPile[1].fxid.getImage();
                 GUI.gameplayData.DrawPile[1].fxid.setImage(GUI.gameplayData.selectedItem.getImageView().getImage());
                 GUI.gameplayData.DrawPile[2].fxid.setImage(temp);
                 GUI.gameplayData.selectedItem = GUI.gameplayData.DrawPile[1];
+                tempOrder = GUI.gameplayData.drawPileOrder[1];
+                GUI.gameplayData.drawPileOrder[1] = GUI.gameplayData.drawPileOrder[2];
+                GUI.gameplayData.drawPileOrder[2] = tempOrder;
             }
         }
     }
@@ -222,24 +229,31 @@ public class CommandsExecutor implements GUI_commands {
     @Override
     public void drawDown() {
         Image temp;
+        String tempOrder;
         if(GUI.gameplayData.drawInProgress){
             if(GUI.gameplayData.selectedItem.fxid == GUI.gameplayData.DrawPile[1].fxid){
                 temp = GUI.gameplayData.DrawPile[2].fxid.getImage();
                 GUI.gameplayData.DrawPile[2].fxid.setImage(GUI.gameplayData.selectedItem.getImageView().getImage());
-                GUI.gameplayData.DrawPile[1].fxid.setImage(temp);
+                GUI.gameplayData.DrawPile[1].fxid.setImage(temp) ;
                 GUI.gameplayData.selectedItem = GUI.gameplayData.DrawPile[2];
+                tempOrder = GUI.gameplayData.drawPileOrder[2];
+                GUI.gameplayData.drawPileOrder[2] = GUI.gameplayData.drawPileOrder[1];
+                GUI.gameplayData.drawPileOrder[1] = tempOrder;
             }
             if(GUI.gameplayData.selectedItem.fxid == GUI.gameplayData.DrawPile[0].fxid){
                 temp = GUI.gameplayData.DrawPile[1].fxid.getImage();
                 GUI.gameplayData.DrawPile[1].fxid.setImage(GUI.gameplayData.selectedItem.getImageView().getImage());
                 GUI.gameplayData.DrawPile[0].fxid.setImage(temp);
                 GUI.gameplayData.selectedItem = GUI.gameplayData.DrawPile[1];
+                tempOrder = GUI.gameplayData.drawPileOrder[1];
+                GUI.gameplayData.drawPileOrder[1] = GUI.gameplayData.drawPileOrder[0];
+                GUI.gameplayData.drawPileOrder[0] = tempOrder;
             }
         }
     }
 
     @Override
-    public void selectItemToDraw(MouseEvent mouseEvent) {
+    public void drawItem(MouseEvent mouseEvent) {
         SearchIndex searchBoard = new SearchIndex();
         if(GUI.gameplayData.drawInProgress && GUI.gameplayData.drawCounter < 3){
             int row = searchBoard.findRowFromBoard(GUI.gameplayData.SpritesBoard, ((ImageView) mouseEvent.getSource()));
@@ -253,57 +267,86 @@ public class CommandsExecutor implements GUI_commands {
               GUI.gameplayData.DrawPile[GUI.gameplayData.drawCounter].fxid.setImage(((ImageView) mouseEvent.getSource()).getImage());
               GUI.gameplayData.drawCounter++;
             }else{
-                gui.setNotification(" DRAW NOT VALID, RETRY. ");
+                gui.Notify(" DRAW NOT VALID, RETRY. ");
             }
         }else{
-            gui.setNotification(" DRAW LIMIT REACHED, NOW YOU HAVE TO PUT ");
+            gui.Notify(" DRAW LIMIT REACHED, NOW YOU HAVE TO PUT ");
         }
     }
 
     @Override
-    public void putDrawInBookshelf() {
+    public void putItem() {
         SearchIndex searchIndex = new SearchIndex();
-        int a = searchIndex.findIndexFromPile(GUI.gameplayData.DrawPile, GUI.gameSceneController.firstDraw);
-        int b = searchIndex.findIndexFromPile(GUI.gameplayData.DrawPile, GUI.gameSceneController.secondDraw);
-        int c = searchIndex.findIndexFromPile(GUI.gameplayData.DrawPile, GUI.gameSceneController.thirdDraw);
+        int a = searchIndex.findIndexFromPile(GUI.gameplayData.drawPileOrder, GUI.gameSceneController.firstDraw);
+        int b = searchIndex.findIndexFromPile(GUI.gameplayData.drawPileOrder, GUI.gameSceneController.secondDraw);
+        int c = searchIndex.findIndexFromPile(GUI.gameplayData.drawPileOrder, GUI.gameSceneController.thirdDraw);
         try {
             com.put(controller.username, GUI.gameplayData.selectedCol, a, b,  c, controller);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         if(replyPut()){
-            updateBookshelf();
+            try {
+                new StandardSpriteDataStructure().setDrawPileOrder(GUI.gameplayData.drawPileOrder);
+                GUI.gameplayData.DrawPile[0].setImage(null);
+                GUI.gameplayData.DrawPile[1].setImage(null);
+                GUI.gameplayData.DrawPile[2].setImage(null);
+                GUI.gameplayData.drawCounter = 0;
+                com.endTurn(controller.username);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }else{
-            gui.setNotification(" PUT NOT VALID, RETRY. ");
+            gui.Notify(" PUT NOT VALID, RETRY. ");
         }
+        GUI.gameplayData.DrawPile = new StandardSpriteDataStructure().setDrawPile(GUI.gameSceneController.firstDraw, GUI.gameSceneController.secondDraw, GUI.gameSceneController.thirdDraw);
+        GUI.gameplayData.drawInProgress = true;
         GUI.gameplayData.selectedCol = -1;
     }
 
     @Override
-    public void setCommonGoals() {
+    public void setCommonGoals(List<Integer> cardID, List<Integer> token) {
         SearchGoalCards searchGoalCards = new SearchGoalCards();
-        GUI.gameSceneController.commonGoal1.setImage(searchGoalCards.search(CardType.COMMON, GUI.controller.cards.get(0)));
-        GUI.gameSceneController.commonGoal2.setImage(searchGoalCards.search(CardType.COMMON, GUI.controller.cards.get(1)));
-        //GUI.gameSceneController.scoreToken1.setImage(TODO);
-        //GUI.gameSceneController.scoreToken1.setImage(TODO);
+        GUI.gameSceneController.commonGoal1.setImage(searchGoalCards.search(CardType.COMMON, cardID.get(0)));
+        GUI.gameSceneController.commonGoal2.setImage(searchGoalCards.search(CardType.COMMON, cardID.get(1)));
+        GUI.gameSceneController.scoreToken1.setImage(searchGoalCards.searchToken(token.get(0)));
+        GUI.gameSceneController.scoreToken2.setImage(searchGoalCards.searchToken(token.get(1)));
     }
 
     @Override
-    public void setPersonalGoal() {
-        try {
-            com.getPersonalGoal(GUI.controller.PersonalGoalCardID, GUI.controller.username);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        if(replyPersonal()){
-            SearchGoalCards searchGoalCards = new SearchGoalCards();
-            GUI.gameSceneController.personalGoal.setImage(searchGoalCards.search(CardType.PERSONAL, GUI.controller.PersonalGoalCardID));
+    public void setPersonalGoal(int cardID) {
+        SearchGoalCards searchGoalCards = new SearchGoalCards();
+        GUI.gameSceneController.personalGoal.setImage(searchGoalCards.search(CardType.PERSONAL, cardID));
+    }
+
+    @Override
+    public void setPlayers(List<String> players) {
+        int counter = 0;
+        for(String player : players){
+            if(!player.equals(controller.username)){
+                if(counter == 3){
+                    GUI.gameSceneController.player_3.setText(player);
+                    counter ++;
+                }
+                if(counter == 2){
+                    GUI.gameSceneController.player_2.setText(player);
+                    counter ++;
+                }
+                if(counter == 1){
+                    GUI.gameSceneController.player_1.setText(player);
+                    counter ++;
+                }
+                if(counter == 0){
+                    GUI.gameSceneController.player_0.setText(player);
+                    counter ++;
+                }
+            }
         }
     }
 
     @Override
-    public void login() {
-
+    public void setScore(int score) {
+        GUI.gameSceneController.score.setText(String.valueOf(score));
     }
 
     private void updateSlotCats(ImageView imageViewID){
@@ -350,12 +393,5 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
-    synchronized public boolean replyPersonal(){
-        while(true){
-            if(controller.getReplyPersonal()){
-                return true;
-            }
-        }
-    }
 }
 

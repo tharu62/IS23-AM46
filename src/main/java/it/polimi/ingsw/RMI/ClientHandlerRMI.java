@@ -10,13 +10,13 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServerRMI extends UnicastRemoteObject implements GameServer {
+public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer {
 
     CONTROLLER controller;
     public Map<GameClient, String> clientsRMI = new HashMap<>();
     final int PORT;
 
-    public ServerRMI(CONTROLLER controller, int port) throws RemoteException {
+    public ClientHandlerRMI(CONTROLLER controller, int port) throws RemoteException {
         this.controller = controller;
         this.controller.clientsRMI = this.clientsRMI;
         this.PORT = port;
@@ -53,41 +53,32 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     @Override
     public boolean login(String username, GameClient client) throws RemoteException {
         clientsRMI.replace(client,username);
-        return controller.setLogin(username);
+        if(!controller.setLogin(username)){
+            clientsRMI.replace(client,null);
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException {
         clientsRMI.replace(client,username);
-        return controller.setFirstLogin(username,LobbySize);
+        if(!controller.setFirstLogin(username,LobbySize)){
+            clientsRMI.replace(client,null);
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean loginReconnect(String username, GameClient gc) throws RemoteException {
+        clientsRMI.put(gc, username);
         if(controller.setLoginReconnection(username)){
             clientsRMI.put(gc, username);
             return true;
         }
+        clientsRMI.remove(gc);
         return false;
-    }
-
-    @Override
-    public int sendPersonalGoal(String username) throws RemoteException {
-        return controller.getPersonalGoalCards(username);
-    }
-
-    public void sendBookshelf(String username, GameClient gc) throws RemoteException{
-        gc.receiveBookshelf(controller.getBookshelf(username));
-    }
-
-    @Override
-    public void askLobbyReady(GameClient gc) throws RemoteException {
-        if(controller.lobbyIsReady){
-            gc.receiveLOG("CONNECTED");
-        }
-        else{
-            gc.receiveLOG("LOBBY_IS_NOT_READY");
-        }
     }
 
     @Override
@@ -96,18 +87,13 @@ public class ServerRMI extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
-    public boolean askPutItem(String username,  int col, int a, int b, int c) throws RemoteException {
+    public boolean askPut(String username, int col, int a, int b, int c) throws RemoteException {
         return controller.setBookshelf( username, col , a , b , c );
     }
 
     @Override
-    public int askCheckScore(String username) throws RemoteException {
-        return controller.setScore(username);
-    }
-
-    @Override
-    public boolean endTurn(String username) throws RemoteException {
-        return controller.setEndTurn(username);
+    public void endTurn(String username) throws RemoteException {
+        controller.setEndTurn(username);
     }
 
     @Override

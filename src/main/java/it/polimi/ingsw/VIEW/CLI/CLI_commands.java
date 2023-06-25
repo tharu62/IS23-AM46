@@ -7,26 +7,23 @@ import java.util.List;
 
 public interface CLI_commands {
 
-    void notify(String message);
+    void notifyCLI();
     String getUsername();
     int getLobbySize();
+    boolean sendChat( ) throws RemoteException;
     void printBoard(item[][] grid);
+    void printBookshelf(item[][] table);
     void printPersonalGoal() throws RemoteException;
     void printCommonGoals(List<Integer> commonGoalCards, List<Integer> commonGoalToken);
-    boolean sendChat( ) throws RemoteException;
     void printActions();
     void printActionsChat();
     void printChatBuffer();
-    void updateBookshelf() throws RemoteException;
-    void printBookshelf(item[][] table);
+    void colorTile(item[][] table, int i, int j);
     void askDraw() throws RemoteException, InterruptedException;
     void putDraw() throws RemoteException, InterruptedException;
     void endTurn() throws RemoteException;
-    void colorTile(item[][] table, int i, int j);
-    int replyPersonal();
     boolean replyDraw () throws InterruptedException;
     boolean replyPut () throws InterruptedException;
-    boolean replyBookshelf ();
     void replyEndTurn();
 
 }

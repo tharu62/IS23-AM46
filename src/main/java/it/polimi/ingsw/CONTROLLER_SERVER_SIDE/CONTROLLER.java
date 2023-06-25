@@ -4,7 +4,7 @@ import it.polimi.ingsw.MODEL.*;
 import it.polimi.ingsw.RMI.GameClient;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;
-import it.polimi.ingsw.TCP.ClientHandler;
+import it.polimi.ingsw.TCP.ClientHandlerTCP;
 import it.polimi.ingsw.TCP.Command;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class CONTROLLER {
     public boolean lobbyIsReady = false;
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
-    public List<ClientHandler> clientsTCP;
-    public Map<GameClient, String> clientsRMI = new HashMap<>();
     public int players = 0;
+    public List<ClientHandlerTCP> clientsTCP;
+    public Map<GameClient, String> clientsRMI = new HashMap<>();
     public List<PLAYER> playerList = new ArrayList<>();
 
     /************************************************ GETTER **********************************************************/
@@ -145,10 +145,8 @@ public class CONTROLLER {
         return game.playerPutItems( username, m, a, b, c);
     }
 
-    public int setScore( String username ){
-        game.CheckScore(username);
-        it.polimi.ingsw.MODEL.PLAYER player = (it.polimi.ingsw.MODEL.PLAYER) game.space.player.stream().filter(x -> x.getUsername().equals(username));
-        return player.score;
+    public int getScore( String username ){
+        return game.getScore(username);
     }
 
     public boolean setEndTurn( String username ) throws RemoteException {
@@ -236,7 +234,7 @@ public class CONTROLLER {
             }
         }
 
-        for( ClientHandler clientHandler : clientsTCP){
+        for( ClientHandlerTCP clientHandler : clientsTCP){
             if(clientHandler.username.equals(username)){
                 turnUpdater.reconnectTCP(clientHandler, getPlayerNames(),this, game);
             }

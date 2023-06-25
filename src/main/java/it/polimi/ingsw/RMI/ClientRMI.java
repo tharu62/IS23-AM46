@@ -81,7 +81,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void receivePlayers(List<String> players) throws RemoteException {
-        controller.players = players;
+        controller.setPlayers(players);
     }
 
     @Override
@@ -90,8 +90,23 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     }
 
     @Override
-    public void receiveCommonGoals(int cardID, int token) throws RemoteException {
+    public void receiveBookshelf(item[][] bookshelf) throws RemoteException {
+        controller.setBookshelf(bookshelf);
+    }
+
+    @Override
+    public void receiveCommonGoals(List<Integer> cardID, List<Integer> token) throws RemoteException {
         controller.setCommonGoals(cardID, token);
+    }
+
+    @Override
+    public void receiveScore(int score) throws RemoteException {
+        controller.setScore(score);
+    }
+
+    @Override
+    public void receivePersonalGoal(int p) throws RemoteException {
+        controller.setPersonalGoal(p);
     }
 
     @Override
@@ -107,17 +122,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     @Override
     public void receiveWinner(String winner) {
         controller.notifyInterface(" THE GAME IS OVER, THE WINNER IS '" + winner + "'");
-    }
-
-    @Override
-    public void receivePersonalGoal(int p) throws RemoteException {
-        controller.setPersonalGoal(p);
-    }
-
-    @Override
-    public void receiveBookshelf(item[][] bookshelf) throws RemoteException {
-        controller.bookshelf = bookshelf;
-        controller.bookshelf_received = true;
     }
 
     public static void sendMessage(MESSAGE message) throws RemoteException {

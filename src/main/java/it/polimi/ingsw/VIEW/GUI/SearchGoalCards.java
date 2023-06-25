@@ -62,4 +62,21 @@ public class SearchGoalCards {
         }
         return new Image("back.jpg");
     }
+
+
+    public Image searchToken(int token){
+        switch (token){
+            case 1:
+                return new Image("scoring.jpg");
+            case 2:
+                return new Image("scoring_2.jpg");
+            case 4:
+                return new Image("scoring_4.jpg");
+            case 6:
+                return new Image("scoring_6.jpg");
+            case 8:
+                return new Image("scoring_8.jpg");
+        }
+        return new Image("scoring.jpg");
+    }
 }

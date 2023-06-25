@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 public class SocketAccepter extends Thread{
     CONTROLLER controller;
     final int PORT;
-    public List<ClientHandler> clientsTCP = new ArrayList<>();
+    public List<ClientHandlerTCP> clientsTCP = new ArrayList<>();
 
     public SocketAccepter(CONTROLLER Controller, int port){
         this.controller = Controller;
@@ -38,7 +38,7 @@ public class SocketAccepter extends Thread{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            new ClientHandler(socket, controller, clientsTCP).start();
+            new ClientHandlerTCP(socket, controller, clientsTCP).start();
         }
         executor.shutdown();
     }

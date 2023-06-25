@@ -76,6 +76,18 @@ public class ClientTCP extends Thread {
                 out.println(reply_string);
                 break;
 
+            case LOBBY_IS_FULL:
+                if(disconnected){
+                    reply.cmd = CMD.RECONNECTED_REPLY;
+                    reply.username = controller.getUsername();
+                    reply_string = g.toJson(reply);
+                    out.println(reply_string);
+                }else{
+                    controller.notifyInterface(ObjCommand.cmd.toString());
+                    System.exit(0);
+                }
+                break;
+
             case REPLY_ACCEPTED:
                 if(disconnected){
                     reply.cmd = CMD.SEND_RECONNECTION_DATA;
@@ -108,16 +120,8 @@ public class ClientTCP extends Thread {
                 }
                 break;
 
-            case LOBBY_IS_FULL:
-                if(disconnected){
-                    reply.cmd = CMD.RECONNECTED_REPLY;
-                    reply.username = controller.getUsername();
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
-                }else{
-                    controller.notifyInterface(ObjCommand.cmd.toString());
-                    System.exit(0);
-                }
+            case PLAYERS:
+                controller.setPlayers(ObjCommand.broadcast.players);
                 break;
 
             case BOARD:
@@ -125,21 +129,19 @@ public class ClientTCP extends Thread {
                 break;
 
             case COMMON_GOALS:
-                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(0), ObjCommand.broadcast.cardsValue.get(0));
-                controller.setCommonGoals(ObjCommand.broadcast.cardsID.get(1), ObjCommand.broadcast.cardsValue.get(1));
+                controller.setCommonGoals(ObjCommand.broadcast.cardsID, ObjCommand.broadcast.cardsValue);
                 break;
 
-            case PLAYER_TO_PLAY:
-                controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
-                break;
-
-            case PERSONAL_GOAL_CARD_REPLY:
+            case PERSONAL_GOAL:
                 controller.setPersonalGoal(ObjCommand.gameplay.cardID);
                 break;
 
             case BOOKSHELF:
-                controller.bookshelf = ObjCommand.gameplay.bookshelf;
-                controller.bookshelf_received = true;
+                controller.setBookshelf(ObjCommand.gameplay.bookshelf);
+                break;
+
+            case PLAYER_TO_PLAY:
+                controller.setPlayerToPlay(ObjCommand.broadcast.ptp);
                 break;
 
             case DRAW_VALID:
@@ -162,23 +164,19 @@ public class ClientTCP extends Thread {
                 controller.put_valid = false;
                 break;
 
-            case PLAYERS:
-                controller.players = ObjCommand.broadcast.players;
-                break;
-
             case LAST_ROUND:
                 controller.setLastRound();
                 break;
 
-            case RETURN_SCORE:
-                //TODO
+            case SCORE:
+                controller.setScore(ObjCommand.gameplay.pos.get(0));
                 break;
 
             case FROM_SERVER_CHAT:
                 controller.receiveChat(ObjCommand.chat.message);
                 break;
 
-            case FROM_CLIENT_CHAT, ASK_DRAW, ASK_PUT_ITEM , ASK_BOOKSHELF , END_TURN , ASK_MY_TURN, SEND_PERSONAL_GOAL_CARD:
+            case FROM_CLIENT_CHAT, ASK_DRAW, ASK_PUT, END_TURN:
                 reply = ObjCommand;
                 reply_string = g.toJson(reply);
                 out.println(reply_string);

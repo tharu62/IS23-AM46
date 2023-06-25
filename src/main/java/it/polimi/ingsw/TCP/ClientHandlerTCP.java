@@ -2,7 +2,6 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
 import java.io.IOException;
@@ -13,10 +12,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class ClientHandler extends Thread {
+public class ClientHandlerTCP extends Thread {
     private final Socket socket;
     public CONTROLLER controller;
-    public List<ClientHandler> clients;
+    public List<ClientHandlerTCP> clients;
 
     public PrintWriter out;
     public Command reply;
@@ -25,7 +24,7 @@ public class ClientHandler extends Thread {
     public boolean active = false;
     public String username;
 
-    public ClientHandler(Socket socket, CONTROLLER controller, List<ClientHandler> clients ) {
+    public ClientHandlerTCP(Socket socket, CONTROLLER controller, List<ClientHandlerTCP> clients ) {
         this.socket = socket;
         this.controller = controller;
         this.clients = clients;
@@ -99,7 +98,7 @@ public class ClientHandler extends Thread {
 
     synchronized public void broadcast(Command message){
         String temp = g.toJson(message);
-        for (ClientHandler client : clients) {
+        for (ClientHandlerTCP client : clients) {
             client.out.println(temp);
 
         }
@@ -110,10 +109,11 @@ public class ClientHandler extends Thread {
 
             case CONNECTED_REPLY:
                 reply = new Command();
+                this.username = ObjCommand.username;
                 if(controller.setLogin(ObjCommand.username)){
-                    this.username = ObjCommand.username;
                     reply.cmd = CMD.REPLY_ACCEPTED;
                 }else{
+                    this.username = null;
                     reply.cmd = CMD.REPLY_NOT_ACCEPTED;
                 }
                 reply_string = g.toJson(reply);
@@ -122,10 +122,11 @@ public class ClientHandler extends Thread {
 
             case FIRST_TO_CONNECT_REPLY:
                 reply = new Command();
+                this.username = ObjCommand.username;
                 if(controller.setFirstLogin(ObjCommand.username, ObjCommand.login.LobbySize)){
-                    this.username = ObjCommand.username;
                     reply.cmd = CMD.REPLY_ACCEPTED;
                 }else{
+                    this.username = null;
                     reply.cmd = CMD.REPLY_NOT_ACCEPTED;
                 }
                 reply_string = g.toJson(reply);
@@ -143,25 +144,6 @@ public class ClientHandler extends Thread {
                 }
                 break;
 
-            case SEND_PERSONAL_GOAL_CARD:
-                reply = new Command();
-                reply.cmd = CMD.PERSONAL_GOAL_CARD_REPLY;
-                reply.gameplay = new GAMEPLAY();
-                reply.gameplay.cardID = controller.getPersonalGoalCards(ObjCommand.username);
-                reply_string = g.toJson(reply);
-                active = true;
-                break;
-
-            case ASK_BOOKSHELF:
-                reply = new Command();
-                reply.cmd = CMD.BOOKSHELF;
-                reply.gameplay = new GAMEPLAY();
-                reply.gameplay.bookshelf = new item[6][5];
-                reply.gameplay.bookshelf = controller.getBookshelf(ObjCommand.username);
-                reply_string = g.toJson(reply);
-                active = true;
-                break;
-
             case ASK_DRAW:
                 reply = new Command();
                 if(controller.setDraw(ObjCommand.username, ObjCommand.gameplay.pos.get(0), ObjCommand.gameplay.pos.get(1))){
@@ -173,22 +155,13 @@ public class ClientHandler extends Thread {
                 active = true;
                 break;
 
-            case ASK_PUT_ITEM:
+            case ASK_PUT:
                 reply = new Command();
                 if(controller.setBookshelf(ObjCommand.username, ObjCommand.gameplay.pos.get(0), ObjCommand.gameplay.pos.get(1), ObjCommand.gameplay.pos.get(2), ObjCommand.gameplay.pos.get(3) )){
                     reply.cmd = CMD.PUT_VALID;
                 }else{
                     reply.cmd = CMD.PUT_NOT_VALID;
                 }
-                reply_string = g.toJson(reply);
-                active= true;
-                break;
-
-            case CHECK_SCORE:
-                reply = new Command();
-                reply.cmd = CMD.RETURN_SCORE;
-                reply.gameplay = new GAMEPLAY();
-                reply.gameplay.pos.add(controller.setScore(ObjCommand.username));
                 reply_string = g.toJson(reply);
                 active= true;
                 break;

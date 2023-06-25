@@ -6,7 +6,6 @@ public class LoginData {
     public boolean firstToConnect = false;
     public boolean usernameNotSet = true;
     public boolean lobbySizeNotSet = true;
-    public boolean AppButtonCLicked = false;
     public boolean loginSceneOpen = false;
     public StringBuilder stringBuilder = new StringBuilder();
 }

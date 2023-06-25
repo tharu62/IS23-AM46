@@ -11,23 +11,18 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GUI extends Application{
     @FXML
     public Stage stage;
-    public static List<String> notificationBuffer = new ArrayList<>();
+    public static Scene gameScene;
+    public static Scene loginScene;
     public static LoginData loginData = new LoginData();
     public static ChatData chatData = new ChatData();
     public static GameplayData gameplayData = new GameplayData();
     public static LoginSceneController loginSceneController;
     public static GameSceneController gameSceneController;
-    public static GuiLoginHandler guiLoginHandler = new GuiLoginHandler();
-    public static GuiGameHandler guiGameHandler = new GuiGameHandler();
-    public static boolean loginHandlerNotActive = true;
-    public static boolean gameHandlerNotActive = true;
-    public static boolean appWindowOpen = true;
 
     public static CONTROLLER controller;
     public static CommandsExecutor cmd;
@@ -39,32 +34,69 @@ public class GUI extends Application{
         stage.setTitle("MY SHELFIE GAME");
         stage.setScene(scene);
         stage.show();
+
+        fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/LoginScene.fxml"));
+        loginScene = new Scene(fxmlLoader.load());
+        loginSceneController = fxmlLoader.getController();
+        LoginSceneController.gui = this;
+        loginData.loginSceneOpen = true;
     }
 
     public void loadLoginScene(MouseEvent mouseEvent) throws IOException{
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/LoginScene.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
+        stage.setScene(loginScene);
         stage.show();
-        loginSceneController = fxmlLoader.getController();
-        appWindowOpen = false;
-        loginData.loginSceneOpen = true;
-        LoginSceneController.gui = this;
-    }
 
-    public void loadGameScene(MouseEvent mouseEvent) throws IOException {
-        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/StandardGameScene.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.show();
+        gameScene = new Scene(fxmlLoader.load());
         gameSceneController = fxmlLoader.getController();
         GameSceneController.gui = this;
+        gameSceneController.setScene();
+        gameplayData.gameSceneOpen = true;
+        if(controller.firstToConnect){
+            loginData.firstToConnect = true;
+            loginSceneController.notification.setText("FIRST_TO_CONNECT");
+            loginSceneController.InputStatus.setText("Insert username");
+        }else{
+            loginSceneController.InputStatus.setText("Insert username");
+            loginSceneController.notification.setText("CONNECTED");
+        }
+    }
+
+    public void loadGameScene(MouseEvent mouseEvent) {
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setScene(gameScene);
+        stage.show();
+        loginData.loginSceneOpen = false;
+        if(controller.getMyTurn()){
+            gameSceneController.notification.setText("IT_IS_YOUR_TURN");
+        }else{
+            gameSceneController.notification.setText("IT_IS_NOT_YOUR_TURN");
+        }
     }
 
     public void updateGrid(item[][] grid){
         cmd.updateGrid(grid);
+    }
+
+    public void updateCommonGoals(List<Integer> cardID, List<Integer> token){
+        cmd.setCommonGoals(cardID, token);
+    }
+
+    public void updatePersonalGoal(int cardID){
+        cmd.setPersonalGoal(cardID);
+    }
+
+    public void updateBookshelf( item[][] bookshelf){
+        cmd.updateBookshelf(bookshelf);
+    }
+
+    public void setPlayers(List<String> players){
+        cmd.setPlayers(players);
+    }
+
+    public void setScore(int score){
+        cmd.setScore(score);
     }
 
     synchronized public void scrollChat(MESSAGE message, boolean Private){
@@ -76,52 +108,15 @@ public class GUI extends Application{
         }
     }
 
-    public void setNotification(String message){
-        gameSceneController.notification.setText(message);
-        if (message.equals("                                 IT IS YOUR TURN                                          ")) {
-            gameSceneController.updateScene();
-        }
-        if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
-            gameSceneController.updateScene();
-        }
-        if (message.equals("                                        LAST ROUND                                        ")) {
-            gameSceneController.scoreToken0.setImage(null);
-        }
-    }
-
-    public void setGameNotification(String message){
-        loginSceneController.notification.setText(message);
-        if (message.equals("                                 IT IS YOUR TURN                                          ")) {
-            notificationBuffer.add(message);
-            if(gameHandlerNotActive){
-                gameHandlerNotActive = false;
-                GuiGameHandler.gui = this;
-                guiGameHandler.start();
+    public void Notify(String message){
+        if(gameSceneController != null){
+            if(gameSceneController.notification != null){
+                gameSceneController.notification.setText(message);
             }
         }
-        if (message.equals("                                IT IS NOT YOUR TURN                                       ")) {
-            notificationBuffer.add(message);
-            if(gameHandlerNotActive){
-                gameHandlerNotActive = false;
-                GuiGameHandler.gui = this;
-                guiGameHandler.start();
-            }
-        }
-    }
-
-    public void setLoginNotification(String message){
-        if(loginData.loginSceneOpen){
-            if(message.equals("REPLY_NOT_ACCEPTED")){
-                loginData.usernameNotSet = true;
-                loginData.lobbySizeNotSet = true;
-            }
-            loginSceneController.notification.setText(message);
-        }else{
-            notificationBuffer.add(message);
-            if(loginHandlerNotActive){
-                loginHandlerNotActive = false;
-                GuiLoginHandler.gui = this;
-                guiLoginHandler.start();
+        if(loginSceneController != null){
+            if(loginSceneController.notification != null){
+                loginSceneController.notification.setText(message);
             }
         }
     }
@@ -137,5 +132,6 @@ public class GUI extends Application{
     public void main(String[] args){
         launch();
     }
+
 }
 

@@ -27,9 +27,17 @@ public class CommandsExecutor implements CLI_commands {
     }
 
     @Override
-    public void notify(String message) {
-        System.out.println(message);
-        System.out.println("******************************************************************************************");
+    public void notifyCLI() {
+        if(controller.notificationBuffer.size() > 0) {
+            System.out.println("******************************************************************************************");
+            while (controller.notificationBuffer.size() > 0) {
+
+                System.out.println(controller.notificationBuffer.get(0));
+
+                controller.notificationBuffer.remove(0);
+            }
+            System.out.println("******************************************************************************************");
+        }
     }
 
     @Override
@@ -65,15 +73,8 @@ public class CommandsExecutor implements CLI_commands {
     }
 
     @Override
-    public void printPersonalGoal() throws RemoteException {
-        int cardID;
-        if(controller.PersonalGoalCardID != -1 ){
-            cardID = controller.PersonalGoalCardID;
-        }else {
-            com.getPersonalGoal(controller.PersonalGoalCardID, controller.username);
-            System.out.println("CHECK");
-            cardID = replyPersonal();
-        }
+    public void printPersonalGoal() {
+        int cardID = controller.PersonalGoalCardID;
         PrintPersonalGoals printPersonalGoals = new PrintPersonalGoals();
         System.out.println("    0 | 1 | 2 | 3 | 4 ");
         System.out.println("  ╔═══╦═══╦═══╦═══╦═══╗");
@@ -156,12 +157,6 @@ public class CommandsExecutor implements CLI_commands {
             controller.chatBuffer.remove(0);
         }
     }
-
-    @Override
-    public void updateBookshelf() throws RemoteException {
-        com.bookshelf( controller.cli , controller.username);
-    }
-
 
     @Override
     public void printBookshelf(item[][] table) {
@@ -314,15 +309,6 @@ public class CommandsExecutor implements CLI_commands {
     }
 
     @Override
-    synchronized public int replyPersonal() {
-        while (true) {
-            if (controller.getReplyPersonal()) {
-                return controller.PersonalGoalCardID;
-            }
-        }
-    }
-
-    @Override
     synchronized public boolean replyDraw() {
         while(true){
             if(controller.getReplyDraw()){
@@ -338,16 +324,6 @@ public class CommandsExecutor implements CLI_commands {
             if(controller.getReplyPut()){
                 controller.reply_put = false;
                 return controller.put_valid;
-            }
-        }
-    }
-
-    @Override
-    synchronized public boolean replyBookshelf() {
-        while(true){
-            if(controller.getReplyBookshelf()){
-                controller.bookshelf_received = false;
-                return true;
             }
         }
     }

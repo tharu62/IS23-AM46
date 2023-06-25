@@ -4,7 +4,6 @@ import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.RMI.ClientRMI;
-import it.polimi.ingsw.VIEW.CLI.CLI;
 
 import java.rmi.RemoteException;
 
@@ -15,12 +14,6 @@ public class RMI implements CommunicationProtocol {
     }
 
     @Override
-    public int getPersonalGoal(int PersonalGoalCardID , String username) throws RemoteException {
-        PersonalGoalCardID = ClientRMI.gs.sendPersonalGoal(username);
-        return PersonalGoalCardID;
-    }
-
-    @Override
     public void draw(String username, int row, int col, CONTROLLER controller) throws RemoteException {
         controller.draw_valid = ClientRMI.gs.askDraw(username, row, col);
         controller.reply_draw = true;
@@ -28,14 +21,10 @@ public class RMI implements CommunicationProtocol {
 
     @Override
     public void put(String username, int col, int a , int b, int c, CONTROLLER controller) throws RemoteException {
-        controller.put_valid = ClientRMI.gs.askPutItem(username,col,a,b,c);
+        controller.put_valid = ClientRMI.gs.askPut(username,col,a,b,c);
         controller.reply_put = true;
     }
 
-    @Override
-    public void bookshelf(CLI cli , String username) throws RemoteException {
-        ClientRMI.gs.sendBookshelf(username, clientRMI);
-    }
 
     @Override
     public void sendChat( String username, String text, String receiver) throws RemoteException {

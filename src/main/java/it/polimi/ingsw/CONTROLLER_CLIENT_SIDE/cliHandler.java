@@ -1,8 +1,10 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
 import it.polimi.ingsw.MODEL.MESSAGE;
+import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.VIEW.CLI.CLI;
-import javafx.stage.Stage;
+
+import java.util.List;
 
 public class cliHandler implements GameInterface{
     public CLI cli;
@@ -13,7 +15,7 @@ public class cliHandler implements GameInterface{
 
     @Override
     public void notifyInterface(String message) {
-        cli.cmd.notify(message);
+        cli.controller.notificationBuffer.add(message);
     }
 
     @Override
@@ -53,5 +55,51 @@ public class cliHandler implements GameInterface{
     @Override
     public void startInterface(String[] args) {
         cli.start();
+    }
+
+    @Override
+    public void setPlayers(CONTROLLER controller, List<String> players) {
+        controller.players = players;
+    }
+
+
+    @Override
+    public void setBoard(CONTROLLER controller, item[][] grid) {
+        controller.grid = grid;
+    }
+
+    @Override
+    public void setCommonGoals(CONTROLLER controller, List<Integer> cardID, List<Integer> token) {
+        controller.cards = cardID;
+        controller.token_value = token;
+
+    }
+
+    @Override
+    public void setPersonalGoal(CONTROLLER controller, int cardID) {
+        controller.PersonalGoalCardID = cardID;
+    }
+
+    @Override
+    public void setBookshelf(CONTROLLER controller, item[][] bookshelf) {
+        controller.bookshelf = bookshelf;
+    }
+
+    @Override
+    public void setScore(CONTROLLER controller, int score) {
+        controller.score = score;
+    }
+
+    @Override
+    public void setPlayerToPlay(CONTROLLER controller, String ptp) {
+        if( controller.username.toLowerCase().equals(ptp) ){
+            controller.notifyInterface("                                 IT IS YOUR TURN                                          ");
+            controller.myTurn = true;
+        }
+        else{
+            controller.notifyInterface("                                IT IS NOT YOUR TURN                                       ");
+            controller.myTurn = false;
+        }
+        controller.gameDataReceived = true;
     }
 }

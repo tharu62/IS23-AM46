@@ -9,6 +9,7 @@ public class GameplayData {
     public int selectedCol = -1;
     public Sprite[][] SpritesBoard;
     public Sprite[] DrawPile = new Sprite[3];
+    public String[] drawPileOrder = new String[3];
     public Sprite[][] SpriteBookshelf = new Sprite[6][5];
 
 }

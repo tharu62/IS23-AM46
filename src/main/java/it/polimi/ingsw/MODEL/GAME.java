@@ -155,6 +155,9 @@ public class GAME {
         space.player.get(search(username)).bookshelf.itemToPut.clear();
     }
 
+    public int getScore(String username){
+        return space.player.get(search(username)).score;
+    }
 
     public int search(String username){
         for(int i=0; i < this.LobbySize; i++){

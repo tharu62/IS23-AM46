@@ -20,7 +20,10 @@ public class CONTROLLER{
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,},
                                  {item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,item.OBJECT,}};
-
+    public int PersonalGoalCardID;
+    public List<Integer> cards = new ArrayList<>();
+    public List<Integer> token_value = new ArrayList<>();
+    public int score = 0;
     public boolean notConnected = true;
     public boolean firstToConnect = false , LoginOK = false, myTurn = false, end_turn = false;
     public List<Draw> draw = new ArrayList<>(3);
@@ -32,13 +35,10 @@ public class CONTROLLER{
     public boolean reply_put = false;
     public boolean put_valid = false;
     public boolean put_end = false;
-    public boolean reply_Personal = false;
-    public boolean bookshelf_received = false;
     public boolean gameDataReceived = false;
-    public int PersonalGoalCardID = -1;
-    public List<Integer> cards = new ArrayList<>();
-    public List<Integer> token_value = new ArrayList<>();
+
     public List<String> players = new ArrayList<>();
+    public List<String> notificationBuffer = new ArrayList<>();
     public List<MESSAGE> chatBuffer = new ArrayList<>();
     public GameInterface Interface;
     public CLI cli;
@@ -50,6 +50,7 @@ public class CONTROLLER{
                 gui = new GUI();
                 GUI.controller = this;
                 GUI.cmd = new CommandsExecutor(this, client, gui);
+                // TODO da rivedere costruttore guiHandler
                 this.Interface = new guiHandler(gui, this, client);
             }
             if(Interface == interfaceType.CLI ){
@@ -92,14 +93,8 @@ public class CONTROLLER{
         return this.reply_put;
     }
     synchronized public boolean getReplyDraw() { return this.reply_draw; }
-    synchronized public boolean getReplyPersonal(){
-        return this.reply_Personal;
-    }
     synchronized public boolean getGameDataReceived() {
         return this.gameDataReceived;
-    }
-    synchronized public boolean getReplyBookshelf(){
-        return this.bookshelf_received;
     }
 
     /******************************************************************************************************************/
@@ -109,52 +104,38 @@ public class CONTROLLER{
     }
 
     public void setPlayerToPlay( String ptp ) {
-        if( this.username.toLowerCase().equals(ptp) ){
-            Interface.notifyInterface("                                 IT IS YOUR TURN                                          ");
-            this.myTurn = true;
-        }
-        else{
-            Interface.notifyInterface("                                IT IS NOT YOUR TURN                                       ");
-            this.myTurn = false;
-        }
-        this.gameDataReceived = true;
+        Interface.setPlayerToPlay(this, ptp);
+    }
+
+    public void setPlayers(List<String> players){
+        Interface.setPlayers(this, players);
     }
 
     public void setBoard( item[][] grid ){
-        this.grid = grid;
+        Interface.setBoard(this, grid);
     }
 
-    public void setCommonGoals(int  cardID, int token){
-        boolean setNotDone = true;
-        if(cards.size() == 0){
-            this.cards.add(cardID);
-            this.token_value.add(token);
-            setNotDone = false;
-        }
-        if(cards.size() == 1 && setNotDone){
-            this.cards.add(cardID);
-            this.token_value.add(token);
-            setNotDone = false;
-        }
-        if(cards.size() == 2 && setNotDone){
-            this.cards = new ArrayList<>();
-            this.cards.add(cardID);
-            this.token_value.add(token);
-        }
+    public void setCommonGoals(List<Integer> cardID, List<Integer> token){
+        Interface.setCommonGoals(this, cardID, token);
     }
 
     public void setPersonalGoal(int cardID){
-        this.PersonalGoalCardID = cardID;
-        this.reply_Personal = true;
+        Interface.setPersonalGoal(this, cardID);
     }
 
     public void setBookshelf(item[][] bookshelf){
-        this.bookshelf = bookshelf;
+        Interface.setBookshelf(this, bookshelf);
+    }
+
+    public void setScore(int score){
+        Interface.setScore(this, score);
     }
 
     public void receiveChat( MESSAGE message){
         Interface.receiveChat(this,message);
     }
+
+
 
     public void setLastRound(){
         Interface.notifyInterface("                                        LAST ROUND                                        ");

@@ -1,21 +1,13 @@
 package it.polimi.ingsw.VIEW.GUI;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class LoginSceneController {
     @FXML
-    Stage stage;
-    @FXML
     public TextField notification;
-    @FXML
-    public Button loginButton;
     @FXML
     public TextField InputField;
     @FXML
@@ -23,7 +15,7 @@ public class LoginSceneController {
 
     public static GUI gui;
 
-    public void sendLogin(MouseEvent mouseEvent) throws IOException {
+    public void sendLogin(MouseEvent mouseEvent){
         if(GUI.loginData.usernameNotSet){
             GUI.loginData.username = GUI.loginData.stringBuilder.toString();
             GUI.loginData.stringBuilder = new StringBuilder();
@@ -56,7 +48,7 @@ public class LoginSceneController {
         }
     }
 
-    public void Login(MouseEvent mouseEvent) throws IOException {
+    public void Login(MouseEvent mouseEvent) {
         if(GUI.controller.getLoginOK()){
             gui.loadGameScene(mouseEvent);
             GUI.gameplayData.gameSceneOpen = true;
