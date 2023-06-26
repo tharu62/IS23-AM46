@@ -16,7 +16,7 @@
    <children>
       <ImageView fitHeight="412.0" fitWidth="612.0" layoutX="-6.0" layoutY="-6.0">
          <image>
-            <Image url="@../stock-vector-seamless-background-of-wooden-parquet.png" />
+            <Image url="@../sfondo_parquet.jpg" />
          </image>
       </ImageView>
       <AnchorPane layoutX="164.0" layoutY="100.0" prefHeight="135.0" prefWidth="273.0" style="-fx-background-color: #212121;">
@@ -31,11 +31,10 @@
                   <Font name="Baskerville" size="15.0" />
                </font></TextField>
             <AnchorPane layoutX="15.0" layoutY="35.0" prefHeight="9.0" prefWidth="249.0" style="-fx-background-color: #795548;" />
-            <TextField fx:id="InputStatus" editable="false" layoutX="31.0" layoutY="49.0" prefHeight="38.0" prefWidth="217.0" />
+            <Text fx:id="InputStatus" fill="#fffefe" layoutX="12.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wait for connection to server! " textAlignment="CENTER" wrappingWidth="249.0" />
          </children>
       </AnchorPane>
-      <TextField fx:id="notification" editable="false" layoutX="118.0" layoutY="262.0" prefHeight="38.0" prefWidth="366.0" />
-      <Button layoutX="473.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#sendLogin" text="send" />
-      <Button layoutX="263.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#Login" text="LOGIN" />
+      <TextField fx:id="notification" editable="false" layoutX="118.0" layoutY="329.0" prefHeight="38.0" prefWidth="366.0" />
+      <Button layoutX="267.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#sendLogin" text="SEND" />
    </children>
 </AnchorPane>

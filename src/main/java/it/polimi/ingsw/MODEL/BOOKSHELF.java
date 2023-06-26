@@ -32,7 +32,7 @@ public class BOOKSHELF {
         if(itemToPut.size() == 0){
             return false;
         }
-        if(firstFreeRow(m) < (itemToPut.size() - 1) && (firstFreeRow(m) >= 0)){
+        if( (firstFreeRow(m) < 0)  || firstFreeRow(m) < (itemToPut.size() - 1)){
             return false;
         }
         for(int j=0; j<3; j++){
@@ -125,13 +125,11 @@ public class BOOKSHELF {
      *         The column is checked from the bottom (row index 5) to the top (row index 0).
      */
     public int firstFreeRow(int x) {
-        int i = 5;
-        while (!this.Grid[i][x].equals(item.EMPTY) && i>0) {
-            i--;
+        for(int i = 5; i >=0; i--){
+            if(this.Grid[i][x].equals(item.EMPTY)){
+                return i;
+            }
         }
-        if(!this.Grid[0][x].equals(item.EMPTY)){
-            return -1;
-        }
-        return i;
+        return -1;
     }
 }

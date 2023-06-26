@@ -18,6 +18,7 @@ public interface CLI_commands {
     void printActions();
     void printActionsChat();
     void printChatBuffer();
+    void printScore();
     void colorTile(item[][] table, int i, int j);
     void askDraw() throws RemoteException, InterruptedException;
     void putDraw() throws RemoteException, InterruptedException;
