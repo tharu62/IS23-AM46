@@ -15,9 +15,13 @@ public class cliHandler implements GameInterface{
 
     @Override
     public void notifyInterface(String message) {
-        cli.controller.notificationBuffer.add(message);
-        cli.cmd.notifyCLI();
+        //cli.controller.notificationBuffer.add(message);
+        //cli.cmd.notifyCLI();
+        System.out.println("******************************************************************************************");
+            System.out.println(message);
+        System.out.println("******************************************************************************************");
     }
+
 
     @Override
     public String getUsername(CONTROLLER controller) {

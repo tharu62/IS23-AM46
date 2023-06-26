@@ -14,7 +14,6 @@ public class BOARD {
     BAG bag = new BAG();
     public int[] itemPos = new int[6];
     int itemCounter = 0;
-
     public void setGrid(int playerNumber){
         bag.setItemList();
 
@@ -128,7 +127,7 @@ public class BOARD {
      * @param column: the column where the tile is located
      * @return the number of neighbours
      */
-    private int count_neighbours(int row, int column) {
+    public int count_neighbours(int row, int column) {
         int cont = 0;
         if (row > 0 && Grid[row - 1][column] != item.EMPTY && Grid[row - 1][column] != item.OBJECT) cont++;
         if (row < 8 && Grid[row + 1][column] != item.EMPTY && Grid[row + 1][column] != item.OBJECT) cont++;
