@@ -27,12 +27,13 @@ public class CLI extends Thread {
         boolean inputNotValid;
         boolean chatInputInProgress = false;
         boolean gameplayInputInProgress = false;
+        boolean putNotValid = true;
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
             inputNotValid = true;
             cmd.notifyCLI();
-            if(controller.getMyTurn() && !chatInputInProgress) {
+            if(controller.getMyTurn() && !chatInputInProgress && putNotValid) {
                 cmd.printBoard(controller.grid);
                 cmd.printCommonGoals(controller.cards, controller.token_value);
                 cmd.printBookshelf(controller.bookshelf);
@@ -82,6 +83,7 @@ public class CLI extends Thread {
                         cmd.putDraw();
                         if(cmd.replyPut()){
                             System.out.println(" PUT VALID ");
+                            putNotValid = false;
                             cmd.endTurn();
                             cmd.replyEndTurn();
                         }
