@@ -125,6 +125,11 @@ public class GAME {
      */
     public boolean masterEndTurn( String username ) {
         if (playerToPlay.equals(username)) {
+            if(master.round.last){
+                if(username.equals(master.FirstPlayerSeat)){
+                    space.winner = space.calculateScore();
+                }
+            }
             if(space.board.IsToBeRestored()){
                 space.board.restore();
             }

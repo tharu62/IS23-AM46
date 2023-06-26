@@ -151,18 +151,29 @@ public class CONTROLLER {
 
     public boolean setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
-            while(turnOfDisconnectedPlayer(this.game.playerToPlay)){
-                game.masterEndTurn(this.game.playerToPlay);
-            }
+            if(game.space.winner != null){
 
-            TurnUpdater updater = new TurnUpdater();
-            if(this.clientsRMI.size() > 0) {
-                updater.RMI(clientsRMI, this, this.game);
-            }
-            if(clientsTCP.size() > 0) {
-                updater.TCP(clientsTCP, this, this.game);
-            }
+                TurnUpdater updater = new TurnUpdater();
+                if (this.clientsRMI.size() > 0) {
+                    updater.RMI_last(clientsRMI, this, this.game);
+                }
+                if (clientsTCP.size() > 0) {
+                    updater.TCP_last(clientsTCP, this, this.game);
+                }
 
+            }else {
+                while (turnOfDisconnectedPlayer(this.game.playerToPlay)) {
+                    game.masterEndTurn(this.game.playerToPlay);
+                }
+
+                TurnUpdater updater = new TurnUpdater();
+                if (this.clientsRMI.size() > 0) {
+                    updater.RMI(clientsRMI, this, this.game);
+                }
+                if (clientsTCP.size() > 0) {
+                    updater.TCP(clientsTCP, this, this.game);
+                }
+            }
         }
         return true;
     }

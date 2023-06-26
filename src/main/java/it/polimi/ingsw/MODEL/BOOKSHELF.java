@@ -126,8 +126,11 @@ public class BOOKSHELF {
      */
     public int firstFreeRow(int x) {
         int i = 5;
-        while (!this.Grid[i][x].equals(item.EMPTY)) {
+        while (!this.Grid[i][x].equals(item.EMPTY) && i>0) {
             i--;
+        }
+        if(!this.Grid[0][x].equals(item.EMPTY)){
+            return -1;
         }
         return i;
     }

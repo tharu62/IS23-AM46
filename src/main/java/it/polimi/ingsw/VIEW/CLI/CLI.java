@@ -27,13 +27,11 @@ public class CLI extends Thread {
         boolean inputNotValid;
         boolean chatInputInProgress = false;
         boolean gameplayInputInProgress = false;
-        boolean putNotValid = true;
         System.out.println("******************************************************************************************");
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
             inputNotValid = true;
-            cmd.notifyCLI();
-            if(controller.getMyTurn() && !chatInputInProgress && putNotValid) {
+            if(controller.getMyTurn() && !chatInputInProgress) {
                 cmd.printBoard(controller.grid);
                 cmd.printCommonGoals(controller.cards, controller.token_value);
                 cmd.printBookshelf(controller.bookshelf);
@@ -83,9 +81,9 @@ public class CLI extends Thread {
                         cmd.putDraw();
                         if(cmd.replyPut()){
                             System.out.println(" PUT VALID ");
-                            putNotValid = false;
                             cmd.endTurn();
                             cmd.replyEndTurn();
+                            controller.myTurn = false;
                         }
                         else{
                             System.out.println(" PUT NOT VALID, RETRY. ");
@@ -117,9 +115,7 @@ public class CLI extends Thread {
                     System.out.println(" Command not valid, retry. ");
                     gameplayInputInProgress = false;
                 }
-                cmd.notifyCLI();
             }else{
-                cmd.notifyCLI();
                 if(controller.LoginOK && !gameplayInputInProgress) {
                     chatInputInProgress = true;
                     if (controller.chatBuffer.size() > 0) {
@@ -128,7 +124,6 @@ public class CLI extends Thread {
                             cmd.printChatBuffer();
                         }
                     }
-                    cmd.notifyCLI();
                     cmd.printActionsChat();
                     StrCommand = in.nextLine();
                     if (StrCommand.equalsIgnoreCase("chat")) {
@@ -147,7 +142,6 @@ public class CLI extends Thread {
                     if (inputNotValid) {
                         System.out.println(" Command not valid, retry. ");
                     }
-                    cmd.notifyCLI();
                 }
             }
         }

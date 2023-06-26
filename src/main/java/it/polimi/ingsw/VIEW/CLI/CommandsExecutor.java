@@ -28,16 +28,10 @@ public class CommandsExecutor implements CLI_commands {
 
     @Override
     public void notifyCLI() {
-        if(controller.notificationBuffer.size() > 0) {
             System.out.println("******************************************************************************************");
-            while (controller.notificationBuffer.size() > 0) {
-
-                System.out.println(controller.notificationBuffer.get(0));
-
-                controller.notificationBuffer.remove(0);
-            }
+                System.out.println();
             System.out.println("******************************************************************************************");
-        }
+
     }
 
     @Override

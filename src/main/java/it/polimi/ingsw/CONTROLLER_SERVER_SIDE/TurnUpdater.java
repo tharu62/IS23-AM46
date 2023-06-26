@@ -12,6 +12,7 @@ import it.polimi.ingsw.TCP.Command;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -277,4 +278,40 @@ public class TurnUpdater {
         client.out.println(reply_string);
     }
 
+    public void RMI_last(Map<GameClient, String> clientRMI, CONTROLLER controller, GAME game){
+        for (GameClient gc : clientRMI.keySet()) {
+            try {
+                gc.receiveWinner(game.space.winner);
+                gc.receiveScore(controller.getScore(clientRMI.get(gc)));
+
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void TCP_last(List<ClientHandlerTCP> clientsTCP, CONTROLLER controller, GAME game){
+
+        String reply_string;
+        Gson g = new Gson();
+        Command temp = new Command();
+        temp = new Command();
+        temp.cmd = CMD.WINNER;
+        temp.username = game.space.winner;
+        reply_string = g.toJson(temp);
+        clientsTCP.get(0).out.println(reply_string);
+
+        for(ClientHandlerTCP clientHandler : clientsTCP){
+
+            temp = new Command();
+            temp.cmd = CMD.SCORE;
+            temp.gameplay = new GAMEPLAY();
+            temp.gameplay.pos = new ArrayList<>();
+            temp.gameplay.pos.add(controller.getScore(clientHandler.username));
+            reply_string = g.toJson(temp);
+            clientHandler.out.println(reply_string);
+
+        }
+
+    }
 }
