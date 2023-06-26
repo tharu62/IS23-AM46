@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 public class LoginSceneController {
     @FXML
@@ -11,7 +12,7 @@ public class LoginSceneController {
     @FXML
     public TextField InputField;
     @FXML
-    public TextField InputStatus;
+    public Text InputStatus;
 
     public static GUI gui;
 
@@ -32,6 +33,10 @@ public class LoginSceneController {
                 }
             }
         }
+        if(GUI.controller.getLoginOK()){
+            gui.loadGameScene(mouseEvent);
+            GUI.gameplayData.gameSceneOpen = true;
+        }
     }
 
     public void inputKeyLogin(KeyEvent keyEvent) {
@@ -45,13 +50,6 @@ public class LoginSceneController {
                 GUI.loginData.stringBuilder = new StringBuilder();
                 InputField.setText(null);
             }
-        }
-    }
-
-    public void Login(MouseEvent mouseEvent) {
-        if(GUI.controller.getLoginOK()){
-            gui.loadGameScene(mouseEvent);
-            GUI.gameplayData.gameSceneOpen = true;
         }
     }
 
