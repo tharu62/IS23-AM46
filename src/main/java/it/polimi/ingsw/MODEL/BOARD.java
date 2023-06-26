@@ -101,7 +101,7 @@ public class BOARD {
                 }
             }
         } else {
-            if (itemPos[itemCounter - 2] == n) {
+            if (itemPos[itemCounter - 2] == n && itemPos[itemCounter - 4] == n) {
                 if ((m > 0 && itemPos[itemCounter - 1] == m - 1 || m < 8 && itemPos[itemCounter - 1] == m + 1) || (m > 1 && itemPos[itemCounter - 1] == m - 2 || m < 7 && itemPos[itemCounter - 1] == m + 2)) {
                     itemPos[itemCounter] = n;
                     itemPos[itemCounter + 1] = m;
@@ -109,7 +109,7 @@ public class BOARD {
                     return false;
                 }
             }
-            if (itemPos[itemCounter - 1] == m) {
+            if (itemPos[itemCounter - 1] == m && itemPos[itemCounter - 3] == m) {
                 if ((n > 0 && itemPos[itemCounter - 2] == n - 1 || n < 8 && itemPos[itemCounter - 2] == n + 1) || (n > 1 && itemPos[itemCounter - 2] == n - 2 || n < 7 && itemPos[itemCounter - 2] == n + 2)) {
                     itemPos[itemCounter] = n;
                     itemPos[itemCounter + 1] = m;
