@@ -53,14 +53,19 @@ public class GUI extends Application{
         GameSceneController.gui = this;
         gameSceneController.setScene();
         gameplayData.gameSceneOpen = true;
-        if(controller.firstToConnect){
-            loginData.firstToConnect = true;
-            loginSceneController.notification.setText("FIRST_TO_CONNECT");
-            loginSceneController.InputStatus.setText("Insert username");
+        if(!controller.notConnected){
+            if(controller.firstToConnect){
+                loginData.firstToConnect = true;
+                loginSceneController.notification.setText("FIRST_TO_CONNECT");
+                loginSceneController.InputStatus.setText("Insert username");
+            }else{
+                loginSceneController.InputStatus.setText("Insert username");
+                loginSceneController.notification.setText("CONNECTED");
+            }
         }else{
-            loginSceneController.InputStatus.setText("Insert username");
-            loginSceneController.notification.setText("CONNECTED");
+            loginSceneController.notification.setText("NOT_CONNECTED");
         }
+
     }
 
     public void loadGameScene(MouseEvent mouseEvent) {
@@ -68,10 +73,10 @@ public class GUI extends Application{
         stage.setScene(gameScene);
         stage.show();
         loginData.loginSceneOpen = false;
-        if(controller.getMyTurn()){
+        if(controller.getMyTurn()) {
             gameSceneController.notification.setText("IT_IS_YOUR_TURN");
         }else{
-            gameSceneController.notification.setText("IT_IS_NOT_YOUR_TURN");
+            gameSceneController.notification.setText("waiting for notification...");
         }
     }
 
