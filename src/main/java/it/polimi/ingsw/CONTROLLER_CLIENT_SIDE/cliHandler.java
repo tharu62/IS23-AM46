@@ -16,6 +16,7 @@ public class cliHandler implements GameInterface{
     @Override
     public void notifyInterface(String message) {
         cli.controller.notificationBuffer.add(message);
+        cli.cmd.notifyCLI();
     }
 
     @Override

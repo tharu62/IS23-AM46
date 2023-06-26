@@ -78,6 +78,7 @@ public class CLI extends Thread {
 
                 if ( StrCommand.equalsIgnoreCase("put")) {
                     try {
+
                         cmd.putDraw();
                         if(cmd.replyPut()){
                             System.out.println(" PUT VALID ");

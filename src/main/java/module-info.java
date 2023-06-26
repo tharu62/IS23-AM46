@@ -4,7 +4,6 @@ module it.polimi.ingsw {
     requires javafx.controls;
     requires com.google.gson;
     requires java.rmi;
-    requires gson;
 
     opens it.polimi.ingsw to javafx.fxml;
     exports it.polimi.ingsw;

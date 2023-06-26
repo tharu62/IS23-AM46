@@ -29,7 +29,10 @@ public class BOOKSHELF {
      * then it return true.
      */
     public boolean putItems(int m,int a, int b, int c){
-        if(firstFreeRow(m) < (itemToPut.size() - 1)){
+        if(itemToPut.size() == 0){
+            return false;
+        }
+        if(firstFreeRow(m) < (itemToPut.size() - 1) && (firstFreeRow(m) >= 0)){
             return false;
         }
         for(int j=0; j<3; j++){
