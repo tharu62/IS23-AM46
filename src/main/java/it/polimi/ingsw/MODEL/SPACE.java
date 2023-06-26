@@ -28,8 +28,14 @@ public class SPACE {
         if(drawCounter > 2){
             return false;
         }
+        if(n == board.itemPos[0] && m == board.itemPos[1]){
+            return false;
+        }
+        if(n == board.itemPos[2] && m == board.itemPos[3]){
+            return false;
+        }
         for(int i = 0; i < 5; i++){
-            if(player.get(playerIndex).bookshelf.firstFreeRow(i) >= (drawCounter + 1)){
+            if(player.get(playerIndex).bookshelf.firstFreeRow(i) >= (drawCounter)){
                 break;
             }
             if( i == 4 ){

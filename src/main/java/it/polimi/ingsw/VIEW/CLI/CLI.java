@@ -35,6 +35,7 @@ public class CLI extends Thread {
                 cmd.printBoard(controller.grid);
                 cmd.printCommonGoals(controller.cards, controller.token_value);
                 cmd.printBookshelf(controller.bookshelf);
+                cmd.printScore();
                 cmd.printActions();
                 StrCommand = in.nextLine();
                 gameplayInputInProgress = true;

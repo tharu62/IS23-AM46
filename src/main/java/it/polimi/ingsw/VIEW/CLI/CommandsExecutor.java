@@ -153,6 +153,11 @@ public class CommandsExecutor implements CLI_commands {
     }
 
     @Override
+    public void printScore() {
+        System.out.println("YOUR SCORE (FROM COMMON GOALS TOKEN): " + controller.score);
+    }
+
+    @Override
     public void printBookshelf(item[][] table) {
         System.out.println(" ");
         System.out.println(" BOOKSHELF ");
