@@ -156,13 +156,13 @@ public class ClientTCP extends Thread {
                 break;
 
             case PUT_VALID:
-                controller.reply_put = true;
                 controller.put_valid = true;
+                controller.reply_put = true;
                 break;
 
             case PUT_NOT_VALID:
-                controller.reply_put = true;
                 controller.put_valid = false;
+                controller.reply_put = true;
                 break;
 
             case LAST_ROUND:

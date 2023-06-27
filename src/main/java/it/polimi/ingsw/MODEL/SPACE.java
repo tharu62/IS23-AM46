@@ -81,7 +81,7 @@ public class SPACE {
             player.get(i).score+= player.get(i).bookshelf.checkAdjacentItem(item.GAMES);
             player.get(i).score+= player.get(i).bookshelf.checkAdjacentItem(item.PLANTS);
             player.get(i).score+= player.get(i).bookshelf.checkAdjacentItem(item.TROPHIES);
-            if(tempScore<player.get(i).score){
+            if(tempScore <= player.get(i).score){
                 tempScore=player.get(i).score;
                 winner=i;
             }

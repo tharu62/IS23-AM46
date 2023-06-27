@@ -99,6 +99,7 @@ public class CLI extends Thread {
                     inputNotValid = false;
                 }
 
+                /*
                 if(StrCommand.equalsIgnoreCase("common goal")){
                     cmd.printCommonGoals(controller.cards, controller.token_value);
                     gameplayInputInProgress = false;
@@ -114,6 +115,8 @@ public class CLI extends Thread {
                     gameplayInputInProgress = false;
                     inputNotValid = false;
                 }
+
+                 */
 
                 if(inputNotValid){
                     System.out.println(" Command not valid, retry. ");

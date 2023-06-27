@@ -32,7 +32,10 @@ public class BOOKSHELF {
         if(itemToPut.size() == 0){
             return false;
         }
+        int temp = firstFreeRow(m);
+        System.out.println("IL PRIMO ROW LIBERO E': " + temp);
         if( (firstFreeRow(m) < 0)  || firstFreeRow(m) < (itemToPut.size() - 1)){
+            System.out.println("IL PRIMO ROW LIBERO DENTRO E': " + temp);
             return false;
         }
         for(int j=0; j<3; j++){
@@ -50,8 +53,8 @@ public class BOOKSHELF {
             }
         }
         itemToPut.clear();
-        if(itemsInGrid==30){
-            this.IsFull=true;
+        if(itemsInGrid == 30){
+            this.IsFull = true;
         }
         return true;
     }

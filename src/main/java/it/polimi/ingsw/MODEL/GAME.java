@@ -125,12 +125,6 @@ public class GAME {
      */
     public boolean masterEndTurn( String username ) {
         if (playerToPlay.equals(username)) {
-            if(master.round.last){
-                if(username.equals(master.FirstPlayerSeat.username)){
-                    space.winner = space.calculateScore();
-                    IsOver = true;
-                }
-            }
             if(space.board.IsToBeRestored()){
                 space.board.restore();
             }
@@ -145,6 +139,12 @@ public class GAME {
             space.player.get(search(username)).bookshelf.itemToPut.clear();
             space.board.itemCounter = 0;
             space.drawCounter = 0;
+            if(master.round.last){
+                if(username.equals(master.FirstPlayerSeat.username)){
+                    space.winner = space.calculateScore();
+                    IsOver = true;
+                }
+            }
             return true;
         }
         return false;

@@ -296,10 +296,6 @@ public class TurnUpdater {
         Gson g = new Gson();
         Command temp = new Command();
         temp = new Command();
-        temp.cmd = CMD.WINNER;
-        temp.username = game.space.winner;
-        reply_string = g.toJson(temp);
-        clientsTCP.get(0).out.println(reply_string);
 
         for(ClientHandlerTCP clientHandler : clientsTCP){
 
@@ -308,6 +304,13 @@ public class TurnUpdater {
             temp.gameplay = new GAMEPLAY();
             temp.gameplay.pos = new ArrayList<>();
             temp.gameplay.pos.add(controller.getScore(clientHandler.username));
+            reply_string = g.toJson(temp);
+            clientHandler.out.println(reply_string);
+
+            temp = new Command();
+            temp = new Command();
+            temp.cmd = CMD.WINNER;
+            temp.username = game.space.winner;
             reply_string = g.toJson(temp);
             clientHandler.out.println(reply_string);
 
