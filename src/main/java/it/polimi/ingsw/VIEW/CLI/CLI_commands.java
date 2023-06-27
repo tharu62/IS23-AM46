@@ -1,12 +1,13 @@
 package it.polimi.ingsw.VIEW.CLI;
 
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.rmi.RemoteException;
 import java.util.List;
 
 public interface CLI_commands {
-
     void notifyCLI();
     String getUsername();
     int getLobbySize();
@@ -27,4 +28,5 @@ public interface CLI_commands {
     boolean replyPut () throws InterruptedException;
     void replyEndTurn();
 
+    void replaceClient(ClientTCP client);
 }

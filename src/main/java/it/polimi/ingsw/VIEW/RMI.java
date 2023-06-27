@@ -4,6 +4,7 @@ import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.rmi.RemoteException;
 
@@ -38,6 +39,11 @@ public class RMI implements CommunicationProtocol {
     @Override
     public void endTurn( String username) throws RemoteException {
         ClientRMI.gs.endTurn(username);
+    }
+
+    @Override
+    public void replaceClient(ClientTCP clientTCP) {
+        //
     }
 
 }

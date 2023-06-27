@@ -63,4 +63,9 @@ public class TCP implements CommunicationProtocol {
         send.username = username;
         clientTCP.CommandSwitcher(send , clientTCP.out_ref);
     }
+
+    @Override
+    public void replaceClient(ClientTCP clientTCP) {
+        this.clientTCP = clientTCP;
+    }
 }

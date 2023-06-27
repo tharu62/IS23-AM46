@@ -1,4 +1,5 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
+import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
@@ -137,6 +138,12 @@ public class CONTROLLER{
 
     public void startUserInterface(String[] args) {
         Interface.startInterface(args);
+    }
+
+    public void restartClient(){
+        ClientTCP client = new ClientTCP(Settings.PORT_TCP, false);
+        client.controller = this;
+        cli.cmd.replaceClient(client);
     }
 
 }
