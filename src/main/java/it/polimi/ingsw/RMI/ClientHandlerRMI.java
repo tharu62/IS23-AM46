@@ -39,6 +39,7 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
         if(controller.getLobbyIsFull()){
             gc.receiveLOG("LOBBY_IS_FULL");
         }else {
+            controller.players++;
             if(controller.getCurrentPlayers() >= 1){
                 gc.receiveLOG("CONNECTED");
             }
@@ -46,12 +47,12 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
                 gc.receiveLOG("FIRST_TO_CONNECT");
             }
             this.clientsRMI.put(gc,null);
-            controller.players++;
         }
     }
 
     @Override
     public boolean login(String username, GameClient client) throws RemoteException {
+        System.out.println(" USERNAME: " + username);
         if(clientsRMI.containsKey(client)){
             clientsRMI.replace(client,username);
         }else{
@@ -66,6 +67,7 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
 
     @Override
     public boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException {
+        System.out.println(" USERNAME: " + username);
         if(clientsRMI.containsKey(client)){
             clientsRMI.replace(client,username);
         }else{
