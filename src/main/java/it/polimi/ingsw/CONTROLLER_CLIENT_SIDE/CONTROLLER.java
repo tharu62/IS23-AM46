@@ -140,11 +140,12 @@ public class CONTROLLER{
         Interface.startInterface(args);
     }
 
-    public void restartClient(){
-        ClientTCP client = new ClientTCP(Settings.PORT_TCP, false);
-        client.controller = this;
-        cli.cmd.replaceClient(client);
+    public void restartClient(ClientRMI clientRMI){
+        Interface.restartClient(this, clientRMI);
     }
 
+    public void restartClient(ClientTCP clientTCP){
+        Interface.restartClient(this, clientTCP);
+    }
 }
 

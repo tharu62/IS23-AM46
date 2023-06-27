@@ -391,5 +391,15 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    @Override
+    public void replaceClient(ClientTCP clientTCP) {
+        com.replaceClient(clientTCP);
+    }
+
+    @Override
+    public void replaceClient(ClientRMI clientRMI) {
+        com.replaceClient(clientRMI);
+    }
+
 }
 

@@ -2,6 +2,8 @@ package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,5 +22,7 @@ public interface GameInterface {
     void setBookshelf(CONTROLLER controller, item[][] bookshelf);
     void setScore(CONTROLLER controller, int score);
     void setPlayerToPlay(CONTROLLER controller, String ptp);
+    void restartClient(CONTROLLER controller, ClientTCP clientTCP);
+    void restartClient(CONTROLLER controller, ClientRMI clientRMI);
 
 }

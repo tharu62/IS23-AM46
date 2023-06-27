@@ -2,6 +2,7 @@ package it.polimi.ingsw.VIEW.CLI;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
 import java.rmi.RemoteException;
@@ -29,4 +30,5 @@ public interface CLI_commands {
     void replyEndTurn();
 
     void replaceClient(ClientTCP client);
+    void replaceClient(ClientRMI client);
 }

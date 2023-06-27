@@ -337,6 +337,11 @@ public class CommandsExecutor implements CLI_commands {
         com.replaceClient(client);
     }
 
+    @Override
+    public void replaceClient(ClientRMI client) {
+        com.replaceClient(client);
+    }
+
     private boolean equalsPlayerNames( String receiver, List<String> names){
         for (String name : names) {
             if (receiver.equalsIgnoreCase(name)) {

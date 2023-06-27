@@ -16,6 +16,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
     final int PORT;
     public boolean crashed;
     public boolean disconnected = false;
+    int counter = 0;
 
     public ClientRMI( int port, boolean crashed ) throws RemoteException {
         this.PORT = port;
@@ -33,7 +34,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
 
     @Override
     public void ping() throws RemoteException {
-        //DOES NOTHING
+        disconnected = false;
     }
 
     @Override

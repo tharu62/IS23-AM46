@@ -1,5 +1,6 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
+import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
 import java.rmi.RemoteException;
@@ -10,5 +11,6 @@ public interface CommunicationProtocol {
     void sendChat(String text, String receiver, String username) throws RemoteException;
     void endTurn( String username ) throws RemoteException;
     void replaceClient(ClientTCP clientTCP);
+    void replaceClient(ClientRMI clientRMI);
 
 }

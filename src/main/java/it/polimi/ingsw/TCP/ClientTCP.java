@@ -45,7 +45,7 @@ public class ClientTCP extends Thread {
             System.exit(1);
         } catch (IOException e) {
             disconnected = true;
-            controller.restartClient();
+            controller.restartClient(this);
             controller.notifyInterface("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
         }
     }

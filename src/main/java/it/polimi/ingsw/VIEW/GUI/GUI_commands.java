@@ -2,6 +2,8 @@ package it.polimi.ingsw.VIEW.GUI;
 
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 import javafx.scene.input.MouseEvent;
 
 import java.util.List;
@@ -21,5 +23,7 @@ public interface GUI_commands {
     void putItem();
     boolean replyDraw();
     boolean replyPut();
+    void replaceClient(ClientTCP clientTCP);
+    void replaceClient(ClientRMI clientRMI);
 
 }

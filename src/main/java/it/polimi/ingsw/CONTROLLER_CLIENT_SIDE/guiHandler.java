@@ -2,8 +2,12 @@ package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.NETWORK.Settings;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.GUI.GUI;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 public class guiHandler implements GameInterface {
@@ -92,6 +96,25 @@ public class guiHandler implements GameInterface {
             controller.myTurn = false;
         }
         controller.gameDataReceived = true;
+    }
+
+    @Override
+    public void restartClient(CONTROLLER controller, ClientTCP clientTCP) {
+        ClientTCP client = new ClientTCP(Settings.PORT_TCP, false);
+        client.controller = controller;
+        GUI.cmd.replaceClient(client);
+    }
+
+    @Override
+    public void restartClient(CONTROLLER controller, ClientRMI clientRMI) {
+        try {
+            ClientRMI client = new ClientRMI(Settings.PORT_RMI, false);
+            client.controller = controller;
+            GUI.cmd.replaceClient(client);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

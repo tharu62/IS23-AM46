@@ -112,4 +112,9 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
         controller.setChat(message);
     }
 
+    @Override
+    public void ping() throws RemoteException {
+        //
+    }
+
 }
