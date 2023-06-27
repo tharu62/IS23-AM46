@@ -2,9 +2,6 @@ package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
-import it.polimi.ingsw.RMI.ClientRMI;
-import it.polimi.ingsw.TCP.ClientTCP;
-import it.polimi.ingsw.VIEW.GUI.CommandsExecutor;
 import it.polimi.ingsw.VIEW.GUI.GUI;
 
 import java.util.List;
@@ -12,16 +9,8 @@ import java.util.List;
 public class guiHandler implements GameInterface {
     public GUI gui;
 
-    public guiHandler(GUI gui, CONTROLLER controller, ClientRMI client) {
+    public guiHandler(GUI gui) {
         this.gui = gui;
-        GUI.controller = controller;
-        GUI.cmd = new CommandsExecutor(controller, client, gui);
-    }
-
-    public guiHandler(GUI gui, CONTROLLER controller, ClientTCP client) {
-        this.gui = gui;
-        GUI.controller = controller;
-        GUI.cmd = new CommandsExecutor(controller, client, gui);
     }
 
     /******************************************************************************************************************/

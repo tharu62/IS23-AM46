@@ -124,8 +124,6 @@ public class CommandsExecutor implements GUI_commands {
     @Override
     synchronized public void chatEnter() {
 
-        //TODO creare un oggetto che permetta di spezzare le stringe per avitare di avere codice troppo pesante qui.
-
         if(!GUI.chatData.privateMess){
             try {
                 com.sendChat(GUI.controller.username, GUI.chatData.stringBuilder.toString(), "everyone");
@@ -135,19 +133,19 @@ public class CommandsExecutor implements GUI_commands {
             if(!GUI.chatData.stringBuilder.toString().equals("")){
 
                 //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-                if( GUI.chatData.stringBuilder.toString().length() > 70){
+                if( GUI.chatData.stringBuilder.toString().length() > 60){
                     int x = 0;
-                    int y = 70;
+                    int y = 60;
                     while(x+1 < GUI.chatData.stringBuilder.toString().length()){
-                        char[] temp = new char[70];
+                        char[] temp = new char[60];
                         GUI.chatData.stringBuilder.toString().getChars(x,x+y, temp,0);
                         //
                         MESSAGE m = new MESSAGE();
                         m.text = String.valueOf(temp);
                         //
                         scrollChat(m,false);
-                        x+=70;
-                        if((GUI.chatData.stringBuilder.toString().length()-x) <= 70){
+                        x+=60;
+                        if((GUI.chatData.stringBuilder.toString().length()-x) <= 60){
                             y = GUI.chatData.stringBuilder.toString().length()-x;
                         }
                     }
@@ -172,11 +170,11 @@ public class CommandsExecutor implements GUI_commands {
                 throw new RuntimeException(e);
             }
             //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-            if(GUI.chatData.privateStringBuilder.toString().length() > 70){
+            if(GUI.chatData.privateStringBuilder.toString().length() > 60){
                 int x = 0;
-                int y = 70;
+                int y = 60;
                 while(x+1 < GUI.chatData.privateStringBuilder.toString().length()){
-                    char[] temp = new char[70];
+                    char[] temp = new char[60];
                     GUI.chatData.privateStringBuilder.toString().getChars(x,x+y, temp,0);
                     //
                     MESSAGE n = new MESSAGE();
@@ -185,8 +183,8 @@ public class CommandsExecutor implements GUI_commands {
                     n.header[1] = m.header[1];
                     //
                     scrollChat(n,true);
-                    x+=70;
-                    if((GUI.chatData.privateStringBuilder.toString().length()-x) <= 70){
+                    x+=60;
+                    if((GUI.chatData.privateStringBuilder.toString().length()-x) <= 60){
                         y = GUI.chatData.privateStringBuilder.toString().length()-x;
                     }
                 }

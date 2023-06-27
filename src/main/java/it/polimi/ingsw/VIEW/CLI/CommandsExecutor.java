@@ -227,7 +227,6 @@ public class CommandsExecutor implements CLI_commands {
                 System.out.println(" Put out of bound!!! You can only insert a number between 0 and 4. ");
             }
         } while (col < 0 || col > 4);
-        //TODO print your draw like a column of 3 item max.
 
         if(controller.draw.size() > 1) {
             System.out.println(" Insert the order ( 0 , 1 , 2 ) in which you want to put your draw : ");
@@ -239,7 +238,6 @@ public class CommandsExecutor implements CLI_commands {
                 in = new Scanner(System.in);
                 a = in.nextInt();
             }
-            //TODO print your draw like a column with the inserted order.
             System.out.println(" Second drawn item order of put ( from top ) : ");
             in = new Scanner(System.in);
             b = in.nextInt();
@@ -249,13 +247,11 @@ public class CommandsExecutor implements CLI_commands {
                 b = in.nextInt();
             }
             if(controller.draw.size() == 3) {
-                //TODO print your draw like a column with the inserted order.
                 System.out.println(" Third drawn item order of put ( from top ) : ");
                 if ((a == 0 && b == 1) || (a == 1 && b == 0)) c = 2;
                 if ((a == 0 && b == 2) || (a == 2 && b == 0)) c = 1;
                 if ((a == 2 && b == 1) || (a == 1 && b == 2)) c = 0;
                 System.out.println(c);
-                //TODO print your draw like a column with the inserted order.
             }
         }
         else {
@@ -270,7 +266,6 @@ public class CommandsExecutor implements CLI_commands {
         controller.drawStatus = 0;
         controller.put = new int[4];
         controller.draw_end = false;
-        controller.put_end = false;
         controller.end_turn = false;
         com.endTurn(controller.username);
     }

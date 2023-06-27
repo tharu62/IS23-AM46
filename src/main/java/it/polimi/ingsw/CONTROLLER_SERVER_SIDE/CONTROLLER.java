@@ -151,7 +151,7 @@ public class CONTROLLER {
 
     public boolean setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
-            if(game.space.winner != null){
+            if(game.IsOver){
 
                 TurnUpdater updater = new TurnUpdater();
                 if (this.clientsRMI.size() > 0) {

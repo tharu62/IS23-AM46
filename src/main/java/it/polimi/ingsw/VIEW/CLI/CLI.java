@@ -31,6 +31,9 @@ public class CLI extends Thread {
         System.out.println(" WELCOME TO MY SHELFIE ONLINE GAME (CLI VERSION)");
         while (true) {
             inputNotValid = true;
+            if(controller.getGameIsOver()){
+                break;
+            }
             if(controller.getMyTurn() && !chatInputInProgress) {
                 cmd.printBoard(controller.grid);
                 cmd.printCommonGoals(controller.cards, controller.token_value);
@@ -57,7 +60,7 @@ public class CLI extends Thread {
                 if( StrCommand.equalsIgnoreCase("draw") && controller.draw_end){
                     System.out.println(" YOU HAVE DRAWN 3 ITEM! YOU CAN'T DRAW MORE. NOW YOU HAVE TO PUT YOUR DRAW IN YOUR BOOKSHELF! ");
                 }
-                if (!controller.draw_end && StrCommand.equalsIgnoreCase("draw")) {
+                if (StrCommand.equalsIgnoreCase("draw") && !controller.draw_end) {
                     try {
                         cmd.askDraw();
                         if(cmd.replyDraw()){
@@ -146,5 +149,38 @@ public class CLI extends Thread {
                 }
             }
         }
+
+        int counter = 0;
+        while(true) {
+            System.out.println(" IF YOU WANT TO PLAY AGAIN RESTART THE APP. ");
+            System.out.println(" (0) QUIT OR CLOSE THE APP ");
+            Scanner scanner = new Scanner(System.in);
+            int input = scanner.nextInt();
+            if (input == 0) {
+                System.exit(0);
+            }else{
+                if(counter == 4 ){
+                    System.out.println(" I GIVE UP... ");
+                    counter++;
+                }
+                if(counter == 3 ){
+                    System.out.println(" WHAT IS WRONG WITH YOU? DO YOU LIKE TO WASTE YOUR TIME? ");
+                    counter++;
+                }
+                if(counter == 2 ){
+                    System.out.println(" DUDE.... JUST QUIT ALREADY... ");
+                    counter++;
+                }
+                if(counter == 1 ){
+                    System.out.println(" COME ONE YOU HAVE TO TYPE '0' ");
+                    counter++;
+                }
+                if(counter == 0 ){
+                    System.out.println(" I KNOW YOU DON'T WANT TO QUIT THIS AMAZING GAME BUT THERE IS NOTHING ELSE TO DO. ");
+                    counter++;
+                }
+            }
+        }
+
     }
 }

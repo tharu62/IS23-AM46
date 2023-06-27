@@ -17,10 +17,11 @@ public class ClientTCP extends Thread {
     public Command reply = new Command();
     public String reply_string;
     public PrintWriter out_ref;
+    public boolean crashed;
     public boolean disconnected = false;
-    public ClientTCP( int port, boolean disconnected){
+    public ClientTCP( int port, boolean crashed){
         this.PORT = port;
-        this.disconnected = disconnected;
+        this.crashed = crashed;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case LOBBY_IS_FULL:
-                if(disconnected){
+                if(crashed){
                     reply.cmd = CMD.RECONNECTED_REPLY;
                     reply.username = controller.getUsername();
                     reply_string = g.toJson(reply);
@@ -89,7 +90,7 @@ public class ClientTCP extends Thread {
                 break;
 
             case REPLY_ACCEPTED:
-                if(disconnected){
+                if(crashed){
                     reply.cmd = CMD.SEND_RECONNECTION_DATA;
                     reply.username = controller.getUsername();
                     reply_string = g.toJson(reply);
@@ -183,12 +184,13 @@ public class ClientTCP extends Thread {
                 break;
 
             case WINNER:
+                controller.gameIsOver = true;
                 controller.notifyInterface(" THE GAME IS OVER, THE WINNER IS '"+ ObjCommand.username +"'");
                 break;
 
             case USER_DISCONNECTED:
                 controller.notifyInterface(" The player '" + ObjCommand.username + "' has disconnected ");
-
+                break;
                 /*
                 controller.notifyInterface(" AUTO-SHUTDOWN ...");
                 synchronized (this){

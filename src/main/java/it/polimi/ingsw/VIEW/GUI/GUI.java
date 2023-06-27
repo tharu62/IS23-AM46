@@ -105,12 +105,13 @@ public class GUI extends Application{
     }
 
     synchronized public void scrollChat(MESSAGE message, boolean Private){
-        //TODO
-        if(gameSceneController != null){
-            cmd.scrollChat(message, Private);
+        StringAdapter stringAdapter = new StringAdapter();
+        if(message.header[1].equals(controller.username)){
+                stringAdapter.splitPrivate(this, message, 60);
         }else{
-            chatData.chatBuffer.add(message);
+            stringAdapter.splitPublic(this, message, 60);
         }
+
     }
 
     public void Notify(String message){

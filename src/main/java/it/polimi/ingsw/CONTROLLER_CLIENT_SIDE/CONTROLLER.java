@@ -23,22 +23,16 @@ public class CONTROLLER{
     public int PersonalGoalCardID;
     public List<Integer> cards = new ArrayList<>();
     public List<Integer> token_value = new ArrayList<>();
-    public int score = 0;
-    public boolean notConnected = true;
-    public boolean firstToConnect = false , LoginOK = false, myTurn = false, end_turn = false;
     public List<Draw> draw = new ArrayList<>(3);
-    public int drawStatus = 0;
-    public boolean reply_draw = false;
-    public boolean draw_valid = false;
-    public boolean draw_end = false;
     public int[] put = new int[4];
-    public boolean reply_put = false;
-    public boolean put_valid = false;
-    public boolean put_end = false;
+    public int score = 0;
+    public boolean notConnected = true, firstToConnect = false , LoginOK = false, myTurn = false, end_turn = false;
+    public int drawStatus = 0;
+    public boolean reply_draw = false, draw_valid = false, draw_end = false;
+    public boolean reply_put = false, put_valid = false;
     public boolean gameDataReceived = false;
-
+    public boolean gameIsOver = false;
     public List<String> players = new ArrayList<>();
-    public List<String> notificationBuffer = new ArrayList<>();
     public List<MESSAGE> chatBuffer = new ArrayList<>();
     public GameInterface Interface;
     public CLI cli;
@@ -50,8 +44,7 @@ public class CONTROLLER{
                 gui = new GUI();
                 GUI.controller = this;
                 GUI.cmd = new CommandsExecutor(this, client, gui);
-                // TODO da rivedere costruttore guiHandler
-                this.Interface = new guiHandler(gui, this, client);
+                this.Interface = new guiHandler(gui);
             }
             if(Interface == interfaceType.CLI ){
                 cli  = new CLI(this, client);
@@ -66,7 +59,7 @@ public class CONTROLLER{
                 gui = new GUI();
                 GUI.controller = this;
                 GUI.cmd = new CommandsExecutor(this, client, gui);
-                this.Interface = new guiHandler(gui, this, client);
+                this.Interface = new guiHandler(gui);
             }
             if(Interface == interfaceType.CLI){
                 cli = new CLI(this, client);
@@ -93,6 +86,7 @@ public class CONTROLLER{
         return this.reply_put;
     }
     synchronized public boolean getReplyDraw() { return this.reply_draw; }
+    synchronized public boolean getGameIsOver() { return this.gameIsOver; }
     synchronized public boolean getGameDataReceived() {
         return this.gameDataReceived;
     }
