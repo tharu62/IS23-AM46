@@ -52,7 +52,11 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
 
     @Override
     public boolean login(String username, GameClient client) throws RemoteException {
-        clientsRMI.replace(client,username);
+        if(clientsRMI.containsKey(client)){
+            clientsRMI.replace(client,username);
+        }else{
+            clientsRMI.put(client,username);
+        }
         if(!controller.setLogin(username)){
             clientsRMI.replace(client,null);
             return false;
@@ -62,7 +66,11 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
 
     @Override
     public boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException {
-        clientsRMI.replace(client,username);
+        if(clientsRMI.containsKey(client)){
+            clientsRMI.replace(client,username);
+        }else{
+            clientsRMI.put(client,username);
+        }
         if(!controller.setFirstLogin(username,LobbySize)){
             clientsRMI.replace(client,null);
             return false;
