@@ -46,4 +46,9 @@ public class RMI implements CommunicationProtocol {
         //
     }
 
+    @Override
+    public void replaceClient(ClientRMI clientRMI) {
+        this.clientRMI = clientRMI;
+    }
+
 }

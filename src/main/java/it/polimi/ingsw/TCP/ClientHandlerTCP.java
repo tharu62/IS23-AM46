@@ -136,6 +136,7 @@ public class ClientHandlerTCP extends Thread {
             case RECONNECTED_REPLY:
                 reply = new Command();
                 if(controller.setLoginReconnection(ObjCommand.username)){
+                    this.username = ObjCommand.username;
                     clients.add(this);
                     reply.cmd = CMD.REPLY_ACCEPTED;
 

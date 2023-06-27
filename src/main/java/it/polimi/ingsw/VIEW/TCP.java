@@ -3,6 +3,7 @@ package it.polimi.ingsw.VIEW;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CommunicationProtocol;
 import it.polimi.ingsw.MODEL.MESSAGE;
+import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.CMD;
 import it.polimi.ingsw.TCP.COMANDS.CHAT;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
@@ -67,5 +68,10 @@ public class TCP implements CommunicationProtocol {
     @Override
     public void replaceClient(ClientTCP clientTCP) {
         this.clientTCP = clientTCP;
+    }
+
+    @Override
+    public void replaceClient(ClientRMI clientRMI) {
+        //
     }
 }

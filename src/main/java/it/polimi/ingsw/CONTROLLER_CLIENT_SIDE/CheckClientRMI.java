@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 
 import it.polimi.ingsw.RMI.ClientRMI;
 
@@ -12,11 +12,14 @@ public class CheckClientRMI extends Thread{
 
         while(true){
             if(!client.disconnected){
+                /*
                 try{
                     ClientRMI.gs.ping();
                 }catch(RemoteException r){
                     client.controller.restartClient(client);
                 }
+
+                 */
             }
         }
 

@@ -14,32 +14,37 @@ public class ping extends Thread{
         this.clientsRMI = clientsRMI;
     }
 
+    @Override
     public void run(){
         while(true){
+
             try {
                 synchronized (this){
-                    wait(2000);
+                    wait(500);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            for (GameClient gc : clientsRMI.keySet()) {
-                try {
 
-                    if(playerHasNotDisconnected(gc)){
-                        gc.ping();
-                    }
-
-                } catch (RemoteException e) {
+            if(clientsRMI.size() > 0) {
+                for (GameClient gc : clientsRMI.keySet()) {
                     try {
 
-                        controller.disconnected(clientsRMI.get(gc));
+                        if (playerHasNotDisconnected(gc)) {
+                            gc.ping();
+                        }
 
-                    } catch (RemoteException ex) {
-                        //throw new RuntimeException(ex);
+                    } catch (RemoteException e) {
+                        try {
+
+                            controller.disconnected(clientsRMI.get(gc));
+
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
-                }
 
+                }
             }
         }
     }
