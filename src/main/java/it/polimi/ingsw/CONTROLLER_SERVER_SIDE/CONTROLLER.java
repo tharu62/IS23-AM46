@@ -38,10 +38,10 @@ public class CONTROLLER {
         return game.master.FirstDraw.card.get(i);
     }
     public boolean getLobbyIsReady() { return lobbyIsReady; }
-    public int getCurrentPlayers(){
+    synchronized public int getCurrentPlayers(){
         return players;
     }
-    public boolean getLobbyIsFull(){
+    synchronized public boolean getLobbyIsFull(){
         return LobbyIsFull;
     }
 

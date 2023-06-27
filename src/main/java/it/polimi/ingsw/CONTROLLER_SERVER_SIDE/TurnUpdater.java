@@ -30,6 +30,7 @@ public class TurnUpdater {
         for (GameClient gc : clientRMI.keySet()) {
             try {
 
+                System.out.println( "CLIENT RMI :" + clientRMI.get(gc));
                 gc.receiveBoard(controller.getBoard());
                 gc.receivePlayers(players);
                 gc.receiveCommonGoals(tempId, tempToken );
