@@ -41,12 +41,12 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
         }else {
             if(controller.getCurrentPlayers() >= 1){
                 controller.players++;
-                this.clientsRMI.put(gc,null);
+                put(gc,null);
                 gc.receiveLOG("CONNECTED");
             }
             if(controller.getCurrentPlayers() == 0){
                 controller.players++;
-                this.clientsRMI.put(gc,null);
+                put(gc, null);
                 gc.receiveLOG("FIRST_TO_CONNECT");
             }
         }
@@ -55,12 +55,12 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
     @Override
     public boolean login(String username, GameClient client) throws RemoteException {
         if(clientsRMI.containsKey(client)){
-            clientsRMI.replace(client,username);
+            replace(client, username);
         }else{
-            clientsRMI.put(client,username);
+            put(client, username);
         }
         if(!controller.setLogin(username)){
-            clientsRMI.replace(client,null);
+            replace(client, null);
             return false;
         }
         return true;
@@ -69,12 +69,12 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
     @Override
     public boolean loginFirst(String username, int LobbySize, GameClient client) throws RemoteException {
         if(clientsRMI.containsKey(client)){
-            clientsRMI.replace(client,username);
+            replace(client, username);
         }else{
-            clientsRMI.put(client,username);
+            put(client, username);
         }
         if(!controller.setFirstLogin(username,LobbySize)){
-            clientsRMI.replace(client,null);
+            replace(client, null);
             return false;
         }
         return true;
@@ -82,12 +82,12 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
 
     @Override
     public boolean loginReconnect(String username, GameClient gc) throws RemoteException {
-        clientsRMI.put(gc, username);
+        put(gc, username);
         if(controller.setLoginReconnection(username)){
-            clientsRMI.put(gc, username);
+            put(gc, username);
             return true;
         }
-        clientsRMI.remove(gc);
+        remove(gc);
         return false;
     }
 
@@ -116,4 +116,21 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
         //
     }
 
+    private void put(GameClient gc, String username){
+        synchronized (controller.lock){
+            this.clientsRMI.put(gc, username);
+        }
+    }
+
+    private void remove(GameClient gc){
+        synchronized (controller.lock){
+            this.clientsRMI.remove(gc);
+        }
+    }
+
+    private void replace(GameClient gc, String username){
+        synchronized ((controller.lock)){
+            this.clientsRMI.replace(gc, username);
+        }
+    }
 }
