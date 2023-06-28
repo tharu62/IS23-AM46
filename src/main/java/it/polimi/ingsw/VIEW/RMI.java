@@ -51,4 +51,13 @@ public class RMI implements CommunicationProtocol {
         this.clientRMI = clientRMI;
     }
 
+    @Override
+    public void startClientRMI() {
+        try {
+            this.clientRMI.start();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

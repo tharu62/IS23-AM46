@@ -112,7 +112,7 @@ public class GameSceneController {
     }
 
     public void setScene() {
-        GUI.gameplayData.DrawPile = new StandardSpriteDataStructure().setDrawPile(firstDraw,secondDraw,thirdDraw);
+        GUI.gameplayData.DrawPile = new StandardSpriteDataStructure().setDrawPile(thirdDraw,secondDraw,firstDraw);
         new StandardSpriteDataStructure().setDrawPileOrder(GUI.gameplayData.drawPileOrder);
         GUI.gameplayData.SpritesBoard = new StandardSpriteDataStructure().setBoard(gridPane);
         GUI.gameplayData.SpriteBookshelf = new StandardSpriteDataStructure().setBookshelf(BookshelfGrid);
@@ -122,7 +122,11 @@ public class GameSceneController {
     /************************************************ CHAT ************************************************************/
 
     public void chatEnter(MouseEvent mouseEvent) {
-        GUI.cmd.chatEnter();
+        if(GUI.chatData.privateMess && GUI.chatData.privateReceiver == null){
+            notification.setText(" CLICK THE RECEIVER FIRST ");
+        }else{
+            GUI.cmd.chatEnter();
+        }
     }
 
     public void privateChatEnter(MouseEvent mouseEvent) {

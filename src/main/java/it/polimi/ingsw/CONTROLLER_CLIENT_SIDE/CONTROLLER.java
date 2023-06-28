@@ -1,5 +1,4 @@
 package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
-import it.polimi.ingsw.NETWORK.Settings;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.CLI.CLI;
@@ -11,7 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CONTROLLER{
+public class CONTROLLER {
+
     public String username;
     public int LobbySize;
     public item[][] grid;

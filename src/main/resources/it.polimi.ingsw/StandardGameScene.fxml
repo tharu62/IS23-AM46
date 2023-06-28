@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -211,9 +212,9 @@
       <Button fx:id="draw" layoutX="737.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#drawClick" text="draw" />
       <GridPane fx:id="drawPile" gridLinesVisible="true" layoutX="735.0" layoutY="20.0" prefHeight="192.0" prefWidth="66.0">
          <children>
-            <ImageView fx:id="thirdDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="thirdDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="secondDraw" fitHeight="57.0" fitWidth="64.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fx:id="firstDraw" fitHeight="59.0" fitWidth="65.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="firstDraw" fitHeight="59.0" fitWidth="65.0" onMouseClicked="#drawPileClick" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -273,9 +274,9 @@
             <ImageView fx:id="itemBookshelf6" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
             <ImageView fx:id="itemBookshelf7" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ImageView fx:id="itemBookshelf8" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf9" fitHeight="38.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fx:id="itemBookshelf9" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <ImageView fx:id="itemBookshelf10" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <ImageView fx:id="itemBookshelf11" fitHeight="38.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="itemBookshelf11" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
             <ImageView fx:id="itemBookshelf12" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ImageView fx:id="itemBookshelf13" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <ImageView fx:id="itemBookshelf14" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
@@ -311,7 +312,7 @@
       <ImageView fx:id="commonGoal2" fitHeight="128.0" fitWidth="195.0" layoutX="728.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="personalGoal" fitHeight="192.0" fitWidth="138.0" layoutX="945.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="notification" editable="false" layoutX="19.0" layoutY="734.0" prefHeight="38.0" prefWidth="700.0" />
-      <Button layoutX="1458.0" layoutY="690.0" mnemonicParsing="false" onMouseClicked="#privateChatEnter" prefHeight="38.0" prefWidth="36.0" text="P" />
+      <Button layoutX="1031.0" layoutY="582.0" mnemonicParsing="false" onMouseClicked="#privateChatEnter" prefHeight="38.0" prefWidth="36.0" text="P" />
       <TextField fx:id="player_0" editable="false" layoutX="929.0" layoutY="419.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />
       <TextField fx:id="player_1" editable="false" layoutX="929.0" layoutY="457.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />
       <TextField fx:id="player_2" editable="false" layoutX="929.0" layoutY="495.0" onMouseClicked="#privateReceiverClicked" prefHeight="38.0" prefWidth="138.0" />

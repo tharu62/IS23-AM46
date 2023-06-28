@@ -12,5 +12,5 @@ public interface CommunicationProtocol {
     void endTurn( String username ) throws RemoteException;
     void replaceClient(ClientTCP clientTCP);
     void replaceClient(ClientRMI clientRMI);
-
+    void startClientRMI();
 }

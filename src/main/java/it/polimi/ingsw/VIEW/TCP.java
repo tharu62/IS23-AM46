@@ -74,4 +74,9 @@ public class TCP implements CommunicationProtocol {
     public void replaceClient(ClientRMI clientRMI) {
         //
     }
+
+    @Override
+    public void startClientRMI() {
+        //
+    }
 }

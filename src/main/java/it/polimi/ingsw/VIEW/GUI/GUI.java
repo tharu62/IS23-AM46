@@ -136,6 +136,7 @@ public class GUI extends Application{
     }
 
     public void main(String[] args){
+        CommandsExecutor.com.startClientRMI();
         launch();
     }
 

@@ -49,7 +49,6 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
                 this.clientsRMI.put(gc,null);
                 gc.receiveLOG("FIRST_TO_CONNECT");
             }
-
         }
     }
 

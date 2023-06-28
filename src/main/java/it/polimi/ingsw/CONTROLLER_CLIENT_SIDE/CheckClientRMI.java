@@ -12,14 +12,11 @@ public class CheckClientRMI extends Thread{
 
         while(true){
             if(!client.disconnected){
-                /*
                 try{
                     ClientRMI.gs.ping();
                 }catch(RemoteException r){
                     client.controller.restartClient(client);
                 }
-
-                 */
             }
         }
 

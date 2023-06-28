@@ -151,13 +151,16 @@ public class SetUp {
                     client.controller = controller;
                     client.start();
                     controller.startUserInterface(args);
+
                 }
                 if(selectedRMI) {
+                    // todo risolvere problema di non connessione di client rmi.
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, crashed);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI , client, interfaceType.GUI);
                     client.controller = controller;
+                    //client.start();
                     controller.startUserInterface(args);
-                    client.start();
+
                 }
             }
         }
