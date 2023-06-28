@@ -98,7 +98,7 @@ public class SetUp {
         do{
             System.out.println("************************************************************************************");
             System.out.println("Select:");
-            System.out.println(" ( 1 ) if ypu want to connect ");
+            System.out.println(" ( 1 ) if you want to connect ");
             System.out.println(" ( 2 ) if you want to reconnect after the client crashed ");
 
             scanner = new Scanner(System.in);
