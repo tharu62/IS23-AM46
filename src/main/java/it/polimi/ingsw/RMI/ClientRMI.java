@@ -52,6 +52,12 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient {
                     controller.LoginOK = gs.loginReconnect(controller.getUsername(), this);
                 }
             }else{
+                if(disconnected){
+                    if(!gs.loginReconnect(controller.username, this)){
+                        controller.notifyInterface("LOBBY_IS_FULL");
+                        System.exit(0);
+                    }
+                }
                 controller.notifyInterface("LOBBY_IS_FULL");
                 System.exit(0);
             }

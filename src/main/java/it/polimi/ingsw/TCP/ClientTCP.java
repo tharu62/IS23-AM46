@@ -86,6 +86,12 @@ public class ClientTCP extends Thread {
                     reply_string = g.toJson(reply);
                     out.println(reply_string);
                 }else{
+                    if(disconnected){
+                        reply.cmd = CMD.RECONNECTED_REPLY;
+                        reply.username = controller.username;
+                        reply_string = g.toJson(reply);
+                        out.println(reply_string);
+                    }
                     controller.notifyInterface(ObjCommand.cmd.toString());
                     System.exit(0);
                 }

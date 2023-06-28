@@ -48,12 +48,12 @@ public class GUI extends Application {
             Task<Void> task = new Task<>() {
                 @Override public Void call() {
                     CommandsExecutor.com.startClientRMI();
-                    System.out.println(" check instance of");
                     return null;
                 }
             };
             new Thread(task).start();
         }
+
     }
 
     public void loadLoginScene(MouseEvent mouseEvent) throws IOException{

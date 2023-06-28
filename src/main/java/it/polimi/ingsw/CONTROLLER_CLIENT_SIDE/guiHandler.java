@@ -114,7 +114,6 @@ public class guiHandler implements GameInterface {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
     }
 
 }

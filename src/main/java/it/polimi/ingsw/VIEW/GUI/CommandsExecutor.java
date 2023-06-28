@@ -199,7 +199,7 @@ public class CommandsExecutor implements GUI_commands {
     }
 
     @Override
-    public void drawDown() {
+    public void drawUp() {
         Image temp;
         String tempOrder;
         if(GUI.gameplayData.drawInProgress){
@@ -225,7 +225,7 @@ public class CommandsExecutor implements GUI_commands {
     }
 
     @Override
-    public void drawUp() {
+    public void drawDown() {
         Image temp;
         String tempOrder;
         if(GUI.gameplayData.drawInProgress){
