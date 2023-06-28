@@ -211,6 +211,8 @@ public class ClientTCP extends Thread {
                 System.exit(0);
 
                  */
+            case PING:
+                break;
 
         }
     }

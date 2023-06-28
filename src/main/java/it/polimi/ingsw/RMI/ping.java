@@ -53,7 +53,7 @@ public class ping extends Thread{
         }
     }
 
-    private boolean playerHasNotDisconnected(GameClient gc){
+    synchronized private boolean playerHasNotDisconnected(GameClient gc){
         for(int i = 0; i < controller.playerList.size(); i++){
             if(controller.playerList.get(i).disconnected){
                 if(controller.playerList.get(i).username.equals(controller.clientsRMI.get(gc))){

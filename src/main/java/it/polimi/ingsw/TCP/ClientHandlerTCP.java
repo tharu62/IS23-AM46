@@ -2,6 +2,7 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
+import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
 import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class ClientHandlerTCP extends Thread {
             System.out.println(" A NEW CLIENT_TCP HAS CONNECTED! ");
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
+            socket.setTcpNoDelay(true);
 
             if(controller.getCurrentPlayers() == 0){
                 clients.add(this);
@@ -74,7 +76,13 @@ public class ClientHandlerTCP extends Thread {
                         reply = null;
                         reply_string = null;
                     }
+                    Command temp = new Command();
+                    temp.cmd = CMD.PING;
+                    String tempString =  g.toJson(temp);
+                    out.println(temp);
+                    System.out.println("check");
                 }
+
             } while (!controller.GameIsOver);
 
             // Socket is closed

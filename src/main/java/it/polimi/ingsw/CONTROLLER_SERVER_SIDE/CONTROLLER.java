@@ -18,7 +18,7 @@ public class CONTROLLER {
     public boolean LobbyIsFull = false;
     public boolean GameIsOver = false;
     public int players = 0;
-    public Object lock;
+    public final Object lock = new Object();
     public List<ClientHandlerTCP> clientsTCP;
     public Map<GameClient, String> clientsRMI = new HashMap<>();
     public List<PLAYER> playerList = new ArrayList<>();
@@ -291,10 +291,12 @@ public class CONTROLLER {
     }
 
     synchronized private void removeDisconnectedPlayerRMI(String username){
-        for(GameClient gameClient : clientsRMI.keySet()){
-            if(clientsRMI.get(gameClient).equals(username)){
-                clientsRMI.remove(gameClient);
-                break;
+        synchronized (lock){
+            for(GameClient gameClient : clientsRMI.keySet()){
+                if(clientsRMI.get(gameClient).equals(username)){
+                    clientsRMI.remove(gameClient);
+                    break;
+                }
             }
         }
     }

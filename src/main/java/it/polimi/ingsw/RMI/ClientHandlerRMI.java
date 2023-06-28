@@ -129,7 +129,7 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
     }
 
     private void replace(GameClient gc, String username){
-        synchronized ((controller.lock)){
+        synchronized (controller.lock){
             this.clientsRMI.replace(gc, username);
         }
     }
