@@ -3,7 +3,6 @@ package it.polimi.ingsw.VIEW.GUI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
-import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.VIEW.RMI;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -118,7 +117,7 @@ public class GUI extends Application {
         cmd.setScore(score);
     }
 
-    synchronized public void scrollChat(MESSAGE message, boolean Private){
+    synchronized public void scrollChat(MESSAGE message){
         StringAdapter stringAdapter = new StringAdapter();
         if(message.header[1].equals(controller.username)){
                 stringAdapter.splitPrivate(this, message, 60);

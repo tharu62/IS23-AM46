@@ -112,8 +112,8 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
     }
 
     @Override
-    public void ping() throws RemoteException {
-        //
+    public boolean ping() throws RemoteException {
+        return true;
     }
 
     private void put(GameClient gc, String username){

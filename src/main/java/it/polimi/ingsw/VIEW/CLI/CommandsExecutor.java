@@ -126,7 +126,6 @@ public class CommandsExecutor implements CLI_commands {
         if (controller.drawStatus > 0){
             System.out.println(" (put)              put items in your Bookshelf ");
         }
-        System.out.println(" (common goal)      show the common goals ");
         System.out.println(" (personal goal)    show your personal goal  ");
     }
 

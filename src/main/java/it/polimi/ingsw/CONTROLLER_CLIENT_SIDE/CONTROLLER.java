@@ -130,8 +130,6 @@ public class CONTROLLER {
         Interface.receiveChat(this,message);
     }
 
-
-
     public void setLastRound(){
         Interface.notifyInterface("                                        LAST ROUND                                        ");
     }

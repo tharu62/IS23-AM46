@@ -2,8 +2,6 @@ package it.polimi.ingsw.TCP;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
-import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
-import it.polimi.ingsw.TCP.COMANDS.GAMEPLAY;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,15 +35,12 @@ public class ClientHandlerTCP extends Thread {
             System.out.println(" A NEW CLIENT_TCP HAS CONNECTED! ");
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
-            socket.setTcpNoDelay(true);
 
             if(controller.getCurrentPlayers() == 0){
                 clients.add(this);
                 controller.players++;
                 reply = new Command();
                 reply.cmd = CMD.FIRST_TO_CONNECT;
-                reply_string = g.toJson(reply);
-                out.println(reply_string);
             }
             else{
                 if(!controller.getLobbyIsFull()){
@@ -53,37 +48,28 @@ public class ClientHandlerTCP extends Thread {
                     controller.players++;
                     reply = new Command();
                     reply.cmd = CMD.CONNECTED;
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
                 }else{
                     reply = new Command();
                     reply.cmd = CMD.LOBBY_IS_FULL;
-                    reply_string = g.toJson(reply);
-                    out.println(reply_string);
                 }
             }
+            reply_string = g.toJson(reply);
+            out.println(reply_string);
 
             String StrCommand;
             Command ObjCommand;
-            do {
-                while( (StrCommand = in.nextLine()) != null ) {
-                    ObjCommand = g.fromJson(StrCommand, Command.class);
-                    CommandSwitcher(ObjCommand);
 
-                    if (active) {
-                        out.println(reply_string);
-                        active = false;
-                        reply = null;
-                        reply_string = null;
-                    }
-                    Command temp = new Command();
-                    temp.cmd = CMD.PING;
-                    String tempString =  g.toJson(temp);
-                    out.println(temp);
-                    System.out.println("check");
+            while((StrCommand = in.nextLine()) != null) {
+                ObjCommand = g.fromJson(StrCommand, Command.class);
+                CommandSwitcher(ObjCommand);
+
+                if (active) {
+                    out.println(reply_string);
+                    active = false;
+                    reply = null;
+                    reply_string = null;
                 }
-
-            } while (!controller.GameIsOver);
+            }
 
             // Socket is closed
             in.close();

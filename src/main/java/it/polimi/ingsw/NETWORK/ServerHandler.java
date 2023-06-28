@@ -27,7 +27,7 @@ public class ServerHandler{
         ping ping = new ping(controller, clientHandlerRMI.clientsRMI);
 
 
-        clientHandlerRMI.start();                              // RMI CONNECTION //
+        clientHandlerRMI.start();                       // RMI CONNECTION //
         socketAccepter.start();                         // TCP CONNECTION //
         ping.start();                                   // RMI PING //
 
