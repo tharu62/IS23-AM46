@@ -27,9 +27,9 @@ public class SetUp {
         do {
             System.out.println("************************************************************************************");
             System.out.println("Select:");
-            System.out.println(" ( 0 ) if you want to quit");
-            System.out.println(" ( 1 ) if you want to use the CLI");
-            System.out.println(" ( 2 ) if you want to use the GUI");
+            System.out.println(" ( 0 ) Quit");
+            System.out.println(" ( 1 ) Use CLI");
+            System.out.println(" ( 2 ) Use GUI");
             scanner = new Scanner(System.in);
             playerInput = scanner.nextLine();
             scanner.reset();
@@ -49,9 +49,9 @@ public class SetUp {
         do {
             System.out.println("************************************************************************************");
             System.out.println("Select:");
-            System.out.println(" ( 0 ) if you want to quit");
-            System.out.println(" ( 1 ) if you want to use the SERVER");
-            System.out.println(" ( 2 ) if you want to use the CLIENT");
+            System.out.println(" ( 0 ) Quit");
+            System.out.println(" ( 1 ) Run as SERVER");
+            System.out.println(" ( 2 ) Run as CLIENT");
 
             scanner = new Scanner(System.in);
             playerInput = scanner.nextLine();
@@ -66,16 +66,16 @@ public class SetUp {
             if ((playerInput.equals("2"))) {
                 selectedCLIENT = true;
                 System.out.println("************************************************************************************");
-                System.out.println(" Insert the ip address of the Server: ( xxx.xxx.xxx.xxx ) ");
+                System.out.println(" Insert Server's ip address (IPv4): ( xxx.xxx.xxx.xxx ) ");
                 playerInput = scanner.nextLine();
                 scanner.reset();
                 Settings.SERVER_NAME = playerInput;
                 do {
                     System.out.println("************************************************************************************");
                     System.out.println("Select:");
-                    System.out.println(" ( 0 ) if you want to quit");
-                    System.out.println(" ( 1 ) if you want to use the CONNECTION_RMI");
-                    System.out.println(" ( 2 ) if you want to use the CONNECTION_TCP");
+                    System.out.println(" ( 0 ) Quit");
+                    System.out.println(" ( 1 ) Use CONNECTION_RMI");
+                    System.out.println(" ( 2 ) Use CONNECTION_TCP");
                     playerInput = scanner.nextLine();
                     scanner.reset();
 
@@ -98,8 +98,8 @@ public class SetUp {
         do{
             System.out.println("************************************************************************************");
             System.out.println("Select:");
-            System.out.println(" ( 1 ) if you want to connect ");
-            System.out.println(" ( 2 ) if you want to reconnect after the client crashed ");
+            System.out.println(" ( 1 ) Ready to connect ");
+            System.out.println(" ( 2 ) Reconnect (if client crashed)");
 
             scanner = new Scanner(System.in);
             playerInput = scanner.nextLine();
