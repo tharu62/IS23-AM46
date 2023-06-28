@@ -3,7 +3,10 @@ package it.polimi.ingsw.VIEW.GUI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.*;
 import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
+import it.polimi.ingsw.RMI.ClientRMI;
+import it.polimi.ingsw.VIEW.RMI;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,7 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-public class GUI extends Application{
+public class GUI extends Application {
     @FXML
     public Stage stage;
     public static Scene gameScene;
@@ -40,6 +43,17 @@ public class GUI extends Application{
         loginSceneController = fxmlLoader.getController();
         LoginSceneController.gui = this;
         loginData.loginSceneOpen = true;
+
+        if(CommandsExecutor.com instanceof RMI){
+            Task<Void> task = new Task<>() {
+                @Override public Void call() {
+                    CommandsExecutor.com.startClientRMI();
+                    System.out.println(" check instance of");
+                    return null;
+                }
+            };
+            new Thread(task).start();
+        }
     }
 
     public void loadLoginScene(MouseEvent mouseEvent) throws IOException{
@@ -136,7 +150,6 @@ public class GUI extends Application{
     }
 
     public void main(String[] args){
-        CommandsExecutor.com.startClientRMI();
         launch();
     }
 

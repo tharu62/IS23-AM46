@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class ClientRMI extends UnicastRemoteObject implements GameClient{
+public class ClientRMI extends UnicastRemoteObject implements GameClient {
     public static GameServer gs;
     public CONTROLLER controller;
     final int PORT;
@@ -21,7 +21,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient{
         this.PORT = port;
         this.crashed = crashed;
     }
-
 
     public void start() throws Exception {
         // Getting the registry
