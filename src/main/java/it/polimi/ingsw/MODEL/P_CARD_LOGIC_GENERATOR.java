@@ -11,6 +11,10 @@ public class P_CARD_LOGIC_GENERATOR {
     List<Integer> alreadyTakenLogic = new ArrayList<>();
 
 
+    /**
+     * This method randomly generates a new card logic.
+     * @return a card logic that implements the P_CARD_LOGIC interface.
+     */
     public P_CARD_LOGIC SetCardLogic() {
         int i;
         do {

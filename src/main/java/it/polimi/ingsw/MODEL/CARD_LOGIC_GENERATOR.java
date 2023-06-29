@@ -8,6 +8,11 @@ public class CARD_LOGIC_GENERATOR {
     int upperbound = 12;
     //int upperbound = 2; //used for testing
     int j = -1;
+
+    /**
+     * This method randomly generates a new card logic.
+     * @return a card logic that implements the CARD_LOGIC interface.
+     */
     public CARD_LOGIC SetCardLogic() {
         int i;
         do {

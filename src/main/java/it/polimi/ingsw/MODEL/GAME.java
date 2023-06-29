@@ -10,6 +10,10 @@ public class GAME {
     public String playerToPlay;
     P_CARD_LOGIC_GENERATOR generator = new P_CARD_LOGIC_GENERATOR();
 
+    /**
+     * This method adds player in the player list until the Lobby is full.
+     * @param username is the username of the player to add.
+     */
     public void addPlayer(String username){
         PLAYER player = new PLAYER();
         player.username = username;
@@ -18,31 +22,46 @@ public class GAME {
         this.CurrentLobbySize++;
     }
 
+    /**
+     * This method fills the Board with items.
+     */
     public void setBoard(){
         space.setBoard(this.LobbySize);
     }
 
+    /**
+     * This method draws the Common Goal Cards and initialize its token values.
+     */
     public void DrawCommonGoalCards(){
         master.setFirstDraw(this.LobbySize);
     }
 
+    /**
+     * This method draws the Personal Goal Card for each player and sets its logic.
+     */
     public void DrawPersonalGoalCards(){
         for(int i=0; i<this.CurrentLobbySize; i++){
             space.player.get(i).drawPersonalGoalCard(generator.SetCardLogic());
         }
     }
 
+    /**
+     * This method chooses the First Player Seat from the player List in MASTER.
+     * The First Player seat is the player to start the fist turn.
+     */
     public void ChooseFirstPlayerSeat(){
         master.ChooseFirstPlayerSeat();
         this.playerToPlay = master.FirstPlayerSeat.username;
     }
 
     /**
-     * The player starts his turn, if it's not the last, then round and turn are updated
-     * and the player's bookshelves is checked.
+     * This method stats the turn of the player <username> , if it's not the last, then round and turn are updated
+     * and the player's bookshelf is checked.
      * If it's the last turn the score of each player is calculated checking personal goals and adjacent item_tiles
      * on the bookshelves, then the scores are compared and the winner's name is saved in Space.winner .
      * The score from the common goals cannot be checked here. below there is the reason.
+     * ( this method is implemented only by the server and only in the first turn, it has been replaced by the method
+     *  masterEndTurn( String username ) and forcedEndTurn( String username ) )
      */
     public void masterStartTurn() {
         if (master.checkIfLastTurn(space.player.get(search(this.playerToPlay)).bookshelf)) {
@@ -88,8 +107,11 @@ public class GAME {
     }
 
     /**
+     * This only checks the  score of the PlayerToPlay.
+     * If the player has reached a Common Goals his score is updated.
+     * Each Common Goal can be achieved only once.
      *
-     * @param username
+     * @param username is the PlayerToPlay
      */
     public void CheckScore(String username){
         if (this.playerToPlay.equals(username)) {
@@ -114,10 +136,11 @@ public class GAME {
     }
 
     /**
-     * The player can end his turn in any moment if he has started his turn, also it is not required to make a move or
-     * to check the score.
+     * This method ends the turn of a player and sets the next turn.
      * If the board is empty or there are no drawable items, the board is refilled.
      * If the Bookshelf of the player that is ending his turn is full, the last round starts and 1 score point is given.
+     * The score of the player is checked only for the Common Goals. ( Personal Goals and Adjacent Items are checked in
+     *  the last turn )
      * The new PlayerToPlay is chosen.
      *
      * @param username it's the playerToPlay
@@ -161,10 +184,22 @@ public class GAME {
         space.player.get(search(username)).bookshelf.itemToPut.clear();
     }
 
+    /**
+     * This method return the score of the player with the given username.
+     *
+     * @param username is the username of the player
+     * @return the score of the player.
+     */
     public int getScore(String username){
         return space.player.get(search(username)).score;
     }
 
+    /**
+     * This method searches the index of the player with the given username from the player list in SPACE.
+     *
+     * @param username is the username of the player to search
+     * @return the index of the player in the player list in SPACE
+     */
     public int search(String username){
         for(int i=0; i < this.CurrentLobbySize; i++){
             if(space.player.get(i).username.equals(username)){return i;}

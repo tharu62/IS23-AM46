@@ -7,7 +7,7 @@ public class ROUND {
     int roundTrip = 0;
 
     /**
-     * This method sets the correct number of turns in each round.
+     * This method sets the correct number of turns in each round ( it should be invoked once ).
      * @param roundTrip is the number of players in the match but also the number of turn in each round.
      */
     public void set(int roundTrip){

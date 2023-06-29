@@ -14,6 +14,13 @@ public class BOARD {
     BAG bag = new BAG();
     public int[] itemPos = new int[6];
     int itemCounter = 0;
+
+    /**
+     * This method sets the cells of the Board to 'item.OBJECT' if an item can be placed in that cell according to the
+     * game logic ( number of player in game ). (essentially it creates a mask to place the items afterwards)
+     *
+     * @param playerNumber is the number of player in the game.
+     */
     public void setGrid(int playerNumber){
         bag.setItemList();
 
@@ -49,6 +56,12 @@ public class BOARD {
     }
 
 
+    /**
+     * This method checks if an item can be taken from the Board and returns it ( even if it's empty ).
+     * @param n row of the Board
+     * @param m column of the Board
+     * @return item
+     */
     public item drawItem(int n, int m){
         item temp;
         if(cannotTakeItem(n,m)){
@@ -60,6 +73,9 @@ public class BOARD {
 
     }
 
+    /**
+     * This method refill the Board in the cells with 'item.OBJECT' by taking the necessary items from the bag object.
+     */
     void restore(){
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
@@ -71,6 +87,13 @@ public class BOARD {
         }
     }
 
+    /**
+     * This method checks if the item in row n and column m of the Board can be taken by game logic.
+     *
+     * @param n row
+     * @param m column
+     * @return true if the item can be taken, false otherwise.
+     */
     private boolean cannotTakeItem(int n, int m) {
         if (Grid[n][m]==item.EMPTY || Grid[n][m]==item.OBJECT){
             return true;
@@ -136,6 +159,11 @@ public class BOARD {
         return cont;
     }
 
+    /**
+     * This method checks if the Board is empty or the only items remaining don't have any item on the sides.
+     *
+     * @return true if the Board is to be refilled, false otherwise.
+     */
     boolean IsToBeRestored(){
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){

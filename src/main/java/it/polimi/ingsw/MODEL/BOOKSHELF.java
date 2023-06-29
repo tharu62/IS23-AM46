@@ -57,9 +57,11 @@ public class BOOKSHELF {
     }
 
     /**
+     * This method return the score of the adjacent items of type <comp> by searching the number of items touching each
+     * other with the method dfs(), and then it applies the game logic to return the real score.
      *
-     * @param comp
-     * @return
+     * @param comp is the type of item to check.
+     * @return the score for that type of item.
      */
     public  int checkAdjacentItem(item comp){
         int score=0;
@@ -67,7 +69,7 @@ public class BOOKSHELF {
         for(int i=0; i<Grid.length ; i++){
             for(int j=0; j<Grid[j].length ;j++){
                 if(Grid[i][j]==comp){
-                    temp=dfs(i,j,comp);
+                    temp = dfs(i,j,comp);
                     if (temp == 3) score += 2;
                     if (temp == 4) score += 3;
                     if (temp == 5) score += 5;
@@ -79,10 +81,14 @@ public class BOOKSHELF {
     }
 
     /**
+     * This method is inspired by the DEPTH FIRST SEARCH (DFS) Algorithm.
+     * It searches for all the possible items that touches each other on the sides and return the number of these items.
+     * THE ITEM CHECKED ARE SET TO EMPTY, this means that once the bookshelf has been checked for a specific type of
+     * item, it can't be checked again.
      *
-     * @param i
-     * @param j
-     * @param comp
+     * @param i row of the starting item
+     * @param j column of the starting item
+     * @param comp is the item type of the item to check.
      * @return
      */
     private int dfs(int i, int j, item comp){

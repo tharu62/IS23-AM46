@@ -17,10 +17,10 @@ public class cliHandler implements GameInterface{
         this.cli = cli;
     }
 
+
+
     @Override
     public void notifyInterface(String message) {
-        //cli.controller.notificationBuffer.add(message);
-        //cli.cmd.notifyCLI();
         System.out.println("******************************************************************************************");
         System.out.println(message);
         System.out.println("******************************************************************************************");
