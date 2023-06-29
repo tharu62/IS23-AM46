@@ -21,6 +21,7 @@ public class ClientHandlerTCP extends Thread {
     public String reply_string;
     public Gson g = new Gson();
     public boolean active = false;
+    public boolean disconnected;
     public String username;
 
     public ClientHandlerTCP(Socket socket, CONTROLLER controller, List<ClientHandlerTCP> clients ) {
@@ -77,17 +78,9 @@ public class ClientHandlerTCP extends Thread {
             socket.close();
 
         } catch (IOException | NoSuchElementException e) {
-            try {
-                if(this.username == null){
-                    controller.players--;
-                    clients.remove(this);
-                }else{
-                    controller.disconnected(this.username);
-                }
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
-            }
+           //
         }
+
     }
 
     synchronized public void broadcast(Command message){
@@ -179,6 +172,9 @@ public class ClientHandlerTCP extends Thread {
             case SEND_RECONNECTION_DATA:
                 controller.sendReconnectionData(ObjCommand.username);
                 break;
+
+            case PONG:
+                this.disconnected = false;
         }
     }
 }

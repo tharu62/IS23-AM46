@@ -137,6 +137,12 @@ public class CLI extends Thread {
                         chatInputInProgress = false;
                         inputNotValid = false;
                     }
+
+                    if(StrCommand.equalsIgnoreCase("bookshelf")){
+                        cmd.printBookshelf(controller.bookshelf);
+                        inputNotValid = false;
+                    }
+
                     if (inputNotValid) {
                         System.out.println(" Command not valid, retry. ");
                     }

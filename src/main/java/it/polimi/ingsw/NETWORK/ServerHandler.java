@@ -3,8 +3,10 @@ package it.polimi.ingsw.NETWORK;
 import it.polimi.ingsw.CONTROLLER_SERVER_SIDE.CONTROLLER;
 import it.polimi.ingsw.MODEL.GAME;
 import it.polimi.ingsw.RMI.ClientHandlerRMI;
-import it.polimi.ingsw.RMI.ping;
+import it.polimi.ingsw.RMI.pingRMI;
 import it.polimi.ingsw.TCP.SocketAccepter;
+import it.polimi.ingsw.TCP.pingTCP;
+
 import java.rmi.RemoteException;
 
 /**
@@ -24,13 +26,13 @@ public class ServerHandler{
         clientHandlerRMI = new ClientHandlerRMI(controller, Settings.PORT_RMI);
 
         SocketAccepter socketAccepter = new SocketAccepter(controller, Settings.PORT_TCP);
-        ping ping = new ping(controller, clientHandlerRMI.clientsRMI);
-
+        pingRMI pingRMI = new pingRMI(clientHandlerRMI, controller, clientHandlerRMI.clientsRMI);
+        pingTCP pingTCP = new pingTCP(controller, controller.clientsTCP);
 
         clientHandlerRMI.start();                       // RMI CONNECTION //
         socketAccepter.start();                         // TCP CONNECTION //
-        ping.start();                                   // RMI PING //
-
+        pingRMI.start();                                   // RMI PING //
+        pingTCP.start();                                   // TCP PING //
     }
 
 }

@@ -4,9 +4,9 @@ import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public interface GameInterface {
@@ -23,6 +23,6 @@ public interface GameInterface {
     void setScore(CONTROLLER controller, int score);
     void setPlayerToPlay(CONTROLLER controller, String ptp);
     void restartClient(CONTROLLER controller, ClientTCP clientTCP);
-    void restartClient(CONTROLLER controller, ClientRMI clientRMI);
+    void restartClient(CONTROLLER controller, ClientRMI clientRMI) throws Exception;
 
 }

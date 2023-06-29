@@ -48,13 +48,13 @@ public class cliHandler implements GameInterface{
             if(message.header[1].equals("everyone")) {
                 if(!message.header[0].equals(controller.username)){
                     controller.Interface.notifyInterface(" NEW CHAT MESSAGE !");
-                    controller.Interface.notifyInterface(message.header[0] + " < public >:" + message.text);
+                    controller.Interface.notifyInterface(message.header[0] + " <public> : " + message.text);
                 }
             }
             if(message.header[1].equals(controller.username)){
                 if(!message.header[0].equals(controller.username)){
                     controller.Interface.notifyInterface(" NEW CHAT MESSAGE !");
-                    controller.Interface.notifyInterface(message.header[0] + " < private > : " + message.text);
+                    controller.Interface.notifyInterface(message.header[0] + " <private> : " + message.text);
                 }
             }
         }

@@ -198,19 +198,12 @@ public class ClientTCP extends Thread {
             case USER_DISCONNECTED:
                 controller.notifyInterface(" The player '" + ObjCommand.username + "' has disconnected ");
                 break;
-                /*
-                controller.notifyInterface(" AUTO-SHUTDOWN ...");
-                synchronized (this){
-                    try {
-                        this.wait(3000);
-                    }catch (InterruptedException e){
-                        System.exit(0);
-                    }
-                }
-                System.exit(0);
 
-                 */
             case PING:
+                reply = new Command();
+                reply.cmd = CMD.PONG;
+                reply_string = g.toJson(reply);
+                out.println(reply_string);
                 break;
 
         }

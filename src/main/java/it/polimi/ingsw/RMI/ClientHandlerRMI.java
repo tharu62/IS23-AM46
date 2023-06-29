@@ -15,6 +15,7 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
     CONTROLLER controller;
     public Map<GameClient, String> clientsRMI = new HashMap<>();
     final int PORT;
+    public boolean disconnected;
 
     public ClientHandlerRMI(CONTROLLER controller, int port) throws RemoteException {
         this.controller = controller;
@@ -112,25 +113,24 @@ public class ClientHandlerRMI extends UnicastRemoteObject implements GameServer 
     }
 
     @Override
-    public boolean ping() throws RemoteException {
-        return true;
+    public void pong() throws RemoteException {
+        this.disconnected = false;
+    }
+
+    @Override
+    public void ping(GameClient gc) throws RemoteException {
+        gc.pong();
     }
 
     private void put(GameClient gc, String username){
-        synchronized (controller.lock){
-            this.clientsRMI.put(gc, username);
-        }
+        this.clientsRMI.put(gc, username);
     }
 
     private void remove(GameClient gc){
-        synchronized (controller.lock){
-            this.clientsRMI.remove(gc);
-        }
+        this.clientsRMI.remove(gc);
     }
 
     private void replace(GameClient gc, String username){
-        synchronized (controller.lock){
-            this.clientsRMI.replace(gc, username);
-        }
+        this.clientsRMI.replace(gc, username);
     }
 }

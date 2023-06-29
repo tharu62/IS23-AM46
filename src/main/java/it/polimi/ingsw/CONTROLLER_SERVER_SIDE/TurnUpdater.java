@@ -12,7 +12,6 @@ import it.polimi.ingsw.TCP.Command;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -204,15 +203,17 @@ public class TurnUpdater {
     }
 
     public void reconnectRMI(GameClient gc, List<String> players, CONTROLLER controller, GAME game, String username){
-            try {
+
+        List<Integer> tempId = new ArrayList<>();
+        List<Integer> tempToken = new ArrayList<>();
+        tempId.add(controller.getCommonGoalCard(0).getCardLogic().getId());
+        tempId.add(controller.getCommonGoalCard(1).getCardLogic().getId());
+        tempToken.add(controller.getCommonGoalCard(0).getToken_value());
+        tempToken.add(controller.getCommonGoalCard(1).getToken_value());
+
+        try {
                 gc.receiveBoard(controller.getBoard());
                 gc.receivePlayers(players);
-                List<Integer> tempId = new ArrayList<>();
-                List<Integer> tempToken = new ArrayList<>();
-                tempId.add(controller.getCommonGoalCard(0).getCardLogic().getId());
-                tempId.add(controller.getCommonGoalCard(1).getCardLogic().getId());
-                tempToken.add(controller.getCommonGoalCard(0).getToken_value());
-                tempToken.add(controller.getCommonGoalCard(1).getToken_value());
                 gc.receiveCommonGoals(tempId, tempToken );
                 gc.receiveBookshelf(controller.getBookshelf(username));
                 gc.receiveScore(controller.getScore(controller.clientsRMI.get(gc)));
@@ -294,8 +295,7 @@ public class TurnUpdater {
 
         String reply_string;
         Gson g = new Gson();
-        Command temp = new Command();
-        temp = new Command();
+        Command temp;
 
         for(ClientHandlerTCP clientHandler : clientsTCP){
 
@@ -307,7 +307,6 @@ public class TurnUpdater {
             reply_string = g.toJson(temp);
             clientHandler.out.println(reply_string);
 
-            temp = new Command();
             temp = new Command();
             temp.cmd = CMD.WINNER;
             temp.username = game.space.winner;

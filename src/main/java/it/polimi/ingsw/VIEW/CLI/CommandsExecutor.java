@@ -27,14 +27,6 @@ public class CommandsExecutor implements CLI_commands {
     }
 
     @Override
-    public void notifyCLI() {
-            System.out.println("******************************************************************************************");
-                System.out.println();
-            System.out.println("******************************************************************************************");
-
-    }
-
-    @Override
     public String getUsername() {
         System.out.println( " Insert username:  ");
         Scanner scanner = new Scanner(System.in);
@@ -135,6 +127,7 @@ public class CommandsExecutor implements CLI_commands {
         System.out.println(" Actions: ");
         System.out.println(" (chat)         chat with players ");
         System.out.println(" (play)         if it's your turn you can stop the real time chat and start playing the game. ");
+        System.out.println(" (bookshelf)    check your bookshelf. ");
     }
 
     @Override

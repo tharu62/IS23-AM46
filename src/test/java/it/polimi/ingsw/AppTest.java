@@ -6,7 +6,7 @@ import junit.framework.TestSuite;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple MyShelfie.
  */
 public class AppTest 
     extends TestCase

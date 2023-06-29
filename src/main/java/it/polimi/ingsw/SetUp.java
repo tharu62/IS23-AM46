@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
-import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CheckClientRMI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.interfaceType;
 import it.polimi.ingsw.NETWORK.ServerHandler;
@@ -12,7 +11,6 @@ import it.polimi.ingsw.TCP.ClientTCP;
 import java.util.Scanner;
 
 public class SetUp {
-    boolean active = true;
     boolean selectedCLI = false;
     public boolean selectedGUI = false;
     public boolean selectedCLIENT = false;
@@ -28,16 +26,12 @@ public class SetUp {
         do {
             System.out.println("************************************************************************************");
             System.out.println("Select:");
-            System.out.println(" ( 0 ) Quit");
             System.out.println(" ( 1 ) Use CLI");
             System.out.println(" ( 2 ) Use GUI");
             scanner = new Scanner(System.in);
             playerInput = scanner.nextLine();
             scanner.reset();
 
-            if (playerInput.equals("0")) {
-                active = false;
-            }
             if ((playerInput.equals("1"))) {
                 selectedCLI = true;
             }
@@ -45,12 +39,11 @@ public class SetUp {
                 selectedGUI = true;
             }
 
-        } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
+        } while ( !playerInput.equals("1") && !playerInput.equals("2") );
 
         do {
             System.out.println("************************************************************************************");
             System.out.println("Select:");
-            System.out.println(" ( 0 ) Quit");
             System.out.println(" ( 1 ) Run as SERVER");
             System.out.println(" ( 2 ) Run as CLIENT");
 
@@ -58,31 +51,24 @@ public class SetUp {
             playerInput = scanner.nextLine();
             scanner.reset();
 
-            if (playerInput.equals("0")) {
-                active = false;
-            }
             if (playerInput.equals("1")) {
                 selectedSERVER = true;
             }
             if ((playerInput.equals("2"))) {
                 selectedCLIENT = true;
                 System.out.println("************************************************************************************");
-                System.out.println(" Insert Server's ip address (IPv4): ( xxx.xxx.xxx.xxx ) ");
+                System.out.println(" Insert Server's ip address : ( xxx.xxx.xxx.xxx ) ");
                 playerInput = scanner.nextLine();
                 scanner.reset();
                 Settings.SERVER_NAME = playerInput;
                 do {
                     System.out.println("************************************************************************************");
                     System.out.println("Select:");
-                    System.out.println(" ( 0 ) Quit");
                     System.out.println(" ( 1 ) Use CONNECTION_RMI");
                     System.out.println(" ( 2 ) Use CONNECTION_TCP");
                     playerInput = scanner.nextLine();
                     scanner.reset();
 
-                    if (playerInput.equals("0")) {
-                        active = false;
-                    }
                     if ((playerInput.equals("1"))) {
                         selectedRMI = true;
                     }
@@ -90,31 +76,33 @@ public class SetUp {
                         selectedTCP = true;
                     }
 
-                } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
+                } while ( !playerInput.equals("1") && !playerInput.equals("2") );
             }
 
 
-        } while ( !playerInput.equals("0") && !playerInput.equals("1") && !playerInput.equals("2") );
+        } while ( !playerInput.equals("1") && !playerInput.equals("2") );
 
-        do{
-            System.out.println("************************************************************************************");
-            System.out.println("Select:");
-            System.out.println(" ( 1 ) Ready to connect ");
-            System.out.println(" ( 2 ) Reconnect (if client crashed)");
+        if(selectedCLIENT) {
+            do {
+                System.out.println("************************************************************************************");
+                System.out.println("Select:");
+                System.out.println(" ( 1 ) Ready to connect ");
+                System.out.println(" ( 2 ) Reconnect (if client crashed)");
 
-            scanner = new Scanner(System.in);
-            playerInput = scanner.nextLine();
-            scanner.reset();
+                scanner = new Scanner(System.in);
+                playerInput = scanner.nextLine();
+                scanner.reset();
 
-            if (playerInput.equals("1")) {
-                crashed = false;
-            }
+                if (playerInput.equals("1")) {
+                    crashed = false;
+                }
 
-            if (playerInput.equals("2")) {
-                crashed = true;
-            }
+                if (playerInput.equals("2")) {
+                    crashed = true;
+                }
 
-        }while(!playerInput.equals("1") && !playerInput.equals("2"));
+            } while (!playerInput.equals("1") && !playerInput.equals("2"));
+        }
 
         if (selectedCLI) {
             if (selectedSERVER) {
@@ -135,10 +123,14 @@ public class SetUp {
                     client.controller = controller;
                     controller.startUserInterface(args);
                     client.start();
+
+                    /*
                     CheckClientRMI checkClientRMI = new CheckClientRMI();
                     checkClientRMI.client = client;
                     checkClientRMI.controller = controller;
                     checkClientRMI.start();
+
+                     */
                 }
             }
         }
@@ -156,14 +148,14 @@ public class SetUp {
                     client.controller = controller;
                     client.start();
                     controller.startUserInterface(args);
-
+                    // TODO COME SU CLI PING
                 }
                 if(selectedRMI) {
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, crashed);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI , client, interfaceType.GUI);
                     client.controller = controller;
                     controller.startUserInterface(args);
-
+                    // TODO COME SU CLI PING
                 }
             }
         }

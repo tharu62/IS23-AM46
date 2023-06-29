@@ -4,7 +4,6 @@ import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.MODEL.item;
 import it.polimi.ingsw.NETWORK.Settings;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -24,22 +23,26 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient {
         this.crashed = crashed;
     }
 
-    public void start() {
+    public void start() throws Exception {
+
         // Getting the registry
         Registry registry;
         // Looking up the registry for the remote object
-        try {
-            registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, PORT);
-            gs = (GameServer) registry.lookup("GameService");
-            gs.connect(this);
-        } catch (RemoteException | NotBoundException | InterruptedException e) {
-            System.out.println("unable to connect to server... retry later");
-        }
+        registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, PORT);
+        System.setProperty("java.rmi.server.hostname", Settings.SERVER_NAME);
+        gs = (GameServer) registry.lookup("GameService");
+        gs.connect(this);
+
     }
 
     @Override
-    public boolean ping() throws RemoteException {
-        return true;
+    public void ping() throws RemoteException {
+        gs.pong();
+    }
+
+    @Override
+    public void pong() throws RemoteException {
+        this.disconnected = false;
     }
 
     @Override

@@ -1,14 +1,13 @@
 package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.MODEL.*;
-import it.polimi.ingsw.MODEL.COMMON_GOAL_CARD;
-import it.polimi.ingsw.MODEL.PERSONAL_GOAL_CARD;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 public interface GameClient extends Remote {
-    boolean ping() throws RemoteException;
+    void ping() throws RemoteException;
+    void pong() throws RemoteException;
     void receiveMessage( MESSAGE message) throws RemoteException;
     void receiveLOG(String message) throws RemoteException;
     void receiveDisconnectedPlayer(String username) throws RemoteException;

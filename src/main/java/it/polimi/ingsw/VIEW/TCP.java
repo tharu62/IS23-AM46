@@ -77,7 +77,7 @@ public class TCP implements CommunicationProtocol {
 
     @Override
     public void startClientRMI() {
-        //
+        // USED ONLY FOR IN GUI
     }
 
 }

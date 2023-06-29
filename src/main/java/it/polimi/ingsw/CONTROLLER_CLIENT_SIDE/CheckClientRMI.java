@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 public class CheckClientRMI extends Thread{
     public ClientRMI client;
     public CONTROLLER controller;
+    int counter = 0;
     @Override
     public void run(){
 
@@ -15,28 +16,43 @@ public class CheckClientRMI extends Thread{
 
             synchronized (this){
                 try {
-                    wait(4000);
+                    wait(5000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
-            try {
-                System.out.println("check ping");
-                ClientRMI.gs.ping();
-            } catch (RemoteException e) {
-                try {
-                    ClientRMI.gs.ping();
-                } catch (RemoteException ex) {
+
+            if(counter > 0){
+                if(client.disconnected){
                     System.out.println("restarting the client ");
                     try {
                         client = new ClientRMI(Settings.PORT_RMI, false);
                         client.disconnected = true;
                         controller.restartClient(client);
-                    } catch (RemoteException exc) {
+                    } catch (Exception exc) {
                         throw new RuntimeException(exc);
                     }
                 }
+            } else {
+                try {
+                    ClientRMI.gs.ping(client);
+                    client.disconnected = true;
+                    counter ++;
+                } catch (RemoteException e) {
+                    System.out.println("restarting the client ");
+                    try {
+                        client = new ClientRMI(Settings.PORT_RMI, false);
+                        client.disconnected = true;
+                        controller.restartClient(client);
+                    } catch (Exception exc) {
+                        throw new RuntimeException(exc);
+                    }
+                }
+
+
             }
+
+
         }
 
     }

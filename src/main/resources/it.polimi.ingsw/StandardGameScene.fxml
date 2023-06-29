@@ -229,15 +229,15 @@
       <Button fx:id="drawDown" layoutX="825.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#DownClicked" text="down" />
       <TextFlow layoutX="1091.0" layoutY="419.0" prefHeight="269.0" prefWidth="361.0">
          <children>
-            <VBox prefHeight="267.0" prefWidth="360.0">
+            <VBox prefHeight="267.0" prefWidth="360.0" style="-fx-background-color: white;">
                <children>
-                  <TextField fx:id="mes6" editable="false" promptText="mes6" />
-                  <TextField fx:id="mes5" editable="false" layoutX="10.0" layoutY="10.0" promptText="mes5" />
-                  <TextField fx:id="mes4" editable="false" layoutX="10.0" layoutY="48.0" promptText="mes4" />
-                  <TextField fx:id="mes3" editable="false" layoutX="10.0" layoutY="86.0" promptText="mes3" />
-                  <TextField fx:id="mes2" editable="false" layoutX="10.0" layoutY="124.0" promptText="mes2" />
-                  <TextField fx:id="mes1" editable="false" layoutX="10.0" layoutY="162.0" promptText="mes1" />
-                  <TextField fx:id="mes0" editable="false" layoutX="10.0" layoutY="200.0" promptText="mes0" />
+                  <TextField fx:id="mes6" editable="false" />
+                  <TextField fx:id="mes5" editable="false" layoutX="10.0" layoutY="10.0" />
+                  <TextField fx:id="mes4" editable="false" layoutX="10.0" layoutY="48.0" />
+                  <TextField fx:id="mes3" editable="false" layoutX="10.0" layoutY="86.0" />
+                  <TextField fx:id="mes2" editable="false" layoutX="10.0" layoutY="124.0" />
+                  <TextField fx:id="mes1" editable="false" layoutX="10.0" layoutY="162.0" />
+                  <TextField fx:id="mes0" editable="false" layoutX="10.0" layoutY="200.0" />
                </children>
             </VBox>
          </children>

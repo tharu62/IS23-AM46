@@ -16,7 +16,6 @@ public class CONTROLLER {
     public GAME game;
     public boolean lobbyIsReady = false;
     public boolean LobbyIsFull = false;
-    public boolean GameIsOver = false;
     public int players = 0;
     public final Object lock = new Object();
     public List<ClientHandlerTCP> clientsTCP;
@@ -38,12 +37,14 @@ public class CONTROLLER {
     public COMMON_GOAL_CARD getCommonGoalCard(int i){
         return game.master.FirstDraw.card.get(i);
     }
-    public boolean getLobbyIsReady() { return lobbyIsReady; }
     synchronized public int getCurrentPlayers(){
         return players;
     }
     synchronized public boolean getLobbyIsFull(){
         return LobbyIsFull;
+    }
+    public int getScore( String username ){
+        return game.getScore(username);
     }
 
     /*********************************************** SETTERS **********************************************************/
@@ -53,7 +54,7 @@ public class CONTROLLER {
     }
 
     public boolean setFirstLogin(String username, int LobbySize){
-        if(LobbySize < 5 && LobbySize > 1 && newUsername(username)) {
+        if(LobbySize < 5 && LobbySize > 1 && newUsername(username) && !username.equals("")) {
             game.LobbySize = LobbySize;
             game.addPlayer(username);
             lobbyIsReady = true;
@@ -68,7 +69,7 @@ public class CONTROLLER {
 
     public boolean setLogin(String username) throws RemoteException {
         if(lobbyIsReady){
-            if(!getLobbyIsFull() && newUsername(username)) {
+            if(!getLobbyIsFull() && newUsername(username) && !username.equals("")) {
                 if(game.CurrentLobbySize == (game.LobbySize -1)) {
                     LobbyIsFull = true;
                     game.addPlayer(username);
@@ -145,10 +146,6 @@ public class CONTROLLER {
         return game.playerPutItems( username, m, a, b, c);
     }
 
-    public int getScore( String username ){
-        return game.getScore(username);
-    }
-
     public void setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
             if(game.IsOver){
@@ -204,36 +201,48 @@ public class CONTROLLER {
                 break;
             }
         }
+        if(OnlyOnePlayerOnline()){
+            game.IsOver = true;
+            game.space.winner = onlyPlayerOnline();
+            TurnUpdater updater = new TurnUpdater();
+            if (this.clientsRMI.size() > 0) {
+                updater.RMI_last(clientsRMI, this, this.game);
+            }
+            if (clientsTCP.size() > 0) {
+                updater.TCP_last(clientsTCP, this, this.game);
+            }
+        }else {
 
-        if(clientsTCP.size() > 0) {
-            Command c = new Command();
-            c.cmd = CMD.USER_DISCONNECTED;
-            c.username = username;
-            this.clientsTCP.get(0).broadcast(c);
-        }
+            if (clientsTCP.size() > 0) {
+                Command c = new Command();
+                c.cmd = CMD.USER_DISCONNECTED;
+                c.username = username;
+                this.clientsTCP.get(0).broadcast(c);
+            }
 
-        if(this.clientsRMI.size() > 0) {
-            for (GameClient gc : clientsRMI.keySet()) {
-                if(!clientsRMI.get(gc).equals(username)){
-                    System.out.println(username);
-                    System.out.println(clientsRMI.get(gc));
-                    gc.receiveDisconnectedPlayer(username);
+            if (this.clientsRMI.size() > 0) {
+                for (GameClient gc : clientsRMI.keySet()) {
+                    if (!clientsRMI.get(gc).equals(username)) {
+                        System.out.println(username);
+                        System.out.println(clientsRMI.get(gc));
+                        gc.receiveDisconnectedPlayer(username);
+                    }
                 }
             }
-        }
 
-        if(this.game.playerToPlay.equals(username)){
-            game.forcedEndTurn(username);
-            while(turnOfDisconnectedPlayer(this.game.playerToPlay)){
-                game.masterEndTurn(this.game.playerToPlay);
-            }
+            if (this.game.playerToPlay.equals(username)) {
+                game.forcedEndTurn(username);
+                while (turnOfDisconnectedPlayer(this.game.playerToPlay)) {
+                    game.masterEndTurn(this.game.playerToPlay);
+                }
 
-            TurnUpdater updater = new TurnUpdater();
-            if(this.clientsRMI.size() > 0) {
-                updater.RMI(clientsRMI, this, this.game);
-            }
-            if(clientsTCP.size() > 0) {
-                updater.TCP(clientsTCP, this, this.game);
+                TurnUpdater updater = new TurnUpdater();
+                if (this.clientsRMI.size() > 0) {
+                    updater.RMI(clientsRMI, this, this.game);
+                }
+                if (clientsTCP.size() > 0) {
+                    updater.TCP(clientsTCP, this, this.game);
+                }
             }
         }
     }
@@ -293,14 +302,12 @@ public class CONTROLLER {
     }
 
     synchronized private void removeDisconnectedPlayerRMI(String username){
-        synchronized (lock){
             for(GameClient gameClient : clientsRMI.keySet()){
                 if(clientsRMI.get(gameClient).equals(username)){
                     clientsRMI.remove(gameClient);
                     break;
                 }
             }
-        }
     }
 
     synchronized private boolean turnOfDisconnectedPlayer(String username){
@@ -314,6 +321,26 @@ public class CONTROLLER {
         return false;
     }
 
+    private boolean OnlyOnePlayerOnline(){
+        int counter = 0;
+        for(PLAYER player : playerList){
+            if(!player.disconnected){
+                counter++;
+                if(counter > 1){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    private String onlyPlayerOnline(){
+        for(PLAYER player : playerList){
+            if(!player.disconnected){
+                return player.username;
+            }
+        }
+        return null;
+    }
 }
 
 

@@ -73,7 +73,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>it.polimi.ingsw.App</mainClass>
+                            <mainClass>it.polimi.ingsw.MyShelfie</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -96,7 +96,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>it.polimi.ingsw.App.Main</mainClass>
+                            <mainClass>it.polimi.ingsw.MyShelfie.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

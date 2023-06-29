@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -122,7 +123,7 @@ public class GameSceneController {
     /************************************************ CHAT ************************************************************/
 
     public void chatEnter(MouseEvent mouseEvent) {
-        if(GUI.chatData.privateMess && GUI.chatData.privateReceiver == null){
+        if(GUI.chatData.privateMess && (GUI.chatData.privateReceiver == null || GUI.chatData.privateReceiver.equals(""))){
             notification.setText(" CLICK THE RECEIVER FIRST ");
         }else{
             GUI.cmd.chatEnter();
@@ -136,10 +137,19 @@ public class GameSceneController {
 
     public void inputKey(KeyEvent keyEvent) {
         if(GUI.chatData.privateMess){
-            GUI.chatData.privateStringBuilder.append(keyEvent.getCharacter());
+            if(keyEvent.getCode() == KeyCode.DELETE || keyEvent.getCode() == KeyCode.CANCEL || keyEvent.getCode() == KeyCode.BACK_SPACE){
+                GUI.chatData.privateStringBuilder.deleteCharAt(GUI.chatData.privateStringBuilder.length()-1);
+            }else{
+                GUI.chatData.privateStringBuilder.append(keyEvent.getCharacter());
+            }
+
         }
         else{
-            GUI.chatData.stringBuilder.append(keyEvent.getCharacter());
+            if(keyEvent.getCode() == KeyCode.DELETE || keyEvent.getCode() == KeyCode.CANCEL || keyEvent.getCode() == KeyCode.BACK_SPACE){
+                GUI.chatData.stringBuilder.deleteCharAt(GUI.chatData.stringBuilder.length()-1);
+            }else{
+                GUI.chatData.stringBuilder.append(keyEvent.getCharacter());
+            }
         }
     }
 

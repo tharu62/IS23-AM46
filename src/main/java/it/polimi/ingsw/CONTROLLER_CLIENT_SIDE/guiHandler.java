@@ -7,6 +7,7 @@ import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 import it.polimi.ingsw.VIEW.GUI.GUI;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -102,18 +103,16 @@ public class guiHandler implements GameInterface {
     public void restartClient(CONTROLLER controller, ClientTCP clientTCP) {
         ClientTCP client = new ClientTCP(Settings.PORT_TCP, false);
         client.controller = controller;
+        clientTCP.disconnected = true;
         GUI.cmd.replaceClient(client);
+        clientTCP.start();
     }
 
     @Override
-    public void restartClient(CONTROLLER controller, ClientRMI clientRMI) {
-        try {
-            ClientRMI client = new ClientRMI(Settings.PORT_RMI, false);
-            client.controller = controller;
-            GUI.cmd.replaceClient(client);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+    public void restartClient(CONTROLLER controller, ClientRMI clientRMI) throws Exception {
+        clientRMI.controller = controller;
+        GUI.cmd.replaceClient(clientRMI);
+        clientRMI.start();
     }
 
 }

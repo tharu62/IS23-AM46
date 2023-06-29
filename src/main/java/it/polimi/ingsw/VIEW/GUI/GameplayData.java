@@ -1,7 +1,5 @@
 package it.polimi.ingsw.VIEW.GUI;
 
-import javafx.scene.control.TextField;
-
 public class GameplayData {
     public int drawCounter = 0;
     public boolean drawInProgress = false, gameSceneOpen = false;

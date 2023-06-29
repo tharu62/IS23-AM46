@@ -29,9 +29,9 @@ public class StandardSpriteDataStructure {
      }
 
     public void setDrawPileOrder(String[] pile){
-        pile[0] = "a";
+        pile[0] = "c";
         pile[1] = "b";
-        pile[2] = "c";
+        pile[2] = "a";
     }
 
     public Sprite[][] setBookshelf(GridPane gridPane){

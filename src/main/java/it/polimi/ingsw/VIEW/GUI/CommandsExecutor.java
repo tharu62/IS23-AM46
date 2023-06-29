@@ -113,9 +113,9 @@ public class CommandsExecutor implements GUI_commands {
             if(i==1){
                 GUI.gameSceneController.mes1.setText(GUI.gameSceneController.mes0.getText());
                 if(Private){
-                    GUI.gameSceneController.mes0.setText("<private: " + message.header[1] + "> " + message.text);
+                    GUI.gameSceneController.mes0.setText(message.header[0] + " <private> : " + message.text);
                 }else{
-                    GUI.gameSceneController.mes0.setText("< " + message.header[0] + "> " + message.text);
+                    GUI.gameSceneController.mes0.setText( message.header[0] + " <public> : " + message.text);
                 }
             }
         }
@@ -297,7 +297,6 @@ public class CommandsExecutor implements GUI_commands {
         }else{
             gui.Notify(" PUT NOT VALID, RETRY. ");
         }
-        GUI.gameplayData.DrawPile = new StandardSpriteDataStructure().setDrawPile(GUI.gameSceneController.firstDraw, GUI.gameSceneController.secondDraw, GUI.gameSceneController.thirdDraw);
         GUI.gameplayData.drawInProgress = true;
         GUI.gameplayData.selectedCol = -1;
     }

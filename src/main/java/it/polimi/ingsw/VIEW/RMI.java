@@ -6,6 +6,7 @@ import it.polimi.ingsw.MODEL.MESSAGE;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class RMI implements CommunicationProtocol {
@@ -52,13 +53,8 @@ public class RMI implements CommunicationProtocol {
     }
 
     @Override
-    public void startClientRMI() {
-        try {
-            this.clientRMI.start();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void startClientRMI() throws Exception {
+        clientRMI.start();
     }
-
 
 }

@@ -45,7 +45,7 @@ public class GUI extends Application {
 
         if(CommandsExecutor.com instanceof RMI){
             Task<Void> task = new Task<>() {
-                @Override public Void call() {
+                @Override public Void call() throws Exception {
                     CommandsExecutor.com.startClientRMI();
                     return null;
                 }

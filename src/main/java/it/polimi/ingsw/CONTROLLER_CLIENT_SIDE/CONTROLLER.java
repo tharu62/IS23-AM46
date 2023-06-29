@@ -138,7 +138,7 @@ public class CONTROLLER {
         Interface.startInterface(args);
     }
 
-    public void restartClient(ClientRMI clientRMI){
+    public void restartClient(ClientRMI clientRMI) throws Exception {
         Interface.restartClient(this, clientRMI);
     }
 
