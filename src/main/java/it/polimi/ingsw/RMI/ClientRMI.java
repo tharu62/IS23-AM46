@@ -80,6 +80,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient {
                 controller.notifyInterface(" Username or lobby size not correct. Retry. ");
                 controller.LoginOK = gs.loginFirst(controller.getUsername(), controller.getLobbySize(), this);
             }
+            controller.notifyInterface(" LOGIN_OK ");
         }
         if(message.equals("CONNECTED")){
             controller.notConnected = false;
@@ -88,6 +89,7 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient {
             while(!controller.LoginOK) {
                 controller.LoginOK = gs.login(controller.getUsername(), this);
             }
+            controller.notifyInterface(" LOGIN_OK ");
         }
     }
 

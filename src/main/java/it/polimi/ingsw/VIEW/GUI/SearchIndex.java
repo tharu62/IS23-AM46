@@ -27,22 +27,49 @@ public class SearchIndex {
 
     public int findIndexFromPile(String[] pile, ImageView fxid){
         if(fxid.getId().equals("firstDraw")){
-            for(int i=0; i < pile.length; i++){
+            for(int i=0; i < 3; i++){
                 if(pile[i].equals("a")){
+                    switch (i){
+                        case 2:
+                            i=0;
+                            break;
+                        case 0:
+                            i=2;
+                            break;
+
+                    }
                     return i;
                 }
             }
         }
         if(fxid.getId().equals("secondDraw")){
-            for(int i=0; i < pile.length; i++){
+            for(int i=0; i < 3; i++){
                 if(pile[i].equals("b")){
+                    switch (i){
+                        case 2:
+                            i=0;
+                            break;
+                        case 0:
+                            i=2;
+                            break;
+
+                    }
                     return i;
                 }
             }
         }
         if(fxid.getId().equals("thirdDraw")){
-            for(int i=0; i < pile.length; i++){
+            for(int i=0; i < 3; i++){
                 if(pile[i].equals("c")){
+                    switch (i){
+                        case 2:
+                            i=0;
+                            break;
+                        case 0:
+                            i=2;
+                            break;
+
+                    }
                     return i;
                 }
             }

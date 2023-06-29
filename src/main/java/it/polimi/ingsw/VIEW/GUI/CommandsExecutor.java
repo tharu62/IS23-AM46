@@ -126,56 +126,56 @@ public class CommandsExecutor implements GUI_commands {
 
         if(!GUI.chatData.privateMess){
             try {
-                com.sendChat(GUI.controller.username, GUI.chatData.stringBuilder.toString(), "everyone");
+                com.sendChat(GUI.controller.username, GUI.chatData.chatString, "everyone");
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-            if(!GUI.chatData.stringBuilder.toString().equals("")){
+            if(!GUI.chatData.chatString.equals("")){
 
                 //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-                if( GUI.chatData.stringBuilder.toString().length() > 60){
+                if( GUI.chatData.chatString.length() > 60){
                     int x = 0;
                     int y = 60;
-                    while(x+1 < GUI.chatData.stringBuilder.toString().length()){
+                    while(x+1 < GUI.chatData.chatString.length()){
                         char[] temp = new char[60];
-                        GUI.chatData.stringBuilder.toString().getChars(x,x+y, temp,0);
+                        GUI.chatData.chatString.getChars(x,x+y, temp,0);
                         //
                         MESSAGE m = new MESSAGE();
                         m.text = String.valueOf(temp);
                         //
                         scrollChat(m,false);
                         x+=60;
-                        if((GUI.chatData.stringBuilder.toString().length()-x) <= 60){
-                            y = GUI.chatData.stringBuilder.toString().length()-x;
+                        if((GUI.chatData.chatString.length()-x) <= 60){
+                            y = GUI.chatData.chatString.length()-x;
                         }
                     }
                 }else{
                     MESSAGE m = new MESSAGE();
-                    m.text = GUI.chatData.stringBuilder.toString();
+                    m.text = GUI.chatData.chatString;
                     m.header[0] = controller.username;
                     scrollChat(m,false);
                 }
                 GUI.gameSceneController.chatInput.clear();
-                GUI.chatData.stringBuilder = new StringBuilder();
+                GUI.chatData.chatString = "";
             }
         }
         if(GUI.chatData.privateMess){
             MESSAGE m = new MESSAGE();
-            m.text = GUI.chatData.privateStringBuilder.toString();
+            m.text = GUI.chatData.chatString;
             m.header[0] = controller.username;
             m.header[1] = GUI.chatData.privateReceiver;
             try {
-                com.sendChat(GUI.controller.username, GUI.chatData.privateStringBuilder.toString(), GUI.chatData.privateReceiver);
+                com.sendChat(GUI.controller.username, GUI.chatData.chatString, GUI.chatData.privateReceiver);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
             //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-            if(GUI.chatData.privateStringBuilder.toString().length() > 60){
+            if(GUI.chatData.chatString.length() > 60){
                 int x = 0;
                 int y = 60;
-                while(x+1 < GUI.chatData.privateStringBuilder.toString().length()){
+                while(x+1 < GUI.chatData.chatString.length()){
                     char[] temp = new char[60];
-                    GUI.chatData.privateStringBuilder.toString().getChars(x,x+y, temp,0);
+                    GUI.chatData.chatString.getChars(x,x+y, temp,0);
                     //
                     MESSAGE n = new MESSAGE();
                     n.text = String.valueOf(temp);
@@ -184,8 +184,8 @@ public class CommandsExecutor implements GUI_commands {
                     //
                     scrollChat(n,true);
                     x+=60;
-                    if((GUI.chatData.privateStringBuilder.toString().length()-x) <= 60){
-                        y = GUI.chatData.privateStringBuilder.toString().length()-x;
+                    if((GUI.chatData.chatString.length()-x) <= 60){
+                        y = GUI.chatData.chatString.length()-x;
                     }
                 }
             }else{
@@ -193,7 +193,7 @@ public class CommandsExecutor implements GUI_commands {
             }
             GUI.gameSceneController.chatInput.clear();
             GUI.chatData.privateMess = false;
-            GUI.chatData.privateStringBuilder = new StringBuilder();
+            GUI.chatData.chatString = "";
             GUI.gameSceneController.chatInput.setPromptText("type something...");
         }
     }
@@ -253,7 +253,7 @@ public class CommandsExecutor implements GUI_commands {
     @Override
     public void drawItem(MouseEvent mouseEvent) {
         SearchIndex searchBoard = new SearchIndex();
-        if(GUI.gameplayData.drawInProgress && GUI.gameplayData.drawCounter < 3){
+        if(GUI.gameplayData.drawInProgress && GUI.gameplayData.drawCounter >= 0){
             int row = searchBoard.findRowFromBoard(GUI.gameplayData.SpritesBoard, ((ImageView) mouseEvent.getSource()));
             int col = searchBoard.findColFromBoard(GUI.gameplayData.SpritesBoard, ((ImageView) mouseEvent.getSource()));
             try {
@@ -263,7 +263,7 @@ public class CommandsExecutor implements GUI_commands {
             }
             if(replyDraw()){
               GUI.gameplayData.DrawPile[GUI.gameplayData.drawCounter].fxid.setImage(((ImageView) mouseEvent.getSource()).getImage());
-              GUI.gameplayData.drawCounter++;
+              GUI.gameplayData.drawCounter --;
             }else{
                 gui.Notify(" DRAW NOT VALID, RETRY. ");
             }
@@ -289,7 +289,7 @@ public class CommandsExecutor implements GUI_commands {
                 GUI.gameplayData.DrawPile[0].setImage(null);
                 GUI.gameplayData.DrawPile[1].setImage(null);
                 GUI.gameplayData.DrawPile[2].setImage(null);
-                GUI.gameplayData.drawCounter = 0;
+                GUI.gameplayData.drawCounter = 2;
                 com.endTurn(controller.username);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
