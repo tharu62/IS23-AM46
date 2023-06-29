@@ -113,19 +113,20 @@ public class cliHandler implements GameInterface{
 
     @Override
     public void restartClient(CONTROLLER controller, ClientTCP clientTCP) {
-        ClientTCP client = new ClientTCP(Settings.PORT_TCP, false);
-        client.controller = controller;
-        cli.cmd.replaceClient(client);
+        clientTCP = new ClientTCP(Settings.PORT_TCP, false);
+        clientTCP.controller = controller;
+        clientTCP.disconnected = true;
+        cli.cmd.replaceClient(clientTCP);
+        clientTCP.start();
     }
 
     @Override
     public void restartClient(CONTROLLER controller, ClientRMI clientRMI) {
-        ClientRMI client = null;
+        clientRMI.controller = controller;
+        cli.cmd.replaceClient(clientRMI);
         try {
-            client = new ClientRMI(Settings.PORT_RMI, false);
-            client.controller = controller;
-            cli.cmd.replaceClient(client);
-        } catch (RemoteException e) {
+            clientRMI.start();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

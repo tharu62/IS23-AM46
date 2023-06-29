@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CheckClientRMI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.interfaceType;
 import it.polimi.ingsw.NETWORK.ServerHandler;
@@ -134,6 +135,10 @@ public class SetUp {
                     client.controller = controller;
                     controller.startUserInterface(args);
                     client.start();
+                    CheckClientRMI checkClientRMI = new CheckClientRMI();
+                    checkClientRMI.client = client;
+                    checkClientRMI.controller = controller;
+                    checkClientRMI.start();
                 }
             }
         }

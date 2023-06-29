@@ -44,7 +44,6 @@ public class ClientTCP extends Thread {
             System.err.println("Don't know about host " + Settings.SERVER_NAME);
             System.exit(1);
         } catch (IOException e) {
-            disconnected = true;
             controller.restartClient(this);
             controller.notifyInterface("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
         }

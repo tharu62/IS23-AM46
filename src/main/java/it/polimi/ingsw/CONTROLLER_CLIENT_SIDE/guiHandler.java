@@ -42,10 +42,10 @@ public class guiHandler implements GameInterface {
     public void receiveChat(CONTROLLER controller, MESSAGE message) {
         if(!message.header[0].equals(controller.username)) {
             if(message.header[1].equals("everyone")) {
-                gui.scrollChat(message, false);
+                gui.scrollChat(message);
             }
             if(message.header[1].equals(controller.username)){
-                gui.scrollChat(message, true);
+                gui.scrollChat(message);
             }
         }
     }

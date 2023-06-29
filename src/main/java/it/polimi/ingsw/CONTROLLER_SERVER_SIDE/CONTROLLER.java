@@ -89,7 +89,6 @@ public class CONTROLLER {
                     if(clientsTCP.size() > 0) {
                         updater.TCP(clientsTCP, getPlayerNames(), this, this.game);
                     }
-                    return true;
                 } else {
 
                     game.addPlayer(username);
@@ -97,8 +96,8 @@ public class CONTROLLER {
                     player.username = username;
                     player.disconnected = false;
                     playerList.add(player);
-                    return true;
                 }
+                return true;
             }
         }
         return false;
@@ -150,7 +149,7 @@ public class CONTROLLER {
         return game.getScore(username);
     }
 
-    public boolean setEndTurn( String username ) throws RemoteException {
+    public void setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
             if(game.IsOver){
 
@@ -176,7 +175,6 @@ public class CONTROLLER {
                 }
             }
         }
-        return true;
     }
 
     public void setChat(MESSAGE message) throws RemoteException {
@@ -200,9 +198,9 @@ public class CONTROLLER {
         removeDisconnectedPlayerRMI(username);
         removeDisconnectedPlayerTCP(username);
 
-        for(int i = 0; i < playerList.size(); i++){
-            if (playerList.get(i).username.equals(username)) {
-                playerList.get(i).disconnected = true;
+        for (PLAYER player : playerList) {
+            if (player.username.equals(username)) {
+                player.disconnected = true;
                 break;
             }
         }
@@ -216,7 +214,11 @@ public class CONTROLLER {
 
         if(this.clientsRMI.size() > 0) {
             for (GameClient gc : clientsRMI.keySet()) {
-                gc.receiveDisconnectedPlayer(username);
+                if(!clientsRMI.get(gc).equals(username)){
+                    System.out.println(username);
+                    System.out.println(clientsRMI.get(gc));
+                    gc.receiveDisconnectedPlayer(username);
+                }
             }
         }
 

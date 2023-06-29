@@ -21,6 +21,6 @@ public interface GameServer extends Remote {
     void endTurn(String username ) throws RemoteException;
 
     void sendMessage(MESSAGE message) throws RemoteException;
-    void ping() throws RemoteException;
+    boolean ping() throws RemoteException;
 
 }
