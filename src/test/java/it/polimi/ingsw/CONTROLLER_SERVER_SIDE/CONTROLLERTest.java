@@ -1,14 +1,13 @@
 package it.polimi.ingsw.CONTROLLER_SERVER_SIDE;
 
 import it.polimi.ingsw.MODEL.GAME;
-import it.polimi.ingsw.RMI.GameClient;
+import it.polimi.ingsw.MODEL.MESSAGE;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,11 +40,6 @@ class CONTROLLERTest {
     }
 
     @Test
-    void setTurn() {
-
-    }
-
-    @Test
     void setDraw() throws RemoteException {
         controller.setFirstLogin("Antonio", 3);
         controller.setLogin("Bruno");
@@ -57,23 +51,54 @@ class CONTROLLERTest {
     }
 
     @Test
-    void setBookshelf() {
-
+    void setBookshelf() throws RemoteException {
+        controller.setFirstLogin("Antonio", 4);
+        controller.setLogin("Beatrice");
+        controller.setLogin("Carlo");
+        controller.setLogin("Daniela");
+        controller.game.playerToPlay = "Carlo";
+        assertFalse(controller.setBookshelf("Antonio", 3, 1, 0, -1));
+        controller.setDraw("Carlo", 1, 3);
+        assertTrue(controller.setBookshelf("Carlo", 3, 0, -1, -1));
     }
 
     @Test
-    void setScore() {
+    void setChat() throws RemoteException {
+        MESSAGE message = new MESSAGE();
+        message.header[0] = "Daniele";
+        message.header[1] = "Davide";
+        message.text = "Ciao";
+        assertEquals(0, controller.game.chat.chat.size());
+        controller.setChat(message);
+        assertEquals(message, controller.game.chat.chat.get(0));
     }
 
     @Test
-    void setEndTurn() {
-    }
+    void testDisconnected() throws RemoteException {
+        controller.setFirstLogin("Alessia", 4);
+        controller.setLogin("Beatrice");
+        controller.setLogin("Chiara");
+        controller.setLogin("Davide");
 
-    @Test
-    void setChat() {
-    }
+        controller.game.playerToPlay = "Alessia";
+        controller.disconnected("Beatrice");
+        assertTrue(controller.playerList.get(1).disconnected);
+        assertFalse(controller.playerList.get(0).disconnected);
+        assertFalse(controller.playerList.get(2).disconnected);
+        assertFalse(controller.playerList.get(3).disconnected);
 
-    @Test
-    void disconnected() {
+        controller.game.playerToPlay = "Chiara";
+        controller.disconnected("Chiara");
+        assertTrue(controller.game.playerToPlay.equals("Alessia") || controller.game.playerToPlay.equals("Davide"));
+
+        if (controller.game.playerToPlay.equals("Alessia")) {
+            controller.disconnected("Alessia");
+            assertTrue(controller.playerList.get(0).disconnected);
+            assertEquals("Davide", controller.game.playerToPlay);
+        } else {
+            controller.disconnected("Davide");
+            assertTrue(controller.playerList.get(3).disconnected);
+            assertEquals("Alessia", controller.game.playerToPlay);
+        }
     }
 }
