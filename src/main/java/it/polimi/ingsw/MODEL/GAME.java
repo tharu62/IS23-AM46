@@ -27,7 +27,7 @@ public class GAME {
     }
 
     public void DrawPersonalGoalCards(){
-        for(int i=0; i<this.LobbySize; i++){
+        for(int i=0; i<this.CurrentLobbySize; i++){
             space.player.get(i).drawPersonalGoalCard(generator.SetCardLogic());
         }
     }
@@ -166,7 +166,7 @@ public class GAME {
     }
 
     public int search(String username){
-        for(int i=0; i < this.LobbySize; i++){
+        for(int i=0; i < this.CurrentLobbySize; i++){
             if(space.player.get(i).username.equals(username)){return i;}
         }
         return -1;

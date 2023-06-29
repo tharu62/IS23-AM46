@@ -32,7 +32,6 @@ public class BOOKSHELF {
         if(itemToPut.size() == 0){
             return false;
         }
-        int temp = firstFreeRow(m);
         if( (firstFreeRow(m) < 0)  || firstFreeRow(m) < (itemToPut.size() - 1)){
             return false;
         }
@@ -88,9 +87,6 @@ public class BOOKSHELF {
      */
     private int dfs(int i, int j, item comp){
         int score=0;
-        if(i<0 || j<0 || i>Grid.length || j>Grid.length){
-            return 0;
-        }
         if(j < 4 && Grid[i][j+1]==comp){
             Grid[i][j+1]=item.EMPTY;
             score+= 1+dfs(i,j+1,comp);
