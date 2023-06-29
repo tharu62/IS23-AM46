@@ -3,7 +3,6 @@ package it.polimi.ingsw.CONTROLLER_CLIENT_SIDE;
 import it.polimi.ingsw.RMI.ClientRMI;
 import it.polimi.ingsw.TCP.ClientTCP;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public interface CommunicationProtocol {
