@@ -12,11 +12,25 @@ class BOOKSHELFTest {
         bookshelf.itemToPut.add(item.CATS);
         bookshelf.itemToPut.add(item.TROPHIES);
         bookshelf.itemToPut.add(item.PLANTS);
-        bookshelf.putItems(2, 1, 2, 0);
+        assertTrue(bookshelf.putItems(2, 1, 2, 0));
         assertEquals(bookshelf.Grid[5][2], item.PLANTS);
         assertEquals(bookshelf.Grid[4][2], item.CATS);
         assertEquals(bookshelf.Grid[3][2], item.TROPHIES);
         assertEquals(3, bookshelf.itemsInGrid);
+        assertFalse(bookshelf.putItems(1, 2, 1, 0));
+        bookshelf.Grid[2][2] = item.BOOKS;
+        bookshelf.itemToPut.add(item.CATS);
+        bookshelf.itemToPut.add(item.TROPHIES);
+        bookshelf.itemToPut.add(item.PLANTS);
+        assertFalse(bookshelf.putItems(2, 0, 1, 2));
+        assertTrue(bookshelf.putItems(1, 0, 2, 1));
+        bookshelf.Grid[1][2] = item.BOOKS;
+        bookshelf.Grid[0][2] = item.BOOKS;
+        bookshelf.itemToPut.add(item.CATS);
+        assertFalse(bookshelf.putItems(2, 0, -1, -1));
+        bookshelf.itemsInGrid = 29;
+        assertTrue(bookshelf.putItems(0, 0, -1, -1));
+        assertTrue(bookshelf.IsFull);
     }
 
     @Test

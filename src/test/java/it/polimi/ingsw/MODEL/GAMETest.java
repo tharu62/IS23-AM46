@@ -32,7 +32,6 @@ public class GAMETest extends TestCase {
     }
 
 
-
     @Test
     public void testDrawCommonGoalCards() {
         GAME game = new GAME();
@@ -73,13 +72,22 @@ public class GAMETest extends TestCase {
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
         game.addPlayer("Chiara");
+        game.setBoard();
+        game.DrawPersonalGoalCards();
+        game.DrawCommonGoalCards();
+        game.master.FirstPlayerSeat.username = "Alberto";
         game.playerToPlay = "Alberto";
+        game.masterStartTurn();
+        assertFalse(game.IsOver);
 
+        game.space.player.get(0).bookshelf.IsFull = true;
+        game.masterStartTurn();
+        assertTrue(game.IsOver);
     }
 
     @Test
     public void testPlayerDrawItem() {
-        GAME game= new GAME();
+        GAME game = new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
         game.addPlayer("Elisa");
@@ -92,7 +100,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testPlayerPutItems() {
-        GAME game= new GAME();
+        GAME game = new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
         game.setBoard();
@@ -170,5 +178,11 @@ public class GAMETest extends TestCase {
         assertTrue(game.space.board.IsToBeRestored());
         assertTrue(game.masterEndTurn("Bruno"));
         assertFalse(game.space.board.IsToBeRestored());
+
+        game.playerToPlay = "Chiara";
+        game.space.player.get(2).bookshelf.IsFull = true;
+        game.masterEndTurn("Chiara");
+        assertEquals(1, game.space.player.get(2).score);
+        assertTrue(game.master.round.last);
     }
 }
