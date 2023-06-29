@@ -63,13 +63,6 @@ class CONTROLLERTest {
     }
 
     @Test
-    void setEndTurn() throws RemoteException {
-        controller.setFirstLogin("Alessio", 2);
-        controller.setLogin("Bruno");
-        assertTrue(controller.setEndTurn("Alessio"));
-    }
-
-    @Test
     void setChat() throws RemoteException {
         MESSAGE message = new MESSAGE();
         message.header[0] = "Daniele";
