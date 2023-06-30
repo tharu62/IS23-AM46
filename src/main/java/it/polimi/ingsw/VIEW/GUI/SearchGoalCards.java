@@ -3,6 +3,7 @@ package it.polimi.ingsw.VIEW.GUI;
 import javafx.scene.image.Image;
 
 public class SearchGoalCards {
+
     public Image search(CardType cardType,int id){
         if(cardType == CardType.COMMON){
             switch (id) {

@@ -19,6 +19,12 @@ public class TCP implements CommunicationProtocol {
         this.clientTCP = client;
     }
 
+    /**
+     * This method makes a new Command with the given parameters and sends it as request for a draw to the Server with
+     * the constructed Command.
+     *
+     * @throws RemoteException
+     */
     @Override
     public void draw(String username, int row, int col, CONTROLLER controller) throws RemoteException {
         Command send = new Command();
@@ -31,6 +37,12 @@ public class TCP implements CommunicationProtocol {
         clientTCP.CommandSwitcher(send,clientTCP.out_ref);
     }
 
+    /**
+     * This method makes a new Command with the given parameters and sends it as request for a put to the Server with
+     * the constructed Command.
+     *
+     * @throws RemoteException
+     */
     @Override
     public void put(String username, int col, int a , int b, int c , CONTROLLER controller) throws RemoteException {
         Command send = new Command();
@@ -45,6 +57,11 @@ public class TCP implements CommunicationProtocol {
         clientTCP.CommandSwitcher(send,clientTCP.out_ref);
     }
 
+    /**
+     * This method makes a new Command with the given parameters and sends it as chat message to the Server.
+     *
+     * @throws RemoteException
+     */
     @Override
     public void sendChat(String username ,String text, String receiver) throws RemoteException {
         Command send = new Command();
@@ -57,6 +74,10 @@ public class TCP implements CommunicationProtocol {
         clientTCP.CommandSwitcher( send , clientTCP.out_ref);
     }
 
+    /**
+     * This method sends a request end turn to the Server.
+     * @throws RemoteException
+     */
     @Override
     public void endTurn( String username) throws RemoteException {
         Command send = new Command();
@@ -65,10 +86,16 @@ public class TCP implements CommunicationProtocol {
         clientTCP.CommandSwitcher(send , clientTCP.out_ref);
     }
 
+    /**
+     * this method change the reference to the client TCP with the given client TCP.
+     *
+     * @param clientTCP is the new reference to use.
+     */
     @Override
     public void replaceClient(ClientTCP clientTCP) {
         this.clientTCP = clientTCP;
     }
+
 
     @Override
     public void replaceClient(ClientRMI clientRMI) {

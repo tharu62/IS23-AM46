@@ -17,7 +17,6 @@ public class CONTROLLER {
     public boolean lobbyIsReady = false;
     public boolean LobbyIsFull = false;
     public int players = 0;
-    public final Object lock = new Object();
     public List<ClientHandlerTCP> clientsTCP;
     public Map<GameClient, String> clientsRMI = new HashMap<>();
     public List<PLAYER> playerList = new ArrayList<>();

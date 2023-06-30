@@ -26,6 +26,12 @@ public class CommandsExecutor implements CLI_commands {
         this.com = new TCP(client);
     }
 
+
+    /**
+     * This method ask the player for the username via Input Stream ( Scanner(System.in) ).
+     *
+     * @return username inserted by player input
+     */
     @Override
     public String getUsername() {
         System.out.println( " Insert username:  ");
@@ -33,6 +39,11 @@ public class CommandsExecutor implements CLI_commands {
         return scanner.nextLine();
     }
 
+    /**
+     * This method ask the player for the LobbySize via Input Stream ( Scanner(System.in) ).
+     *
+     * @return lobbySIze inserted by player input.
+     */
     @Override
     public int getLobbySize() {
         int lobby_size = 0;
@@ -46,6 +57,11 @@ public class CommandsExecutor implements CLI_commands {
         return lobby_size;
     }
 
+    /**
+     * This method print the Board given as parameter.
+     *
+     * @param grid is the Board.
+     */
     @Override
     public void printBoard(item[][] grid) {
         System.out.println("   0  1  2  3  4  5  6  7  8");
@@ -58,6 +74,9 @@ public class CommandsExecutor implements CLI_commands {
         }
     }
 
+    /**
+     * This method prints the Personal Goal Card stored in the controller.
+     */
     @Override
     public void printPersonalGoal() {
         int cardID = controller.PersonalGoalCardID;
@@ -68,6 +87,12 @@ public class CommandsExecutor implements CLI_commands {
         System.out.println("  ╚═══╩═══╩═══╩═══╩═══╝");
     }
 
+    /**
+     * This method prints the Common Goal stored in the Controller.
+     *
+     * @param commonGoalCards is the list of the Common Goal Cards
+     * @param commonGoalToken is the list of the Token values
+     */
     @Override
     public void printCommonGoals(List<Integer> commonGoalCards, List<Integer> commonGoalToken) {
         PrintCommonGoals printCommonGoals = new PrintCommonGoals();
@@ -83,6 +108,12 @@ public class CommandsExecutor implements CLI_commands {
         System.out.print(Color.RESET);
     }
 
+    /**
+     * This method allow the CLI to send chat messages to the client that send the messages to the Server.
+     *
+     * @return always true ( return not needed anymore )
+     * @throws RemoteException
+     */
     @Override
     public boolean sendChat() throws RemoteException {
         System.out.println(" Insert text: ");
@@ -108,6 +139,11 @@ public class CommandsExecutor implements CLI_commands {
         return false;
     }
 
+
+    /**
+     * This method prints all the possible commands that the player can use to play the game in his turn on CLI.
+     *
+     */
     @Override
     public void printActions() {
         System.out.println("******************************************************************************************");
@@ -121,6 +157,9 @@ public class CommandsExecutor implements CLI_commands {
         System.out.println(" (personal goal)    show your personal goal  ");
     }
 
+    /**
+     * This method prints all the possible commands that the player can use to play the game not in his turn on CLI.
+     */
     @Override
     synchronized public void printActionsChat() {
         System.out.println("******************************************************************************************");
@@ -130,6 +169,9 @@ public class CommandsExecutor implements CLI_commands {
         System.out.println(" (bookshelf)    check your bookshelf. ");
     }
 
+    /**
+     * This method prints the chat messages in the chatBuffer stored in controller.
+     */
     @Override
     synchronized public void printChatBuffer() {
         System.out.println(" CHAT MESSAGES THAT YOU DIDN'T SEE : ");
@@ -144,11 +186,19 @@ public class CommandsExecutor implements CLI_commands {
         }
     }
 
+    /**
+     * This method prints the score stored in the controller.
+     */
     @Override
     public void printScore() {
         System.out.println("YOUR SCORE (FROM COMMON GOALS TOKEN): " + controller.score);
     }
 
+    /**
+     * This method prints the bookshelf given as parameter.
+     *
+     * @param table is the bookshelf.
+     */
     @Override
     public void printBookshelf(item[][] table) {
         System.out.println(" ");
@@ -166,6 +216,14 @@ public class CommandsExecutor implements CLI_commands {
         System.out.println("\n  ╚═══╩═══╩═══╩═══╩═══╝");
     }
 
+    /**
+     * This method ask the player for the input to draw an item from the board.
+     * The methods check if the input is valid and signals the player if the input is not valid.
+     * Once the draw input is done the method sends the draw information to the server.
+     * The method does not receive any response from the server.
+     *
+     * @throws RemoteException
+     */
     @Override
     public void askDraw() throws RemoteException {
         int row = -1;
@@ -201,6 +259,14 @@ public class CommandsExecutor implements CLI_commands {
         com.draw( controller.username, row , col, controller);
     }
 
+    /**
+     This method ask the player for the input to put an item in the bookshelf.
+     * The methods check if the input is valid and signals the player if the input is not valid.
+     * Once the draw input is done the method sends the draw information to the server.
+     * The method does not receive any response from the server.
+     *
+     * @throws RemoteException
+     */
     @Override
     public void putDraw() throws RemoteException {
         int col = -1;
@@ -252,6 +318,12 @@ public class CommandsExecutor implements CLI_commands {
         com.put(controller.username, col, a, b, c, controller);
     }
 
+    /**
+     * This method resets all draw and put parameters, then it sends a request to end turn to the server.
+     * This method does not receive any response from the server.
+     *
+     * @throws RemoteException
+     */
     @Override
     public void endTurn() throws RemoteException {
         controller.draw.clear();
@@ -262,6 +334,14 @@ public class CommandsExecutor implements CLI_commands {
         com.endTurn(controller.username);
     }
 
+    /**
+     * This method is used to change the color of the content of a board or bookshelf based on the content itself.
+     * ( in this case the item type define a specific color )
+     *
+     * @param table is the Board or Bookshelf
+     * @param i row
+     * @param j column
+     */
     @Override
     public void colorTile(item[][] table, int i, int j) {
         switch (table[i][j]) {
@@ -294,6 +374,12 @@ public class CommandsExecutor implements CLI_commands {
         }
     }
 
+    /**
+     * This method checks if a reply for a draw request has been received.
+     * If the reply arrives, the value of the reply is returned, else it loops forever.
+     *
+     * @return result of draw request.
+     */
     @Override
     synchronized public boolean replyDraw() {
         while(true){
@@ -304,6 +390,12 @@ public class CommandsExecutor implements CLI_commands {
         }
     }
 
+    /**
+     * This method checks if a reply for a put request has been received.
+     * If the reply arrives, the value of the reply is returned, else it loops forever.
+     *
+     * @return result of draw request.
+     */
     @Override
     synchronized public boolean replyPut() {
         while(true){
@@ -314,6 +406,10 @@ public class CommandsExecutor implements CLI_commands {
         }
     }
 
+    /**
+     * This method checks if a reply for end turn request has been sent.
+     * If the reply arrives, the value of the reply is returned, else it loops forever.
+     */
     @Override
     public void replyEndTurn() {
         while(true){
@@ -324,16 +420,34 @@ public class CommandsExecutor implements CLI_commands {
         }
     }
 
+    /**
+     * This method allow the CLI to replace the reference to the client if the connection is lost and the reconnection
+     * protocol has started.
+     *
+     * @param client is the client tcp reference.
+     */
     @Override
     public void replaceClient(ClientTCP client) {
         com.replaceClient(client);
     }
 
+    /**
+     * This method allow the CLI to replace the reference to the client if the connection is lost and the reconnection
+     * protocol has started.
+     *
+     * @param client is the client rmi reference
+     */
     @Override
     public void replaceClient(ClientRMI client) {
         com.replaceClient(client);
     }
 
+    /**
+     * This method check of the given receiver string is contained in the given list of names.
+     * @param receiver the username of the receiver.
+     * @param names the usernames of players.
+     * @return true if the receiver is contained in the names list, false otherwise.
+     */
     private boolean equalsPlayerNames( String receiver, List<String> names){
         for (String name : names) {
             if (receiver.equalsIgnoreCase(name)) {

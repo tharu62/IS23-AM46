@@ -3,6 +3,7 @@ package it.polimi.ingsw.VIEW.GUI;
 import javafx.scene.image.ImageView;
 
 public class SearchIndex {
+
     public int findRowFromBoard(Sprite[][] Board, ImageView fxid){
         for(int i =0; i < Board.length; i++ ){
             for(int j = 0; j < Board.length; j++){

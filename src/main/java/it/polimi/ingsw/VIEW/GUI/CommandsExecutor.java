@@ -34,6 +34,11 @@ public class CommandsExecutor implements GUI_commands {
 
     /******************************************************************************************************************/
 
+    /**
+     * This method updates the SpritesBoard of the GUI Gameplay scene with the given array of items.
+     *
+     * @param grid is the given Board.
+     */
     @Override
     public void updateGrid(item[][] grid) {
         for(int i=0; i < 9; i++){
@@ -63,6 +68,11 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method updates the SpriteBookshelf of the GUI Gameplay scene with the given array of items.
+     *
+     * @param bookshelf is the given bookshelf.
+     */
     @Override
     public void updateBookshelf( item[][] bookshelf) {
         for(int i=0; i < 6; i++){
@@ -92,6 +102,14 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method moves all the messages upward by one place and insert the given message in the first 'cell' of the
+     * message list. ( the messages in the scene are TextFields with unique fx-ids, so the structure of the messages
+     * is not actually a list but a series of TexFields with unique fx-ids with no relationship between each other )
+     *
+     * @param message
+     * @param Private
+     */
     @Override
     synchronized public void scrollChat(MESSAGE message, boolean Private) {
         for(int i=6;i>0;i--){
@@ -121,6 +139,11 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method takes the chat input from the player and sends it to the server, then it shows the message in the
+     * scene. The method splits the message if necessary ( default split threshold : 45 char ) and scrolls the chat.
+     *
+      */
     @Override
     synchronized public void chatEnter() {
 
@@ -133,19 +156,19 @@ public class CommandsExecutor implements GUI_commands {
             if(!GUI.chatData.chatString.equals("")){
 
                 //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-                if( GUI.chatData.chatString.length() > 60){
+                if( GUI.chatData.chatString.length() > 45){
                     int x = 0;
-                    int y = 60;
+                    int y = 45;
                     while(x+1 < GUI.chatData.chatString.length()){
-                        char[] temp = new char[60];
+                        char[] temp = new char[45];
                         GUI.chatData.chatString.getChars(x,x+y, temp,0);
                         //
                         MESSAGE m = new MESSAGE();
                         m.text = String.valueOf(temp);
                         //
                         scrollChat(m,false);
-                        x+=60;
-                        if((GUI.chatData.chatString.length()-x) <= 60){
+                        x+=45;
+                        if((GUI.chatData.chatString.length()-x) <= 45){
                             y = GUI.chatData.chatString.length()-x;
                         }
                     }
@@ -170,11 +193,11 @@ public class CommandsExecutor implements GUI_commands {
                 throw new RuntimeException(e);
             }
             //CICLO PER SPEZZARE STRINGHE TROPPO LUNGHE SU PIU' RIGHE
-            if(GUI.chatData.chatString.length() > 60){
+            if(GUI.chatData.chatString.length() > 45){
                 int x = 0;
-                int y = 60;
+                int y = 45;
                 while(x+1 < GUI.chatData.chatString.length()){
-                    char[] temp = new char[60];
+                    char[] temp = new char[45];
                     GUI.chatData.chatString.getChars(x,x+y, temp,0);
                     //
                     MESSAGE n = new MESSAGE();
@@ -183,8 +206,8 @@ public class CommandsExecutor implements GUI_commands {
                     n.header[1] = m.header[1];
                     //
                     scrollChat(n,true);
-                    x+=60;
-                    if((GUI.chatData.chatString.length()-x) <= 60){
+                    x+=45;
+                    if((GUI.chatData.chatString.length()-x) <= 45){
                         y = GUI.chatData.chatString.length()-x;
                     }
                 }
@@ -198,6 +221,12 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method switches the selected item in the draw pile with the item on top of it.
+     * (if the selected item is already on the top, the method does nothing)
+     * The method also saves the order in which the item selected must be placed in the bookshelf.
+     *
+     */
     @Override
     public void drawUp() {
         Image temp;
@@ -224,6 +253,12 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method switches the selected item in the draw pile with the item under it.
+     * (if the selected item is already on the bottom, the method does nothing)
+     * The method also saves the order in which the item selected must be placed in the bookshelf.
+     *
+     */
     @Override
     public void drawDown() {
         Image temp;
@@ -250,6 +285,12 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method updates the draw process and sends a draw request at the server.
+     * if the draw is valid or not the player is notified.
+     *
+     * @param mouseEvent is required to get the row and column of the selected item in the SpriteBoard.
+     */
     @Override
     public void drawItem(MouseEvent mouseEvent) {
         SearchIndex searchBoard = new SearchIndex();
@@ -272,6 +313,13 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method updates the put process and sends a put request at the server.
+     * The method finds the correct order of the drawn items and sends them to the server.
+     * If the put is valid the method resets the draw attributes and the selected column of the bookshelf.
+     * If the put is not valid the player is notified.
+     *
+     */
     @Override
     public void putItem() {
         SearchIndex searchIndex = new SearchIndex();
@@ -309,6 +357,7 @@ public class CommandsExecutor implements GUI_commands {
         GUI.gameSceneController.scoreToken1.setImage(searchGoalCards.searchToken(token.get(0)));
         GUI.gameSceneController.scoreToken2.setImage(searchGoalCards.searchToken(token.get(1)));
     }
+
 
     @Override
     public void setPersonalGoal(int cardID) {
@@ -370,6 +419,12 @@ public class CommandsExecutor implements GUI_commands {
         imageViewID.setImage(new Image("Cornici1.1.png"));
     }
 
+    /**
+     * This method checks if a reply for a put request has been received.
+     * If the reply arrives, the value of the reply is returned, else it loops forever.
+     *
+     * @return result of draw request.
+     */
     @Override
     synchronized public boolean replyDraw() {
         while(true){
@@ -380,6 +435,10 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method checks if a reply for end turn request has been sent.
+     * If the reply arrives, the value of the reply is returned, else it loops forever.
+     */
     @Override
     synchronized public boolean replyPut() {
         while(true){
@@ -390,11 +449,23 @@ public class CommandsExecutor implements GUI_commands {
         }
     }
 
+    /**
+     * This method allow the GUI to replace the reference to the client if the connection is lost and the reconnection
+     * protocol has started.
+     *
+     * @param clientTCP is the client tcp reference.
+     */
     @Override
     public void replaceClient(ClientTCP clientTCP) {
         com.replaceClient(clientTCP);
     }
 
+    /**
+     * This method allow the GUI to replace the reference to the client if the connection is lost and the reconnection
+     * protocol has started.
+     *
+     * @param clientRMI is the client rmi reference
+     */
     @Override
     public void replaceClient(ClientRMI clientRMI) {
         com.replaceClient(clientRMI);

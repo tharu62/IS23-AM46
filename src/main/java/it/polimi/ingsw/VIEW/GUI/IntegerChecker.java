@@ -1,6 +1,10 @@
 package it.polimi.ingsw.VIEW.GUI;
 
 public class IntegerChecker {
+
+    /**
+     * This method checks if the given String is a Integer value between 0 and 9.
+     */
     public boolean check(String x){
         if(x.equals("0")){
             return true;

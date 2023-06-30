@@ -49,8 +49,8 @@ public class ClientTCP extends Thread {
         }
     }
 
-    /** Logic to check all possible messages from the server, it does not give an instant reply,
-     *  instead the reply is given by the user by user input.
+    /** Logic to check all possible messages from the server, it doesn't always give an instant reply,
+     *  instead the reply is given by the user input.
      * @param ObjCommand is the object that contains all the message types and data.
      */
     synchronized public void CommandSwitcher(Command ObjCommand , PrintWriter out) throws RemoteException {
