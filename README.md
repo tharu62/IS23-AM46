@@ -4,8 +4,10 @@ Progetto di Ingegneria del Software dello scaglione Margara
 Versione digitalizata del "popolare" gioco da tavolo MyShelfie.
 
 Istruzioni per il jar:
+Abbiamo riscontrato alcuni problemi con le librerie del jar, abbiamo quindi inserito manulamente le librerie nel jar nella cartella deliverables.
 
-Server:
 
+REQUISITI DI PROGETTO:
 
-Client:
+Regole Complete + TUI + GUI + RMI + SOCKET + 1 FA 
+(E' STATA IMPLEMENTATA UN ULTERIORE FUNZIONALITA' AGGIUNTIVA MA E' MOLTO INSTABILE PER RMI).
