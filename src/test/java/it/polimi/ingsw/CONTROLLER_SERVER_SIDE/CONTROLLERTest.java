@@ -94,11 +94,27 @@ class CONTROLLERTest {
         if (controller.game.playerToPlay.equals("Alessia")) {
             controller.disconnected("Alessia");
             assertTrue(controller.playerList.get(0).disconnected);
-            assertEquals("Davide", controller.game.playerToPlay);
+            assertTrue(controller.game.IsOver);
+            assertEquals("Davide", controller.game.space.winner);
         } else {
             controller.disconnected("Davide");
             assertTrue(controller.playerList.get(3).disconnected);
-            assertEquals("Alessia", controller.game.playerToPlay);
+            assertTrue(controller.game.IsOver);
+            assertEquals("Alessia", controller.game.space.winner);
         }
+    }
+
+    @Test
+    void testSetLoginReconnection() throws RemoteException {
+        controller.setFirstLogin("Alessio", 3);
+        controller.setLogin("Antonio");
+        controller.setLogin("Carlo");
+
+        assertFalse(controller.setLoginReconnection("Bruno"));
+        assertFalse(controller.setLoginReconnection("Antonio"));
+
+        controller.playerList.get(0).disconnected = true;
+        assertTrue(controller.setLoginReconnection("Alessio"));
+        assertFalse(controller.playerList.get(0).disconnected);
     }
 }

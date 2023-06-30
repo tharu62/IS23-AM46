@@ -52,6 +52,12 @@ public class CONTROLLER {
         this.game = game;
     }
 
+    /**
+     * This method sets the login for the first client to connect to the server.
+     * @param username: the client's username
+     * @param LobbySize: the number of players for the game
+     * @return true if the username is not already in use and if the lobbysize is between 2 and 4
+     */
     public boolean setFirstLogin(String username, int LobbySize){
         if(LobbySize < 5 && LobbySize > 1 && newUsername(username) && !username.equals("")) {
             game.LobbySize = LobbySize;
@@ -66,6 +72,11 @@ public class CONTROLLER {
         return false;
     }
 
+    /**
+     * This method adds a player to the game. When the lobby is full it sets up the game
+     * @param username: the client's username
+     * @return true if the username is not already in use and if the lobby is not full
+     */
     public boolean setLogin(String username) throws RemoteException {
         if(lobbyIsReady){
             if(!getLobbyIsFull() && newUsername(username) && !username.equals("")) {
@@ -103,6 +114,11 @@ public class CONTROLLER {
         return false;
     }
 
+    /**
+     * This method reconnects a client that was disconnected
+     * @param username: the username of a client that was disconnected
+     * @return true if the username was already chosen and if the client with that username was disconnected
+     */
     synchronized public boolean setLoginReconnection(String username){
         if (!newUsername(username)) {
             int index = IndexSearch(username, playerList);
@@ -116,6 +132,10 @@ public class CONTROLLER {
         return false;
     }
 
+    /**
+     * This method calls the method masterStartTurn() of the GAME class. If the game is over it sends to all the clients
+     * the winner of this game
+     */
     public void setTurn(){
         game.masterStartTurn();
         if(game.IsOver){
@@ -137,14 +157,35 @@ public class CONTROLLER {
         }
     }
 
+    /**
+     * This method sets the draw made by the clients.
+     * @param username: the username of the client who made the draw
+     * @param n: the row in which the drawn item is located on the board
+     * @param m: the column in which the drawn item is located on the board
+     * @return true if the player draw is valid
+     */
     public boolean setDraw(String username, int n, int m){
         return game.playerDrawItem(username, n, m);
     }
 
+    /**
+     * This method puts in the bookshelf the items drawn by the client
+     * @param username: the username of the client who made the put
+     * @param m: the column in which the drawn items will be placed
+     * @param a: it's the order of the first item to put in the bookshelf
+     * @param b: it's the order of the second item to put in the bookshelf
+     * @param c: it's the order of the third item to put in the bookshelf
+     * @return true if the put is valid
+     */
     public boolean setBookshelf(String username, int m, int a, int b, int c){
         return game.playerPutItems( username, m, a, b, c);
     }
 
+    /**
+     * This method ends the turn of the player and sets the next turn. If the game is over it sends to all the clients connected
+     * their personal score and the winner of the game
+     * @param username: the client's username
+     */
     public void setEndTurn( String username ) throws RemoteException {
         if(game.masterEndTurn(username)){
             if(game.IsOver){
@@ -173,6 +214,10 @@ public class CONTROLLER {
         }
     }
 
+    /**
+     * This method sends the message to a specific client (if the message is private) or to every client connected
+     * @param message: the message written by a client
+     */
     public void setChat(MESSAGE message) throws RemoteException {
         game.chat.addMessage(message);
         if(clientsTCP.size() > 0) {
@@ -190,6 +235,12 @@ public class CONTROLLER {
         }
     }
 
+    /**
+     * This method removes a client who logged out, notifies the other clients connected and sets the next turn.
+     * If there is only one player left, the game ends and that player is the winner; if a client disconnects while it's his turn,
+     * the turn ends.
+     * @param username: the username of the client that logged out
+     */
     synchronized public void disconnected(String username) throws RemoteException {
         removeDisconnectedPlayerRMI(username);
         removeDisconnectedPlayerTCP(username);
@@ -246,6 +297,10 @@ public class CONTROLLER {
         }
     }
 
+    /**
+     * This method reconnects a client that was disconnected and allows that client to play
+     * @param username: the username of the client that was disconnected
+     */
     public void sendReconnectionData(String username){
         TurnUpdater turnUpdater = new TurnUpdater();
 
@@ -265,6 +320,11 @@ public class CONTROLLER {
 
     /************************************************ PRIVATE *********************************************************/
 
+    /**
+     * This method checks if the username is new
+     * @param username: the client's username
+     * @return true if the username is new
+     */
     synchronized private boolean newUsername(String username){
         for(int i = 0; i < game.space.player.size() ; i++ ){
             if(game.space.player.get(i).getUsername().equals(username)){
@@ -282,6 +342,12 @@ public class CONTROLLER {
         return playerNames;
     }
 
+    /**
+     * This method searches the index of the username in a list
+     * @param username: the client's username
+     * @param playerList: the list of the players in the game
+     * @return the index of the username in the playerList, it returns -1 if the username is not in the playerList
+     */
     synchronized private int IndexSearch(String username, List<PLAYER> playerList){
         for(int i=0; i<playerList.size(); i++){
             if(playerList.get(i).username.equals(username)){
@@ -291,6 +357,10 @@ public class CONTROLLER {
         return -1;
     }
 
+    /**
+     * This method removes the TCP player that logged out
+     * @param username: the username of the TCP client that logged out
+     */
     synchronized private void removeDisconnectedPlayerTCP(String username){
         for(int i = 0; i < clientsTCP.size(); i++){
             if(clientsTCP.get(i).username.equals(username)){
@@ -300,6 +370,10 @@ public class CONTROLLER {
         }
     }
 
+    /**
+     * This method removes the RMI player that logged out
+     * @param username: the username of the RMI client that logged out
+     */
     synchronized private void removeDisconnectedPlayerRMI(String username){
             for(GameClient gameClient : clientsRMI.keySet()){
                 if(clientsRMI.get(gameClient).equals(username)){
@@ -309,6 +383,11 @@ public class CONTROLLER {
             }
     }
 
+    /**
+     * This method check if it's the turn of a disconnected player
+     * @param username: the client's username
+     * @return true if the player with that username is disconnected
+     */
     synchronized private boolean turnOfDisconnectedPlayer(String username){
         for (PLAYER player : playerList) {
             if (player.disconnected) {
@@ -320,6 +399,10 @@ public class CONTROLLER {
         return false;
     }
 
+    /**
+     * This method checks how many clients are still in the game
+     * @return true if only one client is still connected
+     */
     private boolean OnlyOnePlayerOnline(){
         int counter = 0;
         for(PLAYER player : playerList){
@@ -332,6 +415,11 @@ public class CONTROLLER {
         }
         return true;
     }
+
+    /**
+     * This method returns the player's username that is still connected
+     * @return null if there isn't a player connected
+     */
     private String onlyPlayerOnline(){
         for(PLAYER player : playerList){
             if(!player.disconnected){
