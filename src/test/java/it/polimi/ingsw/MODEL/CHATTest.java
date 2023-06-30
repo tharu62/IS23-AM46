@@ -3,12 +3,13 @@ package it.polimi.ingsw.MODEL;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+//This class tests the methods of the CHAT class
 class CHATTest {
 
     @Test
     void returnLastMessage() {
+        //It tests the method returnLastMessage() and addMessage()
         CHAT Chat = new CHAT();
         MESSAGE message;
         message = Chat.returnLastMessage("Antonio");

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ROUNDTest {
     @Test
     void testUpdate() {
+        //It tests the method update(), the roundTrip and last attributes and the TURN class attribute count
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");

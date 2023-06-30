@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the methods of the DRAW class
 class DRAWTest {
 
     private DRAW draw;
@@ -31,6 +32,7 @@ class DRAWTest {
     }
     @Test
     void testCheck3players() {
+        //It tests the method check() and the TOKEN class method UpdateValue() for three players
         tokenGenerator.player_number = 3;
         draw.card.get(0).SetToken(tokenGenerator.setTokenLogic());
         draw.card.get(1).SetToken(tokenGenerator.setTokenLogic());
@@ -41,6 +43,7 @@ class DRAWTest {
 
     @Test
     void testCheck4players(){
+        //It tests the method check() and the TOKEN class method UpdateValue() for four players
         tokenGenerator.player_number = 4;
         draw.card.get(0).SetToken(tokenGenerator.setTokenLogic());
         draw.card.get(1).SetToken(tokenGenerator.setTokenLogic());

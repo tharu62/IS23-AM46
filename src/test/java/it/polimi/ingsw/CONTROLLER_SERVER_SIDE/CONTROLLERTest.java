@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the methods of the CONTROLLER class
 class CONTROLLERTest {
 
     private CONTROLLER controller;
@@ -23,14 +24,16 @@ class CONTROLLERTest {
         controller.clientsRMI = new HashMap<>();
     }
     @Test
-    void setFirstLogin() {
+    void testSetFirstLogin() {
+        //It tests the method setFirstLogin() and the LobbySize attribute of the GAME class
         assertFalse(controller.setFirstLogin("Antonio", 5));
         assertTrue(controller.setFirstLogin("Antonio", 3));
         assertEquals(3, controller.game.LobbySize);
     }
 
     @Test
-    void setLogin() throws RemoteException {
+    void testSetLogin() throws RemoteException {
+        //It tests the method setLogin()
         controller.setFirstLogin("Antonio", 3);
         assertFalse(controller.setLogin("Antonio"));
         assertTrue(controller.setLogin("Bruno"));
@@ -40,7 +43,8 @@ class CONTROLLERTest {
     }
 
     @Test
-    void setDraw() throws RemoteException {
+    void testSetDraw() throws RemoteException {
+        //It tests the method setDraw()
         controller.setFirstLogin("Antonio", 3);
         controller.setLogin("Bruno");
         controller.setLogin("Chiara");
@@ -51,7 +55,8 @@ class CONTROLLERTest {
     }
 
     @Test
-    void setBookshelf() throws RemoteException {
+    void testSetBookshelf() throws RemoteException {
+        //It tests the method setBookshelf()
         controller.setFirstLogin("Antonio", 4);
         controller.setLogin("Beatrice");
         controller.setLogin("Carlo");
@@ -63,7 +68,8 @@ class CONTROLLERTest {
     }
 
     @Test
-    void setChat() throws RemoteException {
+    void testSetChat() throws RemoteException {
+        //It tests the method setChat()
         MESSAGE message = new MESSAGE();
         message.header[0] = "Daniele";
         message.header[1] = "Davide";
@@ -75,6 +81,7 @@ class CONTROLLERTest {
 
     @Test
     void testDisconnected() throws RemoteException {
+        //It tests the methods disconnected(), OnlyOnePlayerOnline() and the forcedEndTurn() method of the GAME class
         controller.setFirstLogin("Alessia", 4);
         controller.setLogin("Beatrice");
         controller.setLogin("Chiara");
@@ -106,6 +113,7 @@ class CONTROLLERTest {
 
     @Test
     void testSetLoginReconnection() throws RemoteException {
+        //It tests the methods setLoginReconnection() and newUsername()
         controller.setFirstLogin("Alessio", 3);
         controller.setLogin("Antonio");
         controller.setLogin("Carlo");

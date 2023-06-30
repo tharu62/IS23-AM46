@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the methods of the BOOKSHELF class
 class BOOKSHELFTest {
 
     @Test
     void testPutItems() {
+        //It tests the method putItems() and verifies that the attribute IsFull is set correctly
         BOOKSHELF bookshelf = new BOOKSHELF();
         bookshelf.itemToPut.add(item.CATS);
         bookshelf.itemToPut.add(item.TROPHIES);
@@ -35,6 +37,7 @@ class BOOKSHELFTest {
 
     @Test
     void testCheckAdjacentItem() {
+        //It tests the method checkAdjacentItem() and the private method dfs()
         BOOKSHELF bookshelf = new BOOKSHELF();
         bookshelf.Grid[5][0] = item.TROPHIES;
         bookshelf.Grid[5][1] = item.TROPHIES;

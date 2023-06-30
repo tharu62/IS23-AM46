@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the methods of the BOARD class
 class BOARDTest{
 
     @Test
     void testSetBoardTwoPlayers() {
+        //It the tests the method setGrid() for two players
         BOARD board = new BOARD();
         board.setGrid(2);
         int cont = 0;
@@ -24,6 +26,7 @@ class BOARDTest{
     }
     @Test
     void testSetBoardThreePlayers() {
+        //It the tests the method setGrid() for three players
         BOARD board = new BOARD();
         board.setGrid(3);
         int cont = 0;
@@ -41,6 +44,7 @@ class BOARDTest{
 
     @Test
     void testSetBoardFourPlayers() {
+        //It the tests the method setGrid() for four players
         BOARD board = new BOARD();
         board.setGrid(4);
         int cont = 0;
@@ -57,6 +61,7 @@ class BOARDTest{
     }
     @Test
     void testDrawItem(){
+        //It the tests the method drawItem()
         BOARD board = new BOARD();
         board.setGrid(2);
         assertEquals(item.EMPTY, board.drawItem(0, 0));
@@ -69,6 +74,7 @@ class BOARDTest{
 
     @Test
     void testIsToBeRestored() {
+        //It the tests the method IsToBeRestored()
         BOARD board = new BOARD();
         assertTrue(board.IsToBeRestored());
         board.setGrid(3);
