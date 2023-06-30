@@ -17,6 +17,12 @@ import java.util.Map;
 
 public class TurnUpdater {
 
+    /**
+     * These methods updated the turn for the RMI clients
+     * @param clientRMI: the RMI clients in the game
+     * @param players: the names of all the players
+     * @param controller: the controller of the game
+     */
     public void RMI(Map<GameClient, String> clientRMI, List<String> players, CONTROLLER controller, GAME game) throws RemoteException {
 
         List<Integer> tempId = new ArrayList<>();
@@ -101,6 +107,12 @@ public class TurnUpdater {
     }
 
 
+    /**
+     * These methods updated the turn for the TCP clients
+     * @param clientsTCP: the TCP clients in the game
+     * @param players: the names of all the players
+     * @param controller: the controller of the game
+     */
     public void TCP(List<ClientHandlerTCP> clientsTCP, List<String> players, CONTROLLER controller, GAME game){
 
         Command temp = new Command();
@@ -202,6 +214,14 @@ public class TurnUpdater {
 
     }
 
+    /**
+     * This method updates the turn for the RMI client who reconnected
+     * @param gc: the reconnected RMI client
+     * @param players: the names of all the players
+     * @param controller: the controller of the game
+     * @param game: the game
+     * @param username: the username of the reconnected client
+     */
     public void reconnectRMI(GameClient gc, List<String> players, CONTROLLER controller, GAME game, String username){
 
         List<Integer> tempId = new ArrayList<>();
@@ -223,6 +243,13 @@ public class TurnUpdater {
             }
     }
 
+    /**
+     * This method updates the turn for the TCP client who reconnected
+     * @param client: the reconnected TCP client
+     * @param players: the names of all the players
+     * @param controller: the controller of the game
+     * @param game: the game
+     */
     public void reconnectTCP(ClientHandlerTCP client, List<String> players, CONTROLLER controller, GAME game){
         String reply_string;
         Gson g = new Gson();
@@ -279,6 +306,11 @@ public class TurnUpdater {
         client.out.println(reply_string);
     }
 
+    /**
+     * This method sends to all the RMI clients their score and the winner of the game
+     * @param clientRMI: the RMI clients in the game
+     * @param controller: the controller of the game
+     */
     public void RMI_last(Map<GameClient, String> clientRMI, CONTROLLER controller, GAME game){
         for (GameClient gc : clientRMI.keySet()) {
             try {
@@ -291,6 +323,11 @@ public class TurnUpdater {
         }
     }
 
+    /**
+     * This method sends to all the TCP clients their score and the winner of the game
+     * @param clientsTCP: the TCP clients in the game
+     * @param controller: the controller of the game
+     */
     public void TCP_last(List<ClientHandlerTCP> clientsTCP, CONTROLLER controller, GAME game){
 
         String reply_string;
