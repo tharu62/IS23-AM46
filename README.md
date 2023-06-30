@@ -9,6 +9,5 @@ Abbiamo riscontrato alcuni problemi con le librerie del jar, abbiamo quindi inse
 
 REQUISITI DI PROGETTO:
 
-Regole Complete + TUI + GUI + RMI + SOCKET + 1 FA 
-FA = CHAT
+Regole Complete + TUI + GUI + RMI + SOCKET + 1 FA = CHAT
 (E' STATA IMPLEMENTATA UN'ULTERIORE FUNZIONALITA' AGGIUNTIVA  (RESILIENZA ALLE DISCONNESSIONI) MA E' MOLTO INSTABILE PER RMI).
