@@ -14,9 +14,9 @@ public class MASTER {
      * This method check in the bookshelf gives as parameter if the goals of the Common Goal Cards have been reached.
      * If a goal has been reached the token from the Common Goal Card is updated.
      *
-     * @param bookshelf
-     * @param goal1reached
-     * @param goal2reached
+     * @param bookshelf is the bookshelf of the player to check
+     * @param goal1reached tells the method if the player has already reached this goal
+     * @param goal2reached tells the method if the player has already reached this goal
      * @return the score of the Token In the Common Goal Card.
      */
     public int CheckCommonGoal(BOOKSHELF bookshelf, boolean goal1reached, boolean goal2reached){
