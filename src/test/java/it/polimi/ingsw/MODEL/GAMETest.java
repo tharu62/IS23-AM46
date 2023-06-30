@@ -7,20 +7,23 @@ import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+//This class tests the methods of the GAME class
 public class GAMETest extends TestCase {
 
     @Test
     public void testAddPlayer() {
+        //It tests the method addPlayer() and the attribute CurrentLobbySize
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
-        assertEquals(2, game.space.player.size());
+        assertEquals(2, game.CurrentLobbySize);
         game.addPlayer("Chiara");
-        assertEquals(3, game.space.player.size());
+        assertEquals(3, game.CurrentLobbySize);
     }
 
     @Test
     public void testSetBoard() {
+        //It tests the method setBoard() for two players
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
@@ -34,6 +37,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testDrawCommonGoalCards() {
+        //It tests the method DrawCommonGoalCards() and the DRAW class method setFirstDraw()
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");
@@ -44,6 +48,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testDrawPersonalGoalCards() {
+        //It tests the method DrawPersonalGoalCards()
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
@@ -59,6 +64,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testChooseFirstPlayerSeat() {
+        //It tests the method ChooseFirstPlayerSeat()
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");
@@ -68,6 +74,7 @@ public class GAMETest extends TestCase {
     }
 
     public void testMasterStartTurn() {
+        //It tests the method masterStartTurn() and the attribute IsOver
         GAME game = new GAME();
         game.addPlayer("Alberto");
         game.addPlayer("Bruno");
@@ -87,6 +94,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testPlayerDrawItem() {
+        //It tests the method playerDrawItem()
         GAME game = new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
@@ -100,6 +108,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testPlayerPutItems() {
+        //it tests the method playerPutItems()
         GAME game = new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
@@ -115,6 +124,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testPlayerWantsToCheckScore() {
+        //It tests the method playerWantsToCheckScore()
         GAME game = new GAME();
         TOKEN_GENERATOR tokenGenerator = new TOKEN_GENERATOR();
         tokenGenerator.player_number = 2;
@@ -159,6 +169,7 @@ public class GAMETest extends TestCase {
 
     @Test
     public void testMasterEndTurn() {
+        //It tests the method masterEndTurn() and the BOARD class method IsToBeRestored()
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");

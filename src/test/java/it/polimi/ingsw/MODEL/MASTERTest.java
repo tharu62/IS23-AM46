@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the methods of the MASTER class
 class MASTERTest {
 
     @Test
     void testChooseNextPlayer() {
+        //It tests the method ChooseFirstPlayerSeat()
         MASTER master = new MASTER();
         PLAYER p1 = new PLAYER(), p2 = new PLAYER();
         p1.username = "Antonio";
@@ -21,6 +23,7 @@ class MASTERTest {
 
     @Test
     void testCheckIfLastTurn() {
+        //It tests the method checkIfLastTurn()
         GAME game = new GAME();
         game.addPlayer("Antonio");
         game.addPlayer("Bruno");

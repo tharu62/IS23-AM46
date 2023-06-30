@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the method checkCardLogic() for every P_CARD_LOGIC
 class PERSONALGOALCARDTest {
 
     private BOOKSHELF bookshelf;

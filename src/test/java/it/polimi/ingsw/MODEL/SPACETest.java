@@ -7,10 +7,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//It tests the methods of the SPACE class
 class SPACETest {
 
     @Test
     void testCalculateScore() {
+        //It tests the method calculateScore()
         SPACE space = new SPACE();
         PLAYER p1 = new PLAYER(), p2 = new PLAYER(), p3 = new PLAYER();
         p1.username = "Antonio";
@@ -39,7 +41,8 @@ class SPACETest {
     }
 
     @Test
-    void testplaceItem() {
+    void testPlaceItem() {
+        //It tests the method placeItem()
         GAME game= new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");
@@ -60,6 +63,7 @@ class SPACETest {
 
     @Test
     void testDraw() {
+        //It tests the method draw()
         GAME game= new GAME();
         game.addPlayer("Giovanni");
         game.addPlayer("Antonio");

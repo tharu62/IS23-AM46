@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//This class tests the method CheckCardLogic() for every CARD_LOGIC
 class CARD_LOGICTest {
 
     @Test
