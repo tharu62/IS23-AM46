@@ -15,14 +15,14 @@ import java.rmi.RemoteException;
  * a new SocketAccepter ( for the TCP communication protocol).
  * The SocketAcceptor is started in a separate Thread.
  */
-public class ServerHandler{
+public class ServerHandler {
 
     public void run() throws RemoteException {
 
         GAME game = new GAME();
         CONTROLLER controller = new CONTROLLER();
         controller.setGame(game);
-        ClientHandlerRMI clientHandlerRMI = null;
+        ClientHandlerRMI clientHandlerRMI;
         clientHandlerRMI = new ClientHandlerRMI(controller, Settings.PORT_RMI);
 
         SocketAccepter socketAccepter = new SocketAccepter(controller, Settings.PORT_TCP);

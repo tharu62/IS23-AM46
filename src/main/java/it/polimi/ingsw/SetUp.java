@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CONTROLLER;
+import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.CheckClientRMI;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.Connection;
 import it.polimi.ingsw.CONTROLLER_CLIENT_SIDE.interfaceType;
 import it.polimi.ingsw.NETWORK.ServerHandler;
@@ -131,6 +132,7 @@ public class SetUp {
                     checkClientRMI.start();
 
                      */
+
                 }
             }
         }
@@ -148,14 +150,12 @@ public class SetUp {
                     client.controller = controller;
                     client.start();
                     controller.startUserInterface(args);
-                    // TODO COME SU CLI PING
                 }
                 if(selectedRMI) {
                     ClientRMI client = new ClientRMI(Settings.PORT_RMI, crashed);
                     CONTROLLER controller = new CONTROLLER(Connection.RMI , client, interfaceType.GUI);
                     client.controller = controller;
                     controller.startUserInterface(args);
-                    // TODO COME SU CLI PING
                 }
             }
         }

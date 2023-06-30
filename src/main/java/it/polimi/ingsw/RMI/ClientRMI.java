@@ -24,7 +24,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient {
     }
 
     public void start() throws Exception {
-
         // Getting the registry
         Registry registry;
         // Looking up the registry for the remote object
@@ -32,7 +31,6 @@ public class ClientRMI extends UnicastRemoteObject implements GameClient {
         System.setProperty("java.rmi.server.hostname", Settings.SERVER_NAME);
         gs = (GameServer) registry.lookup("GameService");
         gs.connect(this);
-
     }
 
     @Override

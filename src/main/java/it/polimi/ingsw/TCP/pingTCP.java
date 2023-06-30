@@ -17,6 +17,11 @@ public class pingTCP extends Thread {
         this.controller = controller;
         this.clients = clients;
     }
+
+    /**
+     * This method sends a ping to the clients TCP and waits 2 second before it checks the response.
+     * If the response is valid the client is connected, otherwise the clients is considered disconnected.
+     */
     @Override
     public void run(){
         while(true) {
@@ -53,5 +58,6 @@ public class pingTCP extends Thread {
 
         }
     }
+
 
 }

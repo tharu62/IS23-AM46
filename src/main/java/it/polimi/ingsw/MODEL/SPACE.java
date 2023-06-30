@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SPACE {
-    public BOARD board= new BOARD();
+    public BOARD board = new BOARD();
     public List<PLAYER> player = new ArrayList<>(1);
     public String winner;
     int drawCounter = 0;

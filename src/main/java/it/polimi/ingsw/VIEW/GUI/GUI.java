@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -29,6 +30,16 @@ public class GUI extends Application {
     public static CONTROLLER controller;
     public static CommandsExecutor cmd;
 
+    /**
+     * This method start the AppWindow and Login scene and connects the references of this GUI, and it's controller to
+     * the Login scene. ( AppWindow's javafx controller is set to GUI by default )
+     * In case the Player has started the Application with the RMI protocol, this method also starts the client RMI
+     * in a new thread.
+     *
+     * @param stage is stage that javafx requires to set the scene on screen.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it.polimi.ingsw/AppWindow.fxml"));
@@ -55,6 +66,14 @@ public class GUI extends Application {
 
     }
 
+    /**
+     * This method shows the Login scene, made in the start() method, on screen.
+     * The method also starts the Gameplay scene and connects it with the reference to the GUI and the controller.
+     * Various messages are set in the Gameplay depending on the status of the game.
+     *
+     * @param mouseEvent
+     * @throws IOException
+     */
     public void loadLoginScene(MouseEvent mouseEvent) throws IOException{
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.setScene(loginScene);
@@ -81,6 +100,11 @@ public class GUI extends Application {
 
     }
 
+    /**
+     * This method shows the Gameplay scene, made in the loadLoginScene() method, on screen.
+     *
+     * @param mouseEvent
+     */
     public void loadGameScene(MouseEvent mouseEvent) {
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.setScene(gameScene);
@@ -92,6 +116,7 @@ public class GUI extends Application {
             gameSceneController.notification.setText("waiting for notification...");
         }
     }
+
 
     public void updateGrid(item[][] grid){
         cmd.updateGrid(grid);
@@ -117,16 +142,29 @@ public class GUI extends Application {
         cmd.setScore(score);
     }
 
+    /**
+     * This method scrolls the chat messages according to the length set as a predefined value.
+     * A new message moves all the messages one position upwards in the chat, then if the message length is greater than
+     * the threshold, the message is split in various messages  and the chat is scrolled according to the number of
+     * messages resulting from the split. ( default threshold : 45 char )
+     *
+     * @param message
+     */
     synchronized public void scrollChat(MESSAGE message){
         StringAdapter stringAdapter = new StringAdapter();
         if(message.header[1].equals(controller.username)){
-                stringAdapter.splitPrivate(this, message, 60);
+                stringAdapter.splitPrivate(this, message, 45);
         }else{
-            stringAdapter.splitPublic(this, message, 60);
+            stringAdapter.splitPublic(this, message, 45);
         }
 
     }
 
+    /**
+     * This method shows the message given in the notification TextField in the Login scene and / or in the Gameplay scene.
+     *
+     * @param message is the message received.
+     */
     public void Notify(String message){
         if(gameSceneController != null){
             if(gameSceneController.notification != null){
@@ -140,6 +178,7 @@ public class GUI extends Application {
         }
     }
 
+
     synchronized public boolean getUsernameNotSet(){
         return loginData.usernameNotSet;
     }
@@ -147,6 +186,7 @@ public class GUI extends Application {
     synchronized public boolean getLobbySizeNotSet(){
         return loginData.lobbySizeNotSet;
     }
+
 
     public void main(String[] args){
         launch();

@@ -20,6 +20,10 @@ public class SocketAccepter extends Thread{
         this.PORT = port;
     }
 
+    /**
+     * This method waits for request of a new connection tcp via socket. If a request is issued the method makes
+     * generates a new clientHandler in a new Thread to handle the new socket.
+     */
     @Override
     public void run( ){
         ExecutorService executor = Executors.newCachedThreadPool();

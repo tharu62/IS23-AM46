@@ -20,6 +20,12 @@ public class CLI extends Thread {
         cmd = new CommandsExecutor(controller , client);
     }
 
+
+    /**
+     * This method contains the main loop of the CLI. The loop contain the logic to print the necessary information
+     * on the terminal, and it's almost completely asynchronous from the reception of updates from the Server.
+     *
+     */
     @Override
     public void run() {
         Scanner in = new Scanner(System.in);

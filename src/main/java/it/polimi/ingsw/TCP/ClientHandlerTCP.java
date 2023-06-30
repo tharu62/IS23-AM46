@@ -91,6 +91,7 @@ public class ClientHandlerTCP extends Thread {
         }
     }
 
+
     synchronized public void CommandSwitcher(Command ObjCommand) throws RemoteException {
         switch (ObjCommand.cmd){
 
