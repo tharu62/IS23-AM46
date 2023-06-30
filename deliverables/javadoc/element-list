@@ -1,0 +1,12 @@
+module:it.polimi.ingsw
+it.polimi.ingsw
+it.polimi.ingsw.CONTROLLER_CLIENT_SIDE
+it.polimi.ingsw.CONTROLLER_SERVER_SIDE
+it.polimi.ingsw.MODEL
+it.polimi.ingsw.NETWORK
+it.polimi.ingsw.RMI
+it.polimi.ingsw.TCP
+it.polimi.ingsw.TCP.COMANDS
+it.polimi.ingsw.VIEW
+it.polimi.ingsw.VIEW.CLI
+it.polimi.ingsw.VIEW.GUI
