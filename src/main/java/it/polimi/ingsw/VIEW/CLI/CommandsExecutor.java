@@ -296,7 +296,7 @@ public class CommandsExecutor implements CLI_commands {
                 } catch (InputMismatchException e) {
                     System.out.println("Enter only numbers!");
                 }
-                System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
+                if (a < -1 || a > 2)System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
             } while (a < 0 || a > 2);
             do {
                 try {
@@ -306,7 +306,7 @@ public class CommandsExecutor implements CLI_commands {
                 } catch (InputMismatchException e) {
                     System.out.println("Enter only numbers!");
                 }
-                System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
+                if (b < -1 || b > 2) System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
             } while (b < 0 || b > 2 || b == a);
             if(controller.draw.size() == 3) {
                 System.out.println(" Third drawn item order of put ( from top ) : ");
