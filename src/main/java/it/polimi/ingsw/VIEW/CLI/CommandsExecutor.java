@@ -270,7 +270,7 @@ public class CommandsExecutor implements CLI_commands {
     @Override
     public void putDraw() throws RemoteException {
         int col = -1;
-        int a, b = -1, c = -1;
+        int a = -1, b = -1, c = -1;
         Scanner in;
         do {
             try {
@@ -288,22 +288,26 @@ public class CommandsExecutor implements CLI_commands {
 
         if(controller.draw.size() > 1) {
             System.out.println(" Insert the order ( 0 , 1 , 2 ) in which you want to put your draw : ");
-            System.out.println(" First drawn item order of put ( from top ) : ");
-            in = new Scanner(System.in);
-            a = in.nextInt();
-            while(a < 0 || a > 2) {
+            do {
+                try {
+                    System.out.println(" First drawn item order of put ( from top ) : ");
+                    in = new Scanner(System.in);
+                    a = in.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Enter only numbers!");
+                }
                 System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
-                in = new Scanner(System.in);
-                a = in.nextInt();
-            }
-            System.out.println(" Second drawn item order of put ( from top ) : ");
-            in = new Scanner(System.in);
-            b = in.nextInt();
-            while(b < 0 || b > 2 || b == a) {
+            } while (a < 0 || a > 2);
+            do {
+                try {
+                    System.out.println(" Second drawn item order of put ( from top ) : ");
+                    in = new Scanner(System.in);
+                    b = in.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Enter only numbers!");
+                }
                 System.out.println(" Put order out of bound!! You can only insert a number between 0 and 2 : ");
-                in = new Scanner(System.in);
-                b = in.nextInt();
-            }
+            } while (b < 0 || b > 2 || b == a);
             if(controller.draw.size() == 3) {
                 System.out.println(" Third drawn item order of put ( from top ) : ");
                 if ((a == 0 && b == 1) || (a == 1 && b == 0)) c = 2;
